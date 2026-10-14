@@ -1,0 +1,660 @@
+{
+ "case_id": "case-001",
+ "title": "13,041.400772 USDT TRC20 theft from Trust Wallet, 2026-09-21",
+ "generated_at_utc": "2026-10-14",
+ "data_sources": [
+  "TronGrid public API (api.trongrid.io)",
+  "TronScan public API transaction-info (apilist.tronscanapi.com)",
+  "Blockscout Ethereum API (eth.blockscout.com)",
+  "LayerZero Scan API (scan.layerzero-api.com)",
+  "NEAR Intents 1Click status API (1click.chaindefuser.com)"
+ ],
+ "data_caveat": "Values were read from public API responses through an automated fetcher that returned parsed fields, not raw bytes. Every hop amount reconciles exactly with its neighbours. Re-pull raw responses before filing anything formal.",
+ "privacy": "Sanitized fixture: victim personal identifiers and case/ticket numbers removed. Victim address kept as the public subject of the case.",
+ "victim": {
+  "address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+  "wallet_app": "Trust Wallet (claimed by victim)"
+ },
+ "theft": {
+  "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+  "block": 86439360,
+  "timestamp_utc": "2026-09-21 11:32:39",
+  "amount": "13041.400772",
+  "asset": "USDT-TRC20",
+  "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+  "seconds_after_incoming_payment": 45
+ },
+ "transactions": [
+  {
+   "step": 1,
+   "txid": "7472e1e059d44b5fb3d1c6e86a5a907f0fae015e722d1cefdf801045b9f41fbe",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:31:54",
+   "block": null,
+   "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "amount": "12937.000000",
+   "asset": "USDT-TRC20",
+   "kind": "incoming_payment",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Incoming payment that preceded the theft (payer identity: claimed by victim, omitted)",
+   "from": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL"
+  },
+  {
+   "step": 2,
+   "txid": "6be9eabf7568fe67f46d9bf32e795571b4cd2fb4f124b6bdb219d48ed6b46964",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 10:48:33",
+   "block": null,
+   "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "amount": "20.000000",
+   "asset": "USDT-TRC20",
+   "kind": "incoming_test_payment",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Not stolen separately; balance 109.79 USDT sat untouched until the large payment",
+   "from": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL"
+  },
+  {
+   "step": 3,
+   "txid": "90b28da07b6ea4eeeca382579f393982418d296e398440895ec00a62928b3873",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:32:36",
+   "block": null,
+   "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "amount": "20424 TRX staked (energy)",
+   "asset": "ENERGY",
+   "kind": "energy_delegation",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions",
+   "note": "Energy rental pool delegates energy 3 s before theft (same pattern as victim's legit sends)",
+   "from": "TQvhNtVLyJy3PfuZQieRd5PSeH8mEpgva1"
+  },
+  {
+   "step": 4,
+   "txid": "a241b856691236d3ed98479325d61af03765609a2eb12d7ae2e71216b5007945",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:32:39",
+   "block": null,
+   "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "amount": "0.8 TRX",
+   "asset": "TRX",
+   "kind": "trx_topup",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions",
+   "note": "Same address activated the victim wallet on 2026-07-15 and the thief wallet TYGdh7 at 11:35:27",
+   "from": "TUSYcK5yf8Et4xNTiUcpfZwmhFsxfdoooo"
+  },
+  {
+   "step": 5,
+   "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:32:39",
+   "block": null,
+   "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+   "amount": "5.137122",
+   "asset": "USDT-TRC20",
+   "kind": "theft_fee_energy_rental",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Shown as 'Energy Rental' in Trust Wallet; signed with victim owner key",
+   "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+  },
+  {
+   "step": 6,
+   "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:32:39",
+   "block": 86439360,
+   "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "amount": "13041.400772",
+   "asset": "USDT-TRC20",
+   "kind": "THEFT",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20; TronScan transaction-info",
+   "note": "Single signature, owner permission (no Permission_id), 130,285 energy, 0.345 TRX burned",
+   "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+  },
+  {
+   "step": 7,
+   "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:35:33",
+   "block": null,
+   "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+   "amount": "5.486343",
+   "asset": "USDT-TRC20",
+   "kind": "fee_energy_rental",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Thief wallet uses the same energy-rental service as Trust Wallet",
+   "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn"
+  },
+  {
+   "step": 8,
+   "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:35:33",
+   "block": null,
+   "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "amount": "13035.640112",
+   "asset": "USDT-TRC20",
+   "kind": "hop",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "",
+   "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn"
+  },
+  {
+   "step": 9,
+   "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:41:18",
+   "block": null,
+   "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "amount": "12905.283711",
+   "asset": "USDT-TRC20",
+   "kind": "hop_99pct",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "",
+   "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3"
+  },
+  {
+   "step": 10,
+   "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:43:45",
+   "block": null,
+   "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+   "amount": "130.356401",
+   "asset": "USDT-TRC20",
+   "kind": "fee_1pct",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Exactly 1% of 13035.640112; same 1% cut seen on 2026-08-26 and 2026-08-30 flows",
+   "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3"
+  },
+  {
+   "step": 11,
+   "txid": "12039abce0c3c27bf587e327d86d00b7753ab4aba422f6b2c898cee563ca9ae9",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:50:54",
+   "block": null,
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "12905.280000",
+   "asset": "USDT-TRC20",
+   "kind": "approve",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "approve() to USDT0 OFT contract",
+   "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU"
+  },
+  {
+   "step": 12,
+   "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:50:54",
+   "block": 86439725,
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "12905.280000",
+   "asset": "USDT-TRC20",
+   "kind": "bridge_out_USDT0_LayerZero",
+   "status": "fact",
+   "source": "TronGrid /v1/transactions/{id}/events; TronScan transaction-info; LayerZero Scan guid",
+   "note": "",
+   "layerzero": {
+    "guid": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+    "srcEid": 30420,
+    "dstEid": 30101,
+    "dst_chain": "ethereum",
+    "sendTo": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "amountReceivedLD": "12901.408416",
+    "status": "DELIVERED"
+   },
+   "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU"
+  },
+  {
+   "step": 13,
+   "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:56:15",
+   "block": null,
+   "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+   "amount": "0.009778",
+   "asset": "USDT-TRC20",
+   "kind": "dust",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Remainder",
+   "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU"
+  },
+  {
+   "step": 14,
+   "txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+   "chain": "ethereum",
+   "timestamp_utc": "2026-09-21 11:52:59",
+   "block": 26025709,
+   "to": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "amount": "12901.408416",
+   "asset": "USDT-ERC20",
+   "kind": "bridge_in_USDT0",
+   "status": "fact",
+   "source": "Blockscout eth /api/v2/transactions/{tx}/token-transfers; LayerZero Scan",
+   "note": "",
+   "from": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0"
+  },
+  {
+   "step": 15,
+   "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "chain": "ethereum",
+   "timestamp_utc": "2026-09-21 11:56:35",
+   "block": 26025727,
+   "to": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+   "amount": "12901.411000",
+   "asset": "USDT-ERC20",
+   "kind": "bridge_out_Rango",
+   "status": "fact",
+   "source": "Blockscout logs (RangoBridgeInitiated)",
+   "note": "",
+   "rango": {
+    "dAppName": "MoonGate",
+    "dAppTag": 1662,
+    "bridgeId": 60,
+    "destinationChainId": 1414680398,
+    "destinationChainId_ascii": "TRON",
+    "receiver_bytes_ascii": "TYHeH2HQn7pM5fe6aYwG",
+    "affiliate": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+    "affiliateFee": "19.352116",
+    "forwarded_to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "forwarded_amount": "12882.058884"
+   },
+   "from": "0x4079047990917F3150353FBd8A13b05b6286926d"
+  },
+  {
+   "step": 16,
+   "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+   "chain": "ethereum",
+   "timestamp_utc": "2026-09-21 11:57:35",
+   "block": null,
+   "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+   "amount": "12882.058884",
+   "asset": "USDT-ERC20",
+   "kind": "near_intents_deposit",
+   "status": "fact",
+   "source": "Blockscout token-transfers; NEAR Intents 1Click /v0/status?depositAddress=",
+   "note": "",
+   "near_intents": {
+    "status": "SUCCESS",
+    "recipient_tron": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "refundTo": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "intentHash": "HFxzg5Cz5BCP2ocKGbcSRbh9Skt4fr5QbbqirPL7rHqq",
+    "near_tx": [
+     "HgECtUbDx8sahjUaDXRe4Q2vb2bgGm8c9HAHv8rMJmZR",
+     "AjeZCFUWRHddcCDsaERWaPB9RDFsAFxnKmC2zARaWtAw"
+    ],
+    "destination_tx": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+   },
+   "from": "0xdA392553ec3602D3e650a725f847C10d04E122C0"
+  },
+  {
+   "step": 17,
+   "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 11:58:09",
+   "block": 86439870,
+   "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "amount": "12878.454902",
+   "asset": "USDT-TRC20",
+   "kind": "bridge_in_NEAR_Intents",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20; TronScan transaction-info",
+   "note": "1Click status reports 12878.410167 as amountOut; on-chain transfer value used here",
+   "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke"
+  },
+  {
+   "step": 18,
+   "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 13:41:15",
+   "block": 86441930,
+   "to": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+   "amount": "150000.000000",
+   "asset": "USDT-TRC20",
+   "kind": "hub_outflow_commingled",
+   "status": "fact (taint share = hypothesis)",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "First outflow from the hub after stolen funds arrived; commingled",
+   "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+  },
+  {
+   "step": 19,
+   "txid": "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 13:44:36",
+   "block": null,
+   "to": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+   "amount": "150000.000000",
+   "asset": "USDT-TRC20",
+   "kind": "exchange_sweep",
+   "status": "fact",
+   "source": "TronScan transaction-info addressTag",
+   "note": "TWBPGL... tagged 'WhiteBIT' by TronScan -> TNJSC23 is a WhiteBIT deposit address",
+   "from": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ"
+  },
+  {
+   "step": 20,
+   "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 13:54:45",
+   "block": null,
+   "to": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+   "amount": "14760.000000",
+   "asset": "USDT-TRC20",
+   "kind": "hub_outflow_commingled",
+   "status": "fact (not traced)",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Not traced further",
+   "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+  },
+  {
+   "step": 21,
+   "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-21 13:58:42",
+   "block": null,
+   "to": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+   "amount": "21000.000000",
+   "asset": "USDT-TRC20",
+   "kind": "hub_outflow_commingled",
+   "status": "fact (not traced)",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "Not traced further",
+   "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+  },
+  {
+   "step": 22,
+   "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-22 08:25:00",
+   "block": 86464399,
+   "to": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+   "amount": "250000.000000",
+   "asset": "USDT-TRC20",
+   "kind": "hub_outflow_commingled",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "",
+   "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+  },
+  {
+   "step": 23,
+   "txid": "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf",
+   "chain": "tron",
+   "timestamp_utc": "2026-09-22 08:27:51",
+   "block": null,
+   "to": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+   "amount": "250000.000000",
+   "asset": "USDT-TRC20",
+   "kind": "exchange_sweep",
+   "status": "fact",
+   "source": "TronGrid /v1/accounts/{addr}/transactions/trc20",
+   "note": "TCiwRN is a WhiteBIT deposit address (swept to WhiteBIT-tagged wallet)",
+   "from": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C"
+  }
+ ],
+ "addresses": [
+  {
+   "address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "chain": "tron",
+   "role": "victim (Trust Wallet)",
+   "confidence": "fact",
+   "notes": "Owner/active key = itself, threshold 1; never changed. Balance 0.023623 USDT. Key considered compromised."
+  },
+  {
+   "address": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+   "chain": "tron",
+   "role": "payer of incoming payment (claimed by victim)",
+   "confidence": "claimed by victim"
+  },
+  {
+   "address": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+   "chain": "tron",
+   "role": "energy-rental fee collector used by Trust Wallet ('Energy Rental')",
+   "confidence": "medium-high (inferred)"
+  },
+  {
+   "address": "TUSYcK5yf8Et4xNTiUcpfZwmhFsxfdoooo",
+   "chain": "tron",
+   "role": "TRX top-up/activation service used in the same rental flow",
+   "confidence": "medium (inferred)"
+  },
+  {
+   "address": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "chain": "tron",
+   "role": "thief hop 1 (fresh, activated 11:35:27)",
+   "confidence": "fact (direct recipient)",
+   "balance_usdt": "~0.274317"
+  },
+  {
+   "address": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "chain": "tron",
+   "role": "thief hop 2 / splitter 99%/1%",
+   "confidence": "high",
+   "balance_usdt": "0"
+  },
+  {
+   "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "chain": "tron",
+   "role": "launderer bridge-out wallet (reused since 2026-08-26)",
+   "confidence": "high",
+   "balance_usdt": "~0"
+  },
+  {
+   "address": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+   "chain": "tron",
+   "role": "1% fee collector (laundering service?)",
+   "confidence": "medium",
+   "balance_usdt": "~11.26 (from 2026-09-21 onward window)"
+  },
+  {
+   "address": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+   "chain": "tron",
+   "role": "operator gas wallet: funds TYn3Yp, TUrQNN, TYHeH2",
+   "confidence": "high (common funder)",
+   "balance_trx": "505.05"
+  },
+  {
+   "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "chain": "tron",
+   "role": "USDT0 OFT contract (LayerZero)",
+   "confidence": "fact (contract name UsdtOFT)"
+  },
+  {
+   "address": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+   "chain": "ethereum",
+   "role": "USDT0 OFT adapter (Ethereum)",
+   "confidence": "fact (explorer tag)"
+  },
+  {
+   "address": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "chain": "ethereum",
+   "role": "launderer Ethereum transit EOA (reused Aug-Oct 2026)",
+   "confidence": "high",
+   "balance_usdt": "~0"
+  },
+  {
+   "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+   "chain": "ethereum",
+   "role": "Rango Diamond (aggregator)",
+   "confidence": "fact (explorer tag)"
+  },
+  {
+   "address": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+   "chain": "ethereum",
+   "role": "Rango affiliate of dApp 'MoonGate' (0.15% fee)",
+   "confidence": "fact (event log)"
+  },
+  {
+   "address": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "chain": "ethereum",
+   "role": "NEAR Intents 1Click one-time deposit address",
+   "confidence": "high (1Click status API)"
+  },
+  {
+   "address": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+   "chain": "ethereum",
+   "role": "NEAR Intents vault",
+   "confidence": "fact (explorer tag)"
+  },
+  {
+   "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+   "chain": "tron",
+   "role": "NEAR Intents TRON payout wallet",
+   "confidence": "high"
+  },
+  {
+   "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "chain": "tron",
+   "role": "FINAL HUB: high-volume USDT wallet (OTC/laundering hub), same TRX funder as thief hops",
+   "confidence": "high (destination); medium-high (same operator)",
+   "balance_usdt": "238766.644069 at ~2026-10-14 09:00 UTC (changes constantly)"
+  },
+  {
+   "address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+   "chain": "tron",
+   "role": "WhiteBIT deposit address",
+   "confidence": "high"
+  },
+  {
+   "address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+   "chain": "tron",
+   "role": "WhiteBIT deposit address",
+   "confidence": "high"
+  },
+  {
+   "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+   "chain": "tron",
+   "role": "WhiteBIT wallet (TronScan tag)",
+   "confidence": "high (third-party tag)"
+  }
+ ],
+ "links": [
+  {
+   "type": "common_trx_funder",
+   "funder": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+   "funded": [
+    {
+     "addr": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+     "txids": [
+      "32480343868c37aeac42bc014bd0c798aba635b8c1fed7648d206ac79063e2e9",
+      "dbbae16c6e8dd0498d02945c1c60f66cc32840acbe2d8b95e990c6b47f6e434d",
+      "e181937194f7f385458f1b1c721b71c7ddeead6a5bb30dd58e956b5cfd87a689"
+     ]
+    },
+    {
+     "addr": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+     "txids": [
+      "3599ac14657a1ad4be2f15780bbc93a2b42b0f453dd613adf9bc7f9ea78e8712",
+      "77655efb4e8a060474cecfaf00680f4813e4416069386ea0f99afe4c3cab7d9b"
+     ],
+     "returns_trx_to_funder": [
+      "48eca492eef755db84fa60feb1743ffe76618023fb16423e57a4f78efa8c25cc",
+      "9ab7c48183c9809baf1441c8b1fc9c88aa3dd0ed2d1f043edc2381f50225adf1",
+      "1f6185270470955219b635876ba9e6ab18d4adf4e654ba0868f94f83cc31f9d2"
+     ]
+    },
+    {
+     "addr": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "txids": [
+      "b44d60c46af55dbe24d4b3a3e37fa1c79cdfd9f3f84296b61121443bcb4ac210",
+      "5c1b1a5466fb61b989e5ab03e8858a8841b0eaf5f5796707304fec7065663a8b",
+      "8386c0b1186a2d5b2f572b726ee1918b6fb9f27c9e94a32bc44bab89f541b872",
+      "bdd5c283f7db3b60a8369c1fe26d90b39635ac5e38b308e9469e4d1a041d7491",
+      "b617d75b6c305528c0156c7bef33bdb2d00d6fb77b36e034bb5a5c7dfd1431ce"
+     ],
+     "note": "TVNMa2 activated TYHeH2 (2026-08-06 17:47:57) 25 min after TVNMa2 itself was created (17:22:48)"
+    }
+   ],
+   "funder_upstream": {
+    "txids": [
+     "673c0f9f0ca1029a6b9c16d3d345c9ba2f9f3af2463fb369eac390dd2a9582f5 (918 TRX from TMGtBUqWevfE2y1XpvzTsHEkLpSDi4bW51, itself funded by TSm7vU)",
+     "d88f4a8b58905f5f3d6eb036f23615fea9d1238e6803340a01803e998e7c0462 (849.68 TRX from TSm7vUxW9DvKiwwDRcaR36X8vBjKc99Sxe)"
+    ],
+    "note": "TSm7vU is a high-volume USDT payout wallet active since 2024-11, unlabeled; likely a service"
+   }
+  },
+  {
+   "type": "same_route_reused",
+   "note": "Same pattern (source -> hop -> 99% to TUrQNN + exactly 1% to TRUJEt -> USDT0 bridge to 0x4079 on Ethereum -> Rango) seen on 2026-08-26/27 and 2026-08-30/31",
+   "flows": [
+    {
+     "source": "TJtEySoVuAkk3xwXghLgrUFVKSMq9JkE18 (high-volume payout wallet, unlabeled)",
+     "path": [
+      "TF8uqgGbCBvsWoeStjKNQxUBQk7db9JbsW",
+      "TU6UZPz6dw6WQLa4vcYkwJZnmyeef3p9k8",
+      "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU"
+     ],
+     "txids": [
+      "71ef4785dfe1618a2e04de255c169f7418c54ea7d5287e5929b6cb96a91d7cce",
+      "b2eddd6b61cfb5fbee2ff8b4f6069e40da3d51e38c3c8aba197b3c103b601b82",
+      "94eae208ceca972f17e00de48a42452e0adefbab7623c0efed32fb3bf365064a",
+      "86266ede6d561f023bb15d64e5114c7fb9e99eb35eee691ba767c145d5727c1f",
+      "c49b60019a3a4f45daadcce320e17561b8af1b7694e3534a138c5ad19a8e778f"
+     ]
+    },
+    {
+     "source": "TJtEySoVuAkk3xwXghLgrUFVKSMq9JkE18",
+     "path": [
+      "TFBsTj5U1BsE9Q73FwruVxmBeih9j8c3vh",
+      "TX7WP5CptZqkBfbN71iwWTLDzHyzNuBuj3",
+      "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU"
+     ],
+     "txids": [
+      "836def7fc1152388ce9603fe7a101f082bc29cd8264d1a2b4226586b379d78b3",
+      "7793df54565d1e8e6a112600d157af67d000404ede4f242a98537ae09dae5330",
+      "e1f1f323c4b92a5244dc5152b82f5abc64fb5585a16af66dff8b146c58e7c2df",
+      "aaf6fc63d9804f1dcef1fed433b4761117eaf317afb7faab3db6bc27ca4dd885",
+      "b1627342e9c8991e1e787a62b172f220fcafef5d3e500768d7178ddcc515e839"
+     ]
+    }
+   ],
+   "ethereum_0x4079_other_inbound_bridges": [
+    "2026-08-27 2396.380870",
+    "2026-08-31 2657.572489",
+    "2026-10-01 25364.038505",
+    "2026-10-12 4669.518724",
+    "2026-10-13 2095.951026"
+   ]
+  }
+ ],
+ "ground_truth": {
+  "expected_route": [
+   "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "[USDT0/LayerZero] 0x4079047990917F3150353FBd8A13b05b6286926d",
+   "[Rango->NEAR Intents] 0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+  ],
+  "expected_side_branches": [
+   "TDii6v... energy fees (5.137122 + 5.486343)",
+   "TRUJEt... 1% (130.356401)",
+   "Rango affiliate 0xDDdb9a... 19.352116",
+   "bridge fees"
+  ],
+  "expected_cross_chain_detection": [
+   "USDT0 OFT TRON->Ethereum (dstEid 30101)",
+   "Rango bridge with destinationChainId=1414680398 ('TRON' in ASCII) and receiver encoded as ASCII bytes",
+   "NEAR Intents 1Click deposit address"
+  ],
+  "expected_exchange_exits": [
+   "WhiteBIT via deposit addresses TNJSC23... and TCiwRN... (commingled hub outflows)"
+  ],
+  "expected_freeze_candidate": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6 (USDT-TRC20, commingled)",
+  "expected_mechanism": "Transactions signed with victim's own owner key (no permission change); key/seed compromise",
+  "total_fees_lost_before_hub": "162.94587"
+ },
+ "usage": "Reference (ground-truth) case for LEDGERHUNT-CRYPTO tracer. Facts here were produced by a separate investigation and must be re-verified from raw source responses."
+}

@@ -1,0 +1,35 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+*.age
+*.sops.*
+
+# Personal data of clients — never commit
+data/personal/
+data/private/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+build/
+dist/
+
+# Local caches (raw API responses are reproducible; manifests with hashes are committed)
+.cache/
+data/cache/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

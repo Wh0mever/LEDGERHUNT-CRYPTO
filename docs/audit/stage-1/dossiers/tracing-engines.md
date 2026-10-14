@@ -1,0 +1,1006 @@
+# AREA tracing-engines: Blockchain analytics / tracing engines and open-source tracing projects
+
+============================================================
+PART 1 - VERIFIER REPORT (takes precedence over the researcher wherever they disagree)
+============================================================
+
+## VERIFIER SUMMARY
+Итог перепроверки. Фактическая база аудита по GitHub-репозиториям надёжна: лицензии, даты, звёзды, отсутствие тестов в BlockchainSpider, реальность TRON-ingest и проприетарность search_neighbors в GraphSense, лицензии BitOK,
+индикаторы двух вредоносных репозиториев и живые пробы TronGrid я воспроизвёл сам и расхождений не нашёл. Главный вывод (готовой OSS-базы нет, детерминированное ядро писать самим поверх публичного API, GraphSense - только
+референс) выдерживает стресс-тест по лицензии, серверу и цене. Существенные ошибки найдены в коммерческой части и в деталях реализации: 1) Bitquery Coinpath - только Enterprise, self-service планы без истории: рекомендованный
+'оракул за $69-99/мес' не существует (опровергнуто по bitquery.io/pricing). 2) Iknaio: T&C есть (https://www.iknaio.com/tcs/, 2026-06-18) и запрещают доступ третьих лиц, продажу и извлечение данных - hosted GraphSense в платный
+SaaS встроить нельзя без отдельного договора. 3) TronGrid: 100,000 запросов/день подтверждены на trongrid.io/price, но 15 QPS в документации больше нет; ToS (2026-09-24) прочитан - коммерческое использование прямо не запрещено,
+запрещена перепродажа доступа, лимиты могут меняться. 4) Arkham: TRON в API есть, лимит 100 req/s (не 20), x402 $0.20 за credit - документация читается через arkm.com/llms.txt. 5) Ledger-инвариант аудита неверен:
+DestroyedBlackFunds не порождает Transfer (проверено по TXID). 6) Пропущен живой OSS-трассировщик TRC20 (bobslayerX/crypttrace, MIT) и второй первичный источник (Tronscan token_trc20/transfers с block, revert, riskTransaction,
+тегами; keyless 3 rps). 7) Mendeley-датасет: адреса открыты (кроме жертв), но это роли, а не биржи. Что нужно изменить в рекомендациях: два TransferSource с первого дня; проверка рёбер через /v1/transactions/{txid}/events и только
+для отчётных рёбер; события destroy/issue/redeem в ledger; FIFO/LIFO/pro-rata/poison считать параллельно, а 'официальный' метод вынести в профиль юрисдикции после консультации юриста; убрать Bitquery и Iknaio из сметы; тест меток
+расширить до сотен адресов с доверительным интервалом. Число запросов и QPS обязательно измерить с ключом до фиксации целей по времени - мои и исходные цифры расчётные. Не подтверждено в этой сессии: фактический QPS
+TronGrid/Tronscan с ключом, условия Tronscan API, цены Dune и Nansen, поддержка Tron в Nansen, dataset ID и свежесть BigQuery Tron, статус бесплатных sanctions API Chainalysis и TRM, юридическая применимость FIFO/LIFO, наличие
+Approval-строк в trc20-эндпоинте (известно только из чужого кода), полнота crypttrace (прочитано 2 файла). Лимит WebSearch был исчерпан, поэтому поиск новых участников 2025-2026 неполон. Файлы в каталог проекта не записывались;
+сторонний код не клонировался и не исполнялся; временные JSON-ответы лежат в C:\Users\Asus\AppData\Local\Temp\claude\C--LEDGERHUNT-CRYPTO\912b2cf7-a304-454a-a85d-20eefb54cc33\scratchpad.
+
+## BLOCKING RISKS
+- Bitquery Coinpath недоступен на self-service: только Enterprise, а планы Personal/Pro/Scale не содержат истории (Transfers на Tron - окно 2-4 дня). Строка сметы 'Bitquery Pro $69-99/мес как оракул' и открытый вопрос №4 владельцу
+основаны на неверной посылке и должны быть сняты.
+- Hosted GraphSense (Iknaio) нельзя использовать в платном SaaS по опубликованным T&C от 2026-06-18: single-user non-sub-licensable лицензия, запрет доступа третьим лицам, 'offer for sale' и 'data mining / extraction'. Trial-ключ
+проблему не решает - нужен отдельный договор.
+- Единственный провайдер в критическом пути и чужие правила: TronGrid Free = 100,000 запросов/день, QPS официально не опубликован (15 QPS из аудита устарел), платные планы 'Coming soon', ToS от 2026-09-24 позволяет менять
+лимиты/цены в любой момент и запрещает 'resell ... the Services'. Цели '99% retrieval' и '1,000 адресов за 5 минут' нельзя считать достижимыми, пока QPS с ключом не измерен и не подключён второй источник.
+- Оценка числа запросов занижена: FIFO-ledger + проверка каждого ребра дают порядка 6-10 тыс. вызовов на граф из 1,000 адресов (моя расчётная оценка, не измерена), то есть 10-16 таких графов исчерпывают дневную квоту бесплатного
+тарифа; без ленивой проверки и кэша продукт упирается в квоту при первых же клиентах.
+- Ошибка корректности ledger: DestroyedBlackFunds уменьшает баланс без события Transfer (проверено на tx 9e22c83c...6ec1, 517,500 USDT). Формула баланса на t0 и инвариант сохранения из аудита дадут неверные числа на замороженных и
+сожжённых адресах - ровно на тех, что предлагаются как ground truth. Поведение Issue/Redeem нужно проверить так же.
+- Идентичность факта: trc20-эндпоинт TronGrid не даёт block number и log index, поэтому несколько одинаковых переводов в одной транзакции неразличимы и порядок внутри блока не определён; без event_index требование '100% фактов
+подтверждены TXID' формально выполняется, но ребро графа не уникально. Дополнительно нужно отфильтровывать строки type != Transfer (Approval; по коду crypttrace, сам не наблюдал) и value = 0 (наблюдал).
+- Цель '>=95% точности меток' не обеспечена: открытые метки по TRON практически отсутствуют (GraphSense TagPacks - 6 файлов с currency: TRX), коммерческие метки стоят $0.03-0.20 за адрес (MistTrack, Arkham x402) и не укладываются в
+$1, а предложенный тест из 10-15 контрольных депозитов статистически не способен доказать 95% (нижняя граница около 80% даже без ошибок). Поскольку stop-критерий трассировщика зависит от меток, это блокирует и качество самого
+baseline.
+- Юридическая часть методики не проверена: утверждение о 'привычности' FIFO опирается на английский прецедент и вторичные источники; для целевых юрисдикций правило распределения смешанных средств не установлено (и в этой сессии мной
+тоже не проверено). Зашивать FIFO как единственный 'официальный' метод в черновики запросов биржам и правоохранителям до консультации юриста нельзя.
+- Supply-chain: в нише 'crypto tracing' подтверждены индикаторами два вредоносных репозитория, один из которых нацелен на Windows (dev-машина - Windows 11) и имеет 190 stars за три недели; звёзды не являются сигналом доверия. Новый
+кандидат crypttrace создан аккаунтом, зарегистрированным в день создания репозитория. Нужна политика: никакого clone/pip install профильных инструментов без code review и изолированной среды.
+- Неполнота моей проверки: лимит WebSearch исчерпан, поэтому не проверены академические работы 2025-2026 по агентной трассировке и TRON-датасетам, публичные судебные документы с трассами USDT, цены Dune/Nansen, условия Tronscan API,
+статус бесплатных sanctions API Chainalysis/TRM. Эти пункты нельзя считать закрытыми.
+
+## VERIFIER VERDICTS ON RECOMMENDATIONS
+
+### NEED: A. Основа трассировочного движка для USDT TRC20
+PRIMARY: Собственный deterministic baseline tracer поверх TronGrid; GraphSense - только референс; готового OSS-движка нет.
+STANDS: True
+ISSUE: Вывод 'писать ядро самим' выдерживает проверку (GraphSense self-hosted действительно требует полный узел 3.5-4 TB + Cassandra + Spark; MetaSleuth/Arkham/MistTrack не дают объяснимой трассы в бюджете $1). Но обоснование содержит
+ошибки: (1) лимиты TronGrid взяты из сниппета - реально 100,000 req/день на бесплатном Basic, QPS не опубликован, платные планы 'Coming soon', ToS от 2026-09-24 разрешает менять лимиты и цены в любой момент и запрещает перепродажу
+доступа; (2) оценка 1,000-3,000 запросов на граф из 1,000 адресов занижена: FIFO-ledger требует на адрес исходящие + входящие + баланс (>=3 вызова) плюс 1 вызов проверки на каждое ребро - реалистично 6-10 тыс. запросов, то есть
+6-10% дневной квоты на один граф и около 20-30 QPS для укладывания в 5 минут; (3) TronGrid назван единственным источником, хотя Tronscan /api/token_trc20/transfers отдаёт block, contractRet, revert, riskTransaction, признак
+контракта и теги в одном вызове; (4) пропущен живой OSS-трассировщик crypttrace; (5) ledger не учитывает DestroyedBlackFunds (нет события Transfer - проверено).
+SUGGESTED CHANGE: Оставить решение, но: с первого дня два TransferSource (TronGrid + Tronscan с ключом) и сверка их между собой как часть цели '99% retrieval'; проверку ребра делать через /v1/transactions/{txid}/events (block_number + event_index)
+и лениво - только для рёбер, попавших в отчёт; event id = txid + event_index; фильтровать type != Transfer и value = 0; завести счётчик дневной квоты и кэш сырых ответов; до фиксации SLA измерить фактический QPS с ключом;
+запросить у TronGrid Custom-план и письменное подтверждение допустимости SaaS-использования; добавить в ledger события DestroyedBlackFunds/Issue/Redeem.
+
+### NEED: A (подпункт). Необязательные cross-check оракулы: hosted Iknaio API и Bitquery Coinpath 'после trial'
+PRIMARY: Iknaio hosted GraphSense и Bitquery Pro ($69-99/мес) как независимые оракулы сравнения.
+STANDS: False
+ISSUE: Оба варианта не проходят. Bitquery: Coinpath - только Enterprise, self-service планы не содержат истории (Transfers на Tron - окно 2-4 дня, архив - add-on от $70/мес при годовой оплате и без Coinpath). Iknaio: действующие T&C (18
+June 2026) дают single-user, non-sub-licensable лицензию, запрещают доступ третьим лицам, 'offer for sale' и 'data mining ... or other extraction methods'; Free-пакет выдаётся верифицированным исследователям/госсектору.
+SUGGESTED CHANGE: Убрать оба из плана MVP и из сметы. Независимую сверку строить на (а) втором первичном источнике (Tronscan), (б) офлайн-пересчёте подвыборки кейсов SQL-запросом в Dune (stablecoins_tron.transfers с block_number/tx_index/evt_index)
+или BigQuery Tron (Preview) - только для оценки, не в горячем пути, (в) ручной разметке. Если нужен коммерческий оракул меток/депозитов - запросить у Arkham trial (100,000 credits) и письменные условия; Iknaio - только через
+отдельный договор.
+
+### NEED: B. Taint-методология и представление неопределённости
+PRIMARY: Account-ledger FIFO как основная оценка + haircut + poison upper bound; алгоритмы обхода портировать из BlockchainSpider (MIT).
+STANDS: True
+ISSUE: Каркас (несколько политик одновременно, диапазон вместо одного числа, запрет суммировать poison) корректен, лицензии источников идей подтверждены. Слабые места: (1) тезис 'FIFO юридически привычен (Clayton's case)' - это
+английское право, аудит не привёл первичного источника для целевых юрисдикций; исключение LIFO из отчёта как 'легко обходимой эвристики' ничем не подтверждено, а выбор метода судами и следствием зависит от юрисдикции - мной в этой
+сессии тоже не проверено (лимит поиска исчерпан), поэтому это открытый юридический вопрос, а не решённый; (2) инвариант сохранения и формула баланса на t0 ломаются на уничтоженных средствах (см. проверку DestroyedBlackFunds); (3)
+FIFO требует полной истории адреса с t0 до текущего момента - именно на узлах смешения (консолидационные кошельки, обменники) это упирается в лимит запросов, и там метод деградирует в 'high-activity, unresolved'; (4)
+trc20-эндпоинт без log index: порядок внутри блока и одинаковые переводы в одной транзакции неразличимы без второго вызова; (5) портировать из BlockchainSpider по сути нечего для сумм - haircut там 60 строк на float; ценность
+только в push/pop/rank и TTR как приоритизации.
+SUGGESTED CHANGE: Считать параллельно FIFO, LIFO, pro-rata (haircut) и poison-bound и хранить все; 'официальный' метод сделать параметром профиля юрисдикции, а формулировки черновиков для правоохранителей согласовать с юристом до релиза. Для узлов,
+где история неполна, выдавать не точку, а границы [0, min(помеченный вход, исходящий поток в окне)] с явной пометкой 'ledger incomplete'. Ledger строить по событиям Transfer + DestroyedBlackFunds + Issue/Redeem; порядок -
+(block_number, tx_index или позиция в блоке, event_index). Добавить property-тест на адресе с destroy-событием.
+
+### NEED: C. LLM-агентный слой: референсы и измеримое превосходство над baseline
+PRIMARY: Принципы и тексты GraphSense MCP skills (MIT); собственные инструменты; схема 'агент против baseline' по образцу LOCARD (AGPL - только идеи).
+STANDS: True
+ISSUE: Подтверждено кодом: каталог skills содержит trace-funds, identifier-integrity, investigation-reporting, investigate-strict/advisor/autonomous; '44 routes -> 18 tools' и '~40%' есть в mcp/README.md; лицензии MIT / AGPL-3.0 верны.
+Недостатки: (1) не оценён токенный бюджет: 9+ агентов в пределах $1 вместе с данными - аудит только декларирует 'весь $1 на токены'; (2) нет ни одного количественного результата, что агентный слой где-либо бьёт детерминированный
+baseline (ни GraphSense, ни LOCARD метрик в цифрах не публикуют - это признано самим аудитом), то есть целевой критерий MVP пока не обеспечен ничем, кроме плана; (3) не упомянуты Arkham docs для агентов (guide 'Tracking Funds
+Through Bridges', x402) и эвристики crypttrace (offramp/deposit detection, poisoning, freeze) как источники правил.
+SUGGESTED CHANGE: Зафиксировать до разработки: жёсткий токен-лимит на расследование и на агента, кэш промптов, дешёвую модель для рутинных шагов; агент не получает сырые страницы API. Определить заранее, на каких именно подзадачах ожидается выигрыш
+над baseline (выбор ветвей при лимите запросов, распознавание pass-through/peel, классификация off-ramp) и мерить только их. Evidence-verification оставить детерминированным (проверка txid + event_index по первичному источнику).
+
+### NEED: D. Ground truth: >=50 сценариев и held-out набор
+PRIMARY: Синтетика + freeze-anchored кейсы (TronGrid события, BitOK CC BY 4.0) + публичные инциденты + testnet/private net + записанные фикстуры; контрольные депозиты на 10-15 бирж для теста меток.
+STANDS: True
+ISSUE: Источники подтверждены (BitOK: CC BY 4.0, цифры README совпали; OFAC: 261 TRX-адрес; события Tether идут ежедневно). Проблемы: (1) статистика теста меток: 10-15 контрольных депозитов не могут доказать >=95% - даже при 0 ошибок из
+15 нижняя 95%-граница точности около 80% (правило трёх: 1 - 3/n); для нижней границы 95% нужно не менее ~60 безошибочных примеров, реально 300+ с отрицательным классом; (2) freeze-anchored кейсы дают истину только для конечной
+точки, а в составе 50 сценариев их 15 - метрики пути по ним считать нельзя; (3) Mendeley-набор оказался пригоден (адреса открыты, кроме жертв), но это роли, а не биржи; (4) фикстуры обязаны включать события destroy/blacklist,
+иначе реплей не воспроизведёт балансы; (5) не использованы готовые размеченные кейсы и источники PoR-адресов (см. missed candidates: crypttrace cases/, DefiLlama-Adapters через wallet-attribution, Tronscan riskTransaction и теги
+как слабая разметка).
+SUGGESTED CHANGE: Тест меток: >=300 адресов из независимых источников (опубликованные биржами proof-of-reserves адреса TRON, собственные контрольные депозиты, OFAC 261 TRX как класс sanctioned, судебно-подтверждённые не-биржевые адреса Mendeley и
+случайные активные адреса как отрицательный класс), отчёт с доверительным интервалом. В 50 сценариев с 'известной истиной' засчитывать только synthetic-exact и self-generated; freeze-anchored и публичные инциденты вести отдельным
+классом с метриками по подтверждённой части. Публичные судебные документы с трассами USDT (forfeiture complaints, ордера NBCTF) искать отдельно - в этой сессии не проверены.
+
+## VERIFIER FACT CHECKS
+
+- [REFUTED] Bitquery Coinpath / MoneyFlow API :: Coinpath можно взять как необязательный cross-check оракул на плане Pro за $69-99/мес (commercial-use license с Pro).
+  CORRECT VALUE: На bitquery.io/pricing строка 'Coinpath® money flow' есть только у Enterprise (Personal/Pro/Scale: '—'). Кроме того, self-service планы - только real-time окно: Transfers для EVM/Tron '2-4 days + archive add-on'; 'No plan includes
+archive history - add it per chain (transfers, balances & holders from $100/mo, or $70/mo billed yearly)'. Цены карточек подтверждены: Personal $29, Pro $69 (помесячно $99), Scale $199 при годовой оплате; 1M points / 90 req/min /
+6 simultaneous у Pro. Итог: исторический money-flow по TRON на Pro недоступен вообще; оракул = Enterprise (custom price).
+  METHOD: docs read (WebFetch pricing page дважды, второй раз с дословным извлечением строк Coinpath/archive); docs.bitquery.io/v1 coinpath прочитаны - там планы не указаны
+  EVIDENCE: https://bitquery.io/pricing
+
+- [CORRECTED] GraphSense hosted by Iknaio :: Terms & Conditions не найдены (iknaio.com/terms/ -> 404); право коммерческого встраивания нигде публично не описано.
+  CORRECT VALUE: T&C опубликованы по адресу https://www.iknaio.com/tcs/ ('Status: 18 June 2026', право Австрии, суд Вены). Ключевые пункты: 2.1 'non-exclusive, non-transferable, non-assignable, non-sub-licensable single user license'; 3.2 только
+'for the purposes of their own business operations'; 3.3 'may not grant access to the License in any form to any third party'; 3.1 запрет 'offer for sale', 'publish', 'data mining, data collection or other extraction methods'. То
+есть использование hosted API как бэкенда/оракула платного SaaS стандартными условиями фактически запрещено - нужен отдельный письменный договор, а не просто trial-ключ.
+  METHOD: docs read (WebFetch packages -> ссылка в футере -> WebFetch /tcs/)
+  EVIDENCE: https://www.iknaio.com/tcs/
+
+- [CONFIRMED] GraphSense hosted by Iknaio :: GET api.iknaio.com/openapi.json без ключа отдаёт GraphSense API 2.17.0 (48 путей); /stats -> 401.
+  CORRECT VALUE: title 'GraphSense API', version 2.17.0, 48 paths, 14 deprecated операций, securityScheme api_key; /stats -> HTTP 401. Пакеты Free/Professional/Institutional без цен и квот - подтверждено.
+  METHOD: API call made (2 запроса) + WebFetch iknaio.com/packages
+  EVIDENCE: https://api.iknaio.com/openapi.json
+
+- [CORRECTED] TronGrid API :: Лимиты: 100,000 запросов/сутки и 15 QPS с API key (по search snippet).
+  CORRECT VALUE: Страница trongrid.io/price (рендер): Basic Free - 100,000 Requests/Day, 3 API Keys; Trial 'Limited Free' - 500,000 Requests/Day; Custom - по запросу; платные Developer/Team/Business - 'Coming soon' (цена '???' USDT). Цифра 15 QPS
+в текущей документации отсутствует: developers.tron.network/reference/rate-limits пишет 'Specific quota and QPS may change depending on plan, network, endpoint type, and service policy' и 'Without API key: strict rate limiting or
+rejection'; страница rate-limits-1 (updatedAt 2026-07-21) приводит примеры 'such as 30 requests per second' ниже дневной квоты и 'such as 1 request per second' после её исчерпания. QPS нужно измерять, а не закладывать 15.
+  METHOD: docs read: рендер SPA в браузере + WebFetch двух страниц developers.tron.network
+  EVIDENCE: https://www.trongrid.io/price
+
+- [CORRECTED] TronGrid API :: ToS TronGrid для коммерческого SaaS не читались (commercial_use не проверено).
+  CORRECT VALUE: TronGrid Terms of Service, 'Last updated: September 24, 2026': п.3 запрещает 'resell, sublicense or provide unauthorized third-party access to the Services or API keys' и обход лимитов; п.6 даёт 'limited, non-exclusive, non-
+transferable right to use the Services for their intended purpose'; п.4 'We reserve the right to change the availability, features, pricing, rate limits, or plan terms of the Services at any time'; п.7 данные 'may be incomplete,
+delayed or inaccurate'. Прямого запрета коммерческого использования и пунктов о кэшировании/редистрибуции данных нет; запрещена перепродажа самого доступа. Вывод: аналитический SaaS поверх API допустим по букве, но это нужно
+закрепить у юриста, и зависимость от бесплатного тарифа - риск.
+  METHOD: docs read (рендер SPA в браузере, полный текст прочитан)
+  EVIDENCE: https://www.trongrid.io/terms-of-service
+
+- [CONFIRMED] TronGrid API :: Эндпоинт /v1/accounts/{addr}/transactions/trc20 отдаёт только block_timestamp, from, to, token_info, transaction_id, type, value (нет block number и log index); фильтры only_from, min_timestamp, order_by работают; есть Transfer с
+value=0.
+  CORRECT VALUE: Подтверждено на адресе TAZgAu6wADSjXqV1gJE6AdFjPV1ptaEjLH: 12 записей, ровно 7 полей; с only_from=true&min_timestamp=1791541716000&order_by=block_timestamp,asc вернулись 4 исходящих (250,000; 28,090; 19,784; 0 USDT). Дополнение,
+которого нет в аудите: GET /v1/transactions/{txid}/events возвращает block_number, event_index и уже декодированные from/to/value (проверено на tx 70954cc7...b908: block 87068727, event_index 0, value 19784000000) - это более
+удобный вызов проверки, чем ручной разбор raw log из gettransactioninfobyid. Время ответа 0.39-0.66 с.
+  METHOD: API call made (4 запроса к api.trongrid.io)
+  EVIDENCE: https://api.trongrid.io/v1/transactions/70954cc76f3395251927ec85ba32a779d823d1fac9b371fab74fc2f95516b908/events
+
+- [CORRECTED] Tether on-chain события (AddedBlackList / DestroyedBlackFunds) + инвариант сохранения в рекомендации B :: Баланс на t0 восстанавливается как текущий_баланс - входящие_после_t0 + исходящие_после_t0; инвариант 'сумма taint сохраняется', т.к. у TRC20 комиссия не вычитается.
+  CORRECT VALUE: Для адресов с уничтоженными средствами формула и инвариант неверны: транзакция DestroyedBlackFunds 9e22c83c587798e363c585614445e4d1a6e1c8f3214c724c742d176261e76ec1 (блок 86,961,666, 2026-10-09 14:56:30 UTC, 517,500 USDT) содержит
+события Confirmation, DestroyedBlackFunds, Execution и НИ ОДНОГО события Transfer. Баланс уменьшается без Transfer, поэтому ledger обязан отдельно потреблять DestroyedBlackFunds (и проверить то же для Issue/Redeem - мной не
+проверено). Последнее событие AddedBlackList (блок 87,075,502, tx d6520929...2340, 2026-10-13 13:49:54 UTC) подтверждено.
+  METHOD: API call made (events по контракту USDT + events по TXID)
+  EVIDENCE: https://api.trongrid.io/v1/transactions/9e22c83c587798e363c585614445e4d1a6e1c8f3214c724c742d176261e76ec1/events
+
+- [CONFIRMED] BlockchainSpider (wuzhy1ng/BlockchainSpider) :: MIT, 186 stars, последний коммит 2026-05-18, нет tests и CI; haircut на float без учёта времени; TRC20 через Tronscan /api/token_trc20/transfers.
+  CORRECT VALUE: license MIT (LICENSE: 'Copyright (c) 2021-present Zhiying Wu'), 186 stars, 35 forks, pushed 2026-05-18; в дереве (162 записи, а не 130) нет ни tests, ни .github. haricut.py (60 строк): float(e.get('value')), вес делится на сумму
+всех исходящих рёбер, времени нет. trc20_trc721.py использует relatedAddress/start_timestamp/end_timestamp и пагинацию по data['total'].
+  METHOD: gh api (repo, tree, commits, LICENSE) + code read двух файлов
+  EVIDENCE: https://github.com/wuzhy1ng/BlockchainSpider/blob/master/BlockchainSpider/strategies/txs/haricut.py
+
+- [CORRECTED] BlockchainSpider / Tronscan API :: Tronscan API key обязателен; BlockchainSpider - единственный найденный OSS-проект с реальным кодом трассировки TRC20.
+  CORRECT VALUE: 1) /api/token_trc20/transfers отвечает без ключа (HTTP 200), но с лимитом: 'request rate exceeded the allowed_rps(3), and the query server is suspended for 22 s' (получил 429 на двух подряд запросах). Ответ богаче TronGrid: block,
+confirmed, contractRet, finalResult, revert, riskTransaction (нулевой перевод 707e1f3a... помечен true), fromAddressIsContract/toAddressIsContract, from/to_address_tag. При этом total=10000 и rangeTotal=10000 для адреса с 12
+переводами - поле total ненадёжно, а пагинация BlockchainSpider построена именно на нём. 2) Не единственный: bobslayerX/crypttrace (MIT, 20 stars, 75 коммитов 2026-07-21..2026-10-12, CI) трассирует USDT-TRC20 через TronGrid -
+аудитом пропущен.
+  METHOD: API call made (Tronscan, 3 запроса, из них 2 дали 429) + gh api / code read crypttrace
+  EVIDENCE: https://apilist.tronscanapi.com/api/token_trc20/transfers?limit=3&start=0&relatedAddress=TAZgAu6wADSjXqV1gJE6AdFjPV1ptaEjLH&contract_address=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
+
+- [CONFIRMED] GraphSense self-hosted (graphsense-lib) :: MIT; релиз v2.17.0 от 2026-09-30; фактически 2 мейнтейнера; TRON ingest реален; search_neighbors - проприетарный внешний сервис; публичные TagPacks почти без TRON; нужен полный узел TRON (16+ cores, 32 GB+, 3.5-4 TB).
+  CORRECT VALUE: license MIT; v2.17.0 2026-09-30T15:33:38Z, spark-v26.09.1 в тот же день; contributors soad003 1231, Tommel71 795, следующий 59; 20 stars. src/graphsenselib/ingest/tron/* (grpc_exporter.py и др.) существует. mcp/README.md дословно:
+'forwards requests to the proprietary external search_neighbors service'; 'FastAPI has 44 routes; we surface 18'. В graphsense-tagpacks строка 'currency: TRX' встречается в 6 файлах (binance, huobi, kucoin, bitfinex, ofac,
+aidecisions_ofac). java-tron README: FullNode Stable 8 cores / 32 GB / 3.5 TB (Full) или 200 GB (Lite); Recommend 16+ cores / 32 GB+ / 4 TB - цифры аудита верны для полного узла.
+  METHOD: gh api (repo, releases, contributors, LICENSE, code search) + code read mcp/README.md + README java-tron
+  EVIDENCE: https://github.com/graphsense/graphsense-lib/blob/master/src/graphsenselib/mcp/README.md
+
+- [CORRECTED] Arkham Intel API :: Rate limits 20 req/s стандартные и 1 req/s heavy; поддержка TRON в API не подтверждена; цена $100 против $900/мес; документацию прочитать не удалось.
+  CORRECT VALUE: Документация читается (arkm.com/llms.txt, API v1.1.0). Standard - 100 requests/second (не 20), Heavy - 1 request/second (/transfers, /counterparties, /flow, batch-intelligence). Chain enum содержит 'tron' (ethereum, polygon, bsc,
+optimism, avalanche, arbitrum_one, base, bitcoin, tron, flare, solana, dogecoin, zcash, hyperevm, hypercore, robinhood). 'Subscriptions are usage-based (credits per month) and start at $100', планы custom-built, доступ по заявке;
+trial 100,000 credits (individual) и 10,000 label lookups/period. x402: $0.20 за credit; /intelligence/address = 1 credit, /transfers = 2 credits per row (на x402 оплачивается запрошенный limit). Отдельного tracer-эндпоинта нет -
+подтверждено. Метки: verified >= 98%, prediction >= 80%; фильтры service:/deposit: работают для EVM, Tron, Solana. Цена $900/мес из apis.io первичным источником не подтверждается.
+  METHOD: docs read (рендер в браузере: llms.txt, credit-pricing.md, getting-access.md, rate-limits.md, x402 guide, schemas/Chain.md, поиск по llms-full.txt)
+  EVIDENCE: https://arkm.com/llms/guides/rate-limits.md
+
+- [CONFIRMED] MistTrack OpenAPI :: Basic $229 (без OpenAPI), Standard $689 (1 call/s, 10k/день), Compliance $2,069 (5 call/s, 50k/день); Developer prepaid $20/100 ... $30,000/1M, срок 1 год, 10 req/s; non-refundable.
+  CORRECT VALUE: Все названные цифры совпали. В аудите пропущены два пакета: $100 за 500 вызовов ($0.20) и $10,000 за 250,000 ($0.04), а также trial Standard: $10 на 48 часов. Вывод о несовместимости с целью $1 (30 адресов = $3-6) остаётся верным.
+Условия коммерческого использования/кэширования на странице отсутствуют.
+  METHOD: docs read (WebFetch pricing page)
+  EVIDENCE: https://misttrack.io/pricing.html
+
+- [CONFIRMED] MetaSleuth / BlockSec AML API :: Программного tracing API нет: только Address Label API и Risk Score API.
+  CORRECT VALUE: docs.metasleuth.io/llms.txt перечисляет только Introduction/Authentication/Response Format, Address Label API и Risk Score (Wallet Screening) API; Trace Funds и т.п. - только в user manual как функции UI. Цены $599/$499 мной не
+перепроверялись.
+  METHOD: docs read (WebFetch)
+  EVIDENCE: https://docs.metasleuth.io/llms.txt
+
+- [CONFIRMED] BitOKorg/tether-blacklist-research :: Данные и документация - CC BY 4.0 (LICENSE-DATA), скрипты - MIT; TRON addBlackList 1,778 + 4,291 за 2024-05-01..2026-05-09.
+  CORRECT VALUE: LICENSE = MIT (Copyright 2026 BitOK), LICENSE-DATA = CC BY 4.0 c явным 'even commercially' и требованием атрибуции 'BitOK (bitok.org)'. README: addBlackList TRX 1,778 / 4,291, removeBlackList 81 / 327, destroyBlackFunds 138 / 589,
+период 1 May 2024 - 9 May 2026. 1 star, push 2026-07-27. Сами CSV не пересчитывались.
+  METHOD: gh api (repo, contents LICENSE и LICENSE-DATA, README, дерево data/)
+  EVIDENCE: https://github.com/BitOKorg/tether-blacklist-research/blob/main/LICENSE-DATA
+
+- [CORRECTED] Mendeley Data 10.17632/62dmsngtfb.3 :: Неясно, присутствуют ли адреса в открытом виде или хешированы (needs-trial).
+  CORRECT VALUE: Адреса открыты, кроме жертв: DATA_DICTIONARY.md - поле address 'Exact virtual asset address when released. Blank for victim rows', флаг exact_address_withheld. Версия 3, 2026-08-03, CC BY 4.0, файлы
+judicial_ground_truth_address_labels_public_v2.csv (131 KB) и tron_trc20_usdt_behavioral_analysis_subset_v2.csv (192 KB). Но метки - роли в делах о мошенничестве/отмывании, а не биржи/сервисы: для теста точности exchange-меток
+(>=95%) набор годится только как отрицательный класс.
+  METHOD: API call made (data.mendeley.com/public-api/datasets/62dmsngtfb) + чтение DATA_DICTIONARY.md (3 KB)
+  EVIDENCE: https://data.mendeley.com/datasets/62dmsngtfb
+
+- [CONFIRMED] OFAC SDN list (0xB10C/ofac-sanctioned-digital-currency-addresses) :: sanctioned_addresses_TRX.txt - порядка 260 адресов (оценка по размеру файла).
+  CORRECT VALUE: Ровно 261 адрес в sanctioned_addresses_TRX.txt (ветка lists); в sanctioned_addresses_USDT.txt 94 адреса, из них 79 в формате TRON. MIT, 179 stars, push 2026-10-01.
+  METHOD: gh api contents (?ref=lists), подсчёт строк
+  EVIDENCE: https://github.com/0xB10C/ofac-sanctioned-digital-currency-addresses/tree/lists
+
+- [CONFIRMED] Лицензии референсных репозиториев (LOCARD, MistTrackMCP, misttrack-skills, zkokelj, hemangnagar, BlockSci) :: locard AGPL-3.0; MistTrackMCP без лицензии; misttrack-skills MIT; zkokelj/bitcoin_tainting_methods без лицензии; hemangnagar/bitcoin-fifo-taint-tracer MIT, 0 stars, один день активности; BlockSci GPL-3.0, pushed 2021-12-13.
+  CORRECT VALUE: Все значения license.spdx_id, stars и pushed_at совпали с GitHub API (locard: AGPL-3.0, 6 stars, push 2026-08-20; MistTrackMCP: license null, 39 stars; hemangnagar: MIT, created 2026-08-04, pushed 2026-08-04, size 26 KB; BlockSci:
+GPL-3.0, 1,397 stars).
+  METHOD: gh api repos/OWNER/REPO для каждого
+  EVIDENCE: https://github.com/xhyumiracle/locard
+
+- [CONFIRMED] Вредоносные репозитории Soniavasseur/Wallet-Risk-Scanner и harmonic101/stolen-funds-finder :: Первый - reflective loader нативного кода (VirtualAlloc/GetProcAddress) с бинарником 21.4 MB; второй - обфусцированный clipboard hijacker, автозагружаемый из __init__.py.
+  CORRECT VALUE: Wallet-Risk-Scanner: ledger/data/runtimelib.pkg = 21,394,012 байт, win_amd64 wheels в репозитории; ledger/executor.py (9.5 KB): ctypes x22, VirtualAlloc x2, VirtualProtect x1, GetProcAddress x4, WINFUNCTYPE x1; 190 stars при
+создании 2026-09-22. stolen-funds-finder: web3toolkit/__init__.py делает importlib.import_module('web3toolkit._init_token'); _init_token.py (11.9 KB): pyperclip x4, '_0x' x224, 'chr(' x380. Декодирование endpoint и поведение мной
+не воспроизводились - только индикаторы.
+  METHOD: gh api (tree, contents) + статический подсчёт индикаторов; код не исполнялся
+  EVIDENCE: https://github.com/Soniavasseur/Wallet-Risk-Scanner/blob/main/ledger/executor.py
+
+- [UNVERIFIABLE] Tronscan stableCoin/blackList и бесплатные sanctions API (Chainalysis, TRM) :: Tronscan blackList: total=7,838, верхняя запись от 2025-07-12 (вероятно устарел). Chainalysis free sanctions API - статус не подтверждён.
+  CORRECT VALUE: Tronscan blackList: мой запрос получил HTTP 429 (suspension после лимита 3 rps), повторно не опрашивал. Chainalysis: страница free-cryptocurrency-sanctions-screening-tools действительно не содержит бесплатного API/oracle (только
+'Request a demo') - существует ли ещё публичный API, не установлено. TRM: docs.trmlabs.com теперь редиректит на login.trmlabs.com - лимиты бесплатного sanctions API (1 req/s, 100/день без ключа по search snippet) первично не
+подтверждены.
+  METHOD: API call made (429) + WebFetch; остальное - search snippet only
+  EVIDENCE: https://www.chainalysis.com/free-cryptocurrency-sanctions-screening-tools/
+
+## CANDIDATES MISSED BY THE RESEARCHER (found by verifier)
+
+- bobslayerX/crypttrace (OSS CLI + локальный web UI для трассировки, включая Tron USDT-TRC20) (https://github.com/bobslayerX/crypttrace)
+  WHY: Единственный найденный живой OSS-трассировщик с поддержкой USDT-TRC20 через TronGrid: MIT, 20 stars, 75 коммитов с 2026-07-21 по 2026-10-12, .github/workflows/selftest.yml + selftest.py (55 KB), пакет на PyPI; модули trace.py,
+offramp.py, freeze.py, poisoning.py, verify.py, labels/known.json (95 KB), каталог cases/ с реальными кейсами в CSV. Опровергает тезис аудита 'кроме BlockchainSpider реального кода трассировки TRC20 нет'.
+  ASSESSMENT: Код прочитан (trace.py, fetchers/tron.py): рекурсивный обход top-N исходящих потоков, агрегированных по получателю, с остановкой на метках exchange/mixer/sanctioned/bridge/dex и эвристикой off-ramp (неизвестный адрес, пересылающий
+большую часть на биржу = deposit address). Не база: суммы на float, нет учёта времени (в трассу попадают потоки, не связанные с инцидентом), нет taint-учёта, visited-set обрезает merges, TRX-контракт приводится .lower(). Аккаунт
+автора создан 2026-07-21 - в день создания репозитория, 1 follower: с учётом двух вредоносных репозиториев в этой нише - не устанавливать через pip без полного code review (я прочитал только 2 файла из ~40). Брать идеи (off-ramp,
+фильтр Approval-строк, пагинация fingerprint) и, после проверки, кейсы как сценарии.
+
+- Tronscan API /api/token_trc20/transfers как второй TransferSource (https://apilist.tronscanapi.com/api/token_trc20/transfers)
+  WHY: Закрывает главный риск рекомендации A (единственный провайдер) и сокращает число вызовов: в одном ответе есть block, confirmed, contractRet, finalResult, revert, riskTransaction, fromAddressIsContract/toAddressIsContract и теги
+адресов.
+  ASSESSMENT: Проверено вызовом: без ключа HTTP 200, лимит allowed_rps(3) с блокировкой на 22 с при превышении. Нулевой перевод перед заморозкой помечен riskTransaction=true. Минусы: поле total вернуло 10000 для адреса с 12 переводами
+(ненадёжно), ToS и лимиты с ключом мной не читались (docs.tronscan.org), оба сервиса из одной экосистемы TRON - это не полностью независимый источник.
+
+- Arkham Intel API v1.1.0 (transfers + entity/deposit attribution на Tron, x402, MCP) (https://arkm.com/llms.txt)
+  WHY: Аудит оценил его как 'low confidence, TRON не подтверждён'. Фактически 'tron' есть в Chain enum, /transfers поддерживает селекторы service:/deposit: для Tron, метки имеют пороги verified >= 98% / prediction >= 80% - это кандидат в
+независимый оракул для exchange-attribution и для тестового набора меток.
+  ASSESSMENT: Не база трассировки (tracer-эндпоинта нет, /transfers - 1 req/s). По цене в горячий путь не проходит: на x402 $0.20 за credit, метка адреса = 1 credit, то есть 30 адресов = $6; подписка 'start at $100', кредитов за эту сумму в
+документации нет. Trial: 100,000 credits и 10,000 label lookups - достаточно для разовой сверки тестового набора. Условия кэширования/редистрибуции меток в docs не найдены - запрашивать письменно.
+
+- Dune: stablecoins_tron.transfers / tokens_tron.transfers + SQL API (https://docs.dune.com/data-catalog/curated/stablecoins/transfers/stablecoins-tron-transfers)
+  WHY: Полная история TRC20-переводов с block_number, tx_index, evt_index, amount_raw (UINT256) и base58-колонками - позволяет офлайн строить эталонные трассы и пересчитывать ledger одним SQL-запросом без лимитов TronGrid; аудит оставил
+Dune в not_verified.
+  ASSESSMENT: Схема таблицы подтверждена по документации; свежесть не указана. SQL API terms (обновлены 2026-05-13): запрет передавать API keys третьим лицам и использовать сервис так, чтобы 'compete with Dune's business'; про перепродажу
+результатов прямо не сказано; CSV-экспорт из приложения нельзя продавать как data product (по сниппету). Цены (Analyst $75, Plus $399) - только из сниппета, не проверены. Вывод: инструмент построения ground truth и оценки, не
+источник горячего пути.
+
+- Google Cloud Blockchain Analytics: Tron (Preview) в BigQuery (https://docs.cloud.google.com/blockchain-analytics/docs/supported-datasets)
+  WHY: Google-maintained набор TRON в BigQuery: альтернатива собственному узлу и GraphSense для массовых офлайн-расчётов и синтеза тестовых графов из реальной истории.
+  ASSESSMENT: Наличие Tron (Preview) в списке Google-maintained подтверждено по странице документации. Dataset ID, состав таблиц, свежесть и стоимость запроса мной не проверены; статус Preview означает 'as is' и ограниченную поддержку. Для per-
+investigation использования, скорее всего, дорого (сканирование больших таблиц) - только для оценки.
+
+- prettydeath/wallet-attribution (агрегированный датасет меток, включая data/tron.csv) (https://github.com/prettydeath/wallet-attribution)
+  WHY: Заявлено 634,626 адресов, 48 сетей, 383,266 exchange-кошельков; есть data/tron.csv (1.4 MB) и перечень бесплатных первичных источников, среди которых DefiLlama-Adapters (официально раскрытые биржами proof-of-reserves кошельки,
+включая TRON), OFAC и on-chain blacklist Tether - это готовый указатель на независимые источники для теста меток.
+  ASSESSMENT: 5 stars, создан 2026-07-17, push 2026-10-01. Код MIT, но данные - под лицензиями апстримов (GitHub показывает NOASSERTION), поэтому в продукт копировать нельзя без разбора каждого источника. Сам README признаёт: 'TRON entity
+labels are thin in public repos' и советует обогащать через Tronscan. Содержимое data/tron.csv не читалось. Использовать как карту источников, не как эталон.
+
+- Nansen API + MCP (https://docs.nansen.ai/llms.txt)
+  WHY: Коммерческий API с эндпоинтами Address Labels, Counterparties (включая batch), Address Related Wallets, Address First Funder и MCP-сервером - прямой аналог 'address-intelligence' слоя; в аудите не рассмотрен.
+  ASSESSMENT: Наличие эндпоинтов и MCP подтверждено по индексу документации. Поддержка Tron и цены (credits) в этой сессии НЕ подтверждены - страницу Supported Chains и Credits & Pricing нужно прочитать отдельно. Без этого - только кандидат на
+trial.
+
+- SebAustin/defi-compliance-agent (LangGraph compliance agent с eval-набором) (https://github.com/SebAustin/defi-compliance-agent)
+  WHY: Референс именно для требований воспроизводимости и измеримости агентного слоя: evals/cases.jsonl, calibration.jsonl, run_eval.py с отчётом по false-negative rate, 'conformal abstention to human review', hash-chained audit log,
+синтетический граф.
+  ASSESSMENT: MIT, 1 star, один коммит 2026-06-20, полностью синтетические данные, не TRON. Проверено только дерево и метаданные, код не читался - качество неизвестно. Смотреть как образец структуры eval-харнесса и журнала действий, не как
+зависимость.
+
+- c0mm4nd/tronetl и AnChainAI/aml-mcp (закрытие пробелов поиска) (https://github.com/c0mm4nd/tronetl)
+  WHY: Аудит утверждал отсутствие TRON-ETL: вне организации blockchain-etl существует tronetl (Go, export_token_transfers.go, SCHEMA.md, функциональный тест). AnChainAI/aml-mcp - официальный MCP-враппер коммерческого AML-вендора, не
+упомянут.
+  ASSESSMENT: tronetl: 6 stars, push 2026-02-05, лицензии НЕТ - использовать нельзя, только как описание схемы. AnChainAI/aml-mcp: AGPL-3.0, 3 stars, push 2025-09-04, один файл mcp_server.py поверх платного API - для закрытого SaaS непригоден.
+Оба отклонить, но зафиксировать, чтобы не возвращаться.
+
+============================================================
+PART 2 - RESEARCHER AUDIT
+============================================================
+
+## RESEARCHER RECOMMENDATIONS
+
+### R1. NEED: A. Основа трассировочного движка для USDT TRC20
+PRIMARY: Строить собственный deterministic baseline tracer (чистый Python-модуль, без внешних сервисов кроме источника переводов) поверх TronGrid; готового OSS-движка, пригодного как база, не существует. GraphSense - не база MVP, а
+референс и кандидат на фазу мультисетевого расширения; hosted Iknaio API и Bitquery Coinpath - только необязательные cross-check оракулы после trial.
+RATIONALE: 1) Около 40 поисковых запросов по GitHub и чтение кода показали: единственный проект с реальной трассировкой TRC20 - BlockchainSpider (краулер без тестов), остальное - демо, хакатоны и два вредоносных репозитория. 2) Единственная
+зрелая OSS-платформа с TRON (GraphSense v2.17.0) требует Cassandra + Spark + полный узел TRON (3.5-4 TB SSD) - несовместимо с одним скромным сервером и маленькой командой, и в ней нет ни taint-методов, ни открытого path search. 3)
+Живые пробы подтвердили, что TronGrid отдаёт всё необходимое: фильтр по направлению и времени, события контракта, raw-логи для проверки TXID, ~0.45 с на запрос. 4) Требования '100% фактов с TXID' и 'ничего не выдумывать' выполнимы
+только при полном контроле алгоритма; чёрные ящики (Coinpath, MistTrack) этого не дают.
+ARCHITECTURE NOTES: Модель: мультиграф с временными рёбрами; ребро = (txid, log_index, block_number, block_timestamp, from, to, amount в base units как int, token contract). Узел = адрес с состоянием ledger. Обход: приоритетная очередь по величине
+несущего taint (best-first), BFS как режим сравнения; лимиты depth (>=10), max_addresses, max_requests, max_spend, dust-порог. Детерминизм: сортировка (block_timestamp, txid, log_index), фиксированный snapshot max_timestamp,
+сохранение сырых ответов с SHA-256, версии параметров в журнале.
+COST: Переменная стоимость данных $0 (TronGrid free tier). Оценка числа вызовов (моя, не измерена на полном сценарии): стандартное расследование на 30 адресов = 30-90 вызовов истории + 50-150 вызовов gettransactioninfobyid для проверки
+рёбер, итого 100-250 запросов; при 0.45 с последовательно это 45-110 с, при 5 параллельных - 10-25 с. Граф на 1,000 адресов = 1,000-3,000 запросов: укладывается в 5 минут только с API key и параллелизмом около 10-15 QPS. Весь
+бюджет $1 остаётся на LLM-токены. Опционально: Bitquery Pro $69-99/мес фиксированно как оракул для оценки.
+DATA QUALITY VERIFICATION: Каждое ребро отчёта повторно проверяется вторым вызовом gettransactioninfobyid: адрес контракта в логе = a614f803b6fd780986a42c78ec9c7f77e6ded13c (USDT), topic0 = Transfer, from/to и сумма совпадают, receipt.result = SUCCESS.
+Инвариант сохранения: сумма FIFO-taint на фронтире + помеченные как not-followed ветви = исходная сумма (у TRC20 комиссия не вычитается из токена). Property-based тесты на синтетических графах; регрессия на записанных фикстурах;
+сравнение конечных точек с Coinpath/Iknaio на подвыборке.
+RISKS: Зависимость от одного провайдера данных (нужен fallback от data-source аудитора); лимиты TronGrid без ключа; адреса-сервисы с огромной историей; свопы USDT<->TRX и мосты выводят средства из модели одного токена (в MVP - честный
+статус 'conversion, unresolved'); отсутствие меток делает stop-критерий на биржах зависимым от слоя address-intelligence.
+REPLACEABILITY: Высокая: интерфейсы TransferSource / LabelSource / TaintPolicy; смена провайдера или добавление сети (Ethereum, BSC - тот же account-model ledger; Bitcoin - UTXO-вариант FIFO) не меняет ядро.
+REJECTED ALTERNATIVES:
+  - GraphSense self-hosted: Cassandra + Spark + Delta Lake + PostgreSQL + полный узел TRON; bus factor 2; search_neighbors проприетарный; публичные TagPacks почти без TRON.
+  - GraphSense hosted (Iknaio): Цены, rate limits и право на коммерческое встраивание не опубликованы; страница Terms отдаёт 404; нужен trial и письменные условия.
+  - Bitquery Coinpath: Алгоритм распределения сумм не документирован; только v1 endpoint; подписка $69-99/мес за Pro; противоречивые цены; trial без архивных данных.
+  - MistTrack OpenAPI: $0.03-0.20 за вызов: стандартное расследование на 30 адресов стоит $3-6 против цели $1.
+  - Arkham Intel API: Доступ по заявке, цена $100-900+/мес по противоречивым источникам, TRON в API не подтверждён.
+  - MetaSleuth, Breadcrumbs: Трассировка только в UI, программного tracing API нет.
+  - TRM / Chainalysis / Elliptic / Crystal: Enterprise-контракты порядка десятков-сотен тысяч USD в год, не self-service.
+  - BlockSci, Blockchain-ETL, TrueBlocks, cryo: Не поддерживают TRON; BlockSci заброшен с 2020 и под GPL-3.0.
+  - Maltego, OpenCTI: Desktop link-analysis и CTI-платформа соответственно; нет TRON-трассировки, избыточная инфраструктура или non-commercial лицензия CE.
+  - Wallet-Risk-Scanner, stolen-funds-finder: Вредоносный код (reflective PE loader; clipboard hijacker) - внести в deny-list.
+
+### R2. NEED: B. Taint-методология и представление неопределённости
+PRIMARY: Account-ledger FIFO как основная (point-estimate) методика + параллельный расчёт haircut и верхней границы (poison-bound) для каждого узла; алгоритмы обхода (push/pop/rank, TTR, APPR) портировать из BlockchainSpider (MIT),
+интервальную идею FIFO и структуру тестов - из bitcoin-fifo-taint-tracer (MIT).
+RATIONALE: FIFO даёт детерминированное, объяснимое и юридически привычное распределение (правило Clayton's case; Anderson et al., 'Making Bitcoin Legal'), и по данным тех же авторов метит на порядок меньше адресов, чем haircut (0.67% против
+~5% для кражи Linode - search snippet). Poison бинарен и быстро 'заражает' всё, haircut размазывает сумму; TIHO/LIFO (Tironsakkul et al., arXiv:1906.05754) - эвристики, которые легко обойти peel-цепочкой. Ни один метод не является
+истиной для смешанных средств, поэтому отчёт должен показывать диапазон, а не одно число. Для USDT на account-модели классические UTXO-определения адаптируются так: на каждом адресе ведётся очередь сегментов баланса (чистый /
+помеченный), входящие добавляются в хвост, исходящие списывают с головы.
+ARCHITECTURE NOTES: Алгоритм узла: (1) по seed TXID декодировать Transfer-лог -> (жертва, получатель, сумма, t0); (2) для адреса запросить исходящие USDT с only_from, min_timestamp = время первого помеченного входа, порядок asc, плюс входящие за то
+же окно и текущий баланс; (3) классифицировать адрес ДО раскрытия: метка сервиса -> терминал; контракт (DEX/мост) -> узел conversion, в MVP unresolved; число переводов в окне выше порога или исчерпан max_pages -> 'high-activity,
+unlabeled' (никогда не называть биржей); адрес в blacklist Tether -> терминал frozen с TXID события; (4) прогнать ledger в хронологическом порядке, получить для каждого исходящего перевода taint_fifo, taint_haircut, poison_upper;
+(5) ветви ниже dust-порога (например max(1 USDT, 1% от seed)) не раскрывать, но записать как not-followed с суммой; переводы с value=0 отбрасывать. Splits: каждая ветвь несёт свою сумму; merges: taint суммируется по адресу с
+сохранением списка path_id; циклы: глобальная обработка событий по времени делает повторные адреса корректными без visited-хаков. Эвристики времени и суммы: pass-through (выход в пределах dt и +-eps от входа при околонулевом
+предбалансе), peel chain (повторяющаяся пара большой + малый выход), consolidation (много несвязанных депозиторов). Классы доказательности ребра: DIRECT_PASSTHROUGH / AMOUNT_TIME_MATCH / FIFO_ALLOCATED / COMMINGLED_EXPOSURE /
+UNRESOLVED. В отчёте три раздельных слоя: что записано в цепи (TXID), что утверждает метка (источник, дата, confidence), что выведено алгоритмом (метод + параметры). Для смешанных средств формулировка только 'экспозиция к
+смешанным средствам: FIFO X, haircut Y, верхняя граница Z', без слов 'украденные средства находятся на...'; poison-суммы по ветвям никогда не складывать в 'найдено'.
+COST: $0 лицензий; разработка ядра + тесты - оценочно 2-3 человеко-недели (моя оценка).
+DATA QUALITY VERIFICATION: Эталонная реализация каждого метода на синтетических ledger с аналитически известным ответом; property-тесты: сохранение суммы, монотонность (taint_fifo <= poison_upper; haircut <= poison_upper), идемпотентность при повторном
+запуске, инвариантность к порядку получения страниц API; golden-файлы на записанных реальных кейсах.
+RISKS: FIFO требует полной истории адреса с момента t0 и баланса на t0: баланс_на_t0 = текущий_баланс - входящие_после_t0 + исходящие_после_t0 (исторического balanceOf у публичных TRON-узлов нет); для высокоактивных адресов это
+невыполнимо - там трасса останавливается со статусом service-like. Порядок переводов внутри одного блока требует log_index из receipt.
+REPLACEABILITY: TaintPolicy - сменная стратегия; отчёт хранит результаты всех политик, поэтому смена основной не требует пересбора данных.
+REJECTED ALTERNATIVES:
+  - Poison как основной метод: Бинарное заражение: через 3-4 хопа и один биржевой адрес помечается вся сеть; годится только как верхняя граница.
+  - Haircut как основной метод: После первого же консолидационного кошелька доли становятся микроскопическими и ненулевыми везде; нельзя указать конкретные переводы. Реализация в BlockchainSpider к тому же игнорирует время.
+  - TIHO / LIFO: Эвристики 'всё в наибольший выход' / 'последний пришёл - первый ушёл' обходятся дроблением; оставить как диагностические режимы, не для отчёта.
+  - TTR / APPR как метод атрибуции сумм: Это ранжирование релевантности узлов (хорошо для выбора, что раскрывать дальше при ограниченном бюджете запросов), но не учёт сумм - использовать только в приоритизации обхода.
+  - Код zkokelj/bitcoin_tainting_methods: Нет лицензии, C++/RocksDB, UTXO.
+
+### R3. NEED: C. LLM-агентный слой: референсы и измеримое превосходство над baseline
+PRIMARY: Взять за образец принципы и тексты GraphSense MCP skills (MIT): курируемый узкий набор tools, identifier-integrity, 'attribution is not movement', правила конечных точек и partial results, уровни High/Medium/Low. Инструменты
+агентов - собственные обёртки над детерминированным трассировщиком; схему сравнения 'агент против heuristic baseline' подсмотреть у LOCARD (только идеи, AGPL).
+RATIONALE: GraphSense - единственный найденный проект, где правила агентного расследования сформулированы инженерно и покрыты CI (validate-curation, tests/mcp), и они почти дословно совпадают с требованиями платформы (не выдумывать
+идентификаторы, каждый факт привязан к вызову, честный статус unresolved). MistTrack MCP и TronScan MCP отдают LLM платные или избыточные инструменты и не решают вопрос доказательности.
+ARCHITECTURE NOTES: Evidence-verification агент не должен иметь права добавлять факты - только подтверждать или отклонять по результату детерминированной проверки TXID. Формат TRON-адреса проверять checksum-ом base58check, а не длиной.
+COST: $0 лицензий. Бюджет токенов: весь лимит $1 на расследование; агент должен получать от трассировщика сжатые структурированные сводки (как _slim() в GraphSense, ~40% экономии), а не сырые страницы API.
+DATA QUALITY VERIFICATION: Метрики на общем наборе сценариев для baseline и для AI-слоя: recall и precision конечных точек (сервисные депозиты, frozen), F1 по рёбрам пути, ошибка атрибуции суммы, доля утверждений с проверяемым TXID (должна быть 100%), число
+выдуманных или искажённых идентификаторов (должно быть 0; автоматическая проверка base58check и наличия в tool results), стоимость и время. AI-слой считается полезным, только если улучшает recall/precision при тех же лимитах
+запросов (например за счёт лучшего выбора ветвей, распознавания паттернов, объяснений), не ухудшая проверяемость.
+RISKS: Галлюцинации идентификаторов; рост стоимости при длинных трассах; соблазн агента 'закрыть' трассу на последней увиденной метке.
+REPLACEABILITY: Высокая: агенты общаются с ядром через собственные tools; модель и провайдер LLM заменяемы.
+REJECTED ALTERNATIVES:
+  - MistTrackMCP как готовый агентный слой: Репозиторий без лицензии; каждый шаг рекурсии - платный вызов $0.03-0.20.
+  - TronScan MCP (105-119 tools) напрямую в агента: Слишком широкая поверхность инструментов, нет меток адресов, репозиторий skills пуст; лучше 8-12 собственных инструментов.
+  - LOCARD как зависимость: AGPL-3.0 несовместима с закрытым коммерческим SaaS; задача cross-chain THORChain, не TRON.
+  - TAHRIX, Chain-Hound и подобные: Хакатонные прототипы без тестов; глубина 1 хоп либо тонкие обёртки.
+  - Bitquery AI Investigation MCP: $100-149/мес, 314 tools, чёрный ящик; не проверялся.
+
+### R4. NEED: D. Ground truth: >=50 сценариев и held-out набор
+PRIMARY: Комбинированный набор из пяти источников: (1) синтетические графы с точным ответом; (2) кейсы, заякоренные на on-chain заморозках Tether (TronGrid события + CSV BitOK, CC BY 4.0); (3) публично задокументированные инциденты с
+опубликованными TRON-адресами; (4) собственные сценарии в тестовой сети; (5) записанные API-фикстуры для воспроизводимости. Held-out формируется по времени и по кейсам, а не по адресам.
+RATIONALE: Готового датасета 'пути краж USDT на TRON' не существует (Elliptic-семейство - Bitcoin, XBlock - Ethereum). Заморозки Tether - единственный массовый первичный источник терминальных фактов с TXID (проверено вызовом: события идут
+ежедневно, последнее 2026-10-13); BitOK уже собрал 6,069 TRON-событий addBlackList за 24 месяца с переводами и позициями в блоке под CC BY 4.0. Полную истину пути дают только синтетика и собственные сценарии.
+ARCHITECTURE NOTES: В каждом сценарии хранить поле provenance истины: synthetic-exact / on-chain-event / public-report (URL + дата) / self-generated, и уровень уверенности; метрики отчитывать раздельно по этим классам.
+COST: $0 за данные. Трудозатраты (моя оценка): генератор синтетики и mock-сервер 1-1.5 недели; разметка 15-25 реальных кейсов 1-2 недели аналитика; сценарии в testnet 2-3 дня.
+DATA QUALITY VERIFICATION: Предлагаемый состав 50+ сценариев: 20 синтетических (10 паттернов x 2 масштаба: прямой pass-through, peel chain, fan-out, fan-in/merge, слоение на 10+ хопов, смешение в консолидационном кошельке, цикл, dust и zero-value шум,
+депозит на сервис с последующим sweep, своп/мост как unresolved); 15 freeze-anchored реальных (адрес из AddedBlackList + его входящие и исходящие до заморозки, истина = терминал frozen и TXID события, плюс вручную подтверждённые
+1-3 хопа); 10 публичных инцидентов (BlockSec-лист 151 + 76 адресов, OFAC TRX, судебные и forfeiture-документы, отчёты SlowMist/BitOK - каждый факт перепроверяется по цепи); 5+ сценариев в Nile/Shasta или приватной сети
+(tronprotocol/tron-docker, LGPL-3.0): свой TRC20-токен, заскриптованные потоки с известной истиной. Held-out (15-20 сценариев, не используется при настройке эвристик и промптов): синтетика с новыми seed и неиспользованными
+комбинациями паттернов; заморозки ПОСЛЕ даты отсечки (например после 2026-09-01); отдельные testnet-сценарии. Разбиение по кейсам/кластерам, чтобы адреса одного кейса не попадали в обе части; набор версионируется хешем. Реальные
+кейсы хранятся как записанные фикстуры (сырой ответ + SHA-256 + snapshot max_timestamp) и проигрываются через mock-сервер с интерфейсом TronGrid - весь pipeline работает без изменений и офлайн. Для независимого теста меток (цель
+>=95%): собственные контрольные депозиты небольших сумм на биржи (золотой стандарт: адрес депозита и sweep в hot wallet), адреса из proof-of-reserves, опубликованных самими биржами (в GraphSense TagPacks такие помечены confidence
+service_data; файл Binance содержит 9 упоминаний TRX), набор Mendeley (если адреса открыты), отрицательный класс - случайные активные несервисные адреса; тестовые метки берутся из источников, не использованных при построении базы
+меток.
+RISKS: Истина по реальным кейсам частичная (конец и несколько хопов, не весь путь) - метрики по ним считать только на подтверждённой части; смещение freeze-кейсов в сторону того, что уже нашли другие аналитики; этика и юридические риски:
+публичные списки идентифицируют адреса, а не людей - в отчётах не допускать обвинительных формулировок; обновление блокчейна меняет ответы API - обязательны snapshot и фикстуры.
+REPLACEABILITY: Высокая: формат сценария (seed, параметры, ожидаемые рёбра/терминалы/суммы по методам, источник истины, лицензия) не зависит от источника.
+REJECTED ALTERNATIVES:
+  - Elliptic / Elliptic++ / Elliptic2: Только Bitcoin, нет путей краж, неясные лицензии, исходный набор анонимизирован.
+  - XBlock: Ethereum-наборы; TRON-датасета не найдено.
+  - Tronscan blackList endpoint как основной источник: Вероятно устаревший или неочевидно отсортированный (верхняя запись от 2025-07-12 при total 7,838).
+  - Экспертные графы MetaSleuth / отчёты вендоров как истина: Нет лицензии, нет TXID в статьях, адреса часто усечены; использовать только как указатели для ручной разметки.
+  - thorchain-crosschain-data (Thor25): Cross-chain BTC/ETH/LTC/DOGE, без лицензии; пригодится на фазе мультисетевого расширения.
+
+## LIVE PROBE FINDINGS
+- TronGrid keyless, GET /v1/contracts/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/events?event_name=AddedBlackList&limit=3: HTTP 200 за 0.45 с; 3 события с transaction_id, последнее - блок 87,075,502, tx
+d65209292728c7ad1f485eb6129d99128133effa677524b3009b5abbdda42340, 2026-10-13 13:49:54 UTC; адреса в hex без префикса 41; есть meta.fingerprint и links.next для пагинации.
+- TronGrid keyless, GET /v1/accounts/TAZgAu6wADSjXqV1gJE6AdFjPV1ptaEjLH/transactions/trc20?limit=200&contract_address=USDT: HTTP 200 за 0.47 с, 12 переводов; поля записи только block_timestamp, from, to, token_info, transaction_id,
+type, value - без block number и log index.
+- TronGrid keyless, тот же эндпоинт с only_from=true&min_timestamp=1791541716000&order_by=block_timestamp,asc: вернул ровно 4 исходящих перевода после входящего (250,000; 28,090; 19,784 и 0 USDT) - фильтры направления и времени
+работают; обнаружен Transfer с value=0 за 48 секунд до заморозки адреса.
+- TronGrid keyless, GET /wallet/gettransactioninfobyid?value=70954cc7...b908: HTTP 200 за 0.40 с; blockNumber 87,068,727, receipt.result SUCCESS, log.address a614f803b6fd780986a42c78ec9c7f77e6ded13c (USDT), topic0 ddf252ad..., data
+0x049b37e200 = 19,784,000,000 base units = 19,784 USDT - совпало с trc20-эндпоинтом, то есть независимая проверка факта по TXID работает без ключа.
+- Tronscan: GET apilist.tronscanapi.com/api/accountv2?address=... без ключа -> HTTP 401; GET /api/stableCoin/blackList?limit=3 -> 400 'limit must be in range [20, 100]'; с limit=20 -> 200, total=7838, но верхняя запись датирована
+2025-07-12 (time=1752306222) - расхождение со свежими событиями TronGrid.
+- Iknaio: GET https://api.iknaio.com/openapi.json без ключа -> GraphSense API 2.17.0, 48 путей (включая /{currency}/addresses/{address}/neighbors, /links, /txs/{tx_hash}/flows, /conversions, /graph/summary, bulk.csv/json); GET
+/stats -> 401 (APISIX). MCP на /mcp защищён OAuth (client id iknaio-mcp).
+- GitHub: graphsense/graphsense-lib - MIT, push 2026-10-13, релиз v2.17.0 2026-09-30, 13 workflow-файлов CI; code search 'trx' = 172 совпадения, включая ingest/tron/grpc_exporter.py и spark/.../account/trx/Tokens.scala с USDT, USDC,
+WTRX; graphsense-REST и graphsense-tagpack-tool архивированы.
+- GitHub: в организации blockchain-etl 71 репозиторий, TRON-ETL отсутствует (полный список через gh api orgs/blockchain-etl/repos).
+- GitHub: wuzhy1ng/BlockchainSpider - MIT, 186 stars, последний коммит 2026-05-18; прочитаны haricut.py (float, без учёта времени), ttr.py, middleware Tronscan TRC20 (страница <=50); тестов и CI нет.
+- ВРЕДОНОСНЫЙ КОД: Soniavasseur/Wallet-Risk-Scanner (190 stars за 3 недели, аккаунт от 2026-07-25) - ledger/executor.py содержит reflective loader нативного образа через ctypes/VirtualAlloc, ledger/caps.py - XOR-обфусцированный
+endpoint (статически декодирован мной: https://api.failproxy.space), бинарник ledger/data/runtimelib.pkg 21.4 MB.
+- ВРЕДОНОСНЫЙ КОД: harmonic101/stolen-funds-finder - web3toolkit/_init_token.py (автоимпорт из __init__.py) - обфусцированный clipboard hijacker, подменяющий BTC/ETH-адреса в буфере обмена.
+- GitHub: BitOKorg/tether-blacklist-research - LICENSE-DATA = CC BY 4.0, scripts = MIT; data/indexer_output_trx_transfers.csv имеет колонки txId, network, address, direction, counterparty, block, tx_index, log_index, amount_usdt,
+chunk_id.
+- GitHub: graphsense-tagpacks/packs/usdt_blacklist.yaml - currency ETH, lastmod 2023-02-22, 774 записи 'address:' - TRON-заморозок там нет; exchange-wallets-binance.yaml (источник: блог Binance о proof of reserves, confidence
+service_data) содержит 9 упоминаний TRX.
+- Breadcrumbs: https://www.breadcrumbs.app/ отвечает HTTP 200; в HTML главной страницы 0 вхождений Tron/TRON.
+- Docs: arkm.com/llms/*.md и arkm.com/api/docs при прямом запросе дали пустой ответ или ECONNRESET; docs.tronscan.org/en/mcp -> 403; iknaio.com/terms/ -> 404.
+
+## CANDIDATES (full audit cards)
+
+### [RECOMMENDED] TronGrid API + собственный deterministic tracer (glue-код)
+NEED: A. Основа трассировочного движка для USDT TRC20
+KIND: public API
+URL: https://api.trongrid.io
+LICENSE: n/a (условия использования API; ToS мной не читались - зона аудитора data sources)
+COMMERCIAL USE: Не проверено в этом аудите (ToS TronGrid). Технически keyless-доступ работает; для SaaS нужен API key и проверка ToS.
+PROJECT STATE: Живой сервис: 4 keyless GET 2026-10-13/14 вернули HTTP 200 за 0.40-0.47 с; последнее событие USDT AddedBlackList в блоке 87,075,502 (2026-10-13 13:49:54 UTC).
+CLAIMED VS ACTUAL: Ответ trc20-эндпоинта содержит только block_timestamp, from, to, token_info, transaction_id, type, value - НЕТ block number и log index, поэтому порядок внутри блока и доказательная привязка требуют второго вызова
+gettransactioninfobyid. В выдаче присутствуют Transfer с value=0 (наблюдал у адреса TAZgAu6w... за 48 с до заморозки) - их нужно фильтровать (address poisoning / пустые transferFrom).
+CAPABILITIES: Проверено вызовами: /v1/accounts/{addr}/transactions/trc20 с фильтрами contract_address, only_from, min_timestamp, order_by=block_timestamp,asc (ровно то, что нужно для правила 'исходящие после входящего');
+/v1/contracts/{USDT}/events?event_name=AddedBlackList с fingerprint-пагинацией; /wallet/gettransactioninfobyid?value=TXID возвращает blockNumber, receipt.result и raw log (topic Transfer ddf252ad..., data=сумма) - независимая
+проверка каждого факта по TXID.
+INFRA: Никакой тяжёлой инфраструктуры: HTTP-клиент + локальная БД/кэш на одном сервере.
+PRICING/LIMITS: Keyless работает, но точные лимиты мной не измерялись. По документации TRON (только search snippet): 100,000 запросов/сутки на аккаунт и 15 QPS с API key; без ключа троттлинг жёстче.
+RISKS: Единственный провайдер в критическом пути (нужен fallback - зона data-source аудитора); нет меток адресов; для адресов-сервисов с миллионами переводов пагинация неприемлема - нужен stop-критерий; исторический баланс на момент t0
+напрямую не отдаётся.
+REPLACEABILITY: Высокая: трассировщик работает через интерфейс TransferSource; заменяется на Tronscan API, собственный java-tron узел, Bitquery или GraphSense REST без изменения алгоритма.
+HOW VERIFIED: API call made (4 запроса к api.trongrid.io, результаты разобраны python); лимиты - search snippet only.
+CONFIDENCE: high
+EVIDENCE: https://api.trongrid.io/v1/contracts/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/events?event_name=AddedBlackList&limit=3&only_confirmed=true | https://api.trongrid.io/wallet/gettransactioninfobyid?value=70954cc76f3395251927ec85ba32a779d823d1fac9b371fab74fc2f95516b908 | https://developers.tron.network/reference/rate-limits
+
+### [RECOMMENDED] BlockchainSpider (wuzhy1ng/BlockchainSpider)
+NEED: B. Taint-методология и стратегии обхода графа (реализации)
+KIND: open-source
+URL: https://github.com/wuzhy1ng/BlockchainSpider
+LICENSE: MIT
+COMMERCIAL USE: Да (MIT), достаточно сохранить copyright notice.
+PROJECT STATE: 186 stars, 35 forks, 7 open issues; создан 2021-08-25, последний коммит 2026-05-18 ('update docs'), предыдущие 2026-02-09 и 2025-12-29; релизов нет; каталога tests нет, .github/workflows нет (дерево из 130 файлов прочитано
+целиком).
+CLAIMED VS ACTUAL: README называет проект 'toolkit for blockchain data collection' - это честно: это краулер, а не движок расследований. Haircut (файл haricut.py, опечатка в имени) считает на float и делит вес по сумме ВСЕХ исходящих рёбер без учёта
+времени и остатка на адресе - для доказательного отчёта непригодно без переписывания. FIFO/LIFO/TIHO не реализованы. Тестов и CI нет.
+CAPABILITIES: Единственный найденный OSS-проект с реальным кодом трассировки TRC20: spider txs.tronscan + TRC20TRC721TransferMiddleware (Tronscan /api/token_trc20/transfers, страница <=50, max_pages по умолчанию 20), параметры
+start/end_timestamp, allowed_tokens. Стратегии в BlockchainSpider/strategies/txs: BFS, Poison, Haircut, APPR, TTR (Base/Weight/Time/Redirect) в рамках push/pop/rank-фреймворка из статьи TRacer. Есть label-spiders (tronscan, OFAC,
+cryptoscamdb).
+INFRA: Python + Scrapy; Tronscan API key обязателен.
+PRICING/LIMITS: Бесплатно; ограничения - лимиты Tronscan API (ключ обязателен).
+RISKS: Scrapy-архитектура плохо встраивается в async-сервис; нет тестов; float-арифметика; один основной автор.
+REPLACEABILITY: Берётся не как зависимость, а как источник алгоритмов (push/pop/rank, TTR, APPR) - портируется в собственный модуль за дни.
+HOW VERIFIED: code read через gh api (дерево, haricut.py, ttr.py, middlewares/txs/tronscan/trc20_trc721.py, docs/advance/transaction_tracing.md, docs tronscan.md), метаданные и коммиты через gh api.
+CONFIDENCE: high
+EVIDENCE: https://github.com/wuzhy1ng/BlockchainSpider | https://github.com/wuzhy1ng/BlockchainSpider/blob/master/BlockchainSpider/strategies/txs/haricut.py | https://github.com/wuzhy1ng/BlockchainSpider/blob/master/docs/docs/advance/transaction_tracing.md | https://ieeexplore.ieee.org/abstract/document/10098630
+
+### [ALTERNATIVE] GraphSense self-hosted (graphsense-lib + Spark job + graphsense-dashboard)
+NEED: A. Основа трассировочного движка для USDT TRC20
+KIND: open-source
+URL: https://github.com/graphsense/graphsense-lib
+LICENSE: MIT (весь стек, включая tagpacks-репозиторий)
+COMMERCIAL USE: Да (MIT). Содержимое публичных TagPacks собрано из сторонних источников - лицензии исходных данных надо проверять отдельно.
+PROJECT STATE: graphsense-lib: push 2026-10-13, релиз v2.17.0 от 2026-09-30 (spark-v26.09.1 в тот же день), 20 stars, 13 open issues, 13 CI workflows, каталог tests (integration, regressions, web, mcp и др.); контрибьюторы: soad003 1231 коммит,
+Tommel71 795 - фактически 2 человека. graphsense-dashboard: MIT, 142 stars, v26.09.0 (2026-09-30). graphsense-REST архивирован (push 2026-02-18, влит в lib), graphsense-tagpack-tool архивирован (2025-09-04, влит в lib).
+CLAIMED VS ACTUAL: 1) 'Fully open-source': поиск путей search_neighbors - проприетарный внешний сервис Iknaio (прямо сказано в src/graphsenselib/mcp/README.md), в OSS его нет. 2) Публичные TagPacks почти не покрывают TRON: 'trx' встречается в 10
+файлах; usdt_blacklist.yaml - только ETH, lastmod 2023-02-22. 3) Taint-методов (FIFO/haircut) нет - только соседи/links/flows. 4) 20 stars при зрелой кодовой базе - малое сообщество, bus factor ~2.
+CAPABILITIES: TRON подтверждён кодом: ingest через gRPC из java-tron (src/graphsenselib/ingest/tron/grpc_exporter.py), Spark-трансформация org.graphsense.account.trx, токены на TRON: USDT (TR7NHq...), USDC, WTRX (Tokens.scala). REST 48 путей
+(addresses/neighbors/links/txs/flows/conversions/tags), MCP-сервер на 18 инструментов + 6 agent skills. graphsense.org перечисляет BTC, BCH, LTC, ZEC, ETH, Tron.
+INFRA: Apache Cassandra (>=3.11/4.0), Apache Spark >=3.5.1 (Scala job, Java 11), Delta Lake, PostgreSQL (TagStore) и собственный полный узел TRON с gRPC. java-tron README (search snippet): 16+ cores, 32 GB+ RAM, 3.5-4 TB SSD. Это
+несовместимо с 'single modest server' MVP.
+PRICING/LIMITS: ПО бесплатно; стоимость - железо и эксплуатация (узел TRON + Cassandra + Spark).
+RISKS: Эксплуатационная сложность несоразмерна команде; полная синхронизация TRON - дни/недели; зависимость от двух мейнтейнеров Iknaio.
+REPLACEABILITY: Низкая после внедрения (своя схема Cassandra); как источник идей - заменяем полностью.
+HOW VERIFIED: gh api (метаданные, релизы, коммиты, contributors, workflows), code read (README, CHANGELOG, mcp/README.md, instructions.md, Tokens.scala, spark/README.md), code search 'trx' (172 совпадения), WebFetch graphsense.org.
+CONFIDENCE: high
+EVIDENCE: https://github.com/graphsense/graphsense-lib | https://github.com/graphsense/graphsense-lib/blob/master/src/graphsenselib/mcp/README.md | https://github.com/graphsense/graphsense-lib/blob/master/spark/src/main/scala/org/graphsense/account/trx/Tokens.scala | https://github.com/graphsense/graphsense-tagpacks | http://graphsense.org/
+
+### [NEEDS-TRIAL] GraphSense hosted by Iknaio (REST API + MCP + Pathfinder)
+NEED: A. Основа трассировочного движка для USDT TRC20 (hosted API как cross-check)
+KIND: commercial SaaS
+URL: https://api.iknaio.com
+LICENSE: Проприетарный сервис поверх MIT-кода; Terms & Conditions не найдены (https://www.iknaio.com/terms/ -> 404)
+COMMERCIAL USE: Не подтверждено. Free-пакет выдаётся 'verified users' (исследователи, госсектор, профессионалы с legitimate use case); право встраивать данные в платный SaaS и кэшировать их нигде публично не описано - требуется письменное
+подтверждение Iknaio.
+PROJECT STATE: Сервис жив: GET https://api.iknaio.com/openapi.json без ключа вернул спецификацию GraphSense API 2.17.0 (48 путей, совпадает с релизом OSS от 2026-09-30); GET /stats без ключа -> 401 (APISIX).
+CLAIMED VS ACTUAL: Страница packages перечисляет одинаковые bullet-пункты (Pathfinder, private tags, API access, MCP server, QuickLock, CaseConnect, CSAM Checker) для Free/Professional/Institutional без цен, квот и rate limits; какие функции реально
+входят в Free - из страницы не видно.
+CAPABILITIES: Тот же REST, что в OSS, плюс MCP на /mcp (OAuth, client id iknaio-mcp) и проприетарный search_neighbors. По instructions.md индексируются BTC, BCH, LTC, ZEC, ETH, TRX. Свежесть TRX и глубину покрытия USDT на хостинге проверить без
+ключа нельзя.
+INFRA: Нет (hosted).
+PRICING/LIMITS: Free (1 seat, по верификации), Professional (1 seat, цена не опубликована, academic discount), Institutional (по размеру организации). Rate limits и квоты API не опубликованы. Эндпоинты /entities/... объявлены deprecated с Sunset
+2026-10-31.
+RISKS: Неизвестные цена, лимиты и условия перепродажи; маленький вендор; EU-хостинг (плюс для GDPR).
+REPLACEABILITY: Средняя: API совместим с self-hosted GraphSense (тот же OpenAPI), клиент генерируется из спецификации.
+HOW VERIFIED: API call made (openapi.json 200, /stats 401); docs only для пакетов (WebFetch iknaio.com/packages); README graphsense-lib.
+CONFIDENCE: medium
+EVIDENCE: https://api.iknaio.com/openapi.json | https://www.iknaio.com/packages/ | https://github.com/graphsense/graphsense-lib/blob/master/src/graphsenselib/mcp/curation/instructions.md
+
+### [ALTERNATIVE] Bitquery Coinpath / MoneyFlow API (v1 GraphQL, tron.coinpath)
+NEED: A. Основа трассировочного движка для USDT TRC20 (hosted money-flow API)
+KIND: commercial SaaS
+URL: https://docs.bitquery.io/v1/docs/Schema/tron/coinpath
+LICENSE: Проприетарный API
+COMMERCIAL USE: Только с планов Pro и выше ('commercial-use license'); Personal - 'no commercial use'. Про кэширование/редистрибуцию и атрибуцию на странице цен ничего нет.
+PROJECT STATE: Документация v1 для tron.coinpath доступна 2026-10-14; пометок о deprecation v1 на страницах нет, но Coinpath описан только для v1 endpoint ('supports all blockchains we support on the v1 endpoint').
+CLAIMED VS ACTUAL: 1) Алгоритм распределения сумм по хопам не документирован (ни FIFO, ни haircut) - результат нельзя объяснить в доказательном отчёте, годится только как независимый cross-check. 2) Цены на одной и той же странице противоречивы:
+карточки Personal $29 / Pro $69 / Scale $199 в мес при годовой оплате, в FAQ $49 / $99 / $299; MCP 'AI Investigation' $100 в секции и $149 в FAQ. 3) Trial 7 дней/1,000 points 'real-time data only, archive excluded' - исторический
+Coinpath на trial, вероятно, не проверить.
+CAPABILITIES: tron.coinpath: фильтры currency (контракт USDT), initialAddress, initialDate/Time, depth, sender/receiver; options: direction inbound/outbound, minimumTxAmount, maximumAddressTxCount (не раскрывать биржеподобные адреса),
+maximumTotalTxCount, complexityLimit, seed. Возвращает amount, depth, sender/receiver с balance/amountIn/amountOut, transaction.hash.
+INFRA: Нет.
+PRICING/LIMITS: Pro: 1M API points/мес (~200k вызовов), 90 req/min, 6 одновременных запросов; Scale: 5M points, 240 req/min; Personal: 100k points, 30 req/min. Enterprise - custom.
+RISKS: Чёрный ящик; судьба v1 неясна; параллельные одинаковые запросы дают ошибки кэша (нужен уникальный seed); фиксированная подписка независимо от нагрузки.
+REPLACEABILITY: Высокая: используется только как необязательный оракул сравнения.
+HOW VERIFIED: docs only (WebFetch docs.bitquery.io v1 schema + coinpath examples, bitquery.io/pricing). Реальных запросов не делал (нужен ключ).
+CONFIDENCE: medium
+EVIDENCE: https://docs.bitquery.io/v1/docs/Schema/tron/coinpath | https://docs.bitquery.io/v1/docs/Examples/coinpath/money-flow-api | https://bitquery.io/pricing
+
+### [ALTERNATIVE] MistTrack OpenAPI + MistTrackMCP + misttrack-skills (SlowMist)
+NEED: A. Hosted tracing/AML API; C. LLM-агентный слой (референс)
+KIND: commercial SaaS
+URL: https://docs.misttrack.io/openapi/overview
+LICENSE: API проприетарный; slowmist/MistTrackMCP - БЕЗ лицензии (license: none); slowmist/misttrack-skills - MIT
+COMMERCIAL USE: Условия перепродажи/кэширования данных на страницах docs и pricing не указаны - не подтверждено. Код MistTrackMCP переиспользовать нельзя (нет лицензии), skills - можно (MIT).
+PROJECT STATE: MistTrackMCP: 39 stars, push 2026-04-28, TypeScript, 1 open issue. misttrack-skills: 36 stars, push 2026-04-28. Документация OpenAPI актуальна.
+CLAIMED VS ACTUAL: 'Recursive multi-layer investigation' в MCP - это клиентская рекурсия над платным API (каждый шаг = платный вызов), а не серверный трассировщик. Страница crypto-glossary/MistTrack_Pricing говорит, что планы 'tailored', тогда как
+pricing.html публикует фиксированные цены.
+CAPABILITIES: TRON: TRX, USDT-TRC20, USDC-TRC20, USDD-TRC20. Эндпоинты: v1/address_labels, v1/address_overview, v3/risk_score (+async task), v1/transactions_investigation, v1/address_action, v1/address_trace, v1/address_counterparty. MCP: 12
+tools, включая analyze_transactions_recursive; risk_detail содержит hop-level путь до risk entity.
+INFRA: Нет.
+PRICING/LIMITS: pricing.html: Basic $229/мес (без OpenAPI), Standard $689/мес (1 call/s, 10k/день), Compliance $2,069/мес (5 call/s, 50k/день), Developer prepaid: $20 за 100 вызовов ($0.20), $150 за 1,000 ($0.15), $1,000 за 10,000 ($0.10), $5,000
+за 100,000 ($0.05), $30,000 за 1M ($0.03); пакеты действуют 1 год, 10 req/s. Платежи non-refundable.
+RISKS: При цели <= $1 за расследование это 5-30 вызовов максимум: 30 адресов x 1 вызов x $0.10-0.20 = $3-6. Годится только как выборочное обогащение на платном тарифе.
+REPLACEABILITY: Высокая (опциональный enrichment-провайдер за интерфейсом).
+HOW VERIFIED: docs only (WebFetch docs.misttrack.io/openapi/overview, misttrack.io/pricing.html); code read README MistTrackMCP и дерево репозиториев через gh api.
+CONFIDENCE: high
+EVIDENCE: https://docs.misttrack.io/openapi/overview | https://misttrack.io/pricing.html | https://github.com/slowmist/MistTrackMCP | https://github.com/slowmist/misttrack-skills
+
+### [NEEDS-TRIAL] Arkham Intel API (tracer / transfers / entity labels)
+NEED: A. Hosted tracing API
+KIND: commercial SaaS
+URL: https://arkm.com/api
+LICENSE: Проприетарный API
+COMMERCIAL USE: Не подтверждено; доступ по заявке, планы 'custom-built'.
+PROJECT STATE: По анонсу Arkham полноценный Intel API запущен 2026-02-17 (search snippet). Страницы docs/guide при прямом запросе отдавали redirect/ECONNRESET - прочитать не удалось.
+CLAIMED VS ACTUAL: Конфликт источников по цене: гайд Arkham - подписки 'start at $100', каталог apis.io - от $900/мес; x402 pay-per-request $0.20 за credit (apis.io). Tracer как отдельный API-эндпоинт документально не найден - вероятно UI-функция.
+CAPABILITIES: Заявлены entity labels и fund-flow данные через API; GET /transfers отнесён к 'heavy endpoints'. Поддержка TRON именно в API не подтверждена (есть только TRON-страницы в web-explorer).
+PRICING/LIMITS: Rate limits (search snippet из arkm.com/llms/guides/rate-limits.md): 20 req/s стандартные, 1 req/s heavy (включая /transfers). Цены - по запросу.
+RISKS: Доступ не self-service; неясные цены и покрытие TRON; при $0.20 за запрос не укладывается в $1.
+REPLACEABILITY: Высокая (не в критическом пути).
+HOW VERIFIED: search snippet only; прямое чтение docs не удалось.
+CONFIDENCE: low
+EVIDENCE: https://arkm.com/llms/guides/getting-access.md | https://arkm.com/llms/guides/rate-limits.md | https://apis.io/plans/arkham/arkham-plans/ | https://info.arkm.com/announcements/the-new-arkham-api
+
+### [REJECTED] MetaSleuth / BlockSec AML API
+NEED: A. Hosted tracing API
+KIND: commercial SaaS
+URL: https://metasleuth.io/plans
+LICENSE: Проприетарный
+COMMERCIAL USE: API - по подписке 'to use this API in your service'; условия кэширования не опубликованы.
+PROJECT STATE: Действующий продукт; v2 AML API помечен retired, актуальны Address Label API и Wallet Screening (Risk Score) API.
+CLAIMED VS ACTUAL: Маркетинг 'fund tracing platform' не означает программный доступ: в llms.txt документации нет ни одного fund-flow/tracing endpoint. Репозиторий blocksecteam/metasleuth_resources (29 stars, последний push 2023-06-14, без лицензии)
+- один README со ссылками на shared-графы, только EVM-инциденты.
+CAPABILITIES: Трассировка средств - только в web-UI (Trace Funds, InterChain Tracker, Advanced Analysis). API: только метки (Entity / Attribute / Name Tag) и risk score; Tron поддерживается (chain id -2, 25 сетей).
+PRICING/LIMITS: UI: Free $0, Basic $30, Pro $100, Ultra $500 в мес (individual). API add-ons: Address Label $599/мес (10k адресов/день), Risk Score $499/мес (10k адресов/день), через sales.
+RISKS: Нет tracing API; label API дорог для MVP.
+REPLACEABILITY: n/a
+HOW VERIFIED: docs only (WebFetch metasleuth.io/plans, docs.metasleuth.io/llms.txt, address-label-api); gh api для репозитория.
+CONFIDENCE: medium
+EVIDENCE: https://metasleuth.io/plans | https://docs.metasleuth.io/llms.txt | https://docs.metasleuth.io/blocksec-aml-api/address-label-api | https://github.com/blocksecteam/metasleuth_resources
+
+### [REJECTED] Breadcrumbs.app
+NEED: A. Hosted tracing API
+KIND: commercial SaaS
+URL: https://www.breadcrumbs.app/
+LICENSE: Проприетарный
+COMMERCIAL USE: Не подтверждено
+PROJECT STATE: Сайт отвечает HTTP 200 (2026-10-14), meta description: 'community-powered blockchain analytics platform'.
+CLAIMED VS ACTUAL: Публичной документации API и упоминаний TRON не найдено; утверждать наличие API нельзя.
+CAPABILITIES: UI-инструмент визуальной трассировки. В HTML главной страницы (1.1 MB) слово Tron/TRON встречается 0 раз.
+PRICING/LIMITS: Не найдено (страница pricing рендерится JS, текст не извлечён).
+RISKS: UI-only, TRON не подтверждён.
+HOW VERIFIED: API call made (curl главной страницы, подсчёт ключевых слов); остальное не проверено.
+CONFIDENCE: low
+EVIDENCE: https://www.breadcrumbs.app/
+
+### [REJECTED] Enterprise tracing APIs: TRM Labs, Chainalysis, Elliptic, Crystal Intelligence
+NEED: A. Hosted tracing API
+KIND: commercial SaaS
+LICENSE: Проприетарные, контракт (Order Form)
+COMMERCIAL USE: Только по индивидуальному договору; перепродажа данных в собственном SaaS обычно требует отдельного partner/reseller-соглашения (не проверено).
+PROJECT STATE: Действующие вендоры. TRM совместно с TRON и Tether ведёт T3 FCU (по сообщениям СМИ, >$450M заморожено к 2026-05-14).
+CLAIMED VS ACTUAL: Бесплатный Chainalysis sanctions API анонсирован в 2022; актуальная страница Chainalysis его уже не упоминает (только Address Screening через demo) - текущий статус не подтверждён.
+CAPABILITIES: TRM: Wallet Screening и Transaction Monitoring API (attribution, counterparty analytics). Crystal: Transaction Analysis API с multi-hop трассировкой (по описанию вендора), TRX и TRC20 поддержаны с 2022-12. Публичного self-service
+tracing API ни у кого нет.
+PRICING/LIMITS: Публичных цен нет. TRM: плата за API call по Order Form, квартальный биллинг, неиспользованные вызовы сгорают, test-окружение до 10,000 вызовов/год. Сторонняя оценка CostBench для TRM: $50k-500k/год, медиана $112k (низкая
+достоверность).
+RISKS: Цена на порядки выше бюджета MVP и цели $1 за расследование; длинный sales-цикл.
+HOW VERIFIED: docs only (trmlabs.com/policies/api-calls, chainalysis.com); search snippet only для цен и Crystal.
+CONFIDENCE: medium
+EVIDENCE: https://www.trmlabs.com/policies/api-calls | https://www.chainalysis.com/free-cryptocurrency-sanctions-screening-tools/ | https://costbench.com/software/crypto-compliance/trm-labs/ | https://crystalintelligence.com/product-updates/product-update-crystal-adds-tron-support-in-the-latest-product-update
+
+### [REJECTED] BlockSci (citp/BlockSci)
+NEED: A. Основа трассировочного движка
+KIND: open-source
+URL: https://github.com/citp/BlockSci
+LICENSE: GPL-3.0
+COMMERCIAL USE: GPL-3.0: линковка в закрытый продукт проблематична.
+PROJECT STATE: 1,397 stars, 86 open issues; последний коммит в master 2020-11-13, pushed_at 2021-12-13 - заброшен.
+CLAIMED VS ACTUAL: 'High-performance tool for blockchain science' - верно для 2018-2020, но проект не поддерживается ~6 лет.
+CAPABILITIES: Только UTXO-сети (Bitcoin-семейство), in-memory аналитика, кластеризация. TRON/account-model нет.
+PRICING/LIMITS: Бесплатно; требует полного узла и десятки GB RAM.
+RISKS: Заброшен, GPL, не та модель данных.
+HOW VERIFIED: gh api (метаданные, 3 последних коммита).
+CONFIDENCE: high
+EVIDENCE: https://github.com/citp/BlockSci
+
+### [REJECTED] Blockchain-ETL (ethereum-etl, bitcoin-etl и др.)
+NEED: A. Основа трассировочного движка
+KIND: open-source
+URL: https://github.com/blockchain-etl
+LICENSE: MIT (большинство репозиториев)
+COMMERCIAL USE: Да (MIT)
+PROJECT STATE: ethereum-etl: 3,130 stars, push 2026-01-25; bitcoin-etl: 461 stars, push 2025-05-02; solana-etl push 2026-09-17.
+CLAIMED VS ACTUAL: Это ETL, а не tracing engine; покрытия TRON нет.
+CAPABILITIES: ETL-выгрузка блоков/переводов в файлы/BigQuery. В организации 71 репозиторий (список получен через API), TRON-ETL среди них НЕТ.
+PRICING/LIMITS: Бесплатно; нужен собственный узел.
+RISKS: Не решает задачу MVP; пригодится для Ethereum/Bitcoin-фазы как загрузчик.
+HOW VERIFIED: gh api orgs/blockchain-etl/repos (полный список) + метаданные.
+CONFIDENCE: high
+EVIDENCE: https://github.com/blockchain-etl/ethereum-etl | https://github.com/orgs/blockchain-etl/repositories
+
+### [ALTERNATIVE] Локальные движки для других сетей: TrueBlocks, cryo, bitiodine
+NEED: A. Основа трассировочного движка (задел на Ethereum/Bitcoin)
+KIND: open-source
+LICENSE: TrueBlocks GPL-3.0; cryo Apache-2.0; bitiodine MIT
+COMMERCIAL USE: cryo и bitiodine - да; TrueBlocks - GPL-3.0 (осторожно при встраивании).
+PROJECT STATE: TrueBlocks: 1,093 stars, push 2026-10-13. cryo: 1,585 stars, последний push 2025-01-08 (стагнация ~21 мес). bitiodine: 159 stars, push 2026-10-04, Rust.
+CLAIMED VS ACTUAL: none found (код не читался, только метаданные)
+CAPABILITIES: TrueBlocks - локальный индекс появлений адресов EVM; cryo - выгрузка EVM-данных в parquet; bitiodine - парсер Bitcoin с кластеризацией адресов. TRON не поддерживает ни один.
+PRICING/LIMITS: Бесплатно; нужны собственные узлы.
+RISKS: Нерелевантны MVP; рассматривать при расширении на ETH/BTC.
+HOW VERIFIED: gh api (только метаданные).
+CONFIDENCE: medium
+EVIDENCE: https://github.com/TrueBlocks/trueblocks-core | https://github.com/paradigmxyz/cryo | https://github.com/mikispag/bitiodine
+
+### [REJECTED] slowmist/automatic-tron-address-clustering
+NEED: A. Основа трассировочного движка / идеи кластеризации TRON
+KIND: open-source
+URL: https://github.com/slowmist/automatic-tron-address-clustering
+LICENSE: Apache-2.0
+COMMERCIAL USE: Да (Apache-2.0)
+PROJECT STATE: 16 stars, 10 forks; создан и последний раз обновлён в один день 2022-11-11 - артефакт TRON Hackathon, не развивается.
+CLAIMED VS ACTUAL: В репозитории лежит готовый graph/graph-algorithm.jar без исходников; обученная модель mist.model без воспроизводимого датасета. Трассировки краж нет.
+CAPABILITIES: ML-классификация адресов TRON на hot wallet / cold wallet / common user + графовые алгоритмы (PageRank, k-core, label propagation). Метки для обучения - из Tronscan.
+INFRA: 3 сервера по 16 cores / 32 GB: узел TRON + Kafka (SSD 1.5 TB+), Spark, Nebula Graph.
+PRICING/LIMITS: Бесплатно
+RISKS: Заброшен, тяжёлая инфраструктура, бинарь без исходников.
+HOW VERIFIED: gh api (метаданные, дерево), code read README.
+CONFIDENCE: high
+EVIDENCE: https://github.com/slowmist/automatic-tron-address-clustering
+
+### [REJECTED] TAHRIX (fikriaf/TAHRIX) - agentic AI + GNN investigation platform
+NEED: C. LLM-агентный слой (референс) / A. основа
+KIND: open-source
+URL: https://github.com/fikriaf/TAHRIX
+LICENSE: MIT
+COMMERCIAL USE: Да (MIT)
+PROJECT STATE: 1 star, 0 forks; 18 коммитов за 4 дня (2026-05-03..2026-05-07), после этого активности нет.
+CLAIMED VS ACTUAL: README: 'autonomous blockchain investigation platform ... agentic AI, graph neural networks, multi-chain'. Фактически TRON-адаптер - тонкая обёртка над TronGrid (get_transactions, get_trc20_transactions с limit<=200, без пагинации
+и без алгоритма трассировки); проект хакатонного уровня.
+CAPABILITIES: FastAPI + Neo4j + Postgres + Redis + Celery; адаптеры alchemy, etherscan, helius, btc, tron, chainalysis; agent orchestrator с hypothesis/memory/tools; GAT на Elliptic.
+PRICING/LIMITS: Бесплатно
+RISKS: Не поддерживается, тестов не видно, много инфраструктуры ради демо.
+HOW VERIFIED: gh api (метаданные, дерево, 18 коммитов), code read backend/app/adapters/tron.py.
+CONFIDENCE: high
+EVIDENCE: https://github.com/fikriaf/TAHRIX
+
+### [REJECTED] Soniavasseur/Wallet-Risk-Scanner - ВРЕДОНОСНЫЙ репозиторий
+NEED: A. Основа трассировочного движка (найдено поиском 'fund tracing')
+KIND: open-source
+URL: https://github.com/Soniavasseur/Wallet-Risk-Scanner
+LICENSE: MIT (заявлена)
+COMMERCIAL USE: Неприменимо - использовать запрещено.
+PROJECT STATE: 190 stars, 32 forks при возрасте 3 недели (создан 2026-09-22, push 2026-10-13); аккаунт автора создан 2026-07-25, 0 followers - признаки накрутки.
+CLAIMED VS ACTUAL: Реально это загрузчик нативного кода: ledger/executor.py реализует reflective PE loader через ctypes (VirtualAlloc/VirtualProtect/LoadLibraryA/GetProcAddress, имена WinAPI спрятаны в кортежах байтов), ledger/caps.py хранит XOR-
+обфусцированный endpoint (статически декодируется в https://api.failproxy.space) и 'signing key'; в репозитории бинарный ledger/data/runtimelib.pkg на 21.4 MB и набор wheel-файлов для Windows.
+CAPABILITIES: Заявлен 'multi-chain wallet risk scanner for AML/KYT'.
+PRICING/LIMITS: n/a
+RISKS: Компрометация машины разработчика (Windows 11 - целевая платформа загрузчика). Не клонировать, не запускать, внести в deny-list.
+HOW VERIFIED: code read через gh api (actions/install.py, ledger/caps.py, ledger/executor.py, дерево файлов); строка endpoint декодирована собственным статическим скриптом, сторонний код не исполнялся.
+CONFIDENCE: high
+EVIDENCE: https://github.com/Soniavasseur/Wallet-Risk-Scanner/blob/main/ledger/executor.py | https://github.com/Soniavasseur/Wallet-Risk-Scanner/blob/main/ledger/caps.py
+
+### [REJECTED] harmonic101/stolen-funds-finder - ВРЕДОНОСНЫЙ репозиторий (clipboard hijacker)
+NEED: A. Основа трассировочного движка (найдено поиском 'stolen funds tracker')
+KIND: open-source
+URL: https://github.com/harmonic101/stolen-funds-finder
+LICENSE: MIT (заявлена)
+COMMERCIAL USE: Неприменимо - использовать запрещено.
+PROJECT STATE: 8 stars, последний push 2025-07-13.
+CLAIMED VS ACTUAL: web3toolkit/__init__.py при импорте автоматически загружает _init_token.py: обфусцированный код (идентификаторы _0x..., строки собраны из chr()) читает буфер обмена через pyperclip и по regex BTC/ETH-адресов подменяет их на
+зашитые адреса - классический clipper. Функционала трассировки нет.
+CAPABILITIES: Заявлен 'Wallet Tracker - Stolen Funds Monitor' на вендоренной библиотеке web3toolkit.
+PRICING/LIMITS: n/a
+RISKS: Кража средств у того, кто запустит. Не клонировать и не запускать.
+HOW VERIFIED: code read через gh api (web3toolkit/__init__.py, web3toolkit/_init_token.py).
+CONFIDENCE: high
+EVIDENCE: https://github.com/harmonic101/stolen-funds-finder/blob/main/web3toolkit/_init_token.py
+
+### [REJECTED] Прочие GitHub-репозитории 'crypto tracing' (Chain-Hound, usdt-investigator, tron-graph, cra-protocol-crypto-tracer, Blockchain-Transaction-Analysis-and-Fund-Tracing, txfetch, tron-tracer-demo)
+NEED: A. Основа трассировочного движка
+KIND: open-source
+LICENSE: Chain-Hound MIT; usdt-investigator MIT; txfetch MIT; cra-protocol Apache-2.0; tron-graph, nafisalawalidris, tron-tracer-demo - без лицензии
+COMMERCIAL USE: Репозитории без лицензии использовать нельзя; остальные формально можно, но брать нечего.
+PROJECT STATE: Все 0-41 stars. Chain-Hound: 0 stars, 2026-09-05..09-13. usdt-investigator: 1 star, 2026-09. TonyLau00/tron-graph: 0 stars, push 2026-02-09, Rust. txfetch: 41 stars, push 2026-05-31. nafisalawalidris: 5 stars, 8 файлов, 2024-12.
+Xiaohang0316/tron-tracer-demo: 6 файлов собранного фронтенда.
+CLAIMED VS ACTUAL: Chain-Hound называет себя 'AI-powered fund-tracing engine', но traceEngine.ts прямо документирует: ровно 1 хоп, N=2 последних исходящих перевода, только EVM. usdt-investigator - Ethereum, 2 хопа, 15 адресов, автор сам пишет 'not a
+temporal funds-flow algorithm'. nafisalawalidris - один скрипт с захардкоженным переводом 20 USDT. cra-protocol - Neo4j-демо на seed-данных. tron-graph - поблочный загрузчик в Neo4j/Mongo/Redis, без трассировки краж. По 27
+поисковым запросам gh search repos зрелого OSS-трассировщика TRC20 не найдено.
+CAPABILITIES: Полезные идеи: usdt-investigator - хранение сумм целыми base units, event id = tx hash + log index, проверка SHA-256 сохранённых ответов, офлайн-воспроизведение; txfetch - поиск транзакции по времени и сумме через TronGrid events
+(min/max_block_timestamp + fingerprint) - пригодится для сценария 'пользователь знает только сумму и время'.
+PRICING/LIMITS: n/a
+RISKS: Демо/портфолио/хакатоны; не база для продукта.
+HOW VERIFIED: gh search repos (около 40 запросов), gh api метаданные и деревья, code read ключевых файлов (traceEngine.ts, README usdt-investigator, blockchain_analysis.py, tracer_core.py, modules/tron.py, README tron-graph).
+CONFIDENCE: high
+EVIDENCE: https://github.com/shubu258/Chain-Hound-/blob/main/src/trace/traceEngine.ts | https://github.com/brandoncandela/usdt-investigator | https://github.com/xaynov-osint/txfetch/blob/main/modules/tron.py | https://github.com/TonyLau00/tron-graph
+
+### [REJECTED] Maltego (Transform Hub, crypto transforms)
+NEED: A. Link-analysis инструмент
+KIND: commercial SaaS
+URL: https://www.maltego.com/
+LICENSE: Проприетарный; Community Edition - только non-commercial
+COMMERCIAL USE: Только платные планы (Pro/Organization, цены по запросу); данные провайдеров трансформов оплачиваются отдельно.
+PROJECT STATE: Действующий продукт (desktop-клиент для аналитика).
+CLAIMED VS ACTUAL: Информация о crypto-трансформах датирована 2020-2021; актуальный состав Transform Hub не проверен.
+CAPABILITIES: Найденные crypto-трансформы: Tatum (BTC, ETH, LTC, BCH, DOGE; 2021), Blockchain.com (BTC), CipherTrace (BTC, ETH, BCH, LTC; 2020). Трансформов для TRON не найдено.
+PRICING/LIMITS: CE бесплатна (non-commercial, 12-24 результата на трансформ по разным источникам); Pro - сторонняя оценка ~$999/год (не подтверждено).
+RISKS: Desktop-UI, не встраивается в автоматизированный SaaS-pipeline; нет TRON.
+HOW VERIFIED: search snippet only.
+CONFIDENCE: low
+EVIDENCE: https://www.maltego.com/blog/introducing-tatum-to-maltego/ | https://www.maltego.com/price-inquiry/
+
+### [REJECTED] OpenCTI (OpenCTI-Platform/opencti)
+NEED: A. Link-analysis / кейс-платформа
+KIND: open-source
+URL: https://github.com/OpenCTI-Platform/opencti
+LICENSE: Community Edition - Apache-2.0; Enterprise Edition - отдельная OpenCTI EE License (файлы с EE-заголовком)
+COMMERCIAL USE: CE - да (Apache-2.0); EE-функции - по лицензии Filigran.
+PROJECT STATE: 10,137 stars, push 2026-10-13, 2,216 open issues; connectors: Apache-2.0, 587 stars.
+CLAIMED VS ACTUAL: none found (для CTI-задач); к трассировке средств отношения не имеет.
+CAPABILITIES: CTI-платформа на STIX (есть observable Cryptocurrency-Wallet), граф знаний, кейсы. В каталоге internal-enrichment ~80 коннекторов - ни одного для блокчейн-трассировки; code search по 'tron OR trc20' в connectors дал 0.
+INFRA: Elasticsearch/OpenSearch + Redis + RabbitMQ + MinIO - тяжело для одного скромного сервера.
+PRICING/LIMITS: CE бесплатна.
+RISKS: Избыточная инфраструктура; нет нужной функциональности.
+HOW VERIFIED: gh api (метаданные, LICENSE, список коннекторов, code search).
+CONFIDENCE: high
+EVIDENCE: https://github.com/OpenCTI-Platform/opencti/blob/master/LICENSE | https://github.com/OpenCTI-Platform/connectors/tree/master/internal-enrichment
+
+### [ALTERNATIVE] hemangnagar/bitcoin-fifo-taint-tracer
+NEED: B. Taint-методология и стратегии обхода графа (реализации)
+KIND: open-source
+URL: https://github.com/hemangnagar/bitcoin-fifo-taint-tracer
+LICENSE: MIT
+COMMERCIAL USE: Да (MIT)
+PROJECT STATE: 0 stars; создан и обновлён в один день 2026-08-04; есть tests/ (test_fifo.py, test_trace_and_validation.py), .github/workflows/ci.yml, Dockerfile.
+CLAIMED VS ACTUAL: none found; но это одиночный свежий репозиторий без истории - качество не подтверждено сообществом. Только Bitcoin/UTXO.
+CAPABILITIES: Чистая реализация FIFO для UTXO: поток сатоши как интервалы [start,end), выходы потребляют поток по порядку, taint не разбавляется, а перемещается; отдельно учитывается taint, ушедший в комиссию (FeeLeak). Есть
+data/ground_truth.json и colonial_pipeline_hops.json + модуль validate.
+PRICING/LIMITS: Бесплатно
+RISKS: UTXO-модель; для account-model USDT нужна адаптация (FIFO-очередь сегментов на балансе адреса).
+REPLACEABILITY: Берётся идея интервального представления и структура тестов.
+HOW VERIFIED: gh api (метаданные, дерево), code read src/taint/fifo.py.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/hemangnagar/bitcoin-fifo-taint-tracer/blob/main/src/taint/fifo.py
+
+### [REJECTED] zkokelj/bitcoin_tainting_methods (Poison, Haircut, FIFO, LIFO, TIHO, COMB)
+NEED: B. Taint-методология и стратегии обхода графа (реализации)
+KIND: open-source
+URL: https://github.com/zkokelj/bitcoin_tainting_methods
+LICENSE: Нет лицензии (license: none)
+COMMERCIAL USE: Нет - без лицензии код использовать нельзя; только как описание методов.
+PROJECT STATE: 0 stars; единственная дата активности 2023-03-17; C++ + RocksDB; магистерская работа (PDF на словенском).
+CLAIMED VS ACTUAL: none found; тестов нет, только Bitcoin .blk -> RocksDB.
+CAPABILITIES: Единственный найденный репозиторий, где реализованы сразу все пять классических методов (PoisonTainting.cpp, HaircutTainting.cpp, FIFOTainting.cpp, LIFOTainting.cpp, TIHOTainting.cpp) плюс авторский COMB (пересечение графов разных
+методов как признак более вероятной связи).
+PRICING/LIMITS: n/a
+RISKS: Нет лицензии, заброшен, UTXO.
+HOW VERIFIED: gh api (метаданные, дерево), code read README.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/zkokelj/bitcoin_tainting_methods | https://arxiv.org/abs/1906.05754
+
+### [RECOMMENDED] GraphSense MCP server + agent skills (trace-funds, identifier-integrity, investigation-reporting, investigate-strict/advisor/autonomous)
+NEED: C. LLM-агентный слой: референсы и готовые инструменты
+KIND: open-source
+URL: https://github.com/graphsense/graphsense-lib/tree/master/src/graphsenselib/mcp
+LICENSE: MIT
+COMMERCIAL USE: Да (MIT) - тексты skills и принципы курирования можно адаптировать с сохранением notice.
+PROJECT STATE: Часть graphsense-lib v2.17.0 (2026-09-30): 'MCP investigation skills' добавлены именно в этом релизе; есть tests/mcp и CI-gate 'graphsense-cli mcp validate-curation'.
+CLAIMED VS ACTUAL: Инструменты завязаны на GraphSense REST (нужен Iknaio key или свой кластер); search_neighbors - проприетарный. Количественных метрик качества агента в репозитории не опубликовано.
+CAPABILITIES: Самый зрелый найденный референс агентного расследования: 18 курируемых tools из 44 REST-маршрутов (принцип 'curate, don't auto-expose'), слияние цепочек вызовов, компактизация ответов (~40% экономии). Skills формализуют именно
+наши требования: идентификаторы только из tool result или сообщения пользователя, никогда не достраивать усечённые; 'attribution is not movement'; пустой или частичный результат ничего не доказывает; легитимные концы трассы
+(deposit-адрес биржи, seized/sanctioned кошелёк, адрес с проверенно пустыми исходящими), всё остальное - 'unresolved'; уровни High/Medium/Low с обоснованием; три уровня автономии.
+PRICING/LIMITS: Бесплатно (код); hosted MCP - по условиям Iknaio.
+RISKS: Правила написаны под BTC/EVM (форматы адресов), для TRON base58 нужны свои проверки checksum.
+REPLACEABILITY: Высокая: берём принципы и формулировки, инструменты свои.
+HOW VERIFIED: code read через gh api (mcp/README.md, curation/instructions.md, skills trace-funds, identifier-integrity, investigation-reporting), CHANGELOG.
+CONFIDENCE: high
+EVIDENCE: https://github.com/graphsense/graphsense-lib/blob/master/src/graphsenselib/mcp/skills/trace-funds/SKILL.md | https://github.com/graphsense/graphsense-lib/blob/master/src/graphsenselib/mcp/skills/identifier-integrity/SKILL.md | https://github.com/graphsense/graphsense-lib/blob/master/src/graphsenselib/mcp/README.md
+
+### [ALTERNATIVE] LOCARD (xhyumiracle/locard) + thorchain-crosschain-data
+NEED: C. LLM-агентный слой: референсы и готовые инструменты
+KIND: open-source
+URL: https://github.com/xhyumiracle/locard
+LICENSE: locard: AGPL-3.0; thorchain-crosschain-data: без лицензии
+COMMERCIAL USE: AGPL-3.0 в SaaS требует раскрытия исходников сервиса - для закрытого коммерческого продукта код брать нельзя, только идеи. Датасет без лицензии - только для внутренней оценки (юридически не подтверждено).
+PROJECT STATE: locard: 6 stars, создан 2025-12-22, push 2026-08-20, есть pytest.ini и benchmark/ с baseline. Статья arXiv:2604.04211 (v1 2026-04-05, v2 2026-05-06), авторы Xiaohang Yu, William Knottenbelt.
+CLAIMED VS ACTUAL: В abstract нет количественных метрик ('high-fidelity tracing results'); фокус на cross-chain BTC/ETH/LTC/DOGE через THORChain, TRON отсутствует.
+CAPABILITIES: 'Agentic Blockchain Forensics': Tri-Core архитектура (планирование / исполнение / валидация), Structured Belief State; бенчмарк Thor25 (>151k cross-chain записей THORChain), задача Group-Transfer Tracing; проверка на подпотоках
+Bybit hack. В репозитории есть benchmark/baseline/heuristic_baseline.py и metrics.py - готовый образец сравнения 'агент против детерминированного baseline'.
+PRICING/LIMITS: Бесплатно
+RISKS: AGPL; иная предметная задача (cross-chain matching).
+HOW VERIFIED: gh api (метаданные, деревья обоих репозиториев), WebFetch arxiv.org/abs/2604.04211. Код агентов не читался.
+CONFIDENCE: medium
+EVIDENCE: https://arxiv.org/abs/2604.04211 | https://github.com/xhyumiracle/locard | https://github.com/xhyumiracle/thorchain-crosschain-data
+
+### [ALTERNATIVE] TronScan MCP Server + tronscan-support/skills
+NEED: C. LLM-агентный слой: референсы и готовые инструменты
+KIND: public API
+URL: https://mcp.tronscan.org/mcp
+LICENSE: Сервис проприетарный; репозиторий skills - MIT
+COMMERCIAL USE: Не проверено (ToS Tronscan API).
+PROJECT STATE: Сервис запущен (официальный анонс в support.tronscan.org); репозиторий tronscan-support/skills: 0 stars, push 2026-04-27, всего 2 файла (LICENSE, README) - README-only.
+CLAIMED VS ACTUAL: Репозиторий 'collection of Agent skills' пуст (один README). Число tools расходится между страницами (105 против 119). Инструмента для меток адресов в найденных материалах нет. Tronscan API без ключа: /api/accountv2 вернул 401
+(проверено вызовом).
+CAPABILITIES: Streamable HTTP MCP, по разным страницам документации 105 или 119 tools (блоки, аккаунты, контракты, транзакции, токены, статистика, 'deep analysis'); ключ в заголовке TRON-PRO-API-KEY.
+PRICING/LIMITS: Бесплатный API key; лимиты не уточнены ('default rate limits apply').
+RISKS: Отдавать LLM 100+ инструментов - дорого по токенам и снижает точность выбора (ср. принцип курирования GraphSense). Лучше свой узкий набор tools.
+HOW VERIFIED: search snippet only для docs (прямой fetch docs.tronscan.org -> 403); gh api для репозитория; 1 API call к apilist.tronscanapi.com (401).
+CONFIDENCE: low
+EVIDENCE: https://mcpdoc.tronscan.org/en | https://github.com/tronscan-support/skills | https://support.tronscan.org/hc/en-us/articles/55764103590553-TronScan-MCP-Server-Official-Launch-Announcement
+
+### [RECOMMENDED] On-chain события Tether на TRON: AddedBlackList / RemovedBlackList / DestroyedBlackFunds (через TronGrid events)
+NEED: D. Ground truth и датасеты для >=50 сценариев и held-out набора
+KIND: dataset
+URL: https://api.trongrid.io/v1/contracts/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/events?event_name=AddedBlackList
+LICENSE: Публичные данные блокчейна
+COMMERCIAL USE: Да (факты из публичной цепи); условия доступа - ToS провайдера API.
+PROJECT STATE: Живой поток: последние 3 события получены 2026-10-14, самое свежее - блок 87,075,502, tx d65209292728c7ad1f485eb6129d99128133effa677524b3009b5abbdda42340 (2026-10-13 13:49:54 UTC).
+CLAIMED VS ACTUAL: Заморозка НЕ говорит, откуда пришли средства и что именно было украдено: это ground truth для конечной точки и метки, но не для полного пути. Адреса в событиях в hex-формате (0x... без префикса 41) - нужна конвертация в
+base58check (проверено собственным скриптом).
+CAPABILITIES: Каждая заморозка - первичный факт с TXID. Даёт: (1) бесспорные терминальные метки 'frozen by Tether' с датой; (2) неиссякаемый источник свежих кейсов для held-out (события после даты отсечки); (3) стартовые точки для обратной и
+прямой трассировки с реальными паттернами (на первом же проверенном адресе - входящий 38,429 USDT и исходящие 250,000 / 28,090 / 19,784 USDT до заморозки).
+PRICING/LIMITS: Бесплатно; лимиты TronGrid.
+RISKS: Причина заморозки on-chain не указана; часть заморозок снимается (RemovedBlackList).
+REPLACEABILITY: Высокая: те же события есть в BitOK CSV, Tronscan, Dune.
+HOW VERIFIED: API call made (TronGrid events + trc20 history + txinfo для одного из адресов).
+CONFIDENCE: high
+EVIDENCE: https://api.trongrid.io/v1/contracts/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/events?event_name=AddedBlackList&limit=3&only_confirmed=true
+
+### [RECOMMENDED] BitOKorg/tether-blacklist-research (data appendix: USDT blacklist на ETH и TRON)
+NEED: D. Ground truth и датасеты для >=50 сценариев и held-out набора
+KIND: dataset
+URL: https://github.com/BitOKorg/tether-blacklist-research
+LICENSE: Данные и документация - CC BY 4.0 (LICENSE-DATA); скрипты - MIT
+COMMERCIAL USE: Да, включая коммерческое, при атрибуции 'BitOK (bitok.org)' и ссылке на лицензию.
+PROJECT STATE: 1 star, создан 2026-06-21, push 2026-07-27, 110 файлов, ~6.7 MB.
+CLAIMED VS ACTUAL: Авторы сами оговаривают: суммы перехватов - gross по событиям, не дедуплицированы по принципалу; инструменты AML-атрибуции отдельных кейсов 'internal and not included'. Данные мной не пересчитывались.
+CAPABILITIES: Период 2024-05-01..2026-05-09. По TRON: addBlackList 1,778 (год до) + 4,291 (год после), removeBlackList 81 + 327, destroyBlackFunds 138 + 589. Файлы indexer_input_trx.csv (адрес + окно add->execute),
+indexer_output_trx_transfers.csv (address, direction, counterparty, block, tx_index, log_index, amount_usdt) - то есть готовые переводы с точной позицией в блоке вокруг момента заморозки; summary-таблицы назначений
+'drainer'-ботов. Методология и provenance каждой цифры - в docs/NUMBERS.md.
+PRICING/LIMITS: Бесплатно
+RISKS: Один вендор-автор (BitOK - тоже AML-сервис), свежий репозиторий; покрывает поведение вокруг заморозок, а не полные пути краж.
+REPLACEABILITY: Высокая (пересобирается из TronGrid событий).
+HOW VERIFIED: gh api (метаданные, дерево), code read README, LICENSE-DATA, заголовки двух CSV.
+CONFIDENCE: high
+EVIDENCE: https://github.com/BitOKorg/tether-blacklist-research | https://github.com/BitOKorg/tether-blacklist-research/blob/main/LICENSE-DATA
+
+### [ALTERNATIVE] BlockSec 'Following the Frozen' (2025-07-11): списки 151 blacklisted адреса и 76 NBCTF-адресов
+NEED: D. Ground truth и датасеты для >=50 сценариев и held-out набора
+KIND: dataset
+URL: https://blocksec.com/blog/following-the-frozen-an-on-chain-analysis-of-usdt-blacklisting-and-its-links-to-terrorist-financing
+LICENSE: Не указана (блог + Google Sheet)
+COMMERCIAL USE: Не определено; использовать как указатель на первичные on-chain факты (сами адреса и события публичны), не копируя таблицу в продукт.
+PROJECT STATE: Статья от 2025-07-11.
+CLAIMED VS ACTUAL: TXID в статье не публикуются; авторы предупреждают о возможных неточностях.
+CAPABILITIES: 151 адрес, заблокированный 13-30 июня 2025 ($86.34M, 90.07% на Tron); из $807.76M входящих $721.43M выведено до заморозки; ~54% адресов вывели >=90%. 76 USDT-Tron адресов из ордеров израильского NBCTF. Ссылки на MetaSleuth-графы
+по нескольким Tron-адресам - готовые экспертные трассы для сверки.
+PRICING/LIMITS: Бесплатно
+RISKS: Нет лицензии, малый объём, тематический перекос (terror financing).
+HOW VERIFIED: docs only (WebFetch статьи); сама Google-таблица не открывалась.
+CONFIDENCE: medium
+EVIDENCE: https://blocksec.com/blog/following-the-frozen-an-on-chain-analysis-of-usdt-blacklisting-and-its-links-to-terrorist-financing
+
+### [NEEDS-TRIAL] Mendeley Data: Judicially Grounded Virtual Asset Address Labels and TRON TRC20-USDT Behavioral Analysis Dataset
+NEED: D. Ground truth и датасеты (независимый набор меток ролей)
+KIND: dataset
+URL: https://data.mendeley.com/datasets/62dmsngtfb
+LICENSE: CC BY 4.0
+COMMERCIAL USE: Да при атрибуции (CC BY 4.0).
+PROJECT STATE: Версия 3 опубликована 2026-08-03, DOI 10.17632/62dmsngtfb.3; контрибьютор Meng Ling Tsai, Central Police University (Тайвань).
+CLAIMED VS ACTUAL: Пакет назван 'de-identified'; из описания неясно, присутствуют ли сами адреса в открытом виде или хешированы - если хешированы, для трассировки бесполезен.
+CAPABILITIES: 1,150 адресов с ролью, установленной судебными решениями (fraud / money laundering), из них TRON TRC20-USDT подмножество 1,024 адреса; словари данных и скрипты анализа.
+PRICING/LIMITS: Бесплатно
+RISKS: Содержимое файлов не проверено; региональная специфика (Тайвань).
+HOW VERIFIED: docs only (WebFetch страницы датасета; список файлов не отобразился).
+CONFIDENCE: low
+EVIDENCE: https://data.mendeley.com/datasets/62dmsngtfb
+
+### [ALTERNATIVE] OFAC SDN digital currency addresses (0xB10C/ofac-sanctioned-digital-currency-addresses)
+NEED: D. Ground truth и датасеты (терминальные метки sanctioned)
+KIND: dataset
+URL: https://github.com/0xB10C/ofac-sanctioned-digital-currency-addresses
+LICENSE: MIT (инструмент); исходные данные - публичный список OFAC
+COMMERCIAL USE: Да
+PROJECT STATE: 179 stars, push 2026-10-01; ветка lists обновляется автоматически.
+CLAIMED VS ACTUAL: none found
+CAPABILITIES: В ветке lists есть sanctioned_addresses_TRX.txt (9,135 байт - порядка 260 адресов, оценка по размеру) и sanctioned_addresses_USDT.txt (3,354 байт).
+PRICING/LIMITS: Бесплатно
+RISKS: Только санкционные адреса; не про пути краж.
+HOW VERIFIED: gh api (метаданные, дерево ветки lists); содержимое файлов не читалось.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/0xB10C/ofac-sanctioned-digital-currency-addresses/tree/lists
+
+### [ALTERNATIVE] Tronscan stableCoin/blackList endpoint
+NEED: D. Ground truth и датасеты
+KIND: public API
+URL: https://apilist.tronscanapi.com/api/stableCoin/blackList
+LICENSE: n/a (ToS Tronscan не проверен)
+COMMERCIAL USE: Не проверено
+PROJECT STATE: Отвечает без ключа (HTTP 200, 0.62 с); limit обязан быть в диапазоне [20,100].
+CLAIMED VS ACTUAL: Первая страница (start=0) вернула записи с time=1752306222 (2025-07-12), тогда как TronGrid показывает заморозки от 2026-10-13, а BitOK насчитал 6,069 addBlackList на TRON только за 2024-05..2026-05. Либо сортировка не по убыванию
+времени, либо данные устарели - как единственный источник использовать нельзя.
+CAPABILITIES: Список blackAddress + transHash + time + contractAddress, total=7,838.
+PRICING/LIMITS: Бесплатно; остальные эндпоинты Tronscan требуют ключ (accountv2 -> 401).
+RISKS: Недокументированное поведение, возможная неполнота.
+HOW VERIFIED: API call made (3 запроса).
+CONFIDENCE: medium
+EVIDENCE: https://apilist.tronscanapi.com/api/stableCoin/blackList?limit=20&start=0
+
+### [REJECTED] Elliptic Data Set, Elliptic++, Elliptic2, XBlock
+NEED: D. Ground truth и датасеты
+KIND: dataset
+LICENSE: Elliptic++ (git-disl/EllipticPlusPlus): лицензии в репозитории нет; Elliptic2 guide (MITIBMxGraph/Elliptic2): Apache-2.0 на код, условия самого датасета не проверены; Kaggle Elliptic Data Set: лицензия не подтверждена; XBlock: не
+проверено
+COMMERCIAL USE: Не подтверждено ни для одного (Elliptic++ - формально нельзя без лицензии).
+PROJECT STATE: EllipticPlusPlus: 168 stars, последний push 2023-11-25. Elliptic2: 29 stars, push 2025-01-23.
+CLAIMED VS ACTUAL: Для нашей задачи не подходят: другая сеть, нет ground truth путей конкретных краж; исходный Elliptic анонимизирован (нет TXID), что противоречит требованию '100% фактов с TXID'. TRON-датасета на XBlock не найдено.
+CAPABILITIES: Elliptic / Elliptic++ (203k транзакций, 822k адресов) / Elliptic2 - только Bitcoin, задачи классификации illicit/licit и подграфов. XBlock - преимущественно Ethereum (phishing-наборы, MulDiGraph: 2,973,489 узлов, 1,165 phishing).
+PRICING/LIMITS: Бесплатно для исследований
+RISKS: Нерелевантны MVP; лицензии неясны.
+HOW VERIFIED: gh api (метаданные, README Elliptic++ на предмет лицензии); search snippet only для XBlock и Kaggle.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/git-disl/EllipticPlusPlus | https://github.com/MITIBMxGraph/Elliptic2
+
+## OPEN QUESTIONS FOR OWNER (researcher)
+- Согласны ли вы, что готовой OSS-базы нет и ядро (deterministic tracer + taint ledger) пишется самостоятельно как чистый модуль, а GraphSense рассматривается только на фазе мультисетевого расширения, когда появится бюджет на
+Cassandra/Spark/полные узлы?
+- Какая методика будет 'официальной' в отчётах для правоохранительных органов и бирж: FIFO как основная оценка с показом haircut и верхней границы (моя рекомендация) или иная, принятая в вашей целевой юрисдикции? От этого зависят
+формулировки в черновиках запросов.
+- Запросить ли у Iknaio trial-ключ и письменные условия (цена Professional/Institutional, rate limits, право использовать ответы API внутри платного SaaS и кэшировать их)? Без этого hosted GraphSense нельзя включать даже как cross-
+check.
+- Нужен ли независимый оракул сравнения на этапе оценки (Bitquery Pro $69-99/мес) или достаточно собственных синтетических и freeze-anchored сценариев?
+- Готовы ли вы выделить небольшой бюджет (порядка $50-150 в USDT + комиссии) на контрольные депозиты на 10-15 бирж и обменников для получения собственного, полностью независимого набора меток deposit/hot wallet? Это самый надёжный
+способ доказать точность >=95%.
+- Допустимо ли в MVP честно помечать свопы USDT<->TRX и мосты как 'conversion, unresolved' (с TXID) без продолжения трассы в другом активе, или прослеживание через SunSwap/JustSwap обязательно уже в первой версии?
+- Где проводить scripted-сценарии с известной истиной: публичный testnet Nile/Shasta (проще, но API отличается от mainnet-эндпоинта) или приватная сеть на tronprotocol/tron-docker (LGPL-3.0, больше работы)?
+- Утвердите пороги по умолчанию: dust-порог (предлагаю max(1 USDT, 1% от суммы seed)), порог 'high-activity' адреса (число переводов в окне / исчерпание max_pages), окно времени pass-through - они прямо влияют на recall, стоимость и
+воспроизводимость.
+- Юридический вопрос: можно ли включать в коммерческий продукт данные BitOK (CC BY 4.0, требуется атрибуция) и список BlockSec (без лицензии) - или ограничиться самостоятельным сбором тех же on-chain событий?
+- Нужно ли внести в CONTRIBUTING/CI команды deny-list репозиториев с вредоносным кодом, найденных по профильным запросам (Soniavasseur/Wallet-Risk-Scanner, harmonic101/stolen-funds-finder), и правило 'не клонировать крипто-
+инструменты без code review'? Dev-машина на Windows 11 - целевая платформа первого из них.
+
+## NOT VERIFIED (researcher)
+- Условия использования (ToS) TronGrid и Tronscan для коммерческого SaaS, кэширования и редистрибуции - не читались (зона аудитора data sources); лимиты TronGrid 100,000/сутки и 15 QPS взяты из search snippet, не из первичной
+страницы.
+- Фактические keyless-лимиты TronGrid под нагрузкой и достижимость цели '1,000 адресов за 5 минут' - не измерялись (сделано всего 4 запроса); оценки времени и числа вызовов - расчётные.
+- Hosted GraphSense (Iknaio): свежесть и полнота индекса TRX/USDT, rate limits, цена Professional, состав Free-пакета, право встраивать данные в платный продукт - не подтверждены (нет ключа, Terms недоступны).
+- Bitquery: работает ли tron.coinpath на v1 сегодня и доступен ли он на планах Pro/Scale, сроки жизни v1, условия кэширования; реальные запросы не выполнялись. Цены на странице противоречивы ($29/$49, $69/$99, $199/$299).
+- Arkham Intel API: поддержка TRON в API, наличие tracer-эндпоинта, цена (конфликт $100 против $900/мес), условия - только search snippets.
+- MistTrack: условия коммерческого использования и перепродажи данных; цены x402 pay-as-you-go (страница не найдена); качество меток на TRON.
+- Chainalysis: существует ли ещё бесплатный sanctions API (анонс 2022 года; текущая страница его не упоминает). TRM, Elliptic, Crystal: реальные цены и наличие программного tracing API.
+- Maltego: актуальный состав Transform Hub и наличие TRON-трансформов (источники 2020-2021 годов).
+- Mendeley dataset 10.17632/62dmsngtfb.3: содержатся ли адреса в открытом виде; файлы не открывались.
+- BlockSec Google Sheet (151 + 76 адресов) не открывался; лицензия не указана. Корректность цифр BitOK не пересчитывалась.
+- Лицензии датасетов Elliptic (Kaggle), Elliptic2 (сам датасет), XBlock; наличие TRON-наборов на XBlock, Zenodo, Kaggle (один поисковый запрос).
+- Требования java-tron к железу (3.5-4 TB SSD, 32 GB RAM) - search snippet из README, не прочитаны напрямую; реальные размеры кластера Cassandra/Spark для TRON в GraphSense нигде не опубликованы.
+- Состояние stargazers Wallet-Risk-Scanner (эндпоинт вернул 404 при попытке посмотреть даты звёзд) - накрутка предполагается по косвенным признакам; бинарный runtimelib.pkg не анализировался.
+- Публичные адреса TRON по конкретным взломам (Poloniex 2023 и др.) - не найдены и не подтверждены в первичных источниках; в отчёт не включены.
+- Код агентов LOCARD, TAHRIX orchestrator, MistTrackMCP tools - не читался построчно (только деревья и README).
+- TronGrid MCP (mcp.trongrid.io), Dune/Allium/BigQuery таблицы TRON, SQD gateway - упомянуты в результатах поиска, не аудировались.
+- Breadcrumbs: наличие API, тарифы, поддержка TRON внутри приложения (главная страница - JS-приложение, текст не извлечён).

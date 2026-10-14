@@ -1,0 +1,1723 @@
+# AREA backend-db-queue: Relational storage, queues / background execution, backend and API
+
+============================================================
+PART 1 - VERIFIER REPORT (takes precedence over the researcher wherever they disagree)
+============================================================
+
+## VERIFIER SUMMARY
+Проверено 27 утверждений по первичным источникам (gh api, raw-файлы репозиториев, PyPI/npm JSON API, официальные страницы цен и документации): 18 подтверждены, 7 скорректированы, 2 не поддаются проверке. Фактическая база аудита
+качественная: версии, даты, лицензии и цены (PostgreSQL 18.6, DBOS 3.2.0 MIT, SQLAlchemy 2.1.4, FastAPI 0.143.0, Keycloak 26.8.1, Hatchet v0.110.8, Neon, Supabase, Clerk, ZITADEL, Temporal Cloud, DigitalOcean) совпали с первичными
+данными; выдуманных фактов не найдено, лицензионных ошибок у рекомендованных вариантов нет — все допускают коммерческий SaaS. Ошибки и пробелы сосредоточены в главной рекомендации — DBOS — и найдены чтением кода: 1) задержек
+опроса две (dequeue 1.0 с и ожидание результата 1.0 с), что при схеме «каждый внешний вызов — отдельный workflow в очереди» ставит под угрозу цель 30 с; 2) limiter — скользящее окно стартов с выборкой FOR UPDATE NOWAIT под
+REPEATABLE READ/SERIALIZABLE, а не token bucket, и связка с aiolimiter не даёт общего для воркеров сглаживания — рекомендацию по rate limiting в текущей формулировке считаю несостоятельной; 3) ручная отмена не каскадируется без
+cancel_children=True (аудит считал это неописанным); 4) без платного Conductor нет автоматического восстановления между воркерами, executor_id по умолчанию local; 5) чекпойнты по умолчанию в pickle, аргументы workflow сохраняются
+вне RLS — риск для требований о секретах и воспроизводимости; 6) DBOS тестируется на SQLAlchemy 2.0.50, а аудит рекомендует 2.1.x; 7) клиент Conductor (dbos-enterprise) проприетарный. Прочие исправления: Elasticsearch для Temporal
+не обязателен (PostgreSQL 12+ с v1.20) — этот аргумент отклонения неверен; в образе postgres:18 изменён путь тома; MySQL 9.7.3 уже вышла. Итог по девяти рекомендациям: восемь устояли с доработками (PostgreSQL 18, SQLAlchemy +
+Alembic с пином 2.0.54, RLS + hash chain, DBOS при расширенном spike, без брокера, Python + FastAPI, OIDC resource server, SSE), одна не устояла (глобальный rate limiting через limiter DBOS + aiolimiter). Пропущены значимые
+кандидаты: Absurd, Oban for Python, Restate (как кандидат), SAQ/pgmq, WorkOS AuthKit, Logto, Rauthy, PlanetScale Postgres, RFC 3161-штампы для журнала, durable-интеграции pydantic-ai. Ограничение: WebSearch в сессии был недоступен
+(бюджет исчерпан), код не запускался — производительность и точность лимитов остаются неизмеренными.
+
+## BLOCKING RISKS
+- Цель «простая транзакция за 30 с» под угрозой при настройках DBOS по умолчанию: два независимых опроса по 1.0 с (DEFAULT_QUEUE_POLLING_INTERVAL_SEC и DEFAULT_POLLING_INTERVAL ожидания результата). Если каждый внешний вызов
+оформлен отдельным workflow в очереди с limiter, последовательная трассировка на 10-30 вызовов теряет 10-60 с только на опросах. Нужны уменьшенные интервалы или вынос token bucket внутрь шага; обязательно измерить в spike.
+- Рекомендованный глобальный rate limiter не является token bucket: limiter DBOS — скользящее окно по стартам workflow с пачечным запуском на тике, а aiolimiter действует в пределах одного процесса. При нескольких воркерах общего
+сглаживания нет — возможны всплески и 429 от источников, что бьёт по целям 99% успешного получения и 1 000 адресов за 5 минут.
+- Отказоустойчивость нескольких воркеров без Conductor: executor_id по умолчанию local, процесс восстанавливает только свои PENDING workflow; автоматический перехват работы упавшего воркера даёт только Conductor ($99/мес, клиент
+dbos-enterprise под проприетарной DBOS Conductor Software License). Для MVP: один воркер или уникальные стабильные executor_id и restart-политика; сценарий «убит один из N воркеров» должен войти в приёмку.
+- Риск утечки секретов и невоспроизводимости через системную БД DBOS: аргументы workflow и выходы шагов сохраняются, по умолчанию в pickle + base64, вне RLS приложения. API-ключ, переданный аргументом, окажется в БД и бэкапах;
+pickle-блобы не годятся как доказательный журнал. Требуется DBOSPortableJSONSerializer, запрет секретов в аргументах и автотест.
+- Ручная отмена расследования не останавливает дочерние workflow без cancel_children=True: уже поставленные в очередь платные вызовы продолжат исполняться и тратить бюджет — прямое нарушение требования о настраиваемых лимитах
+расходов.
+- Несогласованность версий в самой рекомендации: предлагается SQLAlchemy 2.1.x (GA 2026-09-24), а DBOS фиксирует и тестирует 2.0.50. До прогона тестов использовать 2.0.54.
+- Сохранность доказательств на единственном сервере не обеспечена решением: инструменты бэкапа/PITR не аудировались, а в образе postgres:18 изменён путь тома (/var/lib/postgresql вместо /var/lib/postgresql/data) — ошибка в compose
+приведёт к потере БД при пересоздании контейнера.
+- Keycloak на скромном сервере: 1250 MB базово (рекомендуемый лимит 1360 MB) плюс частые патч-релизы (три за две недели). Без ответа владельца о RAM сервера рекомендация по IdP не может считаться окончательной.
+- Ограничения самой проверки: лимит WebSearch был исчерпан до первого запроса, поэтому независимый поиск отзывов об эксплуатации DBOS и поиск новичков 2025-2026 выполнялся только по первичным источникам (GitHub API, PyPI, npm,
+официальные страницы). Ни один кандидат не запускался. Не перечитывались: Auth0, Amazon RDS, Supabase Auth, Better Auth, Ory, Prefect, Inngest pricing, Faktory, ToS всех SaaS.
+
+## VERIFIER VERDICTS ON RECOMMENDATIONS
+
+### NEED: a) Реляционное хранилище: движок и хостинг
+PRIMARY: PostgreSQL 18 (18.6), self-hosted в Docker на том же сервере
+STANDS: True
+ISSUE: Выбор и лицензия подтверждены; PostgreSQL 19 на 2026-10-14 всё ещё Beta 4. Не учтено: 1) в образе postgres:18 изменён путь тома (VOLUME /var/lib/postgresql, PGDATA /var/lib/postgresql/18/docker) — типовой compose со старым путём
+приведёт к потере данных при пересоздании контейнера; 2) тезис «переезд на managed — смена строки подключения» верен только для прямого соединения: DBOS в production checklist запрещает transaction-mode pooler, а pooled-эндпоинты
+Neon/Supabase именно такие; 3) инструменты бэкапа и PITR не аудировались, хотя это единственная копия доказательной базы; 4) CI DBOS использует образ sibedge/postgres-plv8 без явной версии — работа DBOS именно на PostgreSQL 18
+первичными данными не подтверждена (у Procrastinate PG18 в матрице есть).
+SUGGESTED CHANGE: Оставить PostgreSQL 18. В compose монтировать том на /var/lib/postgresql и добавить тест «данные переживают docker compose down/up». До запуска выбрать и проверить бэкап (pgBackRest или WAL-G + проверка восстановления),
+зафиксировать RPO/RTO. В spike явно прогнать DBOS на postgres:18.6. Для будущей миграции на managed закладывать прямое (session) подключение.
+
+### NEED: a) ORM / слой запросов / миграции
+PRIMARY: SQLAlchemy 2.1.x + Alembic 1.20 с ручными SQL-миграциями; asyncpg для приложения
+STANDS: True
+ISSUE: Инструменты верные, версии и лицензии подтверждены. Проблема в версии: pdm.lock DBOS фиксирует sqlalchemy 2.0.50, то есть рекомендованная очередь тестируется на 2.0.x, а серия 2.1 вышла 2026-09-24 и за три недели получила четыре
+патча (2.1.1-2.1.4). Довод «один ORM в проекте» при этом опирается на непроверенную совместимость. Два драйвера (asyncpg и psycopg) — лишняя сложность: в Linux-контейнерах ограничение ProactorEventLoop не действует.
+SUGGESTED CHANGE: Стартовать на SQLAlchemy 2.0.54 (последняя 2.0.x, 2026-09-15), переход на 2.1 — отдельной задачей после прогона тестов DBOS и своих. Рассмотреть psycopg 3 как единственный драйвер (LGPL-3.0-only допустима как немодифицированная
+зависимость), asyncpg оставить только если замеры покажут выигрыш. alembic_utils не брать (последний релиз 2025-04-10).
+
+### NEED: a) Изоляция расследований (RLS) и append-only audit log
+PRIMARY: PostgreSQL RLS с FORCE + SET LOCAL; журнал на правах, триггерах и hash chain; pgaudit опционально
+STANDS: True
+ISSUE: Все утверждения о RLS подтверждены документацией 18.6. Недооценено: 1) системная БД DBOS хранит входы и выходы всех расследований вне RLS и по умолчанию в pickle — это второй, неизолированный и нечитаемый экземпляр данных
+расследований; 2) транзакции, которые DBOS открывает сам (datasources, Custom Sessionmaker в 3.2.0), тоже должны выставлять контекст RLS — в аудите это не оговорено; 3) цепочка хешей без внешней привязки доказывает только
+внутреннюю согласованность: владелец БД может пересчитать её целиком.
+SUGGESTED CHANGE: Добавить: роль DBOS без доступа к схеме приложения и наоборот; в выходах шагов хранить только идентификаторы; включить DBOSPortableJSONSerializer; автотест «транзакция без контекста расследования возвращает 0 строк» для каждого
+пути доступа, включая шаги воркера. Для отчётов правоохранителям — внешняя фиксация головы цепочки через RFC 3161 TSA (rfc3161-client, Apache-2.0, 1.0.9 от 2026-09-14) в момент выпуска отчёта.
+
+### NEED: b) Очереди и фоновое выполнение длительных задач
+PRIMARY: DBOS Transact (Python) 3.2.x поверх PostgreSQL без Conductor; spike 2-3 дня; запасной вариант Procrastinate 3.10
+STANDS: True
+ISSUE: Лицензия MIT, активность и заявленные возможности подтверждены кодом; опровергнуть выбор не удалось, но условий заметно больше, чем указано. 1) Задержки: два опроса по 1.0 с (dequeue и ожидание результата) — последовательная
+трассировка на 10+ hop, где каждый вызов является отдельным workflow в очереди, съедает 10-20 с из бюджета 30 с при настройках по умолчанию. 2) Без Conductor нет автоматического восстановления workflow упавшего воркера другим
+воркером; executor_id по умолчанию local — при нескольких воркерах с одинаковым ID возможен повторный запуск чужих PENDING workflow. Conductor платный ($99/мес), его клиент проприетарный. 3) Ручная отмена не каскадируется
+(cancel_children=False по умолчанию). 4) Чекпойнты по умолчанию в pickle; аргументы workflow сохраняются — риск попадания секретов в БД. 5) DBOS тестируется на SQLAlchemy 2.0.50. 6) Retention системных таблиц без Conductor —
+вручную (delete_workflows). 7) Довод против Temporal про Elasticsearch неверен (PostgreSQL 12+ достаточно), хотя общий вывод по Temporal остаётся.
+SUGGESTED CHANGE: Оставить DBOS, но расширить критерии spike и конфигурацию: polling_interval_sec очередей и get_result 0.1-0.25 с с замером нагрузки на Postgres; в MVP один процесс воркера либо строго уникальные стабильные executor_id (DBOS__VMID)
++ restart-политика Docker и тест «убит один из двух воркеров»; всегда cancel_children=True; serializer = DBOSPortableJSONSerializer; запрет секретов в аргументах workflow (тест с подставным ключом по системной БД DBOS); явный
+application_version; собственная задача очистки истории; использовать enqueue_in_transaction для атомарной постановки вместе с записью в таблицы приложения. В таблицу отклонённых добавить Absurd и Oban for Python с причинами.
+
+### NEED: b) Брокер / in-memory store
+PRIMARY: Без брокера в MVP; при необходимости Valkey 9.1 (BSD-3-Clause)
+STANDS: True
+ISSUE: Лицензии Redis 8 (RSALv2/SSPLv1/AGPLv3) и Valkey (BSD-3-Clause, 9.1.2) подтверждены. Замечание: если глобальный token bucket придётся делать вне DBOS, Valkey может понадобиться раньше, чем предполагается (throttled-py распределён
+только через Redis-совместимое хранилище).
+SUGGESTED CHANGE: Без изменений. В spike зафиксировать решение: token bucket в Postgres или Valkey — чтобы появление брокера не стало сюрпризом.
+
+### NEED: b) Глобальный rate limiting внешних API между воркерами
+PRIMARY: Лимит на очередь DBOS (limiter / partition_limiter) + локальный aiolimiter + обработка 429
+STANDS: False
+ISSUE: В заявленной формулировке не выдерживает проверки кодом. 1) Limiter DBOS — скользящее окно по числу стартов workflow, а не token bucket: на каждом тике опроса стартует сразу весь остаток бюджета, сглаживания нет. 2) Чтобы лимит
+действовал, каждый внешний вызов должен быть отдельным workflow в очереди — это два опроса по 1.0 с на вызов и 5-6 транзакций Postgres; на интерактивном пути (простая транзакция за 30 с) это основной потребитель времени. 3)
+aiolimiter хранит состояние в одном процессе: при нескольких воркерах он ничего не сглаживает глобально, то есть связка не даёт общего для воркеров token bucket, который требовался в критериях. 4) Dequeue с limiter идёт через FOR
+UPDATE NOWAIT под REPEATABLE READ/SERIALIZABLE — воркеры на такой очереди сериализуются. 5) В 3.0.0 чинили регрессию limiter (PR #829, слит 2026-08-26) — механизм менялся совсем недавно.
+SUGGESTED CHANGE: Основной механизм — настоящий общий token bucket/GCRA за интерфейсом «разрешение на вызов провайдера X»: для MVP на одном сервере достаточно одного fetcher-процесса на провайдера с aiolimiter (глобален по построению) внутри шагов
+DBOS; при нескольких воркерах — bucket в Postgres (PyrateLimiter PostgresBucket в потоке либо собственная GCRA-функция с advisory lock) или Valkey + throttled-py. Limiter очереди DBOS оставить грубым внешним предохранителем и для
+фоновых массовых обходов. Обработка 429/Retry-After — как в аудите. Проверить нагрузочным тестом по секундным окнам при 1, 2 и 4 воркерах.
+
+### NEED: c) Язык бэкенда и API-фреймворк
+PRIMARY: Python 3.13; FastAPI 0.143 + Pydantic 2 + uvicorn; TypeScript только для UI
+STANDS: True
+ISSUE: Подтверждено: FastAPI MIT, 0.143.0 (2026-10-08), Python >= 3.10, классификатор Beta, 14 релизов 0.140.x за 2026-07-24..28. Аргумент про экосистему усиливается тем, что pydantic-ai имеет официальные durable-интеграции с DBOS,
+Temporal, Prefect и Restate. Существенных возражений нет.
+SUGGESTED CHANGE: Без изменений по существу. Зафиксировать lock-файлом FastAPI, Starlette и Pydantic вместе; обновление — по расписанию с прогоном контрактных тестов OpenAPI.
+
+### NEED: c) Аутентификация
+PRIMARY: Бэкенд как OIDC resource server (PyJWT/Authlib) + self-hosted Keycloak 26.8; при < 8 GB RAM — ZITADEL или SaaS
+STANDS: True
+ISSUE: Архитектура resource server верна и делает IdP заменяемым; факты о Keycloak подтверждены (Apache-2.0, 26.8.1, 1250 MB базово, рекомендуемый лимит 1360 MB). Слабое место — Keycloak как вариант по умолчанию для «одного скромного
+сервера»: около трети 4 GB-машины и три релиза за две недели (26.7.5, 26.8.0, 26.8.1), каждый из которых надо ставить. Пропущены более лёгкие и дешёвые варианты: Logto (MPL-2.0), Rauthy (Apache-2.0, по README около 35-40 MB),
+WorkOS AuthKit (первый 1M MAU бесплатно, MFA и passkeys включены — в отличие от Clerk Hobby). Утверждение «Clerk — допустим как быстрый старт» поэтому не лучший SaaS-вариант по цене.
+SUGGESTED CHANGE: Первичной рекомендацией сделать сам контракт (OIDC + JWKS, Authorization Code + PKCE), а IdP выбирать по RAM и юрисдикции: >= 8 GB — Keycloak; меньше — Logto или ZITADEL (после юридической оценки AGPL), либо SaaS с бесплатной MFA
+(WorkOS AuthKit) при допустимости хранения учётных данных у третьей стороны и доступности оплаты. Rauthy — только после пробы (версия 0.x, один сопровождающий).
+
+### NEED: c) Потоковая передача прогресса в UI
+PRIMARY: SSE (fastapi.sse EventSourceResponse) поверх собственной таблицы событий + LISTEN/NOTIFY; команды обычными HTTP-запросами
+STANDS: True
+ISSUE: Подтверждено кодом и документацией FastAPI; keep-alive (15 с), Cache-Control и X-Accel-Buffering встроены. Нюансы: 1) LISTEN требует выделенного прямого соединения вне transaction-пула; 2) NOTIFY в каждой транзакции записи события
+сериализует commit-ы через очередь уведомлений (на это прямо ссылается код DBOS, который коалесцирует уведомления) — при массовой записи событий воркерами это станет узким местом; 3) встроенный SSE существует с марта 2026, в июле
+правились status_code и разбиение строк.
+SUGGESTED CHANGE: Оставить SSE. NOTIFY слать не из каждой вставки, а коалесцированно (один сигнал на расследование не чаще N раз в секунду, payload — только id), клиенту при любом сигнале дочитывать из таблицы по Last-Event-ID. Иметь резервный
+режим периодического опроса и держать sse-starlette как запасной вариант.
+
+## VERIFIER FACT CHECKS
+
+- [CONFIRMED] PostgreSQL 18 (self-hosted) :: Текущий минор 18.6, поддержка 18 до 2030-11-14; PostgreSQL 19 существует только как Beta 4; лицензия PostgreSQL License
+  CORRECT VALUE: 18.6 (минорный релиз 2026-08-13), 18 поддерживается до 2030-11-14; 17.11 / 16.15 / 15.19 / 14.24 (EOL 2026-11-12). На 2026-10-14 PostgreSQL 19 — Beta 4 от 2026-09-24, GA и RC нет. Docker official-images: теги 18.6 / 18 / latest и
+19beta4. COPYRIGHT — текст PostgreSQL License (1996-2026).
+  METHOD: WebFetch postgresql.org (versioning и главная страница); curl raw COPYRIGHT из postgres/postgres; curl library/postgres из docker-library/official-images
+  EVIDENCE: https://www.postgresql.org/support/versioning/
+
+- [CORRECTED] PostgreSQL 18 (Docker-развёртывание) :: Достаточно одного контейнера postgres:18 + volume
+  CORRECT VALUE: В официальном образе 18+ изменён путь данных: VOLUME перенесён с /var/lib/postgresql/data на /var/lib/postgresql, PGDATA=/var/lib/postgresql/18/docker (Dockerfile 18/trixie, строки 189-192, PG_VERSION 18.6-1.pgdg13+2). Compose-
+файл со старым путём монтирования /var/lib/postgresql/data не сохранит данные там, где ожидается, — для хранилища доказательств это риск потери данных при пересоздании контейнера. В аудите не упомянуто.
+  METHOD: curl raw Dockerfile (чтение кода)
+  EVIDENCE: https://github.com/docker-library/postgres/blob/master/18/trixie/Dockerfile
+
+- [CONFIRMED] PostgreSQL RLS и LISTEN/NOTIFY :: Superuser/BYPASSRLS обходят RLS, владелец обходит без FORCE, default-deny без политик, FK/unique обходят RLS (covert channel), гонки при sub-SELECT; payload NOTIFY < 8000 байт, очередь 8 GB
+  CORRECT VALUE: Все формулировки дословно присутствуют в документации PostgreSQL 18.6. Дополнение: страница sql-notify не описывает блокировку при commit, но в коде DBOS (_sys_db_postgres.py) прямо упомянут async-notify queue lock, который
+сериализует notifying commits, — NOTIFY нельзя вызывать в каждой транзакции записи, нужен один коалесцирующий notifier.
+  METHOD: WebFetch официальной документации (ddl-rowsecurity, sql-notify); чтение кода DBOS через raw.githubusercontent.com
+  EVIDENCE: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+
+- [CONFIRMED] DBOS Transact (Python) 3.2 :: Лицензия MIT; 3.2.0 от 2026-09-29, 3.0.0 от 2026-09-16; Python >= 3.10; зависимости psycopg[binary]>=3.1 и sqlalchemy[asyncio]>=2.0.43; 1 626 stars; в 3.0.0 удалён Admin Server и исправлена регрессия limiter; лицензия dbos-
+enterprise не проверена
+  CORRECT VALUE: Всё подтверждено (LICENSE = MIT, pyproject, релизы 3.2.0 / 3.1.0 2026-09-24 / 3.0.0, release notes: Fix Limiter Regression, Remove Admin Server, Remove Deprecated App DB). Закрываю пробел аудита: пакет dbos-enterprise (PyPI
+3.3.0a1 от 2026-10-01) — проприетарный: license = DBOS Conductor Software License, classifier License :: Other/Proprietary License. То есть клиент Conductor не open source.
+  METHOD: gh api (repo, releases, LICENSE, pyproject); PyPI JSON API для dbos и dbos-enterprise
+  EVIDENCE: https://github.com/dbos-inc/dbos-transact-py/blob/main/pyproject.toml
+
+- [CORRECTED] DBOS Transact — limiter и задержки :: Limiter глобален для всех процессов, ограничивает число стартов workflow за период; задержка диспетчеризации до интервала опроса 1.0 с
+  CORRECT VALUE: Глобальность и семантика подтверждены кодом, но картина неполная. 1) Это скользящее окно: SQL-подсчёт строк workflow_status с started_at_epoch_ms > now - period, а не token bucket; на каждом тике опроса стартует сразу весь остаток
+бюджета (пачка). 2) При наличии limiter или global concurrency выборка идёт с FOR UPDATE NOWAIT (не SKIP LOCKED) под REPEATABLE READ или SERIALIZABLE — воркеры фактически сериализуются на очереди, конфликты уходят в повтор на
+следующем тике. 3) Опросов два, а не один: DEFAULT_QUEUE_POLLING_INTERVAL_SEC = 1.0 (dequeue) и DEFAULT_POLLING_INTERVAL = 1.0 в _core.py (ожидание результата дочернего workflow через time.sleep). Каждый внешний вызов, оформленный
+отдельным workflow в очереди, добавляет в худшем случае около 2 с, в среднем около 1 с. Оба интервала настраиваются (polling_interval_sec).
+  METHOD: Чтение кода: dbos/_queue.py, dbos/_sys_db.py (start_queued_workflows, rate_limit_remaining, await_workflow_result), dbos/_core.py; документация queue-tutorial через WebFetch
+  EVIDENCE: https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_sys_db.py
+
+- [CORRECTED] DBOS Transact — отмена :: Поведение ручной отмены в отношении дочерних workflow в документации не описано (не проверено)
+  CORRECT VALUE: В коде есть явный параметр: DBOS.cancel_workflow(workflow_id, *, cancel_children: bool = False) и cancel_workflows(...). По умолчанию дочерние workflow НЕ отменяются; каскад (обход потомков по уровням) включается только при
+cancel_children=True. Страница workflow-management этот параметр не упоминает. Отмена кооперативная (в начале следующего шага), async-шаг прерывается только при preemptible=True.
+  METHOD: Чтение кода (_dbos.py строки ~2099-2146, _sys_db.py cancel_workflows); WebFetch docs.dbos.dev/python/tutorials/workflow-management
+  EVIDENCE: https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_dbos.py
+
+- [CORRECTED] DBOS Transact — восстановление без Conductor :: Восстановление идёт по executor id и текущей application version; на одном сервере работает без Conductor
+  CORRECT VALUE: Подтверждено, но с существенным условием, которого нет в рекомендации. Без Conductor executor_id по умолчанию равен строке local (либо DBOS__VMID / config executor_id). При старте процесс восстанавливает только PENDING workflow
+своего executor_id и своей application_version. Документация: каждому исполнителю нужно назначить executor ID; автоматическое восстановление workflow упавшего исполнителя другим исполнителем делает только Conductor (платный,
+проприетарный клиент). Следствие: при 3-4 воркерах без уникальных стабильных ID перезапуск одного процесса с ID local попытается восстановить PENDING workflow, которые в этот момент исполняют живые соседи; с уникальными ID
+workflow упавшего воркера ждут перезапуска именно этого воркера.
+  METHOD: Чтение кода (dbos/_recovery.py, dbos/_dbos.py строки ~517-528 и ~700-715); WebFetch docs.dbos.dev/production/workflow-recovery и upgrading-workflows
+  EVIDENCE: https://docs.dbos.dev/production/workflow-recovery
+
+- [CORRECTED] DBOS Transact — сериализация чекпойнтов :: Запись результата каждого шага в Postgres даёт журнал действий агентов и работает на воспроизводимость
+  CORRECT VALUE: По умолчанию входы/выходы workflow и выходы шагов сериализуются через pickle + base64 (DefaultSerializer, имя py_pickle) — это непереносимые и не читаемые SQL-запросом блобы, плюс pickle.loads при чтении. Переносимый вариант есть
+(DBOSPortableJSONSerializer, параметр config serializer), но его нужно включить явно. Все аргументы workflow попадают в системную БД: секрет, переданный аргументом, окажется в хранилище (документация pydantic-ai по DBOS отдельно
+предупреждает не передавать секреты в аргументах). Как журнал доказательств системные таблицы DBOS не годятся без настройки.
+  METHOD: Чтение кода dbos/_serialization.py и dbos/_dbos.py; чтение docs/durable_execution/dbos.md в pydantic/pydantic-ai
+  EVIDENCE: https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_serialization.py
+
+- [UNVERIFIABLE] DBOS Transact + SQLAlchemy 2.1 :: Один ORM в проекте: SQLAlchemy 2.1.x совместим с DBOS 3.2.0 (в аудите помечено как не проверено)
+  CORRECT VALUE: Совместимость не подтверждена и первичными данными скорее ставится под вопрос: pdm.lock в репозитории DBOS фиксирует sqlalchemy 2.0.50, то есть CI DBOS гоняется на ветке 2.0.x, а не на 2.1. Ветка 2.0 жива: 2.0.54 вышла 2026-09-15.
+Issues/PR в DBOS про 2.1 не найдено. Код не запускался.
+  METHOD: curl raw pdm.lock; PyPI JSON API (хронология релизов SQLAlchemy); gh search issues/prs
+  EVIDENCE: https://github.com/dbos-inc/dbos-transact-py/blob/main/pdm.lock
+
+- [CONFIRMED] DBOS Conductor (цены) :: Pro $99/мес (2 места, 3 приложения, 1M checkpoints, далее $50 за миллион); Teams $499/мес (10M); self-hosted Conductor только Enterprise
+  CORRECT VALUE: Подтверждено. Уточнение: у Teams 10 мест и 10 приложений, перерасход $40 за миллион, дополнительные приложения по $50. Библиотека: open source, free forever.
+  METHOD: WebFetch официальной страницы цен
+  EVIDENCE: https://www.dbos.dev/dbos-pricing
+
+- [CONFIRMED] SQLAlchemy 2.1 + Alembic 1.20 :: SQLAlchemy 2.1.4 (2026-10-07), 2.1.0 GA 2026-09-24, Python >= 3.11, MIT; Alembic 1.20.0 (2026-09-11), MIT; autogenerate не отслеживает RLS и триггеры
+  CORRECT VALUE: Версии, даты и лицензии подтверждены. Страница autogenerate не перечисляет политики, триггеры, функции и GRANT среди обнаруживаемого и отсылает к стороннему alembic-utils. Дополнение: alembic_utils (MIT) умеет autogenerate для
+functions, views, triggers и policies, но последний релиз 0.8.8 от 2025-04-10 (полтора года без релизов) — полагаться на него нельзя, ручные SQL-миграции остаются верным выбором.
+  METHOD: gh api (repo, releases); PyPI JSON API; WebFetch документации Alembic; gh api olirice/alembic_utils
+  EVIDENCE: https://alembic.sqlalchemy.org/en/latest/autogenerate.html
+
+- [CONFIRMED] FastAPI 0.143 и встроенный SSE :: 0.143.0 (2026-10-08), MIT, Python >= 3.10, Development Status 4 - Beta; fastapi/sse.py с EventSourceResponse, документация SSE с 0.135.0 (2026-03-01)
+  CORRECT VALUE: Подтверждено. Дополнение в пользу рекомендации: встроенная реализация сама шлёт keep-alive ping-комментарий каждые 15 с, ставит Cache-Control: no-cache и X-Accel-Buffering: no, в документации есть раздел про Last-Event-ID —
+отдельный keep-alive писать не нужно.
+  METHOD: curl raw fastapi/sse.py, routing.py, pyproject.toml, release-notes.md, docs/tutorial/server-sent-events.md; gh api releases
+  EVIDENCE: https://github.com/fastapi/fastapi/blob/master/fastapi/sse.py
+
+- [CONFIRMED] Keycloak 26.8 :: Apache-2.0; 26.8.1 от 2026-10-13; базовая память 1250 MB на экземпляр, ~300 MB non-heap, 1 vCPU на 15 логинов/с; Organizations с 26.0.0, passkeys с 26.4.0, OTel tracing с 26.1.0, SCIM в 26.8.0
+  CORRECT VALUE: Подтверждено. Уточнение: по sizing-гайду рекомендуемый memory limit для базового случая — 1360 MB на Pod (70% лимита уходит под heap). Темп патчей высокий: 26.7.5 (2026-09-30), 26.8.0 (2026-10-01), 26.8.1 (2026-10-13). Версии
+supported-фич подтверждены только по заголовкам оглавления release notes.
+  METHOD: gh api (license, releases); WebFetch sizing-гайда и release notes (первые 100 000 символов)
+  EVIDENCE: https://www.keycloak.org/high-availability/multi-cluster/concepts-memory-and-cpu-sizing
+
+- [CONFIRMED] Hatchet :: MIT; движок v0.110.8 (2026-10-13), Python SDK 1.42.1; hatchet-lite — для development и low-volume, без требований к ресурсам; противоречие на странице цен
+  CORRECT VALUE: Подтверждено. Compose hatchet-lite: postgres:15.6 + hatchet-lite, порты 8888/7077, RabbitMQ опционален, дефолтный admin@example.com с опубликованным паролем. Цены: без карты 2 000 runs/день, 10 воркеров, retention 1 день; с картой
+1M runs/мес, далее $30 за миллион, 100 воркеров, 7 дней. SSO, RBAC и audit logs — только в Custom.
+  METHOD: gh api (repo, releases, LICENSE, sdks/python/pyproject.toml); WebFetch docs и pricing
+  EVIDENCE: https://docs.hatchet.run/self-hosting/hatchet-lite
+
+- [CONFIRMED] Procrastinate 3.10 (запасной вариант) :: MIT; 3.10.0 (2026-09-23); README: ищет дополнительных сопровождающих; CI на Python 3.10-3.14 и нескольких версиях Postgres включая 18
+  CORRECT VALUE: Подтверждено. Матрица CI: py3.10/PG14, 3.11/PG15, 3.12/PG16, 3.13/PG17, 3.14/PG18, только ubuntu-latest. В отличие от DBOS, PostgreSQL 18 тестируется явно.
+  METHOD: gh api; curl raw README.md и ci.yml; PyPI JSON API
+  EVIDENCE: https://github.com/procrastinate-org/procrastinate/blob/main/.github/workflows/ci.yml
+
+- [CONFIRMED] PgQueuer 1.6 :: MIT; v1.6.0 (2026-10-11); RPS rate limiting удалён как ненадёжный; фактически один сопровождающий
+  CORRECT VALUE: Подтверждено: upgrading.md — RPS rate limiting was inherently flaky, замена requests_per_second=N на concurrency_limit=N; contributors: janbjorge 779, следующие по 3.
+  METHOD: gh api (repo, releases, contributors); curl raw upgrading.md
+  EVIDENCE: https://github.com/janbjorge/pgqueuer/blob/main/docs/getting-started/upgrading.md
+
+- [CONFIRMED] Redis 8 / Valkey 9.1 :: Redis 8+ — RSALv2 / SSPLv1 / AGPLv3 на выбор, 7.2 и ранее BSD-3; Valkey — BSD-3-Clause, 9.1.2 (2026-09-01)
+  CORRECT VALUE: Подтверждено текстом LICENSE.txt Redis и метаданными Valkey. Уточнение: у Valkey есть пререлиз 9.2.0-rc1 (2026-09-16); Redis 8.10.2 (2026-09-17).
+  METHOD: curl raw LICENSE.txt; gh api (repo, releases)
+  EVIDENCE: https://github.com/redis/redis/blob/unstable/LICENSE.txt
+
+- [CORRECTED] Temporal :: Причина отклонения: кластер сервисов + БД + Elasticsearch в дефолтном compose; обязательность Elasticsearch не проверена
+  CORRECT VALUE: Elasticsearch не обязателен: advanced Visibility поддерживается на PostgreSQL 12+ (а также MySQL 8.0.17+ и SQLite 3.31+) начиная с Temporal Server v1.20; ES/OpenSearch лишь рекомендованы для нагрузок больше нескольких workflow
+executions. Temporal можно держать на одном PostgreSQL, так что аргумент про Elasticsearch нужно убрать; остаются отдельный сервер с несколькими ролями, ручные миграции схемы и sandbox-детерминизм Python. Прочее подтверждено: MIT,
+v1.32.1 (2026-10-08) плюс патчи v1.31.4 и v1.30.8 от 2026-10-12, sdk 1.34.0; Cloud без базовой платы, от $50 за миллион actions, $150 кредитов на 90 дней.
+  METHOD: WebFetch docs.temporal.io и temporal.io/pricing; gh api (repo, releases); PyPI
+  EVIDENCE: https://docs.temporal.io/self-hosted-guide/visibility
+
+- [CONFIRMED] Neon :: Free: 100 CU-hours и 1 GB на проект, scale-to-zero через 5 минут не отключается; Launch $0.106 за CU-hour, $0.35 за GB-month; Scale $0.222; последний коммит открытого репозитория 2026-08-31
+  CORRECT VALUE: Все цифры подтверждены на neon.com/pricing; арифметика 0.25 CU x 730 ч = 182.5 CU-часов > 100 верна. Репозиторий neondatabase/neon: Apache-2.0, pushed_at 2026-08-31 (последний коммит — правка опечатки в документации, предыдущий
+2026-05-25) — открытая разработка фактически заморожена. Важное дополнение: DBOS в production checklist запрещает transaction-mode pooler, поэтому к Neon/Supabase нужно прямое, а не pooled-соединение.
+  METHOD: WebFetch страницы цен; gh api (repo, commits); WebFetch docs.dbos.dev/production/checklist
+  EVIDENCE: https://neon.com/pricing
+
+- [CONFIRMED] Supabase :: Free: 500 MB, 50 000 MAU, 2 проекта, пауза после недели простоя; Pro от $25/мес, 8 GB диска, 100 000 MAU, далее $0.00325; compute Micro $10 / Small $15 / Medium $60; Team от $599
+  CORRECT VALUE: Подтверждено дословно на supabase.com/pricing.
+  METHOD: WebFetch страницы цен
+  EVIDENCE: https://supabase.com/pricing
+
+- [CONFIRMED] ZITADEL v4 :: AGPL-3.0-only с исключениями MIT/Apache; v4.19.4 (2026-10-01); Cloud Free 100 DAU, Pro $100/мес с 25 000 DAU; ~512 MB RAM, для хеширования паролей 4 ядра
+  CORRECT VALUE: Подтверждено. LICENSING.md: определение соответствия AGPL — ответственность пользователя, настоятельно рекомендуется юрист; страница цен AGPL не упоминает, commercial license указана только в Enterprise. Дополнительно из
+production-гайда: БД потребляет около 1 ядра на 100 req/s и 4 GB RAM на ядро.
+  METHOD: curl raw LICENSING.md; gh api; WebFetch zitadel.com/pricing и docs/self-hosting/manage/production
+  EVIDENCE: https://github.com/zitadel/zitadel/blob/main/LICENSING.md
+
+- [CONFIRMED] Clerk :: Hobby $0, 50 000 MRU, без MFA и passkeys, фиксированная 7-дневная сессия; Pro $25/мес ($20 при годовой оплате), далее $0.02 за MRU; B2B add-on $100/мес, 100 организаций бесплатно; Business $300/мес
+  CORRECT VALUE: Подтверждено. Уточнения: B2B add-on $85/мес при годовой оплате, бесплатно до 20 участников на организацию; Business $250/мес при годовой оплате.
+  METHOD: WebFetch страницы цен
+  EVIDENCE: https://clerk.com/pricing
+
+- [CONFIRMED] Celery 5.6 :: rate_limit действует на экземпляр воркера, не глобально; Windows не поддерживается с 4.x; visibility timeout Redis по умолчанию 1 час
+  CORRECT VALUE: Все три цитаты найдены в исходниках документации (tasks.rst строка 1032, faq.rst строки 960-966, redis.rst строка 89). Стабильная версия 5.6.3 (2026-03-26), BSD-3-Clause.
+  METHOD: curl raw файлов документации из репозитория; PyPI JSON API
+  EVIDENCE: https://github.com/celery/celery/blob/main/docs/userguide/tasks.rst
+
+- [CONFIRMED] psycopg 3 / asyncpg :: psycopg 3 — LGPL-3.0-only, 3.3.6; async-режим несовместим с ProactorEventLoop в Windows; asyncpg — Apache-2.0, 0.32.0 (2026-10-06)
+  CORRECT VALUE: Подтверждено первичным источником psycopg (docs/advanced/async.rst), а не только документацией PgQueuer. Уточнение: сам DBOS работает с системной БД через синхронный движок SQLAlchemy и синхронное psycopg-соединение для LISTEN,
+поэтому ограничение Proactor касается прикладного async-кода, а не DBOS.
+  METHOD: curl raw async.rst; PyPI JSON API; чтение dbos/_sys_db_postgres.py
+  EVIDENCE: https://github.com/psycopg/psycopg/blob/master/docs/advanced/async.rst
+
+- [CORRECTED] MySQL 9.7 LTS / 26.x :: Июльские релизы 2026: 26.7.0 Innovation, 9.7.2 LTS; нативной RLS нет
+  CORRECT VALUE: Последний релиз ветки — 9.7.3 от 2026-08-18 (9.7.2 от 2026-07-28, 9.7.0 от 2026-04-21); в навигации release notes уже есть серии 26.7 и 26.10. Обозначение LTS на странице release notes отсутствует — не подтверждено. Отсутствие RLS
+мной не перепроверялось. На решение не влияет.
+  METHOD: WebFetch официальных release notes
+  EVIDENCE: https://dev.mysql.com/doc/relnotes/mysql/9.7/en/
+
+- [CORRECTED] DBOS streams :: Чтение потоков основано на опросе (polling_interval_sec)
+  CORRECT VALUE: В Postgres-реализации listener DBOS подписан через LISTEN на три канала, включая канал streams; опрос — запасной режим при use_listen_notify=False (интервал по умолчанию 1.0 с, fallback 60 с). Поведение чтения извне через
+DBOSClient отдельно не проверялось. На рекомендацию (собственная таблица событий) не влияет.
+  METHOD: Чтение кода dbos/_sys_db_postgres.py и dbos/_sys_db.py
+  EVIDENCE: https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_sys_db_postgres.py
+
+- [CONFIRMED] DigitalOcean Managed PostgreSQL / Prisma :: DO: 1 GiB $15.15/мес, 2 GiB $30.45, 4 GiB $60.90, storage $0.215 за GiB; Prisma: dist-tag latest указывает на 8.0.0-rc.22
+  CORRECT VALUE: Оба факта подтверждены: DO $0.02254/час = $15.15/мес и далее по списку; npm dist-tags prisma: latest = 8.0.0-rc.22 (2026-10-08), prev = 7.10.0.
+  METHOD: WebFetch страницы цен; curl registry.npmjs.org/prisma
+  EVIDENCE: https://www.digitalocean.com/pricing/managed-databases
+
+- [UNVERIFIABLE] DBOS Transact — независимые отзывы :: Независимых отчётов о production-эксплуатации DBOS Transact (Python) найти не удалось
+  CORRECT VALUE: Перепроверить не удалось: лимит WebSearch в этой сессии был исчерпан до первого запроса, поиск не выполнялся. Косвенный первичный признак зрелости экосистемы: в pydantic-ai есть официальная интеграция
+(docs/durable_execution/dbos.md, extra dbos>=2.10.0) наряду с Temporal, Prefect и Restate. Независимых эксплуатационных отчётов это не заменяет.
+  METHOD: WebSearch недоступен (бюджет исчерпан); curl raw pyproject и документации pydantic-ai
+  EVIDENCE: https://github.com/pydantic/pydantic-ai/blob/main/docs/durable_execution/dbos.md
+
+## CANDIDATES MISSED BY THE RESEARCHER (found by verifier)
+
+- Absurd (earendil-works/absurd) (https://github.com/earendil-works/absurd)
+  WHY: Новичок 2025 года ровно в нише рекомендации: durable execution только на PostgreSQL, без отдельного сервера; вся логика в одном SQL-файле с хранимыми функциями, тонкие SDK для Python и TypeScript, бесплатный веб-UI (habitat) — то,
+чего нет у DBOS без платного Conductor.
+  ASSESSMENT: Apache-2.0, 2 488 stars, создан 2025-10-20, релиз 0.5.0 от 2026-08-04, последний коммит 2026-08-04 (два месяца тишины), absurd-sdk 0.5.0 на PyPI (Python >= 3.9). В README нет встроенного rate limiting; версия 0.x. Не замена DBOS
+сегодня, но серьёзный запасной вариант наравне с Procrastinate и ориентир для собственного тонкого слоя. Проверено: README и метаданные через gh api, PyPI; не запускался.
+
+- Oban for Python (oban-bg/oban-py) (https://github.com/oban-bg/oban-py)
+  WHY: Порт зрелой Postgres-очереди Oban на Python, вышел в январе 2026: asyncio-native, отмена задач с любого узла, cron, готовый веб-дашборд Oban Web в Docker.
+  ASSESSMENT: Apache-2.0, oban 0.6.6 (2026-09-03), Python >= 3.12, 298 stars, один основной автор (sorentwo, 270 коммитов). Ключевое ограничение по README: глобальные лимиты между узлами, rate limiting, partitioned queues, workflows и unique
+jobs — только в платном Oban Pro (цена не проверялась). Для задачи «глобальный лимит + чекпойнты» в бесплатной редакции не подходит; причина отклонения конкретная и должна быть в аудите.
+
+- Restate (https://github.com/restatedev/restate)
+  WHY: Durable execution одним бинарником без внешней БД; официальный Python SDK (restate-sdk 1.0.5) и интеграция в pydantic-ai. В аудите упомянут только в списке лицензий, как кандидат не оценён.
+  ASSESSMENT: Business Source License 1.1; Additional Use Grant прямо разрешает любое production-использование для собственных сервисов и запрещает только Public Restate Platform Service (отдавать API Restate третьим лицам) — коммерческому SaaS
+LEDGERHUNT не мешает, но это не OSI-лицензия. 4 555 stars, v1.8.0-rc.3 (2026-10-13). Минус тот же, что у Hatchet: ещё один stateful-сервис со своим хранилищем на единственном сервере. Не запускался, ресурсы не измерялись.
+
+- SAQ (tobymao/saq) и pgmq (https://github.com/tobymao/saq)
+  WHY: Ещё два способа обойтись одним PostgreSQL: SAQ — asyncio-очередь с бэкендом Redis или Postgres (в аудите не упомянута вовсе); pgmq — очередь-расширение PostgreSQL с Python-клиентом.
+  ASSESSMENT: SAQ: MIT, 0.26.4 (2026-05-21), 891 stars, активен (push 2026-10-13); простая очередь без durable-чекпойнтов. pgmq: PostgreSQL License, 5 328 stars, Python-клиент 1.1.4 (2026-09-20); только примитив очереди, требует расширения в
+образе. Оба — запасные простые варианты уровня Procrastinate, а не замена DBOS.
+
+- WorkOS AuthKit (https://workos.com/pricing)
+  WHY: SaaS-аутентификация, которой нет в аудите и которая по цене обходит рекомендованный «быстрый старт» на Clerk: MFA и passkeys входят в бесплатный уровень.
+  ASSESSMENT: Страница цен: первый 1M MAU бесплатно, далее $2 500/мес за каждый следующий миллион; AuthKit включает email + password, social login, passkeys, MFA, magic auth; enterprise SSO и Directory Sync — $125 за подключение (1-15). Минусы:
+учётные данные у третьей стороны, ToS и доступность оплаты в юрисдикции команды не проверялись, совместимость токенов с чистой OIDC-проверкой по JWKS не тестировалась.
+
+- Logto (https://github.com/logto-io/logto)
+  WHY: Self-hosted OIDC / OAuth 2.1 / SAML IdP с MFA, организациями и RBAC на PostgreSQL — прямой конкурент Keycloak и ZITADEL без AGPL и без JVM.
+  ASSESSMENT: MPL-2.0 (file-level copyleft, для немодифицированного сервиса не обременяет), 14 675 stars, v1.45.0 от 2026-10-13, релизы каждые две недели. Node.js + PostgreSQL (может жить в том же сервере БД). Потребление RAM и отличия OSS от
+Logto Cloud не проверялись — нужна проба.
+
+- Rauthy (https://github.com/sebadob/rauthy)
+  WHY: Сверхлёгкий self-hosted OIDC-провайдер на Rust — ответ на главную слабость Keycloak на скромном сервере.
+  ASSESSMENT: Apache-2.0, 1 375 stars, v0.37.1 (2026-10-07). По README: около 35 MB RAM с PostgreSQL и около 40 MB со встроенным Hiqlite, passkeys / FIDO2, upstream-провайдеры, Admin UI, события и аудит, заявлен независимый security audit.
+Риски: версия 0.x, один сопровождающий (sebadob 2 933 коммита, следующий человек — 14), упор на passkeys вместо TOTP. Цифры памяти — заявление автора, не измерялись.
+
+- PlanetScale Postgres (https://planetscale.com/pricing)
+  WHY: Заметный новый managed Postgres 2025-2026, дешевле всех managed-вариантов из аудита (DigitalOcean $15.15, Neon Launch около $19, Supabase Pro $25).
+  ASSESSMENT: По странице цен: PS-5 single node (1/16 vCPU, 512 MiB) — $5/мес, HA из трёх узлов — $15/мес; хранилище, бэкапы и egress сверх включённого оплачиваются отдельно, бесплатного уровня нет. 512 MiB мало для совмещения данных приложения
+и очереди DBOS; версии PostgreSQL и ToS не проверялись. Имеет смысл только как путь миграции.
+
+- Внешняя фиксация времени для audit log: rfc3161-client (https://github.com/trailofbits/rfc3161-client)
+  WHY: Аудит предлагает выносить хеш головы цепочки в отчёт, но не называет средства независимой отметки времени; без неё hash chain не доказывает, что журнал не пересчитан задним числом.
+  ASSESSMENT: Apache-2.0, пакет rfc3161-client 1.0.9 от 2026-09-14, Python >= 3.9, активен (push 2026-10-12). Клиент RFC 3161 Time-Stamp Protocol; выбор TSA и стоимость не исследовались. Альтернатива opentimestamps-client — LGPL3, последний
+релиз 0.7.2 от 2024-12-31 (малоактивен).
+
+- pydantic-ai durable execution (https://github.com/pydantic/pydantic-ai/tree/main/docs/durable_execution)
+  WHY: Определяет, кто отвечает за durability агентного слоя: если агенты строятся на pydantic-ai, чекпойнты вызовов моделей и MCP уже интегрированы с DBOS, Temporal, Prefect и Restate — это довод при выборе очереди, которого в аудите
+нет.
+  ASSESSMENT: pydantic-ai 2.55.0 (2026-10-09, MIT); extra dbos = dbos>=2.10.0, temporal = temporalio>=1.27.0, prefect>=3.7.5. Документация интеграции с DBOS фиксирует ограничения: события стриминга внутри workflow буферизуются, собственные
+tool-функции нужно явно оборачивать в @DBOS.step, аргументы сохраняются в истории, при смене состава шагов нужна новая application version. Совместимость именно с DBOS 3.2.0 не тестировалась.
+
+============================================================
+PART 2 - RESEARCHER AUDIT
+============================================================
+
+## RESEARCHER RECOMMENDATIONS
+
+### R1. NEED: a) Реляционное хранилище: движок и хостинг
+PRIMARY: PostgreSQL 18 (текущий минор 18.6), self-hosted в Docker на том же сервере; одна СУБД для данных приложения, очереди и событий прогресса
+RATIONALE: Единственный движок, который одновременно даёт RLS для изоляции расследований, JSONB для сырых ответов провайдеров, LISTEN/NOTIFY и SKIP LOCKED для очереди без брокера. Поддержка 18 до 2030-11-14. Лицензия PostgreSQL License без
+условий для коммерческого SaaS. Убирает необходимость в Redis/RabbitMQ, что прямо отвечает требованию минимальных операций на одном сервере. PostgreSQL 19 на дату аудита показан только как Beta 4 — не брать.
+ARCHITECTURE NOTES: Две базы (или схемы) на одном сервере: app (данные платформы, под RLS) и dbos (system database очереди). Три роли: owner (миграции), app (API и воркеры, без BYPASSRLS), maintenance (BYPASSRLS, только для служебных задач). Сырые
+ответы провайдеров — в JSONB с хешем содержимого и временем получения, чтобы каждый факт отчёта можно было воспроизвести.
+COST: $0 дополнительных расходов (ресурсы уже оплаченного сервера). Переменная стоимость на расследование около $0: платных вызовов нет. Запасные варианты: DigitalOcean от $15.15/мес, Supabase Pro от $25/мес, Neon Launch около $19/мес +
+$0.35 за GB-month.
+DATA QUALITY VERIFICATION: 1) Автотесты RLS: подключение прикладной ролью с контекстом расследования A должно возвращать 0 строк расследования B по каждой таблице; отдельный тест, что прикладная роль не владелец таблиц и не имеет BYPASSRLS. 2) Ограничения
+схемы как гарантия требования «100% фактов с TXID»: NOT NULL и CHECK на формат txid (64 hex) + внешний ключ факта на таблицу сырых транзакций. 3) Еженедельная проверка восстановления из бэкапа на чистый контейнер. 4) Мониторинг
+раздувания системных таблиц очереди.
+RISKS: Единая точка отказа для данных, очереди и событий; бэкапы и PITR на команде; конкуренция за RAM на одном сервере. Смягчение: ночной pg_dump + архив WAL на внешнее хранилище, алерты на место на диске, путь миграции на managed
+Postgres.
+REPLACEABILITY: Высокая: при отказе от самостоятельного хостинга переезд на Neon/Supabase/RDS/DO — смена строки подключения при условии, что не используются вендорные расширения.
+REJECTED ALTERNATIVES:
+  - Neon: Free: scale-to-zero через 5 минут не отключается, а always-on воркер (0.25 CU x 730 ч = 182 CU-часов) превышает лимит 100 CU-часов; платный Launch около $19/мес + storage и сетевые задержки на каждый checkpoint; данные
+  - расследований у третьей стороны. Оставить как путь миграции.
+  - Supabase: Free ставится на паузу после недели простоя и ограничен 500 MB; Pro от $25/мес. Оправдан только вместе с Supabase Auth; создаёт привязку.
+  - Amazon RDS for PostgreSQL: Сложность AWS несоразмерна одному серверу; цены подтверждены только сторонними источниками (около $11.68/мес за db.t4g.micro + $0.115 за GB).
+  - DigitalOcean Managed PostgreSQL: От $15.15/мес за 1 GiB — имеет смысл, только если сервер приложения в том же датацентре; не нужен, пока нет требования управляемого PITR.
+  - SQLite / libSQL / Turso: Нет RLS и LISTEN/NOTIFY; libSQL наследует single-writer; Turso Database до 1.0 (v0.8.3).
+  - MySQL 9.7 LTS: В DDL руководства 9.7 нет CREATE POLICY для row-level security; Postgres-нативные очереди недоступны.
+
+### R2. NEED: a) ORM / слой запросов / миграции
+PRIMARY: SQLAlchemy 2.1.x (Core + ORM, asyncio) + Alembic 1.20 с ручными SQL-миграциями для RLS, ролей и триггеров; драйвер asyncpg для приложения
+RATIONALE: Оба проекта MIT, активно сопровождаются (2.1.4 от 2026-10-07, Alembic 1.20.0 от 2026-09-11), совместимы с Python 3.13. Явное управление транзакциями позволяет ставить контекст RLS через set_config(..., true) в начале каждой
+транзакции. DBOS уже тянет SQLAlchemy как зависимость — один ORM в проекте. Pydantic-схемы API держать отдельно от таблиц.
+ARCHITECTURE NOTES: На Windows-хосте async-режим psycopg не работает с ProactorEventLoop — запускать API и воркеры в Docker (Linux) либо использовать asyncpg для слоя приложения.
+COST: $0.
+DATA QUALITY VERIFICATION: CI-шаг: alembic upgrade head на чистой базе, затем downgrade и повторный upgrade; тест, сравнивающий список таблиц с включённой RLS (pg_class.relrowsecurity и relforcerowsecurity) с ожидаемым списком, чтобы новая таблица без
+политики не прошла ревью.
+RISKS: SQLAlchemy 2.1 вышла 2026-09-24 — свежая серия; совместимость DBOS 3.2.0 с 2.1.x не проверялась (при проблемах закрепить 2.0.x). Alembic autogenerate не видит политики RLS и триггеры.
+REPLACEABILITY: Средняя: модели привязаны к SQLAlchemy, схема и SQL-миграции переносимы.
+REJECTED ALTERNATIVES:
+  - SQLModel: Версия 0.0.48, статус Beta, ограничение SQLAlchemy <2.2.0; смешивает DTO и таблицы.
+  - Prisma: Только TypeScript; dist-tag latest в npm указывает на 8.0.0-rc.22.
+  - Drizzle: Только TypeScript; pre-1.0 (0.45.4).
+  - Atlas: В Apache-2.0 Community Edition нет RLS, триггеров, функций и migrate down — именно того, что нужно.
+  - Django ORM: Уместен только вместе с Django; преимущественно синхронный, второй ORM рядом с SQLAlchemy у DBOS.
+
+### R3. NEED: a) Изоляция расследований (RLS) и append-only audit log
+PRIMARY: PostgreSQL RLS с FORCE ROW LEVEL SECURITY и контекстом через SET LOCAL + журнал на правах, триггерах и цепочке хешей; pgaudit — опционально для контроля DBA
+RATIONALE: RLS — встроенная защита в глубину: даже ошибочный запрос, включая сформированный инструментом LLM-агента, не вернёт чужие строки; при включённой RLS без политик действует default-deny. Журнал только на добавление реализуется
+штатными средствами (REVOKE, триггеры, sha256) без новых сервисов и одновременно служит источником событий прогресса и воспроизводимости (версии моделей, параметры, действия агентов).
+ARCHITECTURE NOTES: Политики по org_id / investigation_id через current_setting('app.investigation_id', true); SET LOCAL работает и с транзакционным пулом соединений. Цепочка хешей — отдельная на расследование (advisory lock по id расследования),
+чтобы вставки разных расследований не сериализовались. Общие справочники (метки адресов с источником, датой проверки и confidence) — отдельные таблицы без арендной привязки, только на чтение для прикладной роли.
+COST: $0; накладные расходы — предикат политики на запрос и один sha256 на запись журнала.
+DATA QUALITY VERIFICATION: 1) Тесты: UPDATE, DELETE и TRUNCATE журнала прикладной ролью должны завершаться ошибкой. 2) Периодическая задача пересчитывает цепочку хешей по каждому расследованию и сравнивает с сохранённой головой; расхождение — инцидент. 3)
+Хеш головы цепочки включается в итоговый отчёт (JSON/PDF), что позволяет внешней стороне проверить неизменность. 4) Тест редактирования секретов: в журнал и логи подаётся поддельный API-ключ, затем проверяется его отсутствие.
+RISKS: Superuser и владелец таблицы могут отключить триггеры — журнал даёт обнаружение подмены, а не её невозможность; FK/unique-проверки обходят RLS (не использовать пользовательские значения в уникальных ключах, общих между
+арендаторами); системные таблицы DBOS вне RLS.
+REPLACEABILITY: Привязка к PostgreSQL осознанная; сама схема журнала — обычные таблицы.
+REJECTED ALTERNATIVES:
+  - Schema-per-investigation / database-per-tenant: Миграции на N схем и невозможность общих запросов по повторяющимся адресам и базе меток.
+  - Фильтрация только в приложении: Один пропущенный WHERE даёт утечку; нет второго рубежа.
+  - Только pgaudit: Пишет в серверный лог, а не в таблицу доказательств; дополняет, но не заменяет прикладной журнал.
+
+### R4. NEED: b) Очереди и фоновое выполнение длительных задач
+PRIMARY: DBOS Transact (Python) 3.2.x поверх PostgreSQL, без брокера, без платного Conductor; обязательный spike 2-3 дня до принятия; запасной вариант — Procrastinate 3.10 + собственные таблицы фронтира
+RATIONALE: Единственный из проверенных вариантов, который без отдельного сервера закрывает сразу все критерии: checkpoint каждого шага и возобновление с последнего завершённого шага, cancel/resume/fork, глобальный лимит частоты на очередь (в
+документации: глобален для всех процессов; в коде — limiter {limit, period}), идемпотентность по workflow ID, retries с backoff, durable timeouts, события и потоки для прогресса, OpenTelemetry. Запись результата каждого шага
+(включая вызовы LLM) в Postgres даёт журнал действий агентов и исключает повторную оплату уже выполненных вызовов после сбоя — это прямо работает на требования воспроизводимости и лимита $1 на расследование. Лицензия MIT, Python
+3.10-3.14, CI с chaos-тестами.
+ARCHITECTURE NOTES: Процессы: api (FastAPI, ставит задачи) и worker (DBOS.launch), оба в Docker на Linux. Расследование = родительский workflow с workflow_id = id расследования. Каждый внешний вызов (страница TRC20-истории адреса, запрос метки, вызов
+LLM) — отдельный шаг или дочерний workflow в очереди своего провайдера с limiter и worker_concurrency; для нескольких API-ключей — partitioned queue с partition_limiter. Выходы шагов маленькие (идентификаторы), большие ответы — в
+таблицы приложения. Закрепить application_version явно. Включать retries_allowed=True с backoff только для идемпотентных шагов. Лимиты глубины, числа адресов, числа запросов и бюджета — проверка по таблице-счётчику перед каждым
+платным шагом; при исчерпании расследование завершается с пометкой «остановлено по лимиту», а не домысливается. При недоступности источника шаг завершается явной ошибкой и фиксируется в отчёте как пробел. Наблюдаемость:
+OpenTelemetry extra DBOS + SQL по системным таблицам + CLI dbos workflow.
+COST: $0 за лицензию и $0 переменных на расследование (1 запись в Postgres на шаг). Стандартное расследование на несколько десятков адресов — порядка сотен шагов, то есть сотни коротких записей. Conductor ($99/мес Pro) не требуется;
+брать только если понадобится готовая веб-консоль.
+DATA QUALITY VERIFICATION: Критерии spike (всё должно пройти до принятия): 1) убить контейнер воркера посреди расследования — после перезапуска оно продолжается с последнего шага, платные вызовы не повторяются (сверка по журналу расходов); 2) 3-4 воркера
+против mock-API со счётчиком: фактическая частота не превышает limiter при любом числе воркеров; 3) отмена расследования останавливает и дочерние задачи, resume продолжает; 4) повторный запуск с тем же workflow ID не создаёт
+второго выполнения; 5) деплой изменённого кода при незавершённых workflow — проверить поведение с закреплённой application_version; 6) синтетический граф на 1 000 адресов укладывается в 5 минут при заданном лимите источника; 7)
+простая транзакция — в 30 секунд с учётом интервала опроса очереди. Далее эти же сценарии входят в набор из 50+ тестов с известной истиной и в сравнение AI-слоя с детерминированным baseline.
+RISKS: Молодой проект с быстрыми мажорными изменениями (3.0.0 вышла 2026-09-16 с удалением интерфейсов, в том числе Admin Server); один вендор; восстановление привязано к application version; retries по умолчанию выключены; отмена
+кооперативная; нет бесплатного UI; исправление регрессии limiter в 3.0.0 говорит о том, что точность лимита нужно проверять самим. Смягчение: закрепить версию, собственный тонкий интерфейс JobRunner, состояние расследования в
+своих таблицах.
+REPLACEABILITY: Средняя, управляемая: если прикладное состояние (фронтир, посещённые адреса, факты, события) хранится в таблицах приложения с идемпотентными upsert по ключу (investigation_id, address, cursor), замена DBOS на Procrastinate или
+Hatchet сводится к переписыванию слоя оркестрации.
+REJECTED ALTERNATIVES:
+  - Hatchet: Сильный кандидат с UI и встроенными rate limits, но это отдельный Go-сервис версии 0.x; hatchet-lite заявлен для development и low-volume, требований к ресурсам нет. Оставлен как needs-trial и путь роста.
+  - Procrastinate: Надёжная простая очередь на Postgres, но нет чекпойнтов workflow и rate limiting — их пришлось бы писать самим; проект ищет сопровождающих. Запасной вариант.
+  - PgQueuer: Один сопровождающий; rate limiting (requests_per_second) удалён как ненадёжный; отмена best-effort.
+  - Temporal: Самая зрелая durable execution, но кластер сервисов + БД + Elasticsearch в дефолтном compose несоразмерны одному серверу и маленькой команде.
+  - Celery: rate_limit действует на воркер, а не глобально; Windows не поддерживается; с Redis visibility timeout 1 час ведёт к повторной доставке многочасовых задач; нужен брокер.
+  - Dramatiq / RQ / Arq / Taskiq / Huey: Нет durable-чекпойнтов; требуют брокера (кроме Huey); Arq в maintenance-only; RQ требует fork(); Dramatiq под LGPL; Huey и Taskiq с одним основным автором.
+  - Inngest: Сервер под SSPL; Python SDK 0.x.
+  - Prefect: Оркестратор пайплайнов по расписанию, отдельный сервер, не для интерактивных задач с ответом за 30 секунд.
+  - BullMQ / pg-boss / River / Faktory: Исполнение задач не на Python (River: Python-клиент только для вставки); BullMQ требует Redis; Faktory — AGPL-сервер.
+
+### R5. NEED: b) Брокер / in-memory store
+PRIMARY: Без отдельного брокера в MVP (всё на PostgreSQL); при появлении потребности в кэше или pub/sub — Valkey 9.1 (BSD-3-Clause)
+RATIONALE: Рекомендованная очередь и события прогресса работают на PostgreSQL, поэтому Redis, RabbitMQ и NATS не дают функций, которых нет, но добавляют сервис для сопровождения. Если брокер понадобится позже, Valkey даёт тот же протокол без
+лицензионной неоднозначности Redis 8.
+ARCHITECTURE NOTES: Сигнализация о новых событиях — NOTIFY с id события (payload < 8000 байт), данные — всегда из таблицы.
+COST: $0.
+DATA QUALITY VERIFICATION: Не применимо в MVP; при добавлении Valkey — тест, что потеря его данных не нарушает корректность (только кэш и сигнализация, источник истины — Postgres).
+RISKS: Очередь и данные делят одну БД — всплеск задач влияет на запросы API. Смягчение: отдельная база для DBOS, лимиты конкурентности очередей, мониторинг.
+REPLACEABILITY: Высокая: добавление Valkey не требует перестройки.
+REJECTED ALTERNATIVES:
+  - Redis 8: С версии 8 тройная лицензия RSALv2 / SSPLv1 / AGPLv3 (LICENSE.txt); функциональной выгоды относительно Valkey для этих задач нет.
+  - RabbitMQ 4.3: Отдельный Erlang-сервис, нужен только для Celery/Dramatiq или Hatchet под высокой нагрузкой.
+  - NATS 2.15: Дополнительный сервис без потребности; Python-очереди поверх него менее зрелые.
+
+### R6. NEED: b) Глобальный rate limiting внешних API между воркерами
+PRIMARY: Лимит на очередь DBOS (limiter и partition_limiter в Postgres) как глобальный ограничитель + локальный aiolimiter в процессе + обработка 429 и Retry-After с backoff в шаге
+RATIONALE: Лимит хранится в Postgres и по документации действует на все процессы, работающие с очередью, — отдельного хранилища токенов не нужно. Partitioned queues дают отдельные лимиты по API-ключу или арендатору. Локальный лимитер
+сглаживает всплески внутри процесса, реакция на 429 защищает от расхождения с реальными лимитами провайдера.
+ARCHITECTURE NOTES: Конфигурация лимитов на провайдера и на ключ — в таблице настроек, чтобы менять без деплоя; значения с запасом 10-20% ниже заявленных провайдером.
+COST: $0.
+DATA QUALITY VERIFICATION: Нагрузочный тест против mock-сервера с подсчётом запросов по секундам при 1, 2 и 4 воркерах: максимум за любое скользящее окно не превышает лимит; тест, что ответ 429 приводит к паузе и повтору без потери задачи; метрика доли 429
+в production.
+RISKS: Лимит считает старты задач за период, а не токены с burst; задержка до интервала опроса (1 с); в 3.0.0 исправлялась регрессия limiter. Реальные лимиты провайдеров проверяет другой раздел аудита.
+REPLACEABILITY: Высокая: интерфейс «получить разрешение на вызов провайдера X» скрывает реализацию.
+REJECTED ALTERNATIVES:
+  - PyrateLimiter (PostgresBucket): Postgres-бэкенд только синхронный; оставлен как замена, если от DBOS придётся уйти или потребуется настоящий token bucket с burst.
+  - throttled-py: Распределённый режим только через Redis/Valkey — требует нового сервиса.
+  - Celery rate_limit: Лимит на экземпляр воркера, а не глобальный (документация Celery).
+  - Только aiolimiter: Состояние в памяти одного процесса; между воркерами лимит не разделяется.
+  - Hatchet rate limits: Функционально богаче (static и dynamic по CEL), но требуют сервера Hatchet.
+
+### R7. NEED: c) Язык бэкенда и API-фреймворк
+PRIMARY: Python 3.13 для API, воркеров, трассировщика и агентов; FastAPI 0.143 (закреплённая версия) + Pydantic 2 + uvicorn; TypeScript только для UI, клиент генерируется из OpenAPI
+RATIONALE: Язык: вся предметная часть платформы живёт в Python-экосистеме — проверено по PyPI на дату аудита: tronpy 0.6.2 (MIT), web3 8.0.0, networkx 3.7, rustworkx 0.18.1, polars 2.0.0, pydantic-ai 2.55.0, langgraph 1.2.15, anthropic
+1.13.0, а также рекомендованные DBOS и SQLAlchemy. TypeScript-бэкенд означал бы второй рантайм для графового и агентного кода или отказ от этих библиотек; смешанный бэкенд удваивает инфраструктуру для маленькой команды. Смешение
+оправдано только на границе UI. Фреймворк: FastAPI — MIT, самая большая экосистема и документация интеграций, автогенерация OpenAPI, встроенный SSE с 0.135.0, общие Pydantic-модели для API и инструментов агентов.
+ARCHITECTURE NOTES: Слои: handlers (FastAPI) -> services -> repositories (SQLAlchemy) ; оркестрация задач за интерфейсом JobRunner. Dev на Windows 11 — через Docker Compose (Linux-контейнеры): Celery и RQ не поддерживают Windows, у Procrastinate нет
+автотестов под Windows, async psycopg несовместим с ProactorEventLoop.
+COST: $0.
+DATA QUALITY VERIFICATION: Контрактные тесты по OpenAPI-схеме; проверка, что сгенерированный TypeScript-клиент собирается в CI при каждом изменении схемы; тест, что ни один ответ API и ни одна запись лога не содержат значений секретов (подставной ключ +
+поиск); нагрузочный замер времени ответа простого запроса транзакции (цель 30 секунд включает работу очереди).
+RISKS: FastAPI остаётся 0.x с очень частыми релизами (14 релизов за 5 дней в июле 2026) — обязателен lock-файл и обновление по расписанию; GIL ограничивает CPU-тяжёлый графовый анализ в одном процессе (выносить в процессы-воркеры или
+rustworkx).
+REPLACEABILITY: Средняя: при тонких обработчиках и сервисном слое переход на Litestar — механическая работа.
+REJECTED ALTERNATIVES:
+  - Litestar: Технически достойная замена, но стабильная 2.24.0 не обновлялась с июня 2026, 3.0 в бета — предстоит миграция; меньше готовых интеграций.
+  - Django + Django Ninja: Даёт админку и auth из коробки, но ORM преимущественно синхронный, второй ORM рядом с SQLAlchemy у DBOS; встроенный django.tasks содержит только dummy и immediate backends.
+  - NestJS / Hono / tRPC: TypeScript-бэкенд отрывает API от Python-кода трассировки и агентов; tRPC не даёт языконезависимого контракта.
+  - Go (chi, huma, echo, gin): Нет сопоставимой экосистемы для графов, ML и LLM-агентов; третий язык в маленькой команде.
+
+### R8. NEED: c) Аутентификация
+PRIMARY: Бэкенд как стандартный OIDC resource server (проверка JWT по JWKS через PyJWT/Authlib, без привязки к поставщику) + self-hosted Keycloak 26.8 как IdP; при сервере с менее чем 8 GB RAM — ZITADEL или SaaS IdP вместо Keycloak
+RATIONALE: Аутентификация — не тот код, который стоит писать самим. Keycloak — Apache-2.0 без лицензионных оговорок, зрелый, закрывает MFA, сброс пароля, социальные логины, организации (с 26.0.0), passkeys (с 26.4.0); данные пользователей
+остаются на своём сервере, что важно для платформы расследований. Поскольку API зависит только от стандарта OIDC, поставщика можно сменить без изменения бэкенда. Цена — около 1.25-1.4 GB RAM.
+ARCHITECTURE NOTES: UI использует Authorization Code + PKCE; API принимает только access-токены с проверкой iss, aud, exp и фиксированным списком алгоритмов. Идентификатор пользователя и организации из токена кладётся в контекст транзакции для RLS.
+Сервисные интеграции (API-ключи клиентов платных тарифов) — отдельная таблица с хешами ключей, не через IdP.
+COST: $0 лицензия; ресурс — около 1.25-1.4 GB RAM сервера. Альтернатива без операций: Clerk Pro $25/мес или ZITADEL Cloud Pro $100/мес.
+DATA QUALITY VERIFICATION: Набор негативных тестов проверки токена: неверная подпись, алгоритм none, чужой issuer или audience, истёкший срок, неизвестный kid (должен вызывать обновление JWKS, а не отказ навсегда); тесты ролей и принадлежности к
+расследованию вместе с RLS; проверка, что токены и пароли не попадают в логи.
+RISKS: Keycloak занимает заметную часть RAM скромного сервера и требует регулярных обновлений; неверная конфигурация realm — типовой источник уязвимостей. Смягчение: экспорт realm в репозиторий, минимальный набор включённых flows,
+обязательная MFA для операторов.
+REPLACEABILITY: Высокая для бэкенда (смена issuer и JWKS URL); миграция пользователей и хешей паролей между IdP — отдельная задача.
+REJECTED ALTERNATIVES:
+  - ZITADEL: Легче (около 512 MB) и мультиарендность из коробки, но AGPL-3.0-only — допустимо как отдельный немодифицированный сервис, однако требует юридической оценки. Первый запасной вариант.
+  - authentik: Минимум 2 CPU и 2 GB RAM — тяжелее Keycloak; часть функций в платной редакции.
+  - Ory Kratos: Headless: UI входа и восстановления нужно писать самим; для OIDC-токенов нужен ещё Hydra; активность открытого репозитория снизилась.
+  - Better Auth: Только TypeScript — возможен, если у UI есть серверная Node-часть; вторая система миграций; молодой проект. Требует пробы и зависит от выбора фронтенда.
+  - Clerk: Ноль операций, но MFA только на Pro ($25/мес), данные пользователей у третьей стороны, привязка UI-компонентов. Допустим как быстрый старт.
+  - Auth0: Free без полноценной MFA; B2B-планы от $150/мес при 500 MAU.
+  - Supabase Auth: Оправдан только при размещении БД в Supabase.
+  - FastAPI Users: Проект в maintenance mode по собственному README; нет MFA и организаций.
+
+### R9. NEED: c) Потоковая передача прогресса в UI
+PRIMARY: SSE (встроенный fastapi.sse EventSourceResponse) поверх собственной append-only таблицы событий расследования + LISTEN/NOTIFY; команды (отмена, пауза) — обычными HTTP-запросами
+RATIONALE: Прогресс — однонаправленный поток сервер -> браузер; SSE работает поверх обычного HTTP, браузер сам переподключается, поле id даёт возобновление с пропущенного места. Таблица событий с монотонным идентификатором одновременно
+является журналом действий агентов и источником для досылки, поэтому отдельная шина не нужна. WebSocket добавил бы собственный протокол переподключения без выгоды.
+ARCHITECTURE NOTES: Один слушатель LISTEN на процесс API раздаёт сигналы подключённым клиентам; данные события всегда читаются из таблицы под RLS. Периодический keep-alive комментарий в потоке.
+COST: $0.
+DATA QUALITY VERIFICATION: Тест разрыва соединения: клиент переподключается с Last-Event-ID и получает ровно пропущенные события без дублей и пропусков; тест изоляции — поток расследования A недоступен пользователю без доступа; тест, что каждое событие с
+фактом содержит TXID или явную пометку об отсутствии данных.
+RISKS: Без HTTP/2 браузер ограничен 6 SSE-соединениями на домен (MDN) — нужен reverse proxy с HTTP/2 и без буферизации ответа; встроенный SSE в FastAPI появился в марте 2026 и правился в июле; payload NOTIFY < 8000 байт.
+REPLACEABILITY: Высокая: формат событий свой, транспорт меняется без изменения источника.
+REJECTED ALTERNATIVES:
+  - WebSocket: Двунаправленность не нужна; ручное переподключение, досылка и аутентификация канала.
+  - sse-starlette: Дублирует встроенную функцию FastAPI; запасной вариант.
+  - DBOS streams: Записи из шагов at-least-once, чтение опросом, данные вне RLS приложения и привязка UI к DBOS.
+  - Периодический опрос статуса: Оставить как резерв для сетей, режущих длинные соединения; хуже по задержке и нагрузке.
+
+## LIVE PROBE FINDINGS
+- gh api repos/OWNER/REPO выполнен для ~75 репозиториев 2026-10-14 (лицензия, stars, open issues, pushed_at, archived, последний стабильный релиз, число CI workflows, топ-контрибьюторы); ни один из проверенных репозиториев не
+архивирован.
+- Часть метаданных (блоки по брокерам/фреймворкам/auth и по хранилищам/ORM) получена версией скрипта, которую в общем scratchpad перезаписал параллельный агент; скрипт прочитан перед использованием результатов — он вызывает те же
+эндпоинты gh api. Далее использовались собственные файлы с уникальными именами.
+- Чтение LICENSE через gh api: Redis 8+ — тройная лицензия RSALv2 / SSPLv1 / AGPLv3 (7.2 и ранее BSD-3); Inngest — SSPL v1 с «Apache 2.0 Future License»; Faktory — AGPL-3.0 для сервера; Restate — BSL 1.1; ZITADEL — AGPL-3.0-only с
+MIT/Apache-исключениями; authentik — MIT-ядро + отдельная EE-лицензия; Celery — BSD-3; RQ — BSD-2; RabbitMQ — MPL-2.0; pgaudit — PostgreSQL licence.
+- Код DBOS (dbos/_queue.py): DEFAULT_QUEUE_POLLING_INTERVAL_SEC = 1.0; limiter описан как ограничение числа workflow, стартующих из очереди за период; есть partition_limiter. dbos/_recovery.py: восстановление pending workflow идёт
+по executor id и текущей app_version. dbos/_enterprise.py: клиент Conductor загружается из отдельного пакета dbos-enterprise. В системной схеме есть таблицы streams и queues.
+- Release notes DBOS 3.0.0 (2026-09-16): «Fix Limiter Regression», «Remove Admin Server», удаление deprecated in-memory очередей и планировщика — мажорная версия месячной давности с удалением интерфейсов.
+- PgQueuer: поиск по коду requests_per_second даёт 2 совпадения только в RELEASE.md и upgrading.md; в upgrading.md прямо сказано, что RPS rate limiting удалён как ненадёжный и заменён concurrency_limit.
+- Procrastinate README: «looking for additional maintainers»; docs/howto/basics/windows.md: на Windows только ручное тестирование, нет graceful stop, нет автотестов.
+- Arq README: «In maintenance only mode»; FastAPI Users README: «This project is now in maintenance mode».
+- Celery docs в репозитории: rate_limit — «per worker instance», Windows не поддерживается с 4.x, visibility timeout Redis по умолчанию 1 час с повторной доставкой.
+- FastAPI: файл fastapi/sse.py существует (EventSourceResponse), документация по SSE добавлена в 0.135.0 (2026-03-01); между 2026-07-24 и 2026-07-28 выпущено 14 версий 0.140.x; pyproject: Python >=3.10, Development Status 4 - Beta.
+- Django: каталог django/tasks/backends содержит только base.py, dummy.py, immediate.py — production-backend задач в ядре отсутствует. Django 6.1.2 требует Python >=3.12 (PyPI).
+- npm registry: dist-tag latest пакета prisma указывает на 8.0.0-rc.22 (2026-10-08), последняя стабильная — 7.10.0 (2026-08-25); репозиторий переименован в prisma/orm.
+- PyPI JSON API: SQLAlchemy 2.1.4 (Python >=3.11; 2.1.0 GA 2026-09-24), Alembic 1.20.0, SQLModel 0.0.48, dbos 3.2.0, procrastinate 3.10.0, pgqueuer 1.6.0, hatchet-sdk 1.42.1, temporalio 1.34.0, celery 5.6.3, networkx 3.7 (Python
+>=3.12), tronpy 0.6.2 — все рекомендованные пакеты совместимы с Python 3.13 по метаданным requires_python.
+- authentik: в lifecycle/container/compose.yml только PostgreSQL (postgres:16-alpine), server и worker; поиск redis в compose-файлах — 0 совпадений.
+- riverqueue-python README: клиент insert-only, исполнение задач на Python не поддерживается; 12 stars, последний push 2025-10-02.
+- Страница hatchet.run/pricing содержит внутреннее противоречие по бесплатному тарифу (100 воркеров и 7 дней retention в карточке против 10 воркеров и 1 дня в таблице для варианта без карты).
+- postgresql.org/support/versioning: актуальные миноры 18.6 / 17.11 / 16.15 / 15.19 / 14.24; PostgreSQL 14 достигает EOL 2026-11-12; PostgreSQL 19 упомянут как Beta 4.
+- Оглавление DDL-главы руководства MySQL 9.7 не содержит CREATE POLICY для row-level security (есть только CREATE MASKING POLICY).
+
+## CANDIDATES (full audit cards)
+
+### [RECOMMENDED] PostgreSQL 18 (self-hosted, Docker)
+NEED: a) Реляционное хранилище: движок и хостинг
+KIND: open-source
+URL: https://www.postgresql.org/
+LICENSE: PostgreSQL License (permissive, BSD-подобная; файл COPYRIGHT прочитан через gh api)
+COMMERCIAL USE: Да, без ограничений; требуется только сохранять copyright notice.
+PROJECT STATE: Текущий минор 18.6; мажор 18 вышел 2025-09-25, поддержка до 2030-11-14. 17.11 (до 2029-11-08), 16.15, 15.19, 14.24 (EOL 2026-11-12), 13 уже EOL. PostgreSQL 19 на странице versioning упомянут только как Beta 4, в таблице
+поддерживаемых его нет. Зеркало postgres/postgres: last commit 2026-10-13.
+CLAIMED VS ACTUAL: Расхождений не найдено. Нюансы из официальной документации: владелец таблицы и superuser/BYPASSRLS обходят RLS, если не включён FORCE; проверки FK/unique всегда обходят RLS (возможен covert channel); NOTIFY не является durable-
+очередью (страница не описывает хранение при отсутствии слушателя).
+CAPABILITIES: RLS (ENABLE/FORCE ROW LEVEL SECURITY, политики USING/WITH CHECK), JSONB для сырых ответов провайдеров, LISTEN/NOTIFY (payload < 8000 байт, доставка при commit), FOR UPDATE SKIP LOCKED, встроенный sha256(), триггеры. Одна СУБД
+закрывает сразу три роли: данные приложения, durable-очередь (DBOS/Procrastinate/PgQueuer/Hatchet) и шину событий прогресса.
+INFRA: Один контейнер postgres:18 + volume. Бэкапы (pg_dump + WAL-архив), обновления миноров и мониторинг — на команде.
+PRICING/LIMITS: $0 лицензия; расходует RAM/диск того же сервера. NOTIFY payload < 8000 байт; очередь уведомлений 8 GB в стандартной установке.
+RISKS: Единая точка отказа (и БД, и очередь, и события). Бэкапы/PITR не из коробки. На одном сервере конкурирует за RAM с API, воркерами и IdP.
+REPLACEABILITY: Высокая: стандартный SQL + pg-специфика (RLS, NOTIFY, JSONB). Переезд на managed Postgres (Neon/Supabase/RDS/DO) — смена connection string, если не использовать вендорные расширения.
+HOW VERIFIED: Docs прочитаны: postgresql.org/support/versioning, /docs/current/ddl-rowsecurity.html (страница версии 18), /docs/current/sql-notify.html. Лицензия — чтение COPYRIGHT через gh api. Код не запускался.
+CONFIDENCE: high
+EVIDENCE: https://www.postgresql.org/support/versioning/ | https://www.postgresql.org/docs/current/ddl-rowsecurity.html | https://www.postgresql.org/docs/current/sql-notify.html | https://github.com/postgres/postgres/blob/master/COPYRIGHT
+
+### [ALTERNATIVE] Neon (managed serverless Postgres)
+NEED: a) Реляционное хранилище: движок и хостинг
+KIND: commercial SaaS (managed OSS, движок Apache-2.0)
+URL: https://neon.com/pricing
+LICENSE: Сервис — проприетарные условия; репозиторий neondatabase/neon — Apache-2.0
+COMMERCIAL USE: Платные планы предназначены для коммерческого использования; на странице pricing условий о коммерческом использовании Free нет — ToS целиком не читался.
+PROJECT STATE: neondatabase/neon: 23 197 stars, 575 open issues, last commit 2026-08-31 (полтора месяца без коммитов в main), последний GitHub-релиз release-proxy-8853 от 2025-07-29 — активность открытого репозитория заметно ниже, чем у сервиса.
+CLAIMED VS ACTUAL: Free-план: scale-to-zero через 5 минут простоя отключить нельзя. Для платформы с постоянно опрашивающим воркером очереди (DBOS polling 1 с) compute не будет засыпать: 0.25 CU x 730 ч = 182 CU-часов в месяц, что больше лимита 100
+CU-часов на проект (мой расчёт) — то есть Free фактически не подходит для always-on воркера, хотя заявлен как постоянный бесплатный план.
+CAPABILITIES: Autoscaling, scale-to-zero, ветвление БД, PITR (history window 6 ч на Free, до 7 дней Launch, до 30 дней Scale).
+INFRA: Нет своей инфраструктуры; сетевые задержки между сервером приложения и регионом Neon.
+PRICING/LIMITS: Free: 100 CU-hours на проект, 1 GB storage на проект (20 GB суммарно), 100 проектов, 10 веток, egress 5 GB. Launch: $0.106 за CU-hour, $0.35 за GB-month, instant restore $0.20 за GB-month, без месячного минимума. Scale: $0.222 за
+CU-hour. Оценка always-on 0.25 CU на Launch: ~$19.35/мес + storage.
+RISKS: Холодные старты при scale-to-zero ломают LISTEN/NOTIFY-сессии; данные расследований уходят к третьей стороне (резидентность данных); дополнительная сетевая задержка на каждый checkpoint очереди.
+REPLACEABILITY: Высокая (чистый Postgres), ветки и autoscaling — вендорные.
+HOW VERIFIED: Страница pricing прочитана через WebFetch 2026-10-14; состояние репозитория — gh api. Аккаунт не создавался, сервис не тестировался.
+CONFIDENCE: medium
+EVIDENCE: https://neon.com/pricing | https://github.com/neondatabase/neon
+
+### [ALTERNATIVE] Supabase (managed Postgres + Auth)
+NEED: a) Реляционное хранилище: движок и хостинг
+KIND: commercial SaaS (managed OSS)
+URL: https://supabase.com/pricing
+LICENSE: Сервис — проприетарные условия; supabase/supabase — Apache-2.0; supabase/auth — MIT
+COMMERCIAL USE: Да на платных планах; ToS целиком не читался.
+PROJECT STATE: supabase/supabase: 111 487 stars, 1 155 open issues, last commit 2026-10-13, релиз v1.26.08 (2026-08-07), 74 CI workflows.
+CLAIMED VS ACTUAL: Free-проекты ставятся на паузу после 1 недели неактивности и ограничены 500 MB — для production непригодно, хотя Free подаётся как стартовый план.
+CAPABILITIES: Postgres с RLS как основной моделью безопасности, встроенный Auth (JWT с ролью для RLS, JWKS-эндпоинт), Storage, Realtime.
+INFRA: Нет своей; self-host всего стека Supabase — около десятка контейнеров (не проверялось).
+PRICING/LIMITS: Free: $0, 500 MB БД, 50 000 MAU, 2 активных проекта, пауза после недели простоя. Pro: от $25/мес, 8 GB диска на проект (далее $0.125/GB), 100 000 MAU (далее $0.00325/MAU), $10 compute-кредита (один Micro). Compute: Micro $10 (1 GB
+RAM), Small $15 (2 GB), Medium $60 (4 GB). Team от $599/мес.
+RISKS: Данные расследований у третьей стороны; при использовании Supabase Auth — привязка идентичности к вендору; DBOS/Procrastinate требуют прямого (не pooled-transaction) соединения для LISTEN/NOTIFY — не проверялось на Supabase.
+REPLACEABILITY: Postgres переносим; Auth и клиентские SDK создают привязку.
+HOW VERIFIED: Страницы pricing и docs/guides/auth/jwts прочитаны через WebFetch; репозиторий — gh api.
+CONFIDENCE: medium
+EVIDENCE: https://supabase.com/pricing | https://supabase.com/docs/guides/auth/jwts | https://github.com/supabase/supabase
+
+### [ALTERNATIVE] Amazon RDS for PostgreSQL
+NEED: a) Реляционное хранилище: движок и хостинг
+KIND: commercial SaaS (managed)
+URL: https://aws.amazon.com/rds/postgresql/pricing
+LICENSE: Проприетарный сервис поверх PostgreSQL
+COMMERCIAL USE: Да.
+PROJECT STATE: Зрелый управляемый сервис; актуальные поддерживаемые версии на странице AWS не проверялись.
+CLAIMED VS ACTUAL: Не проверялось по первичному источнику: официальная страница цен AWS не была прочитана (динамическая).
+CAPABILITIES: Автобэкапы, PITR, Multi-AZ, pgaudit доступен как расширение (не проверено на текущую дату).
+INFRA: AWS-аккаунт, VPC; сервер приложения желательно в том же регионе.
+PRICING/LIMITS: Только по сторонним агрегаторам: db.t4g.micro около $0.016/час (~$11.68/мес Single-AZ, ~$23.36 Multi-AZ), gp3 около $0.115 за GB-month (us-east-1). Требует подтверждения на aws.amazon.com.
+RISKS: Избыточная сложность AWS для команды с одним сервером; egress и сопутствующие платежи; цены не подтверждены первичным источником.
+REPLACEABILITY: Высокая (стандартный Postgres).
+HOW VERIFIED: Только поисковые сниппеты сторонних сайтов (bytebase.com/dbcost, infratally.com). Первичный источник не прочитан.
+CONFIDENCE: low
+EVIDENCE: https://www.bytebase.com/dbcost/rds/instance/db.t4g.micro/ | https://infratally.com/articles/aws-rds-pricing-explained-2026/
+
+### [ALTERNATIVE] DigitalOcean Managed PostgreSQL (пример provider-managed)
+NEED: a) Реляционное хранилище: движок и хостинг
+KIND: commercial SaaS (managed)
+URL: https://www.digitalocean.com/pricing/managed-databases
+LICENSE: Проприетарный сервис поверх PostgreSQL
+COMMERCIAL USE: Да.
+PROJECT STATE: Действующий сервис; поддерживаемые версии PostgreSQL на странице цен не указаны.
+CLAIMED VS ACTUAL: Расхождений не найдено; цена standby-узлов на странице отдельно не приведена.
+CAPABILITIES: Управляемый single-node или с standby-узлами, автобэкапы.
+INFRA: Аккаунт DO; выгодно, только если сервер приложения в том же датацентре.
+PRICING/LIMITS: 1 GiB RAM / 1 vCPU / 10-30 GiB диска: $0.02254/час = $15.15/мес; 2 GiB / 1 vCPU: $30.45/мес; 4 GiB / 2 vCPU: $60.90/мес; storage $0.215 за GiB/мес шагами по 10 GiB.
+RISKS: 1 GiB-план мал для совмещения БД приложения и очереди; данные у третьей стороны.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: Страница цен прочитана через WebFetch 2026-10-14.
+CONFIDENCE: medium
+EVIDENCE: https://www.digitalocean.com/pricing/managed-databases
+
+### [REJECTED] SQLite / libSQL / Turso Database
+NEED: a) Реляционное хранилище: движок и хостинг
+KIND: open-source
+URL: https://github.com/tursodatabase/turso
+LICENSE: SQLite — public domain; libSQL — MIT; Turso Database — MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: tursodatabase/libsql: 17 267 stars, last commit 2026-10-13, но последний релиз сервера libsql-server-v0.24.32 от 2025-02-14. tursodatabase/turso (переписывание на Rust): 24 749 stars, 1 273 open issues, v0.8.3 (2026-10-12), 54 CI
+workflows.
+CLAIMED VS ACTUAL: README Turso утверждает готовность к production, но там же: версия 1.0 не достигнута, часть возможностей помечена experimental, Postgres-frontend экспериментальный. README libSQL прямо говорит, что наследует single-writer модель
+SQLite, а развитие перенесено в Turso Database.
+CAPABILITIES: Встраиваемая БД без отдельного сервера; DBOS умеет работать поверх SQLite как system database (в CI DBOS есть матрица SQLITE/POSTGRES).
+INFRA: Файл на диске.
+PRICING/LIMITS: $0 self-hosted; облако Turso не оценивалось.
+RISKS: Нет row-level security; один писатель (libSQL/SQLite) при параллельных воркерах трассировки; нет LISTEN/NOTIFY; Postgres-нативные очереди (Procrastinate, PgQueuer, Hatchet) недоступны.
+REPLACEABILITY: Низкая в сторону Postgres: нет RLS, другая модель конкурентности.
+HOW VERIFIED: README обоих репозиториев прочитаны через gh api (поиск по ключевым строкам); метаданные — gh api.
+CONFIDENCE: high
+EVIDENCE: https://github.com/tursodatabase/libsql | https://github.com/tursodatabase/turso
+
+### [REJECTED] MySQL 9.7 LTS / 26.x Innovation
+NEED: a) Реляционное хранилище: движок и хостинг
+KIND: open-source (dual license)
+URL: https://dev.mysql.com/doc/refman/9.7/en/
+LICENSE: GPL-2.0 + коммерческая лицензия Oracle (не перепроверялось в этом аудите)
+COMMERCIAL USE: Да как отдельный сервер; условия GPL/коммерческой лицензии в этом аудите не читались.
+PROJECT STATE: По блогу Oracle (поисковый сниппет): июльские релизы 2026 — MySQL 26.7.0 Innovation, 9.7.2 LTS, 8.4.11 LTS; после 9.7 нумерация календарная (YY.M.P).
+CLAIMED VS ACTUAL: Один сторонний глоссарий утверждает, что RLS доступна с версии 9.5; в оглавлении главы DDL официального руководства 9.7 оператора CREATE POLICY для row-level security нет (есть только CREATE MASKING POLICY). Вывод: нативной RLS
+нет, утверждение стороннего источника не подтверждается.
+CAPABILITIES: Зрелая реляционная СУБД, но без нативной RLS.
+INFRA: Один контейнер.
+PRICING/LIMITS: $0 community.
+RISKS: Нет RLS для изоляции расследований; экосистема Postgres-очередей недоступна; пришлось бы добавлять брокер.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: Оглавление dev.mysql.com/doc/refman/9.7/en/sql-data-definition-statements.html прочитано через WebFetch; версии — поисковый сниппет блога Oracle. Руководство 26.x не проверялось.
+CONFIDENCE: medium
+EVIDENCE: https://dev.mysql.com/doc/refman/9.7/en/sql-data-definition-statements.html | https://blogs.oracle.com/mysql/mysql-july-2026-ga-releases-now-available
+
+### [RECOMMENDED] SQLAlchemy 2.1 + Alembic 1.20
+NEED: a) ORM / слой запросов / миграции
+KIND: open-source
+URL: https://github.com/sqlalchemy/sqlalchemy
+LICENSE: MIT (оба)
+COMMERCIAL USE: Да, без условий.
+PROJECT STATE: SQLAlchemy: 12 234 stars, 216 open issues, 2.1.0 GA 2026-09-24, текущая 2.1.4 (2026-10-07), требует Python >= 3.11, last commit 2026-10-12. Alembic: 4 445 stars, 1.20.0 (2026-09-11), Python >= 3.10, last commit 2026-10-03. У обоих
+по 5 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено. Важно: Alembic autogenerate не отслеживает политики RLS и триггеры — их нужно писать руками в миграциях (в репозитории Alembic поиск по 'row level security' даёт 2 совпадения, встроенной поддержки нет).
+CAPABILITIES: Core + ORM, sync и asyncio, типизированные модели, явные транзакции (удобно для SET LOCAL контекста RLS), сырые SQL-миграции в Alembic (op.execute) для политик RLS, триггеров и ролей. DBOS сам зависит от
+sqlalchemy[asyncio]>=2.0.43.
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Серия 2.1 вышла три недели назад (2026-09-24) — возможны регрессии; совместимость DBOS 3.2.0 именно с 2.1.x не проверялась (заявлено только >=2.0.43).
+REPLACEABILITY: Средняя: модели привязаны к SQLAlchemy, но SQL-схема и миграции переносимы.
+HOW VERIFIED: gh api (метаданные, релизы), PyPI JSON API (версии, requires_python), чтение pyproject DBOS.
+CONFIDENCE: high
+EVIDENCE: https://github.com/sqlalchemy/sqlalchemy | https://github.com/sqlalchemy/alembic | https://pypi.org/project/SQLAlchemy/ | https://pypi.org/project/alembic/
+
+### [RECOMMENDED] Драйверы asyncpg 0.32 / psycopg 3.3
+NEED: a) ORM / слой запросов / миграции
+KIND: open-source
+URL: https://github.com/MagicStack/asyncpg
+LICENSE: asyncpg — Apache-2.0; psycopg 3 — LGPL-3.0-only
+COMMERCIAL USE: Да. LGPL у psycopg не затрагивает код приложения при использовании немодифицированной библиотеки как зависимости.
+PROJECT STATE: asyncpg: 8 106 stars, v0.32.0 (2026-10-06). psycopg: 2 511 stars, 3.3.6 (2026-09-18), last commit 2026-10-12, 10 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено. Задокументированная особенность: async-режим psycopg несовместим с ProactorEventLoop по умолчанию в Windows (нужен SelectorEventLoop) — существенно для dev-машины на Windows 11.
+CAPABILITIES: asyncpg — для async-слоя приложения (FastAPI + SQLAlchemy asyncio, LISTEN/NOTIFY). psycopg 3 — обязательная зависимость DBOS (psycopg[binary]>=3.1) и Procrastinate.
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Два драйвера в одном проекте (asyncpg у приложения, psycopg у DBOS); на Windows-хосте без Docker возможны проблемы с event loop.
+REPLACEABILITY: Высокая (переключается строкой подключения SQLAlchemy).
+HOW VERIFIED: gh api, PyPI; замечание о Windows — из документации PgQueuer (docs/reference/drivers.md), прочитанной через gh api.
+CONFIDENCE: high
+EVIDENCE: https://github.com/MagicStack/asyncpg | https://github.com/psycopg/psycopg | https://github.com/janbjorge/pgqueuer/blob/main/docs/reference/drivers.md
+
+### [ALTERNATIVE] SQLModel
+NEED: a) ORM / слой запросов / миграции
+KIND: open-source
+URL: https://github.com/fastapi/sqlmodel
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 18 384 stars, 54 open issues, 0.0.48 (2026-10-06), 19 CI workflows. Классификатор Development Status :: 4 - Beta; версия всё ещё 0.0.x.
+CLAIMED VS ACTUAL: Позиционируется как готовая надстройка, но за пять лет не вышла из 0.0.x; зависимость ограничена SQLAlchemy >=2.0.14,<2.2.0.
+CAPABILITIES: Единая модель Pydantic + SQLAlchemy для простых CRUD.
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Смешение API-схем и таблиц мешает разделить внутренние поля (RLS-ключи, хеши audit log) и внешние DTO; отставание от возможностей SQLAlchemy.
+REPLACEABILITY: Высокая (под капотом SQLAlchemy).
+HOW VERIFIED: gh api, PyPI, чтение pyproject.toml.
+CONFIDENCE: high
+EVIDENCE: https://github.com/fastapi/sqlmodel | https://pypi.org/project/sqlmodel/
+
+### [REJECTED] Prisma ORM
+NEED: a) ORM / слой запросов / миграции
+KIND: open-source
+URL: https://github.com/prisma/orm
+LICENSE: Apache-2.0
+COMMERCIAL USE: Да.
+PROJECT STATE: Репозиторий переименован в prisma/orm; 47 689 stars, 2 758 open issues, last commit 2026-10-13. Последняя стабильная версия в npm — 7.10.0 (2026-08-25).
+CLAIMED VS ACTUAL: dist-tag latest в npm сейчас указывает на 8.0.0-rc.22 (2026-10-08), то есть npm install prisma без пина ставит release candidate.
+CAPABILITIES: ORM и миграции для TypeScript.
+INFRA: Node-рантайм.
+PRICING/LIMITS: $0 (ORM).
+RISKS: Только TypeScript — не подходит при Python-бэкенде; RLS требует ручной установки контекста в транзакции.
+REPLACEABILITY: Низкая (свой schema-язык).
+HOW VERIFIED: npm registry API (dist-tags, даты версий), gh api.
+CONFIDENCE: high
+EVIDENCE: https://registry.npmjs.org/prisma | https://github.com/prisma/orm
+
+### [REJECTED] Drizzle ORM
+NEED: a) ORM / слой запросов / миграции
+KIND: open-source
+URL: https://github.com/drizzle-team/drizzle-orm
+LICENSE: Apache-2.0
+COMMERCIAL USE: Да.
+PROJECT STATE: 36 021 stars, 2 136 open issues, 0.45.4 (2026-10-08); в npm есть теги 1.0.0-beta.1 — до 1.0 не дошёл.
+CLAIMED VS ACTUAL: Расхождений не найдено; проект остаётся pre-1.0.
+CAPABILITIES: SQL-подобный query builder для TypeScript, drizzle-kit для миграций.
+INFRA: Node-рантайм.
+PRICING/LIMITS: $0.
+RISKS: Только TypeScript; pre-1.0; большой бэклог issues.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: npm registry API, gh api.
+CONFIDENCE: high
+EVIDENCE: https://registry.npmjs.org/drizzle-orm | https://github.com/drizzle-team/drizzle-orm
+
+### [REJECTED] Atlas (ariga) — schema-as-code миграции
+NEED: a) ORM / слой запросов / миграции
+KIND: open-source + проприетарная сборка
+URL: https://atlasgo.io/community-edition
+LICENSE: Community Edition — Apache-2.0; стандартный бинарник — под Atlas MSA с проприетарными возможностями
+COMMERCIAL USE: Community — да; стандартный бинарник — по условиям Atlas MSA (не читались).
+PROJECT STATE: ariga/atlas: 8 768 stars, 278 open issues, v1.3.0 (2026-08-02), last commit 2026-10-11.
+CLAIMED VS ACTUAL: Подаётся как open-source инструмент, но Community Edition не поддерживает именно то, что нужно платформе: row-level security, триггеры, функции, views, sequences, extensions, партиционирование; нет migrate down, lint, schema plan,
+тестов.
+CAPABILITIES: Декларативные миграции, lint, drift detection — в стандартной (не community) сборке.
+INFRA: Go-бинарник.
+PRICING/LIMITS: Community $0; цены Pro не проверялись.
+RISKS: RLS и триггеры audit log — за проприетарной сборкой; лишний инструмент рядом с Alembic.
+REPLACEABILITY: Высокая (SQL-миграции).
+HOW VERIFIED: Страница atlasgo.io/community-edition прочитана через WebFetch; gh api.
+CONFIDENCE: high
+EVIDENCE: https://atlasgo.io/community-edition | https://github.com/ariga/atlas
+
+### [RECOMMENDED] PostgreSQL Row-Level Security (ENABLE + FORCE) с контекстом через SET LOCAL
+NEED: a) Изоляция расследований и audit log
+KIND: standard (встроенная возможность PostgreSQL)
+URL: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+LICENSE: PostgreSQL License
+COMMERCIAL USE: Да.
+PROJECT STATE: Часть ядра PostgreSQL; документация для 18.6.
+CLAIMED VS ACTUAL: Расхождений нет, но есть документированные ловушки: superuser и роли BYPASSRLS всегда обходят RLS; владелец таблицы обходит, пока не задан FORCE ROW LEVEL SECURITY; проверки FK/unique обходят RLS; политики с подзапросами к другим
+таблицам подвержены race condition на READ COMMITTED.
+CAPABILITIES: Политики на уровне строк по investigation_id / org_id; default-deny при включённой RLS без политик; permissive (OR) и restrictive (AND) политики; раздельные USING и WITH CHECK.
+INFRA: Отдельные роли БД: владелец схемы (миграции) и прикладная роль без BYPASSRLS.
+PRICING/LIMITS: $0; небольшие накладные расходы на предикат политики.
+RISKS: Системные таблицы DBOS (входы/выходы workflow с данными расследований) политиками приложения не покрыты — их нельзя отдавать пользователям напрямую. Ошибка в установке контекста (забытый SET LOCAL) даёт пустой результат, а не
+утечку — это плюс, но требует тестов.
+REPLACEABILITY: Привязка к PostgreSQL (в MySQL и SQLite аналога нет).
+HOW VERIFIED: Официальная документация прочитана через WebFetch; на живой БД не тестировалось.
+CONFIDENCE: high
+EVIDENCE: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+
+### [RECOMMENDED] Append-only audit log: привилегии + триггеры + hash chain
+NEED: a) Изоляция расследований и audit log
+KIND: standard (паттерн проектирования на средствах PostgreSQL)
+URL: https://www.postgresql.org/docs/current/sql-notify.html
+LICENSE: PostgreSQL License (используются только встроенные средства)
+COMMERCIAL USE: Да.
+PROJECT STATE: Не продукт, а схема: REVOKE UPDATE/DELETE/TRUNCATE у прикладной роли, BEFORE UPDATE/DELETE/TRUNCATE-триггеры с исключением, столбцы prev_hash/row_hash (встроенный sha256), периодическая проверка цепочки и вынос хеша головы наружу
+(в отчёт).
+CLAIMED VS ACTUAL: Не применимо (собственная схема). Честное ограничение: владелец таблицы или superuser может отключить триггеры — это tamper-evident, а не tamper-proof.
+CAPABILITIES: Журнал действий агентов и пользователей, неизменяемость на уровне прав, обнаружение подмены через цепочку хешей; та же таблица событий с монотонным id служит источником для SSE и Last-Event-ID.
+INFRA: Нет дополнительной.
+PRICING/LIMITS: $0; сериализация вставок в пределах одной цепочки (advisory lock на расследование).
+RISKS: Свой код (триггеры, верификатор цепочки) нужно покрыть тестами; глобальная цепочка стала бы узким местом — нужна цепочка на расследование.
+REPLACEABILITY: Высокая (обычные таблицы).
+HOW VERIFIED: Анализ на основе документации PostgreSQL; реализация не создавалась и не тестировалась.
+CONFIDENCE: medium
+EVIDENCE: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+
+### [ALTERNATIVE] pgaudit
+NEED: a) Изоляция расследований и audit log
+KIND: open-source (расширение PostgreSQL)
+URL: https://github.com/pgaudit/pgaudit
+LICENSE: PostgreSQL License (файл LICENSE прочитан)
+COMMERCIAL USE: Да.
+PROJECT STATE: 1 716 stars, 2 open issues, релиз 18.0 (2025-09-24), last commit 2026-09-26, 1 CI workflow.
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Аудит SQL-операторов на уровне сервера в лог PostgreSQL (кто и какой запрос выполнил) — дополнение к прикладному журналу, полезно для контроля действий DBA и роли миграций.
+INFRA: Расширение должно быть в образе Postgres (в официальном образе postgres его нет — не проверялось).
+PRICING/LIMITS: $0; увеличивает объём логов.
+RISKS: Пишет в лог-файлы, а не в таблицу: не заменяет бизнес-журнал доказательств; риск попадания чувствительных параметров запросов в логи.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: gh api (метаданные, LICENSE).
+CONFIDENCE: medium
+EVIDENCE: https://github.com/pgaudit/pgaudit
+
+### [REJECTED] Schema-per-investigation / database-per-tenant
+NEED: a) Изоляция расследований и audit log
+KIND: standard (паттерн проектирования)
+LICENSE: n/a
+COMMERCIAL USE: Да.
+PROJECT STATE: Паттерн, не продукт.
+CLAIMED VS ACTUAL: Не применимо.
+CAPABILITIES: Жёсткая физическая изоляция, простое удаление данных расследования.
+INFRA: Автоматизация создания схем и прогон миграций по всем схемам.
+PRICING/LIMITS: $0, но растёт число объектов каталога и стоимость миграций.
+RISKS: Миграции Alembic на N схем, раздувание каталога, невозможность кросс-расследовательских запросов (повторяющиеся адреса, общая база меток) без обходных путей — противоречит требованию переиспользовать метки адресов между
+расследованиями.
+REPLACEABILITY: Низкая после внедрения.
+HOW VERIFIED: Инженерный анализ, без первичного источника.
+CONFIDENCE: medium
+EVIDENCE: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+
+### [REJECTED] Изоляция только на уровне приложения (WHERE investigation_id = ...)
+NEED: a) Изоляция расследований и audit log
+KIND: standard (паттерн проектирования)
+LICENSE: n/a
+COMMERCIAL USE: Да.
+PROJECT STATE: Паттерн.
+CLAIMED VS ACTUAL: Не применимо.
+CAPABILITIES: Простейшая реализация без ролей БД.
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Один забытый фильтр в запросе или в инструменте LLM-агента (агенты формируют запросы динамически) приводит к утечке данных чужого расследования; нет защиты в глубину.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: Инженерный анализ.
+CONFIDENCE: medium
+EVIDENCE: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+
+### [RECOMMENDED] DBOS Transact (Python) 3.2
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source (библиотека) + опциональный коммерческий SaaS Conductor
+URL: https://github.com/dbos-inc/dbos-transact-py
+LICENSE: MIT (LICENSE и pyproject проверены). Клиент Conductor вынесен в отдельный пакет dbos-enterprise — его лицензия не проверена.
+COMMERCIAL USE: Да, библиотека MIT без условий. Conductor (веб-консоль, алерты, управление retention) — платный, но необязательный.
+PROJECT STATE: 1 626 stars, 6 открытых (3 issues + 3 PR), 3.2.0 (2026-09-29); мажор 3.0.0 вышел 2026-09-16 (месяц назад), релизы почти еженедельно. CI: unit-тесты на Python 3.10-3.14 x {SQLite, Postgres} только на ubuntu, отдельный workflow
+chaos-тестов; каталог tests — 52 элемента. Основной автор kraftp (394 коммита), далее qianl15 (77), maxdml (47) — небольшая вендорская команда.
+CLAIMED VS ACTUAL: 1) README: «DBOS is entirely contained in this open-source library» — верно для исполнения, но веб-консоль и управление флотом находятся в платном Conductor; в 3.0.0 удалён встроенный Admin Server. 2) Восстановление после сбоя —
+только для workflow той же application version; по умолчанию версия = хеш исходников workflow, поэтому после деплоя с изменённым кодом зависшие PENDING сами не восстановятся, если версию не закрепить. 3) Retries шагов по умолчанию
+выключены (retries_allowed=False). 4) Отмена кооперативная: срабатывает в начале следующего шага (кроме async-шагов с preemptible). 5) Limiter ограничивает число стартов workflow из очереди за период, а не произвольные вызовы
+внутри шага; в release notes 3.0.0 есть «Fix Limiter Regression». 6) Записи в stream из шага — at-least-once (возможны дубликаты). 7) Сайт заявляет поддержку Windows, но CI только на ubuntu. 8) Цифра >40K workflows/steps в секунду
+— вендорский бенчмарк.
+CAPABILITIES: Durable workflows с checkpoint каждого шага в Postgres и автоматическим возобновлением с последнего завершённого шага; очереди в Postgres с worker_concurrency, global_concurrency, приоритетами, дедупликацией, delay, partitioned
+queues и limiter {limit, period}; cancel/resume/fork/rewind workflow; идемпотентность через SetWorkflowID; durable timeouts (отменяют workflow и дочерние); retries шага (interval_seconds=1.0, max_attempts=3, backoff_rate=2.0);
+события, сообщения и append-only streams для прогресса; cron-расписания; OpenTelemetry extra; async workflows и шаги.
+INFRA: Только PostgreSQL (system database DBOS — отдельная БД/схема). Процесс воркера с DBOS.launch(); API-процесс ставит задачи через DBOS/DBOSClient. Python >= 3.10, зависимости psycopg[binary]>=3.1, sqlalchemy[asyncio]>=2.0.43.
+PRICING/LIMITS: Библиотека: $0. Conductor Pro: $99/мес (2 места, до 3 приложений, 1M checkpoints/мес, далее $50 за миллион); Teams $499/мес (10M checkpoints); self-hosted Conductor — только Enterprise. Интервал опроса очереди по умолчанию 1.0 с
+(DEFAULT_QUEUE_POLLING_INTERVAL_SEC в коде). Накладные расходы: 1 запись в Postgres на шаг, 2 на workflow.
+RISKS: Молодой быстро меняющийся проект (мажорная версия с удалением интерфейсов месяц назад); зависимость от одного вендора на венчурном финансировании; нет бесплатного UI; требование детерминизма тела workflow; большие выходы шагов
+раздувают системные таблицы; поведение отмены дочерних workflow при ручной отмене в прочитанной документации не описано.
+REPLACEABILITY: Средняя: декораторы @DBOS.workflow/@DBOS.step пронизывают код оркестрации. Снижается тонким собственным интерфейсом (JobRunner: start/cancel/resume/status) и хранением прикладного состояния (фронтир графа, факты) в своих таблицах,
+а не в выходах шагов; тогда замена на Procrastinate или Hatchet — вопрос адаптера.
+HOW VERIFIED: Чтение кода через gh api: dbos/_queue.py (limiter, polling interval), dbos/_recovery.py (восстановление по executor и app version), dbos/_enterprise.py (Conductor вынесен), dbos/_schemas/system_database.py (таблицы streams,
+queues), .github/workflows/unit-test.yml, pyproject.toml. Docs прочитаны: queue-tutorial, workflow-management, workflow-communication, step-tutorial, workflow-tutorial, upgrading-workflows, architecture, pricing. PyPI JSON API.
+Код не запускался.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/dbos-inc/dbos-transact-py | https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_queue.py | https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_recovery.py | https://github.com/dbos-inc/dbos-transact-py/releases/tag/3.0.0 | https://docs.dbos.dev/python/tutorials/queue-tutorial | https://docs.dbos.dev/python/tutorials/workflow-management
+
+### [NEEDS-TRIAL] Hatchet (self-hosted hatchet-lite или Cloud)
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source (сервер + SDK) / commercial SaaS
+URL: https://github.com/hatchet-dev/hatchet
+LICENSE: MIT (сервер и Python SDK)
+COMMERCIAL USE: Да.
+PROJECT STATE: 8 110 stars, 148 open issues, движок v0.110.8 (2026-10-13), Python SDK 1.42.1 (2026-10-09, Python >=3.10), 41 CI workflow, last commit 2026-10-13. Ведущие авторы: abelanger5 (751), mrkaye97 (633), grutt (550).
+CLAIMED VS ACTUAL: 1) Маркетинг и пути документации говорят о «v1», но теги движка — v0.110.x. 2) hatchet-lite в документации описан как «designed for development and low-volume use-cases», требований к CPU/RAM и лимитов пропускной способности нет.
+3) На странице цен внутреннее противоречие: верхняя карточка бесплатного тарифа обещает 100 воркеров и 7 дней retention, таблица сравнения даёт эти значения только для варианта с привязанной картой (без карты — 10 воркеров, 1
+день). 4) Страница об отмене не объясняет, как внешняя отмена доходит до уже выполняющейся async-задачи.
+CAPABILITIES: Durable tasks, DAG, глобальные rate limits (static и dynamic по CEL-ключу, окна секунда/минута/час), concurrency-политики, cron, bulk-отмена, веб-UI с историей запусков, OpenTelemetry; SDK для Python, TypeScript, Go, Ruby.
+INFRA: Отдельный Go-сервис (образ hatchet-lite: движок + API + UI, порты 8888 и 7077) + PostgreSQL (в примере compose postgres:15.6, max_connections=200); RabbitMQ опционален. Воркеры подключаются по gRPC с токеном.
+PRICING/LIMITS: Self-hosted: $0. Cloud: 1M task runs/мес включено, далее $30 за миллион; события 1M/мес, далее $5 за миллион; без карты — 2 000 запусков в день, 10 воркеров, retention 1 день; с картой — 100 воркеров, retention 7 дней.
+RISKS: Ещё один stateful-сервис на единственном сервере; версия 0.x; ресурсоёмкость lite-образа неизвестна; дефолтный админ-аккаунт с опубликованным паролем нужно менять.
+REPLACEABILITY: Средняя: декораторы SDK и модель задач специфичны; прикладное состояние в своих таблицах упрощает уход.
+HOW VERIFIED: Docs прочитаны через WebFetch (self-hosting, hatchet-lite, rate-limits, cancellation, pricing); README и sdks/python/pyproject.toml — через gh api; метаданные и релизы — gh api. Не разворачивался.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/hatchet-dev/hatchet | https://docs.hatchet.run/self-hosting | https://docs.hatchet.run/self-hosting/hatchet-lite | https://docs.hatchet.run/home/rate-limits | https://hatchet.run/pricing
+
+### [ALTERNATIVE] Procrastinate 3.10
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/procrastinate-org/procrastinate
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 1 419 stars, 96 open issues, 3.10.0 (2026-09-23), last commit 2026-10-12, 7 CI workflows, CI на Python 3.10-3.14 и нескольких версиях Postgres (включая 18). Основной автор ewjoachim (1 084 коммита), второй — medihack (209).
+README: «Procrastinate is looking for additional maintainers».
+CLAIMED VS ACTUAL: Расхождений с заявленным не найдено. Чего нет: workflow-чекпойнтов, глобальных rate limit, встроенного UI. В собственной документации: на Windows только ручное тестирование, нет graceful stop по сигналам, автоматических тестов для
+Windows нет.
+CAPABILITIES: Очередь задач на PostgreSQL 13+ (LISTEN/NOTIFY + polling), sync и async, retries со стратегиями, locks и queueing locks, приоритеты, периодические задачи, отмена и abort (async-задачи отменяются через asyncio cancellation, sync —
+через context.should_abort()), интеграция с Django.
+INFRA: Только PostgreSQL; процесс воркера.
+PRICING/LIMITS: $0.
+RISKS: Поиск сопровождающих — риск замедления; чекпойнты, возобновление многочасовой работы и token bucket пришлось бы писать самим (а собственный код должен быть только клеем).
+REPLACEABILITY: Высокая: простые функции-задачи.
+HOW VERIFIED: README, pyproject.toml, docs/howto/advanced/cancellation.md, docs/howto/basics/windows.md и ci.yml прочитаны через gh api; PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/procrastinate-org/procrastinate | https://github.com/procrastinate-org/procrastinate/blob/main/docs/howto/advanced/cancellation.md | https://github.com/procrastinate-org/procrastinate/blob/main/docs/howto/basics/windows.md
+
+### [ALTERNATIVE] PgQueuer 1.6
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/janbjorge/pgqueuer
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 1 537 stars, 7 open issues, v1.6.0 (2026-10-11), 7 CI workflows, last commit 2026-10-12. Фактически один сопровождающий: janbjorge 779 коммитов, следующие — по 3.
+CLAIMED VS ACTUAL: В более ранних материалах заявлялся rate limiting requests_per_second; в текущей версии он удалён: docs/getting-started/upgrading.md — «RPS rate limiting was inherently flaky», заменён на concurrency_limit. Отмена — «best-effort
+and may not halt a job already underway».
+CAPABILITIES: Очередь на PostgreSQL 14+ (SKIP LOCKED + LISTEN/NOTIFY), транзакционная постановка задач, глобальный concurrency_limit на entrypoint (в SQL dequeue), cron-расписания, heartbeat и повторный захват зависших задач, Prometheus-
+метрики, in-memory режим для тестов.
+INFRA: Только PostgreSQL; на Windows для psycopg-драйвера нужен SelectorEventLoop.
+PRICING/LIMITS: $0.
+RISKS: Bus factor 1; нет глобального лимита частоты (только конкурентность); нет чекпойнтов workflow.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README, docs/guides/concurrency-control.md, job-cancellation.md, upgrading.md, drivers.md, ci.yml прочитаны через gh api; поиск по коду requests_per_second (2 совпадения — только в RELEASE.md и upgrading.md).
+CONFIDENCE: high
+EVIDENCE: https://github.com/janbjorge/pgqueuer | https://github.com/janbjorge/pgqueuer/blob/main/docs/getting-started/upgrading.md | https://github.com/janbjorge/pgqueuer/blob/main/docs/guides/concurrency-control.md
+
+### [ALTERNATIVE] Temporal (server 1.32 + Python SDK 1.34)
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source (сервер) / commercial SaaS (Temporal Cloud)
+URL: https://github.com/temporalio/temporal
+LICENSE: MIT (сервер и sdk-python)
+COMMERCIAL USE: Да.
+PROJECT STATE: temporalio/temporal: 23 674 stars, 1 066 open issues, v1.32.1 (2026-10-08), 40 CI workflows. sdk-python: 1 221 stars, 1.34.0 (2026-09-30), Python >=3.10.
+CLAIMED VS ACTUAL: Страница цен вообще не упоминает self-hosted вариант. Официальный docker-compose по умолчанию поднимает PostgreSQL и Elasticsearch плюс сервисы Temporal; dev-сервер (SQLite) для production не предназначен. Python-workflow
+исполняются в sandbox с жёсткими требованиями детерминизма (README SDK: раздел Known Sandbox Issues).
+CAPABILITIES: Самая зрелая durable execution: история событий, heartbeats активностей, отмена, сигналы, запросы, версии workflow, веб-UI.
+INFRA: Кластер из нескольких сервисов + БД + (в дефолтном compose) Elasticsearch; ручное управление миграциями схемы при обновлениях.
+PRICING/LIMITS: Self-hosted $0. Cloud: pay-as-you-go без базовой платы, от $50 за миллион actions (до $25 при объёме), active storage $0.042 за GB-час, retained $0.00105 за GB-час, $150 кредитов на 90 дней.
+RISKS: Операционная нагрузка несоразмерна одному скромному серверу и маленькой команде; оправдан при росте до нескольких серверов и языков.
+REPLACEABILITY: Низкая: модель workflow/activity глубоко проникает в код.
+HOW VERIFIED: Docs self-hosted-guide/deployment и pricing прочитаны через WebFetch; README sdk-python — через gh api; метаданные — gh api.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/temporalio/temporal | https://github.com/temporalio/sdk-python | https://docs.temporal.io/self-hosted-guide/deployment | https://temporal.io/pricing
+
+### [REJECTED] Celery 5.6
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/celery/celery
+LICENSE: BSD-3-Clause (LICENSE прочитан)
+COMMERCIAL USE: Да.
+PROJECT STATE: 28 973 stars, 732 open issues, стабильная v5.6.3 (2026-03-26), пререлиз v5.7.0b1 (2026-10-06), 18 CI workflows.
+CLAIMED VS ACTUAL: Опция rate_limit — «per worker instance rate limit, and not a global rate limit» (docs/userguide/tasks.rst). Windows официально не поддерживается с 4.x (docs/faq.rst: «Does Celery support Windows? No»). С Redis-брокером visibility
+timeout по умолчанию 1 час: неподтверждённая за это время задача доставляется повторно — прямой конфликт с многочасовыми задачами.
+CAPABILITIES: Классическая распределённая очередь с брокерами RabbitMQ/Redis, canvas, beat.
+INFRA: Обязателен брокер (Redis/Valkey или RabbitMQ) + result backend.
+PRICING/LIMITS: $0.
+RISKS: Нет чекпойнтов и возобновления; глобальный rate limit и отмену длинных задач нужно строить самим; лишний сервис-брокер.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: Чтение docs/userguide/tasks.rst, docs/faq.rst, docs/getting-started/backends-and-brokers/redis.rst и LICENSE через gh api; PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/celery/celery/blob/main/docs/userguide/tasks.rst | https://github.com/celery/celery/blob/main/docs/faq.rst | https://github.com/celery/celery/blob/main/docs/getting-started/backends-and-brokers/redis.rst
+
+### [REJECTED] Dramatiq 2.2
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/Bogdanp/dramatiq
+LICENSE: LGPL-3.0
+COMMERCIAL USE: Да как немодифицированная зависимость; изменения самой библиотеки при распространении подпадают под LGPL.
+PROJECT STATE: 5 329 stars, 63 open issues, v2.2.1 (2026-09-02), 5 CI workflows, основной автор Bogdanp (899 коммитов).
+CLAIMED VS ACTUAL: Расхождений не найдено; отмена выполняющихся задач упоминается только в cookbook (сторонние расширения).
+CAPABILITIES: Очередь на RabbitMQ/Redis, встроенный модуль rate_limits (bucket, concurrent, window), retries с backoff.
+INFRA: Брокер RabbitMQ или Redis/Valkey.
+PRICING/LIMITS: $0.
+RISKS: Нужен брокер; нет чекпойнтов/возобновления; LGPL требует внимания юриста.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README и каталог dramatiq/rate_limits через gh api; PyPI.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/Bogdanp/dramatiq
+
+### [REJECTED] RQ 2.12
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/rq/rq
+LICENSE: BSD-2-Clause
+COMMERCIAL USE: Да.
+PROJECT STATE: 10 692 stars, 261 open issues, v2.12 (2026-08-30), 9 CI workflows.
+CLAIMED VS ACTUAL: Документация: воркеры работают только на системах с fork(), на Windows — только через WSL.
+CAPABILITIES: Простая очередь на Redis с fork-воркерами.
+INFRA: Redis/Valkey.
+PRICING/LIMITS: $0.
+RISKS: Синхронная модель с fork плохо подходит для IO-интенсивной трассировки; нет rate limiting и чекпойнтов.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: docs/docs/index.md и LICENSE через gh api; PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/rq/rq/blob/master/docs/docs/index.md
+
+### [REJECTED] Arq 0.28
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/python-arq/arq
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 3 017 stars, 111 open issues, v0.28.0 (2026-04-16), последний коммит 2026-04-16, 1 CI workflow. README: «arq is in maintenance only mode».
+CLAIMED VS ACTUAL: Проект сам объявляет режим только сопровождения; зависимость закреплена на redis[hiredis]>=4.2.0,<6.
+CAPABILITIES: Asyncio-очередь на Redis.
+INFRA: Redis/Valkey.
+PRICING/LIMITS: $0.
+RISKS: Нет развития; нужен брокер; нет чекпойнтов.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README и pyproject.toml через gh api.
+CONFIDENCE: high
+EVIDENCE: https://github.com/python-arq/arq
+
+### [REJECTED] Taskiq 0.13
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/taskiq-python/taskiq
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 2 355 stars, 122 open issues, 0.13.0 (2026-09-26), 6 CI workflows; основной автор s3rius (385 коммитов).
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Asyncio-очередь с брокерами NATS, Redis, RabbitMQ, Kafka в отдельных пакетах; интеграция с FastAPI-зависимостями.
+INFRA: Внешний брокер.
+PRICING/LIMITS: $0.
+RISKS: 0.x; качество зависит от конкретного пакета-брокера; нет durable-чекпойнтов и глобального rate limit; нужен брокер.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README и pyproject.toml через gh api; PyPI.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/taskiq-python/taskiq
+
+### [REJECTED] Huey 3.4
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/coleifer/huey
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 6 046 stars, 0 open issues, 3.4.0 (2026-09-04), 3 CI workflows; один сопровождающий coleifer (1 033 коммита).
+CLAIMED VS ACTUAL: Расхождений не найдено; детали реализации rate-limits в коде не проверялись.
+CAPABILITIES: Лёгкая очередь с хранилищами Redis/Valkey, Postgres, SQLite, файловым и in-memory; блокировки задач, rate-limits, таймауты, расписания.
+INFRA: Postgres или Redis/Valkey.
+PRICING/LIMITS: $0.
+RISKS: Bus factor 1; нет чекпойнтов workflow; модель воркеров потоки/процессы, не asyncio.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README.rst через gh api; PyPI.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/coleifer/huey
+
+### [REJECTED] Inngest
+NEED: b) Очереди и фоновое выполнение
+KIND: source-available (SSPL) / commercial SaaS
+URL: https://github.com/inngest/inngest
+LICENSE: Server Side Public License v1 с отложенным переходом на Apache 2.0 («Apache 2.0 Future License») — заголовок LICENSE.md прочитан
+COMMERCIAL USE: Self-host для внутренних нужд допустим, но SSPL — не OSI-лицензия и накладывает обязательства при предоставлении сервиса; требует юридической оценки.
+PROJECT STATE: 5 940 stars, 259 open issues, v1.46.0 (2026-10-06), 29 CI workflows; Python SDK 0.5.19 (2026-06-23).
+CLAIMED VS ACTUAL: Страница цен называет продукт open source, фактическая лицензия сервера — SSPL.
+CAPABILITIES: Event-driven durable functions, шаги, concurrency и throttling.
+INFRA: Собственный сервер Inngest либо облако; модель вызова функций по HTTP.
+PRICING/LIMITS: Cloud Free: 50k executions/мес, 5 параллельных шагов, 3 воркера. Pro от $99/мес (1M executions). Business от $499/мес.
+RISKS: Лицензия; Python SDK в версии 0.x и обновлялся реже ядра.
+REPLACEABILITY: Низкая.
+HOW VERIFIED: LICENSE.md через gh api; страница pricing через WebFetch; PyPI.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/inngest/inngest/blob/main/LICENSE.md | https://www.inngest.com/pricing
+
+### [REJECTED] Prefect 3.8
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source / commercial SaaS
+URL: https://github.com/PrefectHQ/prefect
+LICENSE: Apache-2.0
+COMMERCIAL USE: Да.
+PROJECT STATE: 24 016 stars, 910 open issues, 3.8.8 (2026-10-06), 59 CI workflows.
+CLAIMED VS ACTUAL: Прочитанная страница о rate limits описывает только лимиты API Prefect Cloud (например, Hobby 625 запросов в минуту); механизм глобальных concurrency-лимитов проверить не удалось.
+CAPABILITIES: Оркестратор data-пайплайнов: flows/tasks, retries, расписания, UI.
+INFRA: Prefect server + БД + воркеры.
+PRICING/LIMITS: Self-hosted $0; цены Cloud не проверялись.
+RISKS: Ориентирован на пайплайны по расписанию, а не на пользовательские интерактивные задачи с ответом за 30 секунд; тяжёлая зависимость и отдельный сервер.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: gh api, PyPI; одна страница docs через WebFetch (не покрыла нужную функцию).
+CONFIDENCE: low
+EVIDENCE: https://github.com/PrefectHQ/prefect | https://docs.prefect.io/v3/concepts/rate-limits
+
+### [REJECTED] BullMQ 6
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source + коммерческий BullMQ-Pro
+URL: https://github.com/taskforcesh/bullmq
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 9 504 stars, 394 open issues, v6.3.14 (2026-10-13), 21 CI workflow.
+CLAIMED VS ACTUAL: README заявляет поддержку Python, но это вторичный порт в каталоге python/; групповой rate limit (Group Rate Limit) — только в платном BullMQ-Pro (таблица сравнения в README).
+CAPABILITIES: Очередь на Redis для Node.js (есть порты на Python, Elixir, .NET, Rust, PHP), rate limiter на очередь, поддержка Valkey Glide и Dragonfly.
+INFRA: Redis/Valkey.
+PRICING/LIMITS: $0; BullMQ-Pro — платно (цена не проверялась).
+RISKS: Основной рантайм — Node; требует брокера; при Python-бэкенде означает второй язык в воркерах.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: README через gh api; npm registry.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/taskforcesh/bullmq
+
+### [REJECTED] pg-boss 12
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source
+URL: https://github.com/timgit/pg-boss
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 4 048 stars, 8 open issues, 12.38.0 (2026-10-13), 12 CI workflows; основной автор timgit (1 666 коммитов).
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Очередь на PostgreSQL для Node.js.
+INFRA: PostgreSQL.
+PRICING/LIMITS: $0.
+RISKS: Только Node.js-воркеры — не подходит при Python-бэкенде.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: gh api, npm registry.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/timgit/pg-boss
+
+### [REJECTED] River (Go)
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source + платный River Pro
+URL: https://github.com/riverqueue/river
+LICENSE: MPL-2.0
+COMMERCIAL USE: Да (file-level copyleft).
+PROJECT STATE: 5 775 stars, 63 open issues, last commit 2026-10-13, 11 CI workflows. riverqueue-python: 12 stars, last push 2025-10-02.
+CLAIMED VS ACTUAL: Python-клиент по собственному README — insert-only: «doesn't support working jobs in Python».
+CAPABILITIES: Очередь на PostgreSQL для Go.
+INFRA: PostgreSQL + Go-воркеры.
+PRICING/LIMITS: $0 (OSS).
+RISKS: Исполнять задачи можно только на Go.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: README riverqueue-python через gh api; gh api метаданные.
+CONFIDENCE: high
+EVIDENCE: https://github.com/riverqueue/river | https://github.com/riverqueue/riverqueue-python
+
+### [REJECTED] Faktory
+NEED: b) Очереди и фоновое выполнение
+KIND: open-source сервер (AGPL) + коммерческие редакции
+URL: https://github.com/contribsys/faktory
+LICENSE: Сервер — AGPL-3.0 (LICENSE прочитан); клиентские библиотеки под AGPL не подпадают; в корне есть COMM-LICENSE
+COMMERCIAL USE: Да при использовании немодифицированного сервера; модификации при сетевом доступе нужно раскрывать.
+PROJECT STATE: 6 151 stars, 23 open issues, v1.10.0 (2026-08-10), last commit 2026-10-05, 3 CI workflows; один основной автор mperham (875 коммитов).
+CLAIMED VS ACTUAL: Не проверено: какие функции (в частности throttling) находятся только в платной Enterprise-редакции — поиск по README ничего не дал.
+CAPABILITIES: Языконезависимый сервер задач.
+INFRA: Отдельный сервер Faktory.
+PRICING/LIMITS: OSS $0; цены Pro/Enterprise не проверялись.
+RISKS: AGPL; ещё один stateful-сервис; bus factor 1.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: LICENSE через gh api; метаданные gh api.
+CONFIDENCE: low
+EVIDENCE: https://github.com/contribsys/faktory
+
+### [ALTERNATIVE] Valkey 9.1
+NEED: b) Брокер / in-memory store
+KIND: open-source
+URL: https://github.com/valkey-io/valkey
+LICENSE: BSD-3-Clause
+COMMERCIAL USE: Да, без условий.
+PROJECT STATE: 27 416 stars, 948 open issues, 9.1.2 (2026-09-01), last commit 2026-10-13, 26 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено; паритет с модулями Redis Stack не проверялся.
+CAPABILITIES: Форк Redis под Linux Foundation, протокол RESP; подходит как кэш, брокер и хранилище token bucket, если позже понадобятся.
+INFRA: Один контейнер.
+PRICING/LIMITS: $0.
+RISKS: Лишний сервис для MVP: все функции закрываются PostgreSQL.
+REPLACEABILITY: Высокая (совместим по протоколу с Redis).
+HOW VERIFIED: gh api (лицензия, релизы).
+CONFIDENCE: high
+EVIDENCE: https://github.com/valkey-io/valkey
+
+### [REJECTED] Redis 8
+NEED: b) Брокер / in-memory store
+KIND: source-available / open-source (tri-license)
+URL: https://github.com/redis/redis
+LICENSE: Начиная с Redis 8 — на выбор RSALv2, SSPLv1 или AGPLv3; 7.2 и ранее — BSD-3-Clause (LICENSE.txt прочитан)
+COMMERCIAL USE: Использование немодифицированного Redis как внутреннего компонента SaaS допустимо по AGPLv3; RSALv2 запрещает предлагать Redis как управляемый сервис; требуется осознанный выбор лицензии.
+PROJECT STATE: 76 786 stars, 3 040 open issues, 8.10.2 (2026-09-17), 19 CI workflows.
+CLAIMED VS ACTUAL: Заявление «Redis снова open source» верно только для варианта AGPLv3; два других варианта остаются source-available.
+CAPABILITIES: То же, что Valkey, плюс собственные новые типы данных.
+INFRA: Один контейнер.
+PRICING/LIMITS: $0.
+RISKS: Лицензионная неоднозначность без функциональной выгоды относительно Valkey.
+REPLACEABILITY: Высокая (на Valkey).
+HOW VERIFIED: LICENSE.txt через gh api; независимое подтверждение через WebSearch.
+CONFIDENCE: high
+EVIDENCE: https://github.com/redis/redis/blob/unstable/LICENSE.txt
+
+### [REJECTED] RabbitMQ 4.3
+NEED: b) Брокер / in-memory store
+KIND: open-source
+URL: https://github.com/rabbitmq/rabbitmq-server
+LICENSE: MPL-2.0 (сервер и tier-1 плагины), часть файлов Apache-2.0
+COMMERCIAL USE: Да.
+PROJECT STATE: 13 919 stars, 264 open issues, v4.3.6 (2026-09-14), 24 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: AMQP-брокер, quorum queues, streams.
+INFRA: Отдельный Erlang-сервис.
+PRICING/LIMITS: $0.
+RISKS: Нужен только Celery/Dramatiq или Hatchet при высокой нагрузке; для MVP избыточен.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: LICENSE через gh api.
+CONFIDENCE: high
+EVIDENCE: https://github.com/rabbitmq/rabbitmq-server
+
+### [REJECTED] NATS Server 2.15 (JetStream)
+NEED: b) Брокер / in-memory store
+KIND: open-source
+URL: https://github.com/nats-io/nats-server
+LICENSE: Apache-2.0
+COMMERCIAL USE: Да.
+PROJECT STATE: 20 868 stars, 482 open issues, v2.15.1 (2026-10-09), 15 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Лёгкий брокер сообщений с персистентностью JetStream; используется Taskiq.
+INFRA: Один Go-бинарник.
+PRICING/LIMITS: $0.
+RISKS: Дополнительный сервис без необходимости; Python-очереди поверх него менее зрелые.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: gh api.
+CONFIDENCE: high
+EVIDENCE: https://github.com/nats-io/nats-server
+
+### [RECOMMENDED] DBOS queue limiter + partition_limiter
+NEED: b) Глобальный rate limiting
+KIND: open-source (часть DBOS Transact)
+URL: https://docs.dbos.dev/python/tutorials/queue-tutorial
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: См. DBOS Transact 3.2.0.
+CLAIMED VS ACTUAL: Лимитируется число стартов workflow из очереди за период — каждый внешний вызов должен быть отдельной задачей в очереди. В release notes 3.0.0 упомянут «Fix Limiter Regression» — точность под нагрузкой нужно проверить самим.
+Задержка диспетчеризации до интервала опроса (1.0 с по умолчанию).
+CAPABILITIES: limiter={limit, period} на очередь; документация: «Rate limits are global across all DBOS processes using this queue»; partitioned queues с partition_limiter дают отдельные лимиты по ключу (например, по API-ключу провайдера или по
+арендатору).
+INFRA: PostgreSQL.
+PRICING/LIMITS: $0.
+RISKS: Это окно «N стартов за период», а не классический token bucket с burst; реакцию на 429 и Retry-After нужно добавлять в шаге.
+REPLACEABILITY: Средняя: при уходе с DBOS заменяется PyrateLimiter или собственной GCRA-функцией в Postgres.
+HOW VERIFIED: Docs + чтение dbos/_queue.py через gh api.
+CONFIDENCE: medium
+EVIDENCE: https://docs.dbos.dev/python/tutorials/queue-tutorial | https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_queue.py
+
+### [ALTERNATIVE] PyrateLimiter 4.5
+NEED: b) Глобальный rate limiting
+KIND: open-source
+URL: https://github.com/vutran1710/PyrateLimiter
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 528 stars, 4 open issues, v4.5.0 (2026-08-30), last commit 2026-09-23, 5 CI workflows.
+CLAIMED VS ACTUAL: Заявлен как async-friendly, но по таблице бэкендов в README PostgresBucket — только sync (async — нет); в asyncio-коде потребуется BucketAsyncWrapper.
+CAPABILITIES: Алгоритмы sliding-window log, fixed window, GCRA/token bucket с burst; бэкенды in-memory, SQLite, Redis (sync и async), Postgres, multiprocessing.
+INFRA: Postgres (psycopg) или Redis/Valkey.
+PRICING/LIMITS: $0.
+RISKS: Небольшой проект; sync-бэкенд Postgres в async-воркере.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README через gh api (включая таблицу бэкендов); PyPI.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/vutran1710/PyrateLimiter
+
+### [ALTERNATIVE] throttled-py 3.5
+NEED: b) Глобальный rate limiting
+KIND: open-source
+URL: https://github.com/ZhuoZhuoCrayon/throttled-py
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 649 stars, 12 open issues, v3.5.0 (2026-08-30), 10 CI workflows; проект создан 2025-01-05.
+CLAIMED VS ACTUAL: Расхождений не найдено; распределённый режим — только через Redis (Postgres-бэкенда нет).
+CAPABILITIES: Fixed/sliding window, token bucket, leaky bucket, GCRA; sync и async; интеграция с FastAPI.
+INFRA: Redis/Valkey для общего лимита между воркерами.
+PRICING/LIMITS: $0.
+RISKS: Требует добавить Valkey; молодой проект.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README через gh api; PyPI.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/ZhuoZhuoCrayon/throttled-py
+
+### [ALTERNATIVE] aiolimiter 1.3
+NEED: b) Глобальный rate limiting
+KIND: open-source
+URL: https://github.com/mjpieters/aiolimiter
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 787 stars, 4 open issues, v1.3.0 (2026-09-07), last commit 2026-10-12.
+CLAIMED VS ACTUAL: Расхождений не найдено; общего состояния между процессами нет по замыслу.
+CAPABILITIES: Leaky bucket для asyncio внутри одного процесса.
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Не решает задачу общего лимита между воркерами — годится только как локальное сглаживание внутри процесса.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: README через gh api; PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/mjpieters/aiolimiter
+
+### [RECOMMENDED] FastAPI 0.143
+NEED: c) Backend / API-фреймворк
+KIND: open-source
+URL: https://github.com/fastapi/fastapi
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 103 087 stars, 88 open issues, 0.143.0 (2026-10-08), 29 CI workflows. Python >=3.10, классификаторы до 3.14; зависимости starlette>=0.46.0, pydantic>=2.9.0. Классификатор Development Status :: 4 - Beta, версия по-прежнему 0.x.
+CLAIMED VS ACTUAL: Расхождений не найдено. Наблюдение: очень частые релизы — с 2026-07-24 по 2026-07-28 вышли 0.140.0-0.140.13 (14 релизов за 5 дней), в 0.137.0 менялась внутренняя структура роутинга; версии нужно пинить lock-файлом.
+CAPABILITIES: ASGI, Pydantic-валидация, автогенерация OpenAPI (из неё генерируется TypeScript-клиент для UI), dependency injection, WebSocket, встроенный SSE: модуль fastapi/sse.py с EventSourceResponse, документация по SSE добавлена в 0.135.0
+(2026-03-01).
+INFRA: ASGI-сервер (uvicorn 0.54.0 или granian 2.8.4 — версии по PyPI).
+PRICING/LIMITS: $0.
+RISKS: 0.x и высокий темп изменений; нет встроенных админки, ORM и аутентификации.
+REPLACEABILITY: Средняя: обработчики и зависимости специфичны, но бизнес-логика в сервисном слое переносима на Litestar.
+HOW VERIFIED: pyproject.toml, fastapi/sse.py и release-notes.md прочитаны через gh api; PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/fastapi/fastapi | https://github.com/fastapi/fastapi/blob/master/fastapi/sse.py | https://github.com/fastapi/fastapi/blob/master/docs/en/docs/release-notes.md | https://pypi.org/project/fastapi/
+
+### [ALTERNATIVE] Litestar 2.24
+NEED: c) Backend / API-фреймворк
+KIND: open-source
+URL: https://github.com/litestar-org/litestar
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 8 514 stars, 359 open issues, стабильная v2.24.0 (2026-06-11); в main версия 3.0.0b0 (Python >=3.11) — 3.0 ещё не выпущена; 14 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено; стабильная ветка 2.x не обновлялась 4 месяца при активной разработке 3.0.
+CAPABILITIES: ASGI-фреймворк с OpenAPI, DI, встроенными SSE (litestar/response/sse.py) и WebSocket, плагином SQLAlchemy.
+INFRA: ASGI-сервер.
+PRICING/LIMITS: $0.
+RISKS: Грядущая миграция 2 -> 3; меньшая экосистема и меньше примеров интеграций (DBOS, pydantic-ai документируют FastAPI).
+REPLACEABILITY: Средняя.
+HOW VERIFIED: pyproject.toml, релизы и поиск по коду через gh api; PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/litestar-org/litestar | https://pypi.org/project/litestar/
+
+### [ALTERNATIVE] Django 6.1 + Django Ninja 1.7
+NEED: c) Backend / API-фреймворк
+KIND: open-source
+URL: https://github.com/django/django
+LICENSE: Django — BSD-3-Clause; Django Ninja — MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: Django: 91 423 stars, 6.1.2 (2026-10-06), требует Python >=3.12. Django Ninja: 9 210 stars, 224 open issues, v1.7.1 (2026-09-19), классификаторы включают Django 6.1.
+CLAIMED VS ACTUAL: Встроенный фреймворк задач django.tasks содержит в ядре только backends dummy и immediate (каталог django/tasks/backends) — production-воркера в ядре нет.
+CAPABILITIES: Встроенные ORM, миграции, админка, аутентификация и права; Ninja добавляет типизированный API с OpenAPI. Procrastinate имеет интеграцию с Django.
+INFRA: WSGI/ASGI-сервер.
+PRICING/LIMITS: $0.
+RISKS: ORM преимущественно синхронный при IO-интенсивной трассировке и стриминге; две системы моделей (Django ORM и Pydantic-схемы агентов); DBOS использует SQLAlchemy — два ORM в проекте.
+REPLACEABILITY: Низкая (ORM и модели пронизывают всё).
+HOW VERIFIED: PyPI; содержимое django/tasks/backends и pyproject Django Ninja через gh api.
+CONFIDENCE: high
+EVIDENCE: https://pypi.org/project/Django/ | https://github.com/django/django/tree/main/django/tasks/backends | https://github.com/vitalik/django-ninja
+
+### [REJECTED] NestJS 12
+NEED: c) Backend / API-фреймворк
+KIND: open-source
+URL: https://github.com/nestjs/nest
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 76 840 stars, 24 open issues, v12.1.3 (2026-10-12).
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Модульный TypeScript-фреймворк с DI, интеграцией BullMQ.
+INFRA: Node.js.
+PRICING/LIMITS: $0.
+RISKS: TypeScript-бэкенд потребовал бы второго рантайма для графового, ML- и агентного кода на Python либо отказа от Python-экосистемы.
+REPLACEABILITY: Низкая.
+HOW VERIFIED: gh api, npm registry.
+CONFIDENCE: high
+EVIDENCE: https://github.com/nestjs/nest
+
+### [REJECTED] Hono 4
+NEED: c) Backend / API-фреймворк
+KIND: open-source
+URL: https://github.com/honojs/hono
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 32 520 stars, 409 open issues, 4.13.13 (2026-10-04); в npm есть 5.0.0-rc.1.
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Минималистичный веб-фреймворк для edge и Node.
+INFRA: Node/Bun/edge-рантайм.
+PRICING/LIMITS: $0.
+RISKS: Та же проблема второго языка; уместен только как тонкий BFF или хост для Better Auth.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: gh api, npm registry.
+CONFIDENCE: high
+EVIDENCE: https://github.com/honojs/hono
+
+### [REJECTED] tRPC 11
+NEED: c) Backend / API-фреймворк
+KIND: open-source
+URL: https://github.com/trpc/trpc
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 40 703 stars, 225 open issues, v11.19.0 (2026-09-16).
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Типобезопасный RPC между TypeScript-клиентом и TypeScript-сервером.
+INFRA: Node.js.
+PRICING/LIMITS: $0.
+RISKS: Работает только при TypeScript на обеих сторонах; не даёт языконезависимого контракта (OpenAPI) для Python-сервисов и внешних интеграций.
+REPLACEABILITY: Низкая.
+HOW VERIFIED: gh api, npm registry.
+CONFIDENCE: high
+EVIDENCE: https://github.com/trpc/trpc
+
+### [REJECTED] Go: chi / huma / echo / gin (+ River)
+NEED: c) Backend / API-фреймворк
+KIND: open-source
+URL: https://github.com/go-chi/chi
+LICENSE: MIT (все четыре)
+COMMERCIAL USE: Да.
+PROJECT STATE: chi: 22 949 stars, v5.4.0 (2026-10-12). huma: 4 455 stars, v2.39.1 (2026-07-29). echo: 32 766 stars, v5.4.0 (2026-09-27). gin: 89 344 stars, v1.12.0 (2026-02-28).
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Быстрые HTTP-фреймворки; huma генерирует OpenAPI; River даёт Postgres-очередь для Go.
+INFRA: Go toolchain.
+PRICING/LIMITS: $0.
+RISKS: Нет сопоставимой экосистемы для графового анализа, ML и LLM-агентов; команда маленькая и dev-окружение настроено под Python и Node.
+REPLACEABILITY: Низкая.
+HOW VERIFIED: gh api (метаданные и релизы).
+CONFIDENCE: medium
+EVIDENCE: https://github.com/go-chi/chi | https://github.com/danielgtaylor/huma | https://github.com/labstack/echo | https://github.com/gin-gonic/gin
+
+### [RECOMMENDED] Keycloak 26.8 (self-hosted OIDC IdP)
+NEED: c) Аутентификация
+KIND: open-source
+URL: https://github.com/keycloak/keycloak
+LICENSE: Apache-2.0
+COMMERCIAL USE: Да, без условий.
+PROJECT STATE: 37 332 stars, 3 240 open issues, 26.8.1 (2026-10-13), 27 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено. Важная цифра из собственного sizing-гайда: базовое потребление памяти 1250 MB на экземпляр (включая кэш на 10 000 сессий), ~300 MB non-heap, 1 vCPU на 15 логинов по паролю в секунду.
+CAPABILITIES: OIDC/OAuth2/SAML, MFA, социальные логины, Organizations (supported с 26.0.0), passkeys (supported с 26.4.0), OpenTelemetry tracing (supported с 26.1.0), SCIM API (26.8.0), защита от перебора, сброс пароля, подтверждение e-mail.
+INFRA: JVM-контейнер + база в PostgreSQL (можно тот же сервер БД, отдельная база).
+PRICING/LIMITS: $0 лицензия; около 1.25-1.4 GB RAM.
+RISKS: Заметная доля RAM скромного сервера; конфигурация realm и регулярные обновления требуют внимания; избыточен, пока пользователей единицы.
+REPLACEABILITY: Высокая: API платформы проверяет стандартные OIDC JWT через JWKS, поэтому IdP заменяется на Zitadel, Authentik или SaaS сменой issuer; перенос пользователей и паролей — отдельная задача.
+HOW VERIFIED: gh api; release notes и sizing-гайд прочитаны через WebFetch (release notes — первые 100 000 символов). Не разворачивался.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/keycloak/keycloak | https://www.keycloak.org/high-availability/multi-cluster/concepts-memory-and-cpu-sizing | https://www.keycloak.org/docs/latest/release_notes/index.html
+
+### [ALTERNATIVE] ZITADEL v4
+NEED: c) Аутентификация
+KIND: open-source (AGPL) / commercial SaaS
+URL: https://github.com/zitadel/zitadel
+LICENSE: AGPL-3.0-only (LICENSING.md прочитан); исключения: apps/login и клиентские пакеты — MIT, proto и docs — Apache-2.0
+COMMERCIAL USE: Да как отдельный немодифицированный сервис; при модификациях действуют обязательства AGPL. Сам проект пишет, что определение соответствия — ответственность пользователя, и предлагает коммерческую лицензию.
+PROJECT STATE: 15 302 stars, 1 276 open issues, v4.19.4 (2026-10-01), 25 CI workflows.
+CLAIMED VS ACTUAL: Страница цен не упоминает AGPL — лицензия видна только в репозитории. CockroachDB больше не в числе поддерживаемых (только руководство по миграции на PostgreSQL).
+CAPABILITIES: OIDC IdP на Go с мультиарендностью (организации) как базовой моделью, MFA, passkeys, service users.
+INFRA: Go-бинарник + PostgreSQL.
+PRICING/LIMITS: Self-hosted $0. Cloud Free: 100 Daily Active Users; Pro $100/мес с 25 000 DAU; Enterprise — индивидуально, включает commercial license. Ресурсы: около 512 MB RAM и меньше одного ядра, но для хеширования паролей рекомендованы 4
+ядра.
+RISKS: AGPL при отсутствии юриста в команде; отдельные компоненты login-UI в v4 (состав развёртывания не проверен).
+REPLACEABILITY: Высокая (стандартный OIDC).
+HOW VERIFIED: LICENSING.md через gh api; страницы pricing и self-hosting/manage/production через WebFetch.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/zitadel/zitadel/blob/main/LICENSING.md | https://zitadel.com/pricing | https://zitadel.com/docs/self-hosting/manage/production
+
+### [ALTERNATIVE] authentik 2026.8
+NEED: c) Аутентификация
+KIND: open-source (open core)
+URL: https://github.com/goauthentik/authentik
+LICENSE: Ядро — MIT; каталог authentik/enterprise — отдельная EE-лицензия (production только при подписке); website — CC BY-SA 4.0
+COMMERCIAL USE: Да для ядра; enterprise-функции требуют подписки по числу пользователей.
+PROJECT STATE: 25 948 stars, 1 126 open issues, version/2026.8.3 (2026-09-17), 45 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено. В текущем compose-файле только PostgreSQL (postgres:16-alpine), server и worker — Redis больше не требуется (поиск redis в compose — 0 совпадений).
+CAPABILITIES: OIDC/SAML/LDAP/proxy IdP на Python (Django) с гибкими flows.
+INFRA: Два контейнера (server, worker) + PostgreSQL; worker по умолчанию монтирует Docker socket (документация сама предупреждает о риске).
+PRICING/LIMITS: $0 ядро; минимум по документации — 2 ядра CPU и 2 GB RAM.
+RISKS: Тяжелее Keycloak по минимальным требованиям; часть функций в платной редакции.
+REPLACEABILITY: Высокая (OIDC).
+HOW VERIFIED: LICENSE, authentik/enterprise/LICENSE и lifecycle/container/compose.yml через gh api; docs install через WebFetch.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/goauthentik/authentik | https://docs.goauthentik.io/install-config/install/docker-compose/
+
+### [ALTERNATIVE] Ory Kratos
+NEED: c) Аутентификация
+KIND: open-source / commercial SaaS (Ory Network)
+URL: https://github.com/ory/kratos
+LICENSE: Apache-2.0
+COMMERCIAL USE: Да.
+PROJECT STATE: 13 920 stars, 233 open issues, v26.2.0 (2026-03-20), предыдущий v25.4.0 (2025-11-07); последний коммит 2026-07-29 — в открытом репозитории два с половиной месяца без коммитов.
+CLAIMED VS ACTUAL: Не проверялось детально; замедление активности открытого репозитория — наблюдаемый факт.
+CAPABILITIES: Headless identity-сервер на Go: регистрация, логин, восстановление, MFA; UI нужно делать самим.
+INFRA: Go-бинарник + PostgreSQL + собственный UI для self-service flows.
+PRICING/LIMITS: Self-hosted $0; цены Ory Network не проверялись.
+RISKS: Нужно писать и поддерживать UI аутентификации; для OIDC-токенов нужен ещё Ory Hydra.
+REPLACEABILITY: Средняя (собственные API сессий, не чистый OIDC без Hydra).
+HOW VERIFIED: gh api (метаданные, релизы).
+CONFIDENCE: low
+EVIDENCE: https://github.com/ory/kratos
+
+### [NEEDS-TRIAL] Better Auth 1.7
+NEED: c) Аутентификация
+KIND: open-source (TypeScript-библиотека)
+URL: https://github.com/better-auth/better-auth
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 30 285 stars, 874 open issues, v1.7.7 (2026-09-30), 35 CI workflows; проект создан 2024-05-19.
+CLAIMED VS ACTUAL: Документация прямо называет продукт фреймворком для TypeScript — Python-варианта нет. JWT-плагин «is not meant as a replacement for the session».
+CAPABILITIES: Аутентификация как библиотека внутри TypeScript-сервера: 2FA, passkeys, multi-tenancy, SSO через плагины. JWT-плагин выдаёт токены (EdDSA/Ed25519 по умолчанию, срок 15 минут) и JWKS-эндпоинт /api/auth/jwks — Python-API может
+проверять их локально.
+INFRA: Node-сервер (Next.js server routes или небольшой Hono-сервис) + таблицы в том же PostgreSQL со своими миграциями (вне Alembic).
+PRICING/LIMITS: $0.
+RISKS: Имеет смысл, только если у UI есть серверная Node-часть; молодой проект с большим бэклогом; вторая система миграций; история уязвимостей не проверялась.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: Docs introduction и plugins/jwt через WebFetch; gh api; npm registry.
+CONFIDENCE: medium
+EVIDENCE: https://www.better-auth.com/docs/introduction | https://www.better-auth.com/docs/plugins/jwt | https://github.com/better-auth/better-auth
+
+### [ALTERNATIVE] Clerk
+NEED: c) Аутентификация
+KIND: commercial SaaS
+URL: https://clerk.com/pricing
+LICENSE: Проприетарный сервис
+COMMERCIAL USE: Да; ToS не читались.
+PROJECT STATE: Действующий сервис; биллинг по Monthly Retained Users (пользователь считается, если вернулся минимум через 24 часа после регистрации).
+CLAIMED VS ACTUAL: Бесплатный план Hobby не включает MFA, passkeys и SSO — для платформы расследований MFA фактически означает платный Pro.
+CAPABILITIES: Готовые UI-компоненты, сессии, JWT, организации, социальные логины.
+INFRA: Нет своей инфраструктуры.
+PRICING/LIMITS: Hobby: $0, 50 000 MRU на приложение, 3 социальных подключения, фиксированная 7-дневная сессия. Pro: $25/мес ($20 при годовой оплате), 50 000 MRU включено, далее $0.02 за MRU; MFA включена. B2B add-on: 100 организаций бесплатно,
+расширенный $100/мес. Business: $300/мес.
+RISKS: Персональные данные пользователей у стороннего провайдера; зависимость входа от внешнего сервиса; доступность оплаты и сервиса в юрисдикции команды не проверялась.
+REPLACEABILITY: Средняя: при проверке стандартных JWT через JWKS бэкенд не привязан, но UI-компоненты и перенос пользователей привязывают.
+HOW VERIFIED: Страница pricing через WebFetch. Аккаунт не создавался.
+CONFIDENCE: medium
+EVIDENCE: https://clerk.com/pricing
+
+### [REJECTED] Auth0
+NEED: c) Аутентификация
+KIND: commercial SaaS
+URL: https://auth0.com/pricing
+LICENSE: Проприетарный сервис
+COMMERCIAL USE: Да; ToS не читались.
+PROJECT STATE: Действующий сервис (Okta).
+CLAIMED VS ACTUAL: Free-план (25 000 MAU) не включает Pro/Enterprise MFA и ограничен 5 организациями и 1 днём хранения логов.
+CAPABILITIES: Полнофункциональный IdP: OIDC, MFA, организации, enterprise-подключения.
+INFRA: Нет.
+PRICING/LIMITS: Free: $0, до 25 000 MAU. При 500 MAU: B2C Essentials $35/мес, B2C Professional $240/мес, B2B Essentials $150/мес, B2B Professional $800/мес.
+RISKS: Резкий рост цены при переходе к B2B-функциям и MFA; данные у третьей стороны.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: Страница pricing через WebFetch.
+CONFIDENCE: medium
+EVIDENCE: https://auth0.com/pricing
+
+### [ALTERNATIVE] Supabase Auth (GoTrue)
+NEED: c) Аутентификация
+KIND: open-source / часть commercial SaaS
+URL: https://github.com/supabase/auth
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 2 578 stars, 387 open issues, v2.197.0 (2026-09-09), last commit 2026-09-22, 14 CI workflows.
+CLAIMED VS ACTUAL: JWKS-эндпоинт не возвращает ключей, если проект использует устаревший общий секрет HS256; локальная проверка по общему секрету документацией не рекомендуется.
+CAPABILITIES: E-mail/пароль, magic link, OAuth, JWT с ролью для RLS; JWKS-эндпоинт при асимметричных ключах.
+INFRA: В облаке — нет; self-host отдельно от стека Supabase документирован слабо (не проверено).
+PRICING/LIMITS: В составе Supabase: Free 50 000 MAU, Pro 100 000 MAU, далее $0.00325 за MAU.
+RISKS: Оправдан, только если и БД размещена в Supabase.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: docs/guides/auth/jwts через WebFetch; gh api.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/supabase/auth | https://supabase.com/docs/guides/auth/jwts
+
+### [REJECTED] FastAPI Users 15
+NEED: c) Аутентификация
+KIND: open-source
+URL: https://github.com/fastapi-users/fastapi-users
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: 6 254 stars, 10 open issues, v15.0.5 (2026-03-27), последний коммит 2026-08-17. README: «This project is now in maintenance mode» — только security-обновления, новых функций не будет, готовится преемник.
+CLAIMED VS ACTUAL: Проект сам объявил режим сопровождения.
+CAPABILITIES: Регистрация, логин, сброс пароля, верификация, OAuth, JWT/cookie-стратегии внутри FastAPI.
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Нет MFA и организаций; начинать новый коммерческий продукт на библиотеке в maintenance mode нецелесообразно.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: README через gh api; PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/fastapi-users/fastapi-users
+
+### [RECOMMENDED] PyJWT 2.15 / Authlib 1.8 (проверка OIDC-токенов в API)
+NEED: c) Аутентификация
+KIND: open-source
+URL: https://github.com/jpadilla/pyjwt
+LICENSE: PyJWT — MIT; Authlib — BSD-3-Clause
+COMMERCIAL USE: Да.
+PROJECT STATE: PyJWT: 2.15.1 (2026-09-28), last commit 2026-10-13, 10 CI workflows. Authlib: v1.8.0 (2026-08-30), last commit 2026-10-13, 9 CI workflows. pwdlib 0.3.1 (2026-08-12) — хеширование паролей, если понадобятся локальные сервисные
+учётные записи.
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Проверка подписи JWT по JWKS, проверка iss/aud/exp; Authlib — также OAuth/OIDC-клиент.
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Нужно явно фиксировать допустимые алгоритмы и кэшировать JWKS с обновлением по неизвестному kid.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: gh api, PyPI.
+CONFIDENCE: high
+EVIDENCE: https://github.com/jpadilla/pyjwt | https://github.com/authlib/authlib
+
+### [RECOMMENDED] SSE через встроенный fastapi.sse (EventSourceResponse)
+NEED: c) Real-time прогресс в UI
+KIND: open-source (часть FastAPI) + стандарт HTML Server-Sent Events
+URL: https://github.com/fastapi/fastapi/blob/master/fastapi/sse.py
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: В составе FastAPI с 0.135.0 (2026-03-01); исправления SSE в 0.140.12-0.141.0 (июль 2026).
+CLAIMED VS ACTUAL: Расхождений не найдено. Ограничение стандарта (MDN): без HTTP/2 не более 6 SSE-соединений на браузер и домен; с HTTP/2 лимит потоков по умолчанию 100.
+CAPABILITIES: Однонаправленный поток событий сервер -> браузер поверх обычного HTTP, автопереподключение браузера, поле id для возобновления, схема события в OpenAPI. Источник событий — таблица investigation_events + LISTEN/NOTIFY с id события.
+INFRA: Reverse proxy с HTTP/2 и отключённой буферизацией ответа для эндпоинта потока.
+PRICING/LIMITS: $0; payload NOTIFY < 8000 байт — передавать только id события.
+RISKS: Функция в FastAPI молодая (семь месяцев) и правилась в июле 2026; нужна собственная логика досылки пропущенных событий по Last-Event-ID.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: Чтение fastapi/sse.py и release-notes.md через gh api; MDN и документация NOTIFY через WebFetch.
+CONFIDENCE: high
+EVIDENCE: https://github.com/fastapi/fastapi/blob/master/fastapi/sse.py | https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events | https://www.postgresql.org/docs/current/sql-notify.html
+
+### [ALTERNATIVE] sse-starlette 3.5
+NEED: c) Real-time прогресс в UI
+KIND: open-source
+URL: https://github.com/sysid/sse-starlette
+LICENSE: BSD-3-Clause
+COMMERCIAL USE: Да.
+PROJECT STATE: 855 stars, 5 open issues, v3.5.0 (2026-09-28), 4 CI workflows.
+CLAIMED VS ACTUAL: Расхождений не найдено.
+CAPABILITIES: Давно используемая реализация SSE для Starlette/FastAPI (ping, обработка отключения клиента).
+INFRA: Нет.
+PRICING/LIMITS: $0.
+RISKS: Дублирует встроенную функцию FastAPI; полезна как запасной вариант при проблемах встроенной реализации.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: gh api, PyPI.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/sysid/sse-starlette
+
+### [ALTERNATIVE] WebSocket (Starlette/FastAPI websockets)
+NEED: c) Real-time прогресс в UI
+KIND: open-source + стандарт
+URL: https://github.com/fastapi/fastapi/blob/master/fastapi/websockets.py
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: Часть FastAPI/Starlette (модуль fastapi/websockets.py присутствует).
+CLAIMED VS ACTUAL: Не применимо.
+CAPABILITIES: Двунаправленный канал.
+INFRA: Поддержка upgrade в reverse proxy; собственный протокол переподключения и аутентификации.
+PRICING/LIMITS: $0.
+RISKS: Для прогресса нужен только поток сервер -> клиент; команды (отмена, пауза) естественнее делать обычными HTTP-запросами. WebSocket добавляет ручное переподключение и досылку событий без выгоды.
+REPLACEABILITY: Высокая.
+HOW VERIFIED: Наличие модуля проверено через gh api; остальное — инженерный анализ.
+CONFIDENCE: medium
+EVIDENCE: https://github.com/fastapi/fastapi
+
+### [ALTERNATIVE] DBOS streams (write_stream / read_stream)
+NEED: c) Real-time прогресс в UI
+KIND: open-source (часть DBOS Transact)
+URL: https://docs.dbos.dev/python/tutorials/workflow-communication
+LICENSE: MIT
+COMMERCIAL USE: Да.
+PROJECT STATE: См. DBOS Transact 3.2.0; таблица streams есть в системной схеме.
+CLAIMED VS ACTUAL: Запись из workflow — exactly-once, но из шага — at-least-once (возможны дубликаты); чтение основано на опросе (polling_interval_sec); документация не говорит прямо, где хранятся потоки (по коду — таблица streams в system
+database).
+CAPABILITIES: Append-only потоки значений из workflow, чтение извне через DBOSClient с offset.
+INFRA: PostgreSQL.
+PRICING/LIMITS: $0.
+RISKS: Привязывает формат событий UI к DBOS и не покрывается RLS приложения; собственная таблица событий одновременно служит audit trail.
+REPLACEABILITY: Средняя.
+HOW VERIFIED: Docs через WebFetch; dbos/_schemas/system_database.py и dbos/_dbos.py через gh api.
+CONFIDENCE: medium
+EVIDENCE: https://docs.dbos.dev/python/tutorials/workflow-communication | https://github.com/dbos-inc/dbos-transact-py/blob/main/dbos/_schemas/system_database.py
+
+## OPEN QUESTIONS FOR OWNER (researcher)
+- Какой именно «скромный сервер» планируется (RAM, CPU, диск)? При менее чем 8 GB RAM Keycloak (около 1.25-1.4 GB) стоит заменить на ZITADEL или внешний IdP, а PostgreSQL потребует аккуратной настройки.
+- Приемлемо ли строить оркестрацию на молодой библиотеке одного вендора (DBOS, мажор 3.0 вышел месяц назад) при условии 2-3-дневного spike с критериями приёмки, или предпочтителен консервативный путь: Procrastinate + собственные
+таблицы фронтира и собственный token bucket (больше своего кода, меньше зависимость)?
+- Где должны храниться данные расследований и пользователей (юрисдикция, требования к резидентности)? От этого зависит допустимость managed Postgres и SaaS-аутентификации.
+- Допустима ли лицензия AGPL-3.0 для отдельно развёрнутых немодифицированных инфраструктурных сервисов (ZITADEL)? Есть ли доступ к юристу для таких вопросов?
+- Обязательна ли MFA в MVP и нужны ли организации/команды уже в MVP или только при появлении платных тарифов?
+- Каким будет фронтенд: с серверной Node-частью (Next.js) или чистый SPA? Это определяет, рассматривать ли Better Auth и как проксировать SSE.
+- Сколько одновременных расследований ожидается в MVP и нужен ли готовый веб-интерфейс мониторинга задач (тогда: DBOS Conductor за $99/мес, Hatchet с UI или собственная админ-страница)?
+- Какие требования к сохранности доказательств: срок хранения, допустимая потеря данных (RPO), время восстановления (RTO)? Нужна ли внешняя фиксация хеша журнала (например, публикация или независимая отметка времени) для
+использования отчётов в правоохранительных органах и судах?
+- Нужны ли в MVP программные API-ключи для клиентов (интеграции), или только вход через веб-интерфейс?
+- Разработка будет идти в Docker (Linux-контейнеры) на Windows 11 или нативно в Windows? От нативного запуска воркеров на Windows рекомендуется отказаться (ограничения Celery, RQ, Procrastinate и async psycopg).
+
+## NOT VERIFIED (researcher)
+- Ни один кандидат не запускался и не разворачивался (по правилам аудита): целевые показатели 30 с / 2 мин / 5 мин на 1 000 адресов, устойчивость к сбоям и точность rate limiting не измерены — только оценены по документации и коду.
+- DBOS: поведение ручной отмены в отношении дочерних workflow (документация описывает отмену дочерних только при срабатывании timeout); работа на Windows без Docker (CI только ubuntu); совместимость 3.2.0 с SQLAlchemy 2.1.x
+(заявлено >=2.0.43); лицензия и содержимое пакета dbos-enterprise; вендорская цифра >40K workflows/steps в секунду; точность limiter под нагрузкой после исправления регрессии; страницы документации о self-hosting без Conductor
+вернули 404 — проверено только по коду.
+- Hatchet: требования hatchet-lite к CPU/RAM и его пределы пропускной способности (в документации нет); механизм доставки внешней отмены до выполняющейся async-задачи; отличия self-hosted от Cloud по функциям.
+- Temporal: обязателен ли Elasticsearch для production (страница показывает его в дефолтном compose, но не говорит об обязательности); реальный ресурсный след self-hosted кластера.
+- Цены Amazon RDS — только сторонние агрегаторы; официальная страница AWS не прочитана. Поддерживаемые версии PostgreSQL у RDS, DigitalOcean, Neon и Supabase не проверялись.
+- Условия использования (ToS) Neon, Supabase, Clerk, Auth0, ZITADEL Cloud, Hatchet Cloud, DBOS Conductor целиком не читались — проверены только страницы цен; положения о коммерческом использовании, кэшировании и резидентности данных
+не подтверждены.
+- Дата GA PostgreSQL 19 (на странице versioning только упоминание Beta 4).
+- Нативная RLS в MySQL 26.x (проверено только оглавление руководства 9.7); лицензия MySQL в этом аудите не перечитывалась.
+- Keycloak: фактическое потребление RAM в малой конфигурации (взята цифра 1250 MB из sizing-гайда); release notes прочитаны не полностью (первые 100 000 символов).
+- ZITADEL v4: точный состав развёртывания (отдельный контейнер login-UI) и поддерживаемые версии PostgreSQL.
+- Better Auth: история уязвимостей, зрелость плагинов organizations и 2FA; Ory Kratos: причина паузы коммитов с 2026-07-29 и цены Ory Network.
+- Prefect: механизм глобальных concurrency/rate limits (прочитанная страница описывает только лимиты API Prefect Cloud). Faktory: какие функции доступны только в Enterprise. Huey: реализация rate-limits в коде. Dramatiq: поддержка
+Windows.
+- Litestar 3.0: дата выхода GA (в main версия 3.0.0b0).
+- Наличие pgaudit в официальном Docker-образе postgres и на управляемых сервисах.
+- Доступность и возможность оплаты SaaS-сервисов (Clerk, Auth0, Neon, Supabase, Hatchet Cloud) в юрисдикции команды.
+- Лимиты и условия внешних блокчейн-API (TronGrid, Tronscan и др.) — вне этого раздела; значения лимитов в примерах расчёта условные.
+- Инструменты бэкапа PostgreSQL (pgBackRest, WAL-G) и стек наблюдаемости (Grafana, Tempo, Sentry, Logfire) не аудировались.
+- Независимых отчётов о production-эксплуатации DBOS Transact (Python) найти не удалось — поиск вернул в основном материалы самих вендоров.
