@@ -1,8 +1,8 @@
 {
   "area": "bridges",
-  "run_id": "20261014T120636Z",
-  "path": "results/stage-2/bridges/20261014T120636Z",
-  "finished_utc": "2026-10-14T12:06:40Z",
+  "run_id": "20261014T141523Z",
+  "path": "results/stage-2/bridges/20261014T141523Z",
+  "finished_utc": "2026-10-14T14:15:24Z",
   "status": "ok",
   "http_mode": "replay"
 }

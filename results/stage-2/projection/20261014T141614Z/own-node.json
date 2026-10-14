@@ -1,0 +1,23 @@
+{
+  "min": {
+    "cpu_cores": 8,
+    "ram_gb": 16,
+    "ssd_tb": "3",
+    "bandwidth_mbps": 100
+  },
+  "recommended": {
+    "cpu_cores": 16,
+    "ram_gb": 32,
+    "ssd_tb": "3.5+",
+    "bandwidth_mbps": 100
+  },
+  "snapshot_size": "более 2 ТБ («The TRON network snapshot data size exceeds 2TB»)",
+  "lite_fullnode": "состояние сети + последние 65 536 блоков (≈2.3 сут); история до снимка недоступна",
+  "sync_time": "официальная документация длительность синхронизации с нуля не называет («significant amount of time»); рекомендует снимки данных",
+  "sources": [
+    "https://tronprotocol.github.io/documentation-en/using_javatron/installing_javatron/ (страница от 2026-09-25)",
+    "https://tronprotocol.github.io/documentation-en/using_javatron/backup_restore/ (страница от 2026-09-29)",
+    "https://tronprotocol.github.io/documentation-en/using_javatron/litefullnode/ (страница от 2026-07-30)"
+  ],
+  "server_price": "не проверено: цены выделенных серверов с ≥3.5 ТБ NVMe на страницах Hetzner рисуются скриптом и в тексте страниц отсутствуют (проверено 2026-10-14)"
+}

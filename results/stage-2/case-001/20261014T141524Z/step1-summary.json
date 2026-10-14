@@ -1,0 +1,128 @@
+{
+  "requests": 296,
+  "errors": 1,
+  "wall_s": 0.2,
+  "by_source": {
+    "blockscout_eth": {
+      "requests": 17,
+      "errors": 0,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 5746.7,
+      "total_ms": 7.4,
+      "rate_wait_ms": 0.0,
+      "bytes": 235633,
+      "replayed": 17,
+      "latency_ms_mean": 338.0
+    },
+    "eth_publicnode": {
+      "requests": 4,
+      "errors": 1,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 626.4,
+      "total_ms": 1.3,
+      "rate_wait_ms": 0.0,
+      "bytes": 11115,
+      "replayed": 4,
+      "latency_ms_mean": 156.6
+    },
+    "etherscan": {
+      "requests": 3,
+      "errors": 0,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 1102.1,
+      "total_ms": 0.6,
+      "rate_wait_ms": 0.0,
+      "bytes": 459,
+      "replayed": 3,
+      "latency_ms_mean": 367.4
+    },
+    "layerzero_scan": {
+      "requests": 2,
+      "errors": 0,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 857.8,
+      "total_ms": 0.9,
+      "rate_wait_ms": 0.0,
+      "bytes": 7452,
+      "replayed": 2,
+      "latency_ms_mean": 428.9
+    },
+    "near_intents_1click": {
+      "requests": 1,
+      "errors": 0,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 116.2,
+      "total_ms": 0.4,
+      "rate_wait_ms": 0.0,
+      "bytes": 2456,
+      "replayed": 1,
+      "latency_ms_mean": 116.2
+    },
+    "tron_publicnode": {
+      "requests": 77,
+      "errors": 0,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 9505.2,
+      "total_ms": 42.8,
+      "rate_wait_ms": 0.0,
+      "bytes": 69244,
+      "replayed": 77,
+      "latency_ms_mean": 123.4
+    },
+    "trongrid": {
+      "requests": 191,
+      "errors": 0,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 42438.0,
+      "total_ms": 103.5,
+      "rate_wait_ms": 0.0,
+      "bytes": 782434,
+      "replayed": 191,
+      "latency_ms_mean": 222.2
+    },
+    "tronscan_pending_consent": {
+      "requests": 1,
+      "errors": 1,
+      "retries": 0,
+      "http_429": 0,
+      "latency_ms": 433.2,
+      "total_ms": 0.8,
+      "rate_wait_ms": 0.0,
+      "bytes": 176,
+      "replayed": 1,
+      "latency_ms_mean": 433.2
+    }
+  },
+  "keys_present": {
+    "TRONGRID_API_KEY": true,
+    "TRON_RPC_URL": false,
+    "BLOCKSCOUT_API_KEY": false,
+    "NEAR_INTENTS_JWT": false,
+    "TRONSCAN_API_KEY": false,
+    "ETHERSCAN_API_KEY": true
+  },
+  "probes": {
+    "eth_getLogs_publicnode": {
+      "range": [
+        26025709,
+        26027509
+      ],
+      "status": 403,
+      "error": "SourceError: eth_publicnode eth_getLogs: HTTP 403: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"},\"id\":1}\n",
+      "logs": null
+    }
+  },
+  "replay_misses": 0,
+  "empty_answers": {
+    "tron_publicnode": 46,
+    "trongrid": 18,
+    "tronscan_pending_consent": 1
+  }
+}

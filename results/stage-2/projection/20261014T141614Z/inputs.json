@@ -1,0 +1,526 @@
+{
+  "_runs": {
+    "tron_sources": "results/stage-2/tron-sources/20261014T141519Z (офлайн-повтор живого прогона results/stage-2/tron-sources/20261014T124823Z)",
+    "case001": "results/stage-2/case-001/20261014T113519Z"
+  },
+  "rps_trongrid_keyless": {
+    "value": 2.01,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: load.trongrid_keyless.sustained (план 2 зап/с, 429: 0, ошибок 0.0)",
+    "unit": "зап/с"
+  },
+  "first_429_trongrid_keyless": {
+    "value": 4,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: первая ступень ramp с HTTP 429",
+    "unit": "зап/с"
+  },
+  "declared_limit_trongrid_keyless": {
+    "value": 3,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: лимит, названный сервером в теле ответа 429",
+    "unit": "зап/с"
+  },
+  "declared_suspension_trongrid_keyless": {
+    "value": 5,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: пауза, названная сервером в теле 429",
+    "unit": "с"
+  },
+  "latency_trongrid_keyless": {
+    "value": {
+      "p50": 191.5,
+      "p95": 427.5,
+      "by_kind": {
+        "node_txinfo": {
+          "n": 40,
+          "p50": 104.1,
+          "p95": 395.3
+        },
+        "v1_events": {
+          "n": 40,
+          "p50": 195.1,
+          "p95": 432.4
+        },
+        "v1_trc20": {
+          "n": 40,
+          "p50": 197.9,
+          "p95": 428.4
+        }
+      }
+    },
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json",
+    "unit": "мс"
+  },
+  "rps_trongrid_key": {
+    "value": 9.911,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: load.trongrid_key.sustained (план 10 зап/с, 429: 0, ошибок 0.0)",
+    "unit": "зап/с"
+  },
+  "first_429_trongrid_key": {
+    "value": 15,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: первая ступень ramp с HTTP 429",
+    "unit": "зап/с"
+  },
+  "declared_limit_trongrid_key": {
+    "value": 15,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: лимит, названный сервером в теле ответа 429",
+    "unit": "зап/с"
+  },
+  "declared_suspension_trongrid_key": {
+    "value": 30,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: пауза, названная сервером в теле 429",
+    "unit": "с"
+  },
+  "latency_trongrid_key": {
+    "value": {
+      "p50": 200.4,
+      "p95": 500.7,
+      "by_kind": {
+        "node_txinfo": {
+          "n": 150,
+          "p50": 120.8,
+          "p95": 629.5
+        },
+        "v1_events": {
+          "n": 150,
+          "p50": 206.4,
+          "p95": 429.5
+        },
+        "v1_trc20": {
+          "n": 150,
+          "p50": 206.2,
+          "p95": 458.0
+        }
+      }
+    },
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json",
+    "unit": "мс"
+  },
+  "rps_publicnode": {
+    "value": 10.001,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: load.publicnode.sustained (план 10 зап/с, 429: 0, ошибок 0.0)",
+    "unit": "зап/с"
+  },
+  "first_429_publicnode": {
+    "value": null,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: первая ступень ramp с HTTP 429",
+    "unit": "зап/с"
+  },
+  "declared_limit_publicnode": {
+    "value": null,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: лимит, названный сервером в теле ответа 429",
+    "unit": "зап/с"
+  },
+  "declared_suspension_publicnode": {
+    "value": null,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: пауза, названная сервером в теле 429",
+    "unit": "с"
+  },
+  "latency_publicnode": {
+    "value": {
+      "p50": 101.1,
+      "p95": 134.6,
+      "by_kind": {
+        "node_getaccount": {
+          "n": 133,
+          "p50": 99.7,
+          "p95": 122.4
+        },
+        "node_getblock": {
+          "n": 134,
+          "p50": 100.8,
+          "p95": 130.9
+        },
+        "node_txinfo": {
+          "n": 133,
+          "p50": 103.7,
+          "p95": 177.8
+        }
+      }
+    },
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json",
+    "unit": "мс"
+  },
+  "rps_paid_rpc": {
+    "value": null,
+    "origin": "not_measured",
+    "source": "не измерено: нет ключа",
+    "unit": "зап/с"
+  },
+  "address_history_profile": {
+    "value": [
+      {
+        "address": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.17,
+        "pages_6h": 1,
+        "out": 0,
+        "distinct_out": 0
+      },
+      {
+        "address": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.17,
+        "pages_6h": 1,
+        "out": 0,
+        "distinct_out": 0
+      },
+      {
+        "address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.34,
+        "pages_6h": 1,
+        "out": 1,
+        "distinct_out": 1
+      },
+      {
+        "address": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.34,
+        "pages_6h": 1,
+        "out": 1,
+        "distinct_out": 1
+      },
+      {
+        "address": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.51,
+        "pages_6h": 1,
+        "out": 2,
+        "distinct_out": 2
+      },
+      {
+        "address": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.51,
+        "pages_6h": 1,
+        "out": 2,
+        "distinct_out": 2
+      },
+      {
+        "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.51,
+        "pages_6h": 1,
+        "out": 2,
+        "distinct_out": 2
+      },
+      {
+        "address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.69,
+        "pages_6h": 1,
+        "out": 2,
+        "distinct_out": 2
+      },
+      {
+        "address": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 0.69,
+        "pages_6h": 1,
+        "out": 0,
+        "distinct_out": 0
+      },
+      {
+        "address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+        "window": "w2_next_day",
+        "transfers_per_hour": 2.4,
+        "pages_6h": 1,
+        "out": 1,
+        "distinct_out": 1
+      },
+      {
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 3.09,
+        "pages_6h": 1,
+        "out": 5,
+        "distinct_out": 5
+      },
+      {
+        "address": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 3.26,
+        "pages_6h": 1,
+        "out": 13,
+        "distinct_out": 10
+      },
+      {
+        "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+        "window": "w1_theft_day",
+        "transfers_per_hour": 265.89,
+        "pages_6h": 8,
+        "out": 1055,
+        "distinct_out": 909
+      },
+      {
+        "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "window": "hv_hot_wallet",
+        "transfers_per_hour": 756.0,
+        "pages_6h": 23,
+        "out": 61,
+        "distinct_out": 60
+      },
+      {
+        "address": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "window": "hv_fee_collector",
+        "transfers_per_hour": 4070.0,
+        "pages_6h": 123,
+        "out": 1,
+        "distinct_out": 1
+      }
+    ],
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: completeness.by_address_window (окна case-001), пересчёт на окно 6 ч и страницу 200 строк",
+    "unit": ""
+  },
+  "share_high_volume_case": {
+    "value": 0.2,
+    "origin": "measured",
+    "source": "доля адресов case-001, которым за 6 ч нужно >1 страницы (3 из 15: TX5XiR, TWBPGL, TDii6v)",
+    "unit": ""
+  },
+  "pages_hv_uncapped": {
+    "value": [
+      8,
+      23,
+      123
+    ],
+    "origin": "measured",
+    "source": "страниц за 6 ч у этих адресов без лимита",
+    "unit": ""
+  },
+  "out_transfers_ordinary_median": {
+    "value": 2,
+    "origin": "measured",
+    "source": "медиана исходящих USDT-переводов обычного адреса case-001 в окне",
+    "unit": ""
+  },
+  "transfers_per_new_counterparty": {
+    "value": 1.115,
+    "origin": "measured",
+    "source": "исходящие переводы / различные получатели у обычных адресов case-001",
+    "unit": ""
+  },
+  "hot_wallet_rows_per_hour": {
+    "value": 377.2,
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: pagination.hot_wallet_desc (TWBPGL, 60 стр.)",
+    "unit": ""
+  },
+  "case001_requests_total": {
+    "value": 40,
+    "origin": "measured",
+    "source": "results/stage-2/case-001/20261014T113519Z/timings.json step3_reference",
+    "unit": ""
+  },
+  "case001_requests_trongrid": {
+    "value": 30,
+    "origin": "measured",
+    "source": "results/stage-2/case-001/20261014T113519Z/timings.json step3_reference.by_provider",
+    "unit": ""
+  },
+  "case001_addresses": {
+    "value": 12,
+    "origin": "measured",
+    "source": "docs/stage-2/case-001-reference-run.md, раздел 7: 7 на маршруте, 4 получателя выходов хаба, 1 источник TRX",
+    "unit": ""
+  },
+  "case001_edges": {
+    "value": 13,
+    "origin": "measured",
+    "source": "results/stage-2/case-001/20261014T113519Z/step3-reference-run.json result.edges (9 TRON, 4 Ethereum)",
+    "unit": ""
+  },
+  "case001_wall_s": {
+    "value": 12.5,
+    "origin": "measured",
+    "source": "results/stage-2/case-001/20261014T113519Z/timings.json step3_reference.wall_s",
+    "unit": ""
+  },
+  "bridge_crossing_requests": {
+    "value": [
+      {
+        "step": "3.3 holder tron:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "requests": 7,
+        "by_provider": {
+          "blockscout_eth": 2,
+          "eth_publicnode": 1,
+          "layerzero_scan": 1,
+          "trongrid": 3
+        }
+      },
+      {
+        "step": "3.4 holder ethereum:0x4079047990917F3150353FBd8A13b05b6286926d",
+        "requests": 4,
+        "by_provider": {
+          "blockscout_eth": 2,
+          "eth_publicnode": 1,
+          "near_intents_1click": 1
+        }
+      },
+      {
+        "step": "3.5 holder ethereum:0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "requests": 3,
+        "by_provider": {
+          "blockscout_eth": 1,
+          "near_intents_1click": 1,
+          "trongrid": 1
+        }
+      }
+    ],
+    "origin": "measured",
+    "source": "results/stage-2/case-001/20261014T113519Z/timings.json",
+    "unit": ""
+  },
+  "event_index_equals_receipt_ordinal": {
+    "value": {
+      "publicnode": {
+        "checked": 89,
+        "equal": 89,
+        "differ": 0
+      },
+      "trongrid_key": {
+        "checked": 228,
+        "equal": 228,
+        "differ": 0
+      }
+    },
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: event_index",
+    "unit": ""
+  },
+  "v1_vs_node_logs": {
+    "value": {
+      "trongrid_key": {
+        "node": 3794,
+        "v1": 3794,
+        "matched": 3794,
+        "only_v1": 0,
+        "only_node": 0
+      },
+      "publicnode": {
+        "node": 1646,
+        "v1": 1667,
+        "matched": 1646,
+        "only_v1": 21,
+        "only_node": 0
+      }
+    },
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: completeness.by_source",
+    "unit": ""
+  },
+  "publicnode_receipt_depth": {
+    "value": {
+      "oldest_block_utc": "2026-10-03 17:51:21",
+      "receipt_oldest_utc": "2026-10-06 00:27:12",
+      "depth_days_blocks": 10.79
+    },
+    "origin": "measured",
+    "source": "results/stage-2/tron-sources/20261014T141519Z/summary.json: publicnode_depth",
+    "unit": ""
+  },
+  "trongrid_basic_quota_day": {
+    "value": 100000,
+    "origin": "documented",
+    "source": "TronGrid BASIC: 100 000 запросов в сутки (accounts-and-keys.md [S5])",
+    "unit": ""
+  },
+  "trongrid_key_rps_published": {
+    "value": null,
+    "origin": "documented",
+    "source": "TronGrid не публикует частоту с ключом (страница rate-limits, accounts-and-keys.md [S6])",
+    "unit": ""
+  },
+  "trongrid_key_rps_old_docs": {
+    "value": 15,
+    "origin": "documented",
+    "source": "в старых версиях документации TronGrid встречалось 15 зап/с (accounts-and-keys.md 1.2)",
+    "unit": ""
+  },
+  "trongrid_keyless_rps_docs": {
+    "value": 3,
+    "origin": "documented",
+    "source": "журнал изменений TronGrid: без ключа 3 зап/с (accounts-and-keys.md [S5])",
+    "unit": ""
+  },
+  "chainstack_dev_ru_month": {
+    "value": 3000000,
+    "origin": "documented",
+    "source": "Chainstack Developer: $0, 3 млн RU/мес, 25 зап/с, архива нет ([S7])",
+    "unit": ""
+  },
+  "chainstack_dev_rps": {
+    "value": 25,
+    "origin": "documented",
+    "source": "Chainstack Developer: 25 зап/с ([S7])",
+    "unit": ""
+  },
+  "chainstack_growth_price_usd": {
+    "value": "49",
+    "origin": "documented",
+    "source": "Chainstack Growth: $49/мес ([S7])",
+    "unit": ""
+  },
+  "chainstack_growth_ru_month": {
+    "value": 20000000,
+    "origin": "documented",
+    "source": "Chainstack Growth: 20 млн RU/мес ([S7])",
+    "unit": ""
+  },
+  "chainstack_growth_rps": {
+    "value": 250,
+    "origin": "documented",
+    "source": "Chainstack Growth: 250 зап/с ([S7])",
+    "unit": ""
+  },
+  "chainstack_overage_usd_per_m_ru": {
+    "value": "15",
+    "origin": "documented",
+    "source": "сверх лимита $15 за 1 млн RU ([S7])",
+    "unit": ""
+  },
+  "chainstack_ru_full": {
+    "value": 1,
+    "origin": "documented",
+    "source": "запрос к полному узлу — 1 RU ([S7])",
+    "unit": ""
+  },
+  "chainstack_ru_archive": {
+    "value": 2,
+    "origin": "documented",
+    "source": "запрос к архивному узлу — 2 RU ([S7])",
+    "unit": ""
+  },
+  "getblock_starter_price_usd": {
+    "value": "49",
+    "origin": "documented",
+    "source": "GetBlock Starter $49/мес, 90 млн CU; вес методов TRON в CU не опубликован ([S9])",
+    "unit": ""
+  },
+  "nodit_basic_price_usd": {
+    "value": "10",
+    "origin": "documented",
+    "source": "Nodit Basic $10/мес, 100 млн CU; Node API для TRON не подтверждён ([S11])",
+    "unit": ""
+  },
+  "getblock_tron_dedicated_usd": {
+    "value": "150",
+    "origin": "documented",
+    "source": "GetBlock Limitless Node TRON: полный узел от $150/мес за 25 зап/с ([S9])",
+    "unit": ""
+  }
+}

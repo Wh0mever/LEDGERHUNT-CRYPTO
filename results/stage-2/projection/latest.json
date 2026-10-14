@@ -1,8 +1,8 @@
 {
   "area": "projection",
-  "run_id": "20261014T130106Z",
-  "path": "results/stage-2/projection/20261014T130106Z",
-  "finished_utc": "2026-10-14T13:01:06Z",
+  "run_id": "20261014T141614Z",
+  "path": "results/stage-2/projection/20261014T141614Z",
+  "finished_utc": "2026-10-14T14:16:14Z",
   "status": "ok",
   "http_mode": "replay"
 }

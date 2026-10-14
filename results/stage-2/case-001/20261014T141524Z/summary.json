@@ -1,0 +1,93 @@
+{
+  "run_id": "20261014T141524Z",
+  "http_mode": "replay",
+  "facts": {
+    "confirmed": 245,
+    "mismatch": 3,
+    "not_verifiable": 23
+  },
+  "facts_count": 271,
+  "mismatches": [
+    {
+      "n": 159,
+      "group": "transactions",
+      "subject": "step 20 9cfd1cad95",
+      "field": "timestamp_utc",
+      "claim": "2026-09-21 13:54:45",
+      "observed": "2026-09-21 15:14:45",
+      "note": "block timestamp from gettransactioninfobyid",
+      "evidence": [
+        "tron_tx:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_info:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_events:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_info_publicnode:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96"
+      ]
+    },
+    {
+      "n": 165,
+      "group": "transactions",
+      "subject": "step 21 284c7baae1",
+      "field": "timestamp_utc",
+      "claim": "2026-09-21 13:58:42",
+      "observed": "2026-09-21 15:18:42",
+      "note": "block timestamp from gettransactioninfobyid",
+      "evidence": [
+        "tron_tx:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_info:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_events:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_info_publicnode:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7"
+      ]
+    },
+    {
+      "n": 210,
+      "group": "addresses",
+      "subject": "0x40790479 (launderer Ethereum transit EOA (reused A)",
+      "field": "EOA reused Aug-Oct 2026",
+      "claim": "reused Aug-Oct 2026",
+      "observed": "is_contract=False; USDT transfers 36 from 2026-06-04 13:41:11 to 2026-10-13 16:27:11; 18 of them before August 2026 (first: 0x2CfF890f0378a11913B6129B2E97417a2c302680 -> 0x4079047990917F3150353FBd8A13b05b6286926d 3180.532890, tx 0xcfd219ea7bc3b7aab08461d7efcdbaa4f3b8c946ba0f08682d2f9c7e27b8a5c8)",
+      "note": null,
+      "evidence": [
+        "eth_address_transfers:0x4079047990917F3150353FBd8A13b05b6286926d"
+      ]
+    }
+  ],
+  "comparison": {
+    "match": 12,
+    "partial": 3
+  },
+  "route": [
+    "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+    "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+  ],
+  "total_lost_before_hub": "162.945870",
+  "exchange_exits": [
+    [
+      "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+      "WhiteBIT"
+    ],
+    [
+      "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+      "WhiteBIT"
+    ]
+  ],
+  "expected_check": {
+    "status": "matches",
+    "differing_result_keys": [],
+    "meta_equal": true,
+    "evidence_ids_equal": true
+  },
+  "requests": {
+    "step1": 296,
+    "step3": 40
+  },
+  "wall_s": {
+    "step1": 0.2,
+    "step3": 0.1
+  },
+  "report": "results/stage-2/case-001/20261014T141524Z/report.md"
+}
