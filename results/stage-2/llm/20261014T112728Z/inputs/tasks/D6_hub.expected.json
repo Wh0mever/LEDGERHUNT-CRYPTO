@@ -1,0 +1,16 @@
+{
+  "expected": {
+    "classification": "commingled_hub",
+    "freeze_candidate": true,
+    "outflow_attribution": "cannot_be_determined_commingled"
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "e6ab6b14a9eaf1fe4f0f67e87becbedc4e5d8609c949f0fb320fa0d41f3479a4",
+  "schema_sha256": "ac44e956e89402b01126c98f9848cfa093237ba040d8d1e5370e4d0f5fde90db"
+}

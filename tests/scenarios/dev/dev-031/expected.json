@@ -1,0 +1,141 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-031",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "65e2cdf9d8fd826a050cca25ca572abf117a37c703e5e7eb1188cfd4ce4796c3",
+   "event_index": 0,
+   "from": "TNp4M8bzKbrUHdfegULUF1MiGGJJCdqp8s",
+   "to": "TDHcJZmQHfRc47apy2zdjKjoFekNxL61Jo",
+   "amount": "147656.922019",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "b65305656eb989f53c5f5091e70ea82a7028538ca961594809fcc9710051a5d1",
+   "event_index": 0,
+   "from": "TDHcJZmQHfRc47apy2zdjKjoFekNxL61Jo",
+   "to": "TWGm39v4GmTHTEY4pEwwhqW7eMfbvYF33Z",
+   "amount": "147656.922019",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "bf05128960e7da370d284b1023ba247db8e4d66eedc0a97f479002954274882e",
+   "event_index": 0,
+   "from": "TWGm39v4GmTHTEY4pEwwhqW7eMfbvYF33Z",
+   "to": "TAsYG13ThaAktdXUJFJM2PPX4FNswKvydt",
+   "amount": "147656.922019",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "d00cc2dd1c1205dc57625acd5a3bfe03f1828e389b76021339e541b3dade8ce3",
+   "event_index": 0,
+   "from": "TAsYG13ThaAktdXUJFJM2PPX4FNswKvydt",
+   "to": "TEWgB6Bg9HnZ5SBXo1RaYQDamUYpzWLSfJ",
+   "amount": "147656.922019",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "328bf9e601595c9ce15106f4ae407a052bb08489657b606eef273fcb6d5d82ec",
+   "event_index": 0,
+   "from": "TEWgB6Bg9HnZ5SBXo1RaYQDamUYpzWLSfJ",
+   "to": "TQbTSMpXojK9JGs8HBF5HN7ZPicQgTAHHU",
+   "amount": "147656.922019",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "65e2cdf9d8fd826a050cca25ca572abf117a37c703e5e7eb1188cfd4ce4796c3",
+    "b65305656eb989f53c5f5091e70ea82a7028538ca961594809fcc9710051a5d1",
+    "bf05128960e7da370d284b1023ba247db8e4d66eedc0a97f479002954274882e",
+    "d00cc2dd1c1205dc57625acd5a3bfe03f1828e389b76021339e541b3dade8ce3",
+    "328bf9e601595c9ce15106f4ae407a052bb08489657b606eef273fcb6d5d82ec"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TQbTSMpXojK9JGs8HBF5HN7ZPicQgTAHHU",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "f6f3735b8898fd03e6075d4c6eb9b3ad2c376fb916b97bab94734353f42d0a2e",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "3eddf47ccd605d049a753ea22161eb191987497b59e2f9226146a144e53d209f",
+   "event_index": 0,
+   "reason": "zero_value_poisoning"
+  },
+  {
+   "txid": "9cca64d8ef980638d162f2ee6ec01ab21123a332e2423bc657e6a720ec92ddc5",
+   "event_index": 0,
+   "reason": "approval_not_transfer"
+  },
+  {
+   "txid": "882d9c8406554457462fa10bef78fb64db1038e1f7504ed8cdfe9ed4adf8c6ab",
+   "event_index": 0,
+   "reason": "zero_value_poisoning"
+  },
+  {
+   "txid": "836c05970b37f1a2fa93daccbb9631a23f5eadb3f6a190d9442681414fb465de",
+   "event_index": 0,
+   "reason": "zero_value_poisoning"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "incomplete_data",
+  "variant": "mixed_noise",
+  "title_ru": "Смешанный шум: разрешения, отравление, неуспешные транзакции",
+  "description": "approvals, poisoning and failed txs along a chain",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

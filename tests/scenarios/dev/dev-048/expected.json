@@ -1,0 +1,121 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-048",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "79e356854a93cc7ab82895aa62c03cec5e2a47838dbb154d87b9c0f82fcac140",
+   "event_index": 0,
+   "from": "TRaFHPasc5URmPg7Y9oMii4tA7PJAWgxzD",
+   "to": "TR8upJMsD3t1p8rG76pvnUej76S7uaTtGR",
+   "amount": "10316.373920",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c5c05d165ff5bdff15a11d917fa4e2858ee93c340f76d05fe94bc3ac58897944",
+   "event_index": 0,
+   "from": "TR8upJMsD3t1p8rG76pvnUej76S7uaTtGR",
+   "to": "TU5LzEV86BBkQUEbzNDMT7ewMggt6KZ41t",
+   "amount": "10316.373920",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "9a1c182dc2968de7e20b892122fc779f8bc60c261d3858c5fdcbfcfaeb330e2d",
+   "event_index": 0,
+   "from": "TU5LzEV86BBkQUEbzNDMT7ewMggt6KZ41t",
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "10316.373920",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "79e356854a93cc7ab82895aa62c03cec5e2a47838dbb154d87b9c0f82fcac140",
+    "c5c05d165ff5bdff15a11d917fa4e2858ee93c340f76d05fe94bc3ac58897944",
+    "9a1c182dc2968de7e20b892122fc779f8bc60c261d3858c5fdcbfcfaeb330e2d"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "reason": "bridge_exit_unsupported"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [
+  {
+   "chain": "tron",
+   "txid": "9a1c182dc2968de7e20b892122fc779f8bc60c261d3858c5fdcbfcfaeb330e2d",
+   "protocol": "usdt0_oft",
+   "dst_eid": 30110,
+   "dst_chain": "arbitrum",
+   "supported": false,
+   "sender": "TU5LzEV86BBkQUEbzNDMT7ewMggt6KZ41t",
+   "recipient": "0xfa7634328c88a2ad209fe5843ea66d03bb68e2df",
+   "amount_sent": "10316.373920",
+   "amount_received": "10313.279008",
+   "guid": "0xbc13f16f7c8ed13521aeec4a30d35b2c424abe279fba3d8bdcc9bf9e4a39ebb5",
+   "dst_txid": "0xaa22fc0a4baba23b64aea04ec1dd9c2a843704ab6d5cdb545ff81d90a641601d",
+   "excluded": null
+  }
+ ],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "f29335a3fd01e140a4a602ac3d080687bc6fb94da1b769fabebb2923c69e4669",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "9dcd47cb414d8dc0a19d232cebc115f2bccc3ece2c4477823bc8037d4f460f97",
+   "event_index": 0,
+   "reason": "approval_not_transfer"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [
+  {
+   "route_id": "r01",
+   "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "reason": "bridge_exit_unsupported",
+   "after_txid": "9a1c182dc2968de7e20b892122fc779f8bc60c261d3858c5fdcbfcfaeb330e2d"
+  }
+ ],
+ "notes": [],
+ "meta": {
+  "category": "bridge",
+  "variant": "oft_unsupported_eid",
+  "title_ru": "Выход в мост USDT0 в неподдерживаемую сеть",
+  "description": "OFT send to an unsupported destination (evidence boundary)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

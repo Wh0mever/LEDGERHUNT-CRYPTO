@@ -1,0 +1,152 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-038",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "8bac86724ec2ec9dd5c84571149b246762099557ad7e3307d311361a9053ff50",
+   "event_index": 0,
+   "from": "TPtA3nPNbnVUr73YxVAakMY2bHoL5nSriS",
+   "to": "TSKVA9xANF2UTAYuW7pB24uDLFN9URFj1u",
+   "amount": "115596.218097",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "2da4467070bb3a79b91a17e3784f7842694faf8be493cdf569351744d147f4aa",
+   "event_index": 0,
+   "from": "TSKVA9xANF2UTAYuW7pB24uDLFN9URFj1u",
+   "to": "TSASRdfVQSAJbbpG1VTH232vm2F8rd4io4",
+   "amount": "115596.218097",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "3406bf7816cf05f1cf35631c14b6acfbc79601b41882e9ad3e84f375b7b0b402",
+   "event_index": 0,
+   "from": "TSASRdfVQSAJbbpG1VTH232vm2F8rd4io4",
+   "to": "TK9fBTgfAcEkGPzKu8GM4BoJFTNNwpUmmx",
+   "amount": "115596.218097",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "7256882be70b236e77bc5e7d8125e2bb4d378fc984cb3c38d2f66e677fb805b8",
+   "event_index": 0,
+   "from": "TK9fBTgfAcEkGPzKu8GM4BoJFTNNwpUmmx",
+   "to": "TH5XiFeVENy8zCkAoMpvj6cB9TTqjdgmUw",
+   "amount": "115596.218097",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "8bac86724ec2ec9dd5c84571149b246762099557ad7e3307d311361a9053ff50",
+    "2da4467070bb3a79b91a17e3784f7842694faf8be493cdf569351744d147f4aa",
+    "3406bf7816cf05f1cf35631c14b6acfbc79601b41882e9ad3e84f375b7b0b402",
+    "7256882be70b236e77bc5e7d8125e2bb4d378fc984cb3c38d2f66e677fb805b8"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TH5XiFeVENy8zCkAoMpvj6cB9TTqjdgmUw",
+    "reason": "commingled"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [
+  {
+   "chain": "tron",
+   "address": "TH5XiFeVENy8zCkAoMpvj6cB9TTqjdgmUw",
+   "attribution": "uncertain",
+   "traced_inflow_txids": [
+    "7256882be70b236e77bc5e7d8125e2bb4d378fc984cb3c38d2f66e677fb805b8"
+   ],
+   "foreign_inflow_txids": [
+    "3e841e2fdd97490dd2d529a8ee5fa47971111874074c0644e90c97de177c4373"
+   ],
+   "excluded": null
+  }
+ ],
+ "limitations": [],
+ "allowed": {
+  "transfers": [
+   {
+    "chain": "tron",
+    "txid": "6978be28bd85bd8e52b46cf3d02ed8b7952ecdf70685e60ad8fc9ab6d67995ff",
+    "event_index": 0,
+    "from": "TH5XiFeVENy8zCkAoMpvj6cB9TTqjdgmUw",
+    "to": "THih8y5P7mxPKJp9DmBmAsmXQfgvmb9nvw",
+    "amount": "18051.166179",
+    "asset": "USDT-TRC20",
+    "taint": "uncertain",
+    "verification": "second_source_confirmed",
+    "role": "commingled_outflow",
+    "excluded": null
+   },
+   {
+    "chain": "tron",
+    "txid": "408183d425b5bde233e4c210287711ca1adfc4bc584799c20bd9daa9f88ddfd0",
+    "event_index": 0,
+    "from": "TH5XiFeVENy8zCkAoMpvj6cB9TTqjdgmUw",
+    "to": "TUEQ7F5XmLYG5LfpR2vtvE3jmpKJe8k7Gk",
+    "amount": "96272.886288",
+    "asset": "USDT-TRC20",
+    "taint": "uncertain",
+    "verification": "second_source_confirmed",
+    "role": "commingled_outflow",
+    "excluded": null
+   }
+  ],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "19e638030f059bac94dc4495a7a755c19a6f0bdcb67512736fbcada188eff80d",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "3e841e2fdd97490dd2d529a8ee5fa47971111874074c0644e90c97de177c4373",
+   "event_index": 0,
+   "reason": "foreign_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "merge",
+  "variant": "foreign_after_arrival",
+  "title_ru": "Чужие средства приходят после украденных, до вывода",
+  "description": "foreign funds arrive after the stolen funds but before outflows",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

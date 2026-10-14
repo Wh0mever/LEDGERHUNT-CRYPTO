@@ -1,0 +1,704 @@
+{
+  "date_utc": "2026-10-14",
+  "http_mode": "record",
+  "keys_present": {
+    "TRONGRID_API_KEY": true,
+    "TRON_RPC_URL": false,
+    "TRON_RPC_URL_2": false,
+    "TRONSCAN_API_KEY": false,
+    "ETH_RPC_URL": false,
+    "ETHERSCAN_API_KEY": true,
+    "BLOCKSCOUT_API_KEY": false,
+    "NEAR_INTENTS_JWT": false
+  },
+  "keys_used": {
+    "etherscan": true,
+    "blockscout_pro": false,
+    "eth_rpc_paid": false,
+    "near_intents_partner_key": false,
+    "rango": false,
+    "trongrid": true
+  },
+  "registry": {
+    "tron_oft": true,
+    "ethereum_oft": true,
+    "arbitrum_oft": true
+  },
+  "rpc_candidates": [
+    {
+      "provider": "eth_publicnode",
+      "usable": false,
+      "chain_id_status": 200,
+      "receipt": true,
+      "getlogs_50": false,
+      "getlogs_false_negative": false,
+      "error": "source_error: eth_publicnode eth_getLogs: HTTP 403: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"},\"id\":1}\n"
+    },
+    {
+      "provider": "eth_drpc",
+      "usable": true,
+      "chain_id_status": 200,
+      "receipt": true,
+      "getlogs_50": true,
+      "getlogs_false_negative": false,
+      "error": null
+    },
+    {
+      "provider": "eth_tenderly",
+      "usable": true,
+      "chain_id_status": 200,
+      "receipt": true,
+      "getlogs_50": true,
+      "getlogs_false_negative": false,
+      "error": null
+    },
+    {
+      "provider": "eth_nodies",
+      "usable": true,
+      "chain_id_status": 200,
+      "receipt": true,
+      "getlogs_50": true,
+      "getlogs_false_negative": false,
+      "error": null
+    },
+    {
+      "provider": "eth_mevblocker",
+      "usable": true,
+      "chain_id_status": 200,
+      "receipt": true,
+      "getlogs_50": true,
+      "getlogs_false_negative": false,
+      "error": null
+    },
+    {
+      "provider": "eth_1rpc",
+      "usable": false,
+      "chain_id_status": 200,
+      "receipt": true,
+      "getlogs_50": false,
+      "getlogs_false_negative": false,
+      "error": "jsonrpc_error: {'code': -32000, 'message': 'method not available'}"
+    },
+    {
+      "provider": "eth_flashbots",
+      "usable": false,
+      "chain_id_status": 200,
+      "receipt": false,
+      "getlogs_50": false,
+      "getlogs_false_negative": true,
+      "error": null
+    },
+    {
+      "provider": "eth_cloudflare",
+      "usable": false,
+      "chain_id_status": 200,
+      "receipt": false,
+      "getlogs_50": false,
+      "getlogs_false_negative": false,
+      "error": "jsonrpc_error: {'code': -32603, 'message': 'Internal error'}"
+    },
+    {
+      "provider": "eth_llamarpc",
+      "usable": false,
+      "chain_id_status": 525,
+      "receipt": null,
+      "getlogs_50": null,
+      "getlogs_false_negative": null,
+      "error": "source_error: eth_llamarpc eth_chainId: HTTP 525: {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-525/\",\"title\":\"Error 525: SSL handshake failed\",\"st"
+    },
+    {
+      "provider": "eth_ankr",
+      "usable": false,
+      "chain_id_status": 200,
+      "receipt": null,
+      "getlogs_50": null,
+      "getlogs_false_negative": null,
+      "error": "jsonrpc_error: {'code': -32000, 'message': 'Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.'}"
+    },
+    {
+      "provider": "eth_blockpi",
+      "usable": false,
+      "chain_id_status": 503,
+      "receipt": null,
+      "getlogs_50": null,
+      "getlogs_false_negative": null,
+      "error": "source_error: eth_blockpi eth_chainId: HTTP 503: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":100021,\"message\":\"Apikey not found\"}}"
+    },
+    {
+      "provider": "eth_merkle",
+      "usable": false,
+      "chain_id_status": 429,
+      "receipt": null,
+      "getlogs_50": null,
+      "getlogs_false_negative": null,
+      "error": "source_error: eth_merkle eth_chainId: HTTP 429: {\"id\":null,\"error\":{\"code\":-32005,\"message\":\"Rate limit exceeded\"},\"jsonrpc\":\"2.0\"}\n"
+    },
+    {
+      "provider": "eth_onfinality",
+      "usable": false,
+      "chain_id_status": 429,
+      "receipt": null,
+      "getlogs_50": null,
+      "getlogs_false_negative": null,
+      "error": "source_error: eth_onfinality eth_chainId: HTTP 429: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32029,\"message\":\"Too Many Requests, Please apply an OnFinality API key or contact us to receive a higher rate limit\"},\"id\":1}"
+    }
+  ],
+  "publicnode_getlogs_1000": {
+    "ok": false,
+    "status": 403,
+    "error": "source_error: eth_publicnode eth_getLogs: HTTP 403: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"},\"id\":1}\n"
+  },
+  "pool": {
+    "txs": 43,
+    "usdt0_in": 6,
+    "rango_out": 8,
+    "sample": 21,
+    "cutoff": "2026-10-14T00:00:00Z"
+  },
+  "eth_agreement": {
+    "txs": 21,
+    "all_agree": 16,
+    "disagreements": [
+      {
+        "tx": "0xd497626274d47e16710b20b404944d201019ba15cfb2061513a1a100b9e6a0aa",
+        "reasons": [
+          "blockscout token-transfers omit 35 transfer(s) of 2 token(s)"
+        ]
+      },
+      {
+        "tx": "0x50d4ecef807a5713f261f1f0db2f39c099271cab58e9b667614b7d6c75a83e66",
+        "reasons": [
+          "eth_publicnode: no receipt (null or error)"
+        ]
+      },
+      {
+        "tx": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+        "reasons": [
+          "eth_publicnode: no receipt (null or error)"
+        ]
+      },
+      {
+        "tx": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+        "reasons": [
+          "eth_publicnode: no receipt (null or error)"
+        ]
+      },
+      {
+        "tx": "0x98d966b8992046f5682bca2afa3ce68c29600b47368e35cdb2685b0526113de3",
+        "reasons": [
+          "eth_publicnode: no receipt (null or error)"
+        ]
+      }
+    ],
+    "null_receipts": {
+      "eth_publicnode": [
+        "0x50d4ecef807a5713f261f1f0db2f39c099271cab58e9b667614b7d6c75a83e66",
+        "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+        "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+        "0x98d966b8992046f5682bca2afa3ce68c29600b47368e35cdb2685b0526113de3"
+      ],
+      "eth_drpc": [],
+      "eth_tenderly": [],
+      "etherscan_v2": []
+    },
+    "blockscout_transfer_gaps": 1,
+    "token_info": {
+      "0x56dff0942be7e6f3300279301776bb25ec7858fc": {
+        "http_status": 200,
+        "name": "ĖTḨ",
+        "symbol": "ĖTḨ",
+        "type": "ERC-20",
+        "reputation": "scam",
+        "is_scam": null
+      },
+      "0x960b521516608974dbc9f18da61a12d48bbaa37b": {
+        "http_status": 200,
+        "name": "ÚЅDС",
+        "symbol": "ÚЅDС",
+        "type": "ERC-20",
+        "reputation": "scam",
+        "is_scam": null
+      }
+    }
+  },
+  "usdt0": {
+    "flows": 6,
+    "exit_recognised_on_tron": 6,
+    "recipient_agrees": 6,
+    "dst_tx_agrees_onchain_vs_lz": 6,
+    "amount_agrees": 6,
+    "fees_bps": [
+      "3.00"
+    ],
+    "delivery_s": [
+      116,
+      128,
+      125,
+      125,
+      128,
+      125
+    ],
+    "tron_senders": [
+      "TPcNvbGNYb8jiqAwv4SPykmiAbKLUze3ue",
+      "TTXbygXMdUFut6HvRR8TKk2g6gSBMERhuT",
+      "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+      "TVGiE5p8pGvzNkZ8qJyLALxmcSrN6FAKrj"
+    ],
+    "fallback_sources_found": {
+      "blockscout_api": 6,
+      "eth_drpc": 6,
+      "eth_tenderly": 6,
+      "etherscan_v2": 6
+    },
+    "fallback_requests": {
+      "blockscout_api": 6,
+      "eth_drpc": 6,
+      "eth_tenderly": 6,
+      "etherscan_v2": 6
+    },
+    "block_estimate_iterations": [
+      3,
+      3,
+      2,
+      2,
+      3,
+      3
+    ]
+  },
+  "rango": {
+    "flows": 8,
+    "routes": {
+      "near_intents_1click": 7,
+      "usdt0": 1
+    },
+    "bridge_initiated_event": 5,
+    "to_tron_by_event": 5,
+    "bridge_ids_by_route": [
+      "51:usdt0",
+      "60:near_intents_1click"
+    ],
+    "recipients": [
+      "TH79bEmJTcU6iRhbB67bDz4QmE4f4CqAQp",
+      "TV7fPGpLvuxWKx7waYkcr6e615w3T8Q5mM",
+      "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+    ],
+    "recipient_matches_prefix": 5,
+    "payout_matches_recipient": 8,
+    "payout_minus_1click_amount_out": [
+      "0.043506",
+      "0.043445",
+      "0.044735",
+      "0.043488",
+      "0.042558",
+      "0.080423"
+    ],
+    "payout_wallets": [
+      "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke"
+    ],
+    "fallback_unique_match": 6,
+    "fallback_agrees_with_1click": 6,
+    "fallback_attempted": 6,
+    "swept_to_near_vault": 7,
+    "deposit_poisoning_transfers": 1,
+    "ours_vs_blockscout_decoder_equal": 5,
+    "events_compared_with_blockscout": 5
+  },
+  "burst": [
+    {
+      "source": "blockscout_eth",
+      "requests": 20,
+      "ok": 20,
+      "not_ok_targets": [],
+      "http_429": 0,
+      "retries": 0,
+      "wall_s": 7.03,
+      "rate_limit_headers_seen": [
+        "x-ratelimit-limit",
+        "x-ratelimit-remaining",
+        "x-ratelimit-reset"
+      ],
+      "remaining_min": 153,
+      "remaining_first_last": [
+        172,
+        153
+      ]
+    },
+    {
+      "source": "layerzero_scan",
+      "requests": 20,
+      "ok": 20,
+      "not_ok_targets": [],
+      "http_429": 0,
+      "retries": 0,
+      "wall_s": 9.87,
+      "rate_limit_headers_seen": [],
+      "remaining_min": null,
+      "remaining_first_last": null
+    },
+    {
+      "source": "near_intents_1click",
+      "requests": 20,
+      "ok": 20,
+      "not_ok_targets": [],
+      "http_429": 0,
+      "retries": 0,
+      "wall_s": 9.62,
+      "rate_limit_headers_seen": [
+        "x-ratelimit-limit-unauth",
+        "x-ratelimit-remaining-unauth",
+        "x-ratelimit-reset-unauth"
+      ],
+      "remaining_min": 1172,
+      "remaining_first_last": [
+        1191,
+        1172
+      ]
+    },
+    {
+      "source": "eth_publicnode",
+      "requests": 20,
+      "ok": 20,
+      "not_ok_targets": [],
+      "http_429": 0,
+      "retries": 0,
+      "wall_s": 9.61,
+      "rate_limit_headers_seen": [],
+      "remaining_min": null,
+      "remaining_first_last": null
+    },
+    {
+      "source": "eth_drpc",
+      "requests": 20,
+      "ok": 20,
+      "not_ok_targets": [],
+      "http_429": 0,
+      "retries": 0,
+      "wall_s": 9.63,
+      "rate_limit_headers_seen": [],
+      "remaining_min": null,
+      "remaining_first_last": null
+    },
+    {
+      "source": "eth_tenderly",
+      "requests": 20,
+      "ok": 20,
+      "not_ok_targets": [],
+      "http_429": 0,
+      "retries": 0,
+      "wall_s": 9.6,
+      "rate_limit_headers_seen": [],
+      "remaining_min": null,
+      "remaining_first_last": null
+    }
+  ],
+  "per_source": [
+    {
+      "provider": "blockscout_eth",
+      "calls": 99,
+      "calls_ok": 99,
+      "success_share": 1.0,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 150,
+      "http_2xx": 150,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 277.8,
+      "latency_ms_p95": 2415.4,
+      "latency_ms_max": 4267.2,
+      "latency_ms_mean": 513.7,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:01:22.880901Z",
+      "last_ts_utc": "2026-10-14T12:05:18.120868Z",
+      "rate_limit_headers": [
+        "x-ratelimit-limit",
+        "x-ratelimit-remaining",
+        "x-ratelimit-reset"
+      ],
+      "rate_limit_values": {
+        "x-ratelimit-limit": [
+          "10",
+          "180"
+        ],
+        "x-ratelimit-reset": [
+          "1245",
+          "14278",
+          "14520",
+          "14612",
+          "14873"
+        ]
+      },
+      "remaining_min": 4
+    },
+    {
+      "provider": "eth_drpc",
+      "calls": 47,
+      "calls_ok": 47,
+      "success_share": 1.0,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 47,
+      "http_2xx": 47,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 147.5,
+      "latency_ms_p95": 296.5,
+      "latency_ms_max": 369.9,
+      "latency_ms_mean": 185.2,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:01:24.235205Z",
+      "last_ts_utc": "2026-10-14T12:05:56.853098Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    },
+    {
+      "provider": "eth_publicnode",
+      "calls": 58,
+      "calls_ok": 54,
+      "success_share": 0.931,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 58,
+      "http_2xx": 58,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 128.5,
+      "latency_ms_p95": 282.1,
+      "latency_ms_max": 416.0,
+      "latency_ms_mean": 169.6,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:01:24.005393Z",
+      "last_ts_utc": "2026-10-14T12:05:47.221748Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    },
+    {
+      "provider": "eth_tenderly",
+      "calls": 47,
+      "calls_ok": 47,
+      "success_share": 1.0,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 47,
+      "http_2xx": 47,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 137.9,
+      "latency_ms_p95": 369.9,
+      "latency_ms_max": 473.4,
+      "latency_ms_mean": 204.0,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:01:24.538810Z",
+      "last_ts_utc": "2026-10-14T12:06:06.455451Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    },
+    {
+      "provider": "etherscan_v2",
+      "calls": 27,
+      "calls_ok": 27,
+      "success_share": 1.0,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 27,
+      "http_2xx": 27,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 610.8,
+      "latency_ms_p95": 794.9,
+      "latency_ms_max": 1010.2,
+      "latency_ms_mean": 548.8,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:01:25.230621Z",
+      "last_ts_utc": "2026-10-14T12:05:01.016997Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    },
+    {
+      "provider": "etherscan_v2_keyless",
+      "calls": 1,
+      "calls_ok": 0,
+      "success_share": 0.0,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 1,
+      "http_2xx": 1,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 641.7,
+      "latency_ms_p95": 641.7,
+      "latency_ms_max": 641.7,
+      "latency_ms_mean": 641.7,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:06:07.100114Z",
+      "last_ts_utc": "2026-10-14T12:06:07.100114Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    },
+    {
+      "provider": "layerzero_scan",
+      "calls": 29,
+      "calls_ok": 29,
+      "success_share": 1.0,
+      "negative_controls": 1,
+      "negative_controls_ok": 1,
+      "http_requests": 30,
+      "http_2xx": 29,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 183.8,
+      "latency_ms_p95": 557.6,
+      "latency_ms_max": 676.4,
+      "latency_ms_mean": 288.9,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:04:47.059715Z",
+      "last_ts_utc": "2026-10-14T12:05:27.992334Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    },
+    {
+      "provider": "near_intents_1click",
+      "calls": 27,
+      "calls_ok": 27,
+      "success_share": 1.0,
+      "negative_controls": 1,
+      "negative_controls_ok": 1,
+      "http_requests": 28,
+      "http_2xx": 27,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 109.2,
+      "latency_ms_p95": 214.9,
+      "latency_ms_max": 318.2,
+      "latency_ms_mean": 124.3,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:05:01.342493Z",
+      "last_ts_utc": "2026-10-14T12:05:37.609859Z",
+      "rate_limit_headers": [
+        "x-ratelimit-limit-unauth",
+        "x-ratelimit-remaining-unauth",
+        "x-ratelimit-reset-unauth"
+      ],
+      "rate_limit_values": {
+        "x-ratelimit-limit-unauth": [
+          "1200"
+        ],
+        "x-ratelimit-reset-unauth": [
+          "24",
+          "25",
+          "26",
+          "27",
+          "28"
+        ]
+      },
+      "remaining_min": 1172
+    },
+    {
+      "provider": "trongrid",
+      "calls": 23,
+      "calls_ok": 23,
+      "success_share": 1.0,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 23,
+      "http_2xx": 23,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 239.7,
+      "latency_ms_p95": 670.2,
+      "latency_ms_max": 698.6,
+      "latency_ms_mean": 323.1,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:04:47.453527Z",
+      "last_ts_utc": "2026-10-14T12:05:11.087103Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    },
+    {
+      "provider": "usdt0_docs",
+      "calls": 1,
+      "calls_ok": 1,
+      "success_share": 1.0,
+      "negative_controls": 0,
+      "negative_controls_ok": 0,
+      "http_requests": 1,
+      "http_2xx": 1,
+      "http_429_seen": 0,
+      "retries": 0,
+      "latency_ms_p50": 920.1,
+      "latency_ms_p95": 920.1,
+      "latency_ms_max": 920.1,
+      "latency_ms_mean": 920.1,
+      "replayed": 0,
+      "first_ts_utc": "2026-10-14T12:01:09.916481Z",
+      "last_ts_utc": "2026-10-14T12:01:09.916481Z",
+      "rate_limit_headers": [],
+      "rate_limit_values": {},
+      "remaining_min": null
+    }
+  ],
+  "case001_checks": {
+    "total": 54,
+    "match": 54,
+    "mismatch": 0,
+    "unverified": 0
+  },
+  "observations": [
+    {
+      "step": 16,
+      "kind": "observation",
+      "fact": "1Click originChainTxHashes vs fixture step 16 tx (different meaning: deposit tx vs sweep)",
+      "fixture": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+      "observed": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+      "source": "1Click originChainTxHashes",
+      "match": false
+    },
+    {
+      "step": 17,
+      "kind": "observation",
+      "fact": "TRON payout amount vs 1Click amountOut (fixture note: differs)",
+      "fixture": "12878.454902",
+      "observed": "12878.410167",
+      "source": "1Click swapDetails.amountOut",
+      "match": false
+    }
+  ],
+  "etherscan_keyless": {
+    "http_status": 200,
+    "ok": false,
+    "body_status": "0",
+    "body_message": "NOTOK",
+    "body_result": "Missing/Invalid API Key"
+  },
+  "not_measured": [
+    {
+      "what": "платный Ethereum RPC",
+      "why": "не измерено: нет ETH_RPC_URL",
+      "needed": "URL платного провайдера в .env (переменная ETH_RPC_URL)"
+    },
+    {
+      "what": "Blockscout PRO API (api.blockscout.com, с ключом)",
+      "why": "не измерено: нет BLOCKSCOUT_API_KEY",
+      "needed": "бесплатный ключ PRO API (dev.blockscout.com) в .env"
+    },
+    {
+      "what": "статус 1Click с ключом партнёра",
+      "why": "не измерено: нет NEAR_INTENTS_JWT",
+      "needed": "ключ из partners.near-intents.org в .env"
+    },
+    {
+      "what": "Rango status API (/basic/status)",
+      "why": "не измерено: нет RANGO_API_KEY",
+      "needed": "ключ Rango (выдаётся через тикет в Discord) в .env под именем RANGO_API_KEY"
+    }
+  ],
+  "discrepancies": [],
+  "requests_total": 442
+}

@@ -1,0 +1,280 @@
+<case_data>
+{
+ "transaction": {
+  "source": "Blockscout GET /api/v2/transactions/{hash}",
+  "hash": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+  "block_number": 26025727,
+  "timestamp": "2026-09-21T11:56:35.000000Z",
+  "status": "ok",
+  "from": "0x4079047990917F3150353FBd8A13b05b6286926d",
+  "to": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+  "to_name": "RangoDiamond",
+  "method": "genericBridge"
+ },
+ "logs": {
+  "source": "Blockscout GET /api/v2/transactions/{hash}/logs",
+  "items": [
+   {
+    "index": 19,
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "address_name": "TetherToken",
+    "event": "Transfer(address indexed from, address indexed to, uint256 value)",
+    "topics": [
+     "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+     "0x0000000000000000000000004079047990917f3150353fbd8a13b05b6286926d",
+     "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d"
+    ],
+    "data": "0x0000000000000000000000000000000000000000000000000000000300fbe8b8",
+    "decoded_parameters": [
+     {
+      "name": "from",
+      "type": "address",
+      "value": "0x4079047990917F3150353FBd8A13b05b6286926d"
+     },
+     {
+      "name": "to",
+      "type": "address",
+      "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+     },
+     {
+      "name": "value",
+      "type": "uint256",
+      "value": "12901411000"
+     }
+    ]
+   },
+   {
+    "index": 20,
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "address_name": "TetherToken",
+    "event": "Transfer(address indexed from, address indexed to, uint256 value)",
+    "topics": [
+     "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+     "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d",
+     "0x000000000000000000000000dddb9a95e443a204eb8650d5ea578ed707fe2123"
+    ],
+    "data": "0x0000000000000000000000000000000000000000000000000000000001274a34",
+    "decoded_parameters": [
+     {
+      "name": "from",
+      "type": "address",
+      "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+     },
+     {
+      "name": "to",
+      "type": "address",
+      "value": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123"
+     },
+     {
+      "name": "value",
+      "type": "uint256",
+      "value": "19352116"
+     }
+    ]
+   },
+   {
+    "index": 21,
+    "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+    "address_name": "RangoDiamond",
+    "event": "SendToken(address _token, uint256 _amount, address _receiver)",
+    "topics": [
+     "0xdf4363408b2d9811d1e5c23efdb5bae0b7a68bd9de2de1cbae18a11be3e67ef5"
+    ],
+    "data": "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec70000000000000000000000000000000000000000000000000000000001274a34000000000000000000000000dddb9a95e443a204eb8650d5ea578ed707fe2123",
+    "decoded_parameters": [
+     {
+      "name": "_token",
+      "type": "address",
+      "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+     },
+     {
+      "name": "_amount",
+      "type": "uint256",
+      "value": "19352116"
+     },
+     {
+      "name": "_receiver",
+      "type": "address",
+      "value": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123"
+     }
+    ]
+   },
+   {
+    "index": 22,
+    "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+    "address_name": "RangoDiamond",
+    "event": "FeeInfo(address token, address indexed affiliatorAddress, uint256 affiliateFee, uint8 indexed feeType, uint16 indexed dAppTag)",
+    "topics": [
+     "0x7f32e90e3fb6eb794eaf193eacb729a5b0bf5ab7d1f5f348f8f5beeac89e3d54",
+     "0x000000000000000000000000dddb9a95e443a204eb8650d5ea578ed707fe2123",
+     "0x0000000000000000000000000000000000000000000000000000000000000000",
+     "0x000000000000000000000000000000000000000000000000000000000000067e"
+    ],
+    "data": "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec70000000000000000000000000000000000000000000000000000000001274a34",
+    "decoded_parameters": [
+     {
+      "name": "token",
+      "type": "address",
+      "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+     },
+     {
+      "name": "affiliatorAddress",
+      "type": "address",
+      "value": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123"
+     },
+     {
+      "name": "affiliateFee",
+      "type": "uint256",
+      "value": "19352116"
+     },
+     {
+      "name": "feeType",
+      "type": "uint8",
+      "value": "0"
+     },
+     {
+      "name": "dAppTag",
+      "type": "uint16",
+      "value": "1662"
+     }
+    ]
+   },
+   {
+    "index": 23,
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "address_name": "TetherToken",
+    "event": "Transfer(address indexed from, address indexed to, uint256 value)",
+    "topics": [
+     "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+     "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d",
+     "0x000000000000000000000000da392553ec3602d3e650a725f847c10d04e122c0"
+    ],
+    "data": "0x00000000000000000000000000000000000000000000000000000002ffd49e84",
+    "decoded_parameters": [
+     {
+      "name": "from",
+      "type": "address",
+      "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+     },
+     {
+      "name": "to",
+      "type": "address",
+      "value": "0xdA392553ec3602D3e650a725f847C10d04E122C0"
+     },
+     {
+      "name": "value",
+      "type": "uint256",
+      "value": "12882058884"
+     }
+    ]
+   },
+   {
+    "index": 24,
+    "address": "0xB8cF3cdbc390180257295Bf08cfdEca80dca9e8A",
+    "address_name": "RangoRouter",
+    "event": "Routed(address indexed token, address indexed from, address indexed to, uint256 amount)",
+    "topics": [
+     "0x8b8a3020a34a6b3f440b9b7d3bb9dc72778deeb4ec7cd97d66fb520685fcc4db",
+     "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec7",
+     "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d",
+     "0x000000000000000000000000da392553ec3602d3e650a725f847c10d04e122c0"
+    ],
+    "data": "0x00000000000000000000000000000000000000000000000000000002ffd49e84",
+    "decoded_parameters": [
+     {
+      "name": "token",
+      "type": "address",
+      "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+     },
+     {
+      "name": "from",
+      "type": "address",
+      "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+     },
+     {
+      "name": "to",
+      "type": "address",
+      "value": "0xdA392553ec3602D3e650a725f847C10d04E122C0"
+     },
+     {
+      "name": "amount",
+      "type": "uint256",
+      "value": "12882058884"
+     }
+    ]
+   },
+   {
+    "index": 25,
+    "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+    "address_name": "RangoDiamond",
+    "event": "RangoBridgeInitiated(address indexed requestId, address bridgeToken, uint256 bridgeAmount, address receiver, uint256 destinationChainId, bool hasInterchainMessage, bool hasDestinationSwap, uint8 indexed bridgeId, uint16 indexed dAppTag, string dAppName)",
+    "topics": [
+     "0x012c155f3836c4edb9222305b909a109f9efa46288efffe40a0e66da3a9a9800",
+     "0x0000000000000000000000000000000033ae4dc24d564a56877b50864b775dfe",
+     "0x000000000000000000000000000000000000000000000000000000000000003c",
+     "0x000000000000000000000000000000000000000000000000000000000000067e"
+    ],
+    "data": "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec700000000000000000000000000000000000000000000000000000002ffd49e8400000000000000000000000054594865483248516e37704d35666536615977470000000000000000000000000000000000000000000000000000000054524f4e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000000084d6f6f6e47617465000000000000000000000000000000000000000000000000",
+    "decoded_parameters": [
+     {
+      "name": "requestId",
+      "type": "address",
+      "value": "0x0000000033ae4dC24D564a56877B50864b775dfe"
+     },
+     {
+      "name": "bridgeToken",
+      "type": "address",
+      "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+     },
+     {
+      "name": "bridgeAmount",
+      "type": "uint256",
+      "value": "12882058884"
+     },
+     {
+      "name": "receiver",
+      "type": "address",
+      "value": "0x54594865483248516E37704D3566653661597747"
+     },
+     {
+      "name": "destinationChainId",
+      "type": "uint256",
+      "value": "1414680398"
+     },
+     {
+      "name": "hasInterchainMessage",
+      "type": "bool",
+      "value": "false"
+     },
+     {
+      "name": "hasDestinationSwap",
+      "type": "bool",
+      "value": "false"
+     },
+     {
+      "name": "bridgeId",
+      "type": "uint8",
+      "value": "60"
+     },
+     {
+      "name": "dAppTag",
+      "type": "uint16",
+      "value": "1662"
+     },
+     {
+      "name": "dAppName",
+      "type": "string",
+      "value": "MoonGate"
+     }
+    ]
+   }
+  ]
+ }
+}
+</case_data>
+
+<task>
+Decision: interpret this Ethereum transaction of the launderer's transit address and its event logs.
+Where did the USDT go, which fees were taken, what is the destination chain and who is the receiver?
+Decode raw values yourself where the decoded form is misleading. Choose the tracer's next action. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

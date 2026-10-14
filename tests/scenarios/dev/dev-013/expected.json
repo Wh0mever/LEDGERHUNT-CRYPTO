@@ -1,0 +1,379 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-013",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "b2d352a459f11009d7880d1cb186eb883a41f149e5332628c2df84d48f79ee8e",
+   "event_index": 0,
+   "from": "TGZFJTpQShoWRYRfQneuhF1smdZ3AYbUBy",
+   "to": "TNbhCnXSFhKJq7fc4QGN9BTqxreKYLfM7q",
+   "amount": "136620.793421",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "12eef50002a9e61d065912228b7ce51120eefc48e365d55667ce832e45b69acc",
+   "event_index": 0,
+   "from": "TNbhCnXSFhKJq7fc4QGN9BTqxreKYLfM7q",
+   "to": "TUouDjzH6h8t6o4z8tqPYpHjna1BvyrD7j",
+   "amount": "136620.793421",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "3ea31c0c7b7464bea76ee069568156703fd1905bacb8fa36f2aa69ee9cebe628",
+   "event_index": 0,
+   "from": "TUouDjzH6h8t6o4z8tqPYpHjna1BvyrD7j",
+   "to": "TNquxYk638c5VCsSpPH84D3Qw4YnzXb7hx",
+   "amount": "136620.793421",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "6040ce4ae99c6dd72adddd1abab091710b4f600ae08a00a24b63355bbfde28c0",
+   "event_index": 0,
+   "from": "TNquxYk638c5VCsSpPH84D3Qw4YnzXb7hx",
+   "to": "TACCyria3oxCmH4dKtLPvnuLfRg1oicecz",
+   "amount": "136620.793421",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "98c441fff326caf749700878b2ca873e87f7e21fd9f5a8ff911e760f41c3e3c4",
+   "event_index": 0,
+   "from": "TACCyria3oxCmH4dKtLPvnuLfRg1oicecz",
+   "to": "TMfTs8mwkeUmEW7pT6v4E3pXQMGL6CQT1g",
+   "amount": "6.873938",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "639ae8365c449e0e2576da956c2d27b48b28f4bef8888125cbb87819ea51bed8",
+   "event_index": 0,
+   "from": "TACCyria3oxCmH4dKtLPvnuLfRg1oicecz",
+   "to": "THapka3LKGeBEWnB3h6xqqm5TBbwNpAgNo",
+   "amount": "136613.919483",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "79bf354478cf38de5de90e5756150dac8a28f4f4addebd2d9153b3ef2ef0be58",
+   "event_index": 0,
+   "from": "THapka3LKGeBEWnB3h6xqqm5TBbwNpAgNo",
+   "to": "TW1MH2o1AByU4y8mP6pNXU9M5ZQusWntz5",
+   "amount": "136613.919483",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "5d12ce211ab08f480d143df244fb90371ee553ea5fb46f0f99f88e9c677dbf75",
+   "event_index": 0,
+   "from": "TW1MH2o1AByU4y8mP6pNXU9M5ZQusWntz5",
+   "to": "TMfTs8mwkeUmEW7pT6v4E3pXQMGL6CQT1g",
+   "amount": "8.918885",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "3b641a42fd9ba1f38f16c9a49f97232b3bc4cd62646719d6ba3aa8a588173d05",
+   "event_index": 0,
+   "from": "TW1MH2o1AByU4y8mP6pNXU9M5ZQusWntz5",
+   "to": "TAPRhrXG3Ffze2fgyQTtKFrXGty4HTMkxd",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c7e4f89f26b9d7cb6271d65def8a42072d8d2c5f22a4a7e2b7380f3b442ab976",
+   "event_index": 0,
+   "from": "TAPRhrXG3Ffze2fgyQTtKFrXGty4HTMkxd",
+   "to": "TACDCZDBdW8MMa3FK2VBUkgg4M5TeCoxqJ",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ce6edda685615f44d2ce50104809fd74770228a6496ae69ec5cfcaa887210394",
+   "event_index": 0,
+   "from": "TACDCZDBdW8MMa3FK2VBUkgg4M5TeCoxqJ",
+   "to": "TBaQgmTKKUYpXLuweetNLefDGFHCZNHJZC",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "2c59ca334155f81c46fc2fdb84e2961ae54cec4be987d8b996d0fe648b308998",
+   "event_index": 0,
+   "from": "TBaQgmTKKUYpXLuweetNLefDGFHCZNHJZC",
+   "to": "TYzoo854DJ4gDieZGasv9TnKzkbP6qX2Ax",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "8c95158ad267673996bf45a5e43bdbf5d22dc43bf3616cbd1004191bafb5c71b",
+   "event_index": 0,
+   "from": "TYzoo854DJ4gDieZGasv9TnKzkbP6qX2Ax",
+   "to": "TLNLyUd265dWWTBGCdENBDFx9KN2NDMKaU",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c89b83793edc97f9708e8b30d20679e6a09fb93af6bfdda41fcc4effefafa684",
+   "event_index": 0,
+   "from": "TLNLyUd265dWWTBGCdENBDFx9KN2NDMKaU",
+   "to": "TCxM64BdXY6eC7DFU7HNHoUkA2gdo6dDSj",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "f2d995d8985c6591f7358b37b5d54f4421352c1c45298045c1abec0d08e21cc8",
+   "event_index": 0,
+   "from": "TCxM64BdXY6eC7DFU7HNHoUkA2gdo6dDSj",
+   "to": "TZ3zH1VNM8DhfC9aWJzQ3ZpT1Y6uRLDc62",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "472e7c1f9512211b33e325be591c337b1b85d55b7c9010d6bdf37507c550fdef",
+   "event_index": 0,
+   "from": "TZ3zH1VNM8DhfC9aWJzQ3ZpT1Y6uRLDc62",
+   "to": "TDCmHiENJFCgfrmd441Nu4wF3k18TvjfPQ",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "2de3f1608895191cf4cddd50b8e27b070643eb006aa1a66242b94f0efd3e7138",
+   "event_index": 0,
+   "from": "TDCmHiENJFCgfrmd441Nu4wF3k18TvjfPQ",
+   "to": "TXyX3Jyy3Jz87KkFuJwSNdV1TBGDS1fofB",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "7b4926457b001fc70c3444a8422247ee2573f180cdf3077d8b136e0c6939bf8a",
+   "event_index": 0,
+   "from": "TXyX3Jyy3Jz87KkFuJwSNdV1TBGDS1fofB",
+   "to": "TWQXZqLWMsmQTXyzhPxRtTUckPwsSaJVTd",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "59c6d9a30223abfe8931881a2dd1e216a4ff00cde098ddd6a596919187b6baed",
+   "event_index": 0,
+   "from": "TWQXZqLWMsmQTXyzhPxRtTUckPwsSaJVTd",
+   "to": "TLSxaanwBDtLVC2P49dbYA2HLuRTQMGhMn",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "090028302a67872f0b3a07d12aa419aa53045cabd4a0a882c550a4b3359a6e8c",
+   "event_index": 0,
+   "from": "TLSxaanwBDtLVC2P49dbYA2HLuRTQMGhMn",
+   "to": "TZ5B8kRd8yWtqiRRXLA69neRzW9uJ47T6C",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "2024a933d24c192b8337e9db349b273f03fdae9c4b7115983b7a0d8e4c64e95a",
+   "event_index": 0,
+   "from": "TZ5B8kRd8yWtqiRRXLA69neRzW9uJ47T6C",
+   "to": "TQeRqgsJLPtrU8hnxHaEpvGdi4oMN7XzAw",
+   "amount": "136605.000598",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "side_branch",
+   "txids": [
+    "b2d352a459f11009d7880d1cb186eb883a41f149e5332628c2df84d48f79ee8e",
+    "12eef50002a9e61d065912228b7ce51120eefc48e365d55667ce832e45b69acc",
+    "3ea31c0c7b7464bea76ee069568156703fd1905bacb8fa36f2aa69ee9cebe628",
+    "6040ce4ae99c6dd72adddd1abab091710b4f600ae08a00a24b63355bbfde28c0",
+    "98c441fff326caf749700878b2ca873e87f7e21fd9f5a8ff911e760f41c3e3c4"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TMfTs8mwkeUmEW7pT6v4E3pXQMGL6CQT1g",
+    "reason": "known_service"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "side_branch",
+   "txids": [
+    "b2d352a459f11009d7880d1cb186eb883a41f149e5332628c2df84d48f79ee8e",
+    "12eef50002a9e61d065912228b7ce51120eefc48e365d55667ce832e45b69acc",
+    "3ea31c0c7b7464bea76ee069568156703fd1905bacb8fa36f2aa69ee9cebe628",
+    "6040ce4ae99c6dd72adddd1abab091710b4f600ae08a00a24b63355bbfde28c0",
+    "639ae8365c449e0e2576da956c2d27b48b28f4bef8888125cbb87819ea51bed8",
+    "79bf354478cf38de5de90e5756150dac8a28f4f4addebd2d9153b3ef2ef0be58",
+    "5d12ce211ab08f480d143df244fb90371ee553ea5fb46f0f99f88e9c677dbf75"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TMfTs8mwkeUmEW7pT6v4E3pXQMGL6CQT1g",
+    "reason": "known_service"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r03",
+   "kind": "main",
+   "txids": [
+    "b2d352a459f11009d7880d1cb186eb883a41f149e5332628c2df84d48f79ee8e",
+    "12eef50002a9e61d065912228b7ce51120eefc48e365d55667ce832e45b69acc",
+    "3ea31c0c7b7464bea76ee069568156703fd1905bacb8fa36f2aa69ee9cebe628",
+    "6040ce4ae99c6dd72adddd1abab091710b4f600ae08a00a24b63355bbfde28c0",
+    "639ae8365c449e0e2576da956c2d27b48b28f4bef8888125cbb87819ea51bed8",
+    "79bf354478cf38de5de90e5756150dac8a28f4f4addebd2d9153b3ef2ef0be58",
+    "3b641a42fd9ba1f38f16c9a49f97232b3bc4cd62646719d6ba3aa8a588173d05",
+    "c7e4f89f26b9d7cb6271d65def8a42072d8d2c5f22a4a7e2b7380f3b442ab976",
+    "ce6edda685615f44d2ce50104809fd74770228a6496ae69ec5cfcaa887210394",
+    "2c59ca334155f81c46fc2fdb84e2961ae54cec4be987d8b996d0fe648b308998",
+    "8c95158ad267673996bf45a5e43bdbf5d22dc43bf3616cbd1004191bafb5c71b",
+    "c89b83793edc97f9708e8b30d20679e6a09fb93af6bfdda41fcc4effefafa684",
+    "f2d995d8985c6591f7358b37b5d54f4421352c1c45298045c1abec0d08e21cc8",
+    "472e7c1f9512211b33e325be591c337b1b85d55b7c9010d6bdf37507c550fdef",
+    "2de3f1608895191cf4cddd50b8e27b070643eb006aa1a66242b94f0efd3e7138",
+    "7b4926457b001fc70c3444a8422247ee2573f180cdf3077d8b136e0c6939bf8a",
+    "59c6d9a30223abfe8931881a2dd1e216a4ff00cde098ddd6a596919187b6baed",
+    "090028302a67872f0b3a07d12aa419aa53045cabd4a0a882c550a4b3359a6e8c",
+    "2024a933d24c192b8337e9db349b273f03fdae9c4b7115983b7a0d8e4c64e95a"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TQeRqgsJLPtrU8hnxHaEpvGdi4oMN7XzAw",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "543611db1eb7c5460d5d4061981499182f901ea3bf773a464d09df57ee1e655d",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "long_chain",
+  "variant": "relay_fees",
+  "title_ru": "Длинная цепочка 15-25 переходов с комиссиями",
+  "description": "relay chain of 19 transfers with energy fees",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 30,
+  "affected_by_source_failure": false
+ }
+}

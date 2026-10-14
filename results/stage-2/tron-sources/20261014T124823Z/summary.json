@@ -1,0 +1,2544 @@
+{
+  "run_id": "20261014T124823Z",
+  "http_mode": "record",
+  "keys_present": {
+    "ANTHROPIC_API_KEY": true,
+    "TRONGRID_API_KEY": true,
+    "TRON_RPC_URL": false,
+    "TRON_RPC_URL_2": false,
+    "TRONSCAN_API_KEY": false,
+    "ETH_RPC_URL": false,
+    "ETHERSCAN_API_KEY": true,
+    "BLOCKSCOUT_API_KEY": false,
+    "NEAR_INTENTS_JWT": false
+  },
+  "phases_run": [
+    "A",
+    "C",
+    "D",
+    "F",
+    "L",
+    "P"
+  ],
+  "freshness": {
+    "samples": 8,
+    "sources": {
+      "publicnode": {
+        "solid_lag_blocks": {
+          "min": 17,
+          "median": 18.0,
+          "max": 18
+        },
+        "solid_lag_s": {
+          "min": 51.0,
+          "median": 54.0,
+          "max": 54.0
+        },
+        "head_age_vs_local_clock_s": {
+          "median": 2.5,
+          "max": 4.413
+        },
+        "n": 8,
+        "head_behind_trongrid_key_blocks": {
+          "min": 0,
+          "median": 0.0,
+          "max": 1
+        }
+      },
+      "trongrid_key": {
+        "solid_lag_blocks": {
+          "min": 18,
+          "median": 18.0,
+          "max": 18
+        },
+        "solid_lag_s": {
+          "min": 54.0,
+          "median": 54.0,
+          "max": 54.0
+        },
+        "head_age_vs_local_clock_s": {
+          "median": 1.3,
+          "max": 2.809
+        },
+        "n": 8
+      }
+    },
+    "trongrid_v1_index": {
+      "latest_event_behind_head_blocks": {
+        "min": 0,
+        "median": 1.0,
+        "max": 1
+      },
+      "latest_confirmed_event_behind_solid_blocks": {
+        "min": 1,
+        "median": 1.5,
+        "max": 2
+      },
+      "note": "positive = the v1 index is behind the node; the latest USDT Transfer event is a proxy (USDT has transfers in almost every block)"
+    }
+  },
+  "publicnode_depth": {
+    "head_block": 87103074,
+    "head_utc": "2026-10-14 12:48:54",
+    "oldest_served_block": 86792411,
+    "oldest_served_utc": "2026-10-03 17:51:21",
+    "depth_blocks": 310663,
+    "depth_days": 10.79,
+    "probes": 50,
+    "consistency_boundary_served_repeats": [
+      true,
+      true,
+      true
+    ],
+    "consistency_boundary_minus_1_served_repeats": [
+      false,
+      false,
+      false
+    ],
+    "boundary_plus_1000_served": true,
+    "boundary_minus_1000_served": false,
+    "receipt_oldest_served_block_approx": 86857908,
+    "receipt_oldest_served_utc": "2026-10-06 00:27:12",
+    "receipt_bisect_precision_blocks": 50,
+    "receipt_check_inside": true,
+    "receipt_check_outside": false,
+    "getlogs_vs_history": {
+      "inside_receipt_history": {
+        "range": [
+          86858008,
+          86859007
+        ],
+        "trongrid_key": {
+          "logs": 22,
+          "status": 200,
+          "ref": {
+            "store": "data/http-store",
+            "body_sha256": "dbcd58abecc1ec09af9585bcdba40a6cb579f7b8cb6f34e372b8e52d7e21bc26",
+            "key_sha256": "2bf21f2e3c24435878f62a18c9d7ba2e9d9c6335c581786df8cfdcc290282a06",
+            "object_path": "data/http-store/objects/db/dbcd58abecc1ec09af9585bcdba40a6cb579f7b8cb6f34e372b8e52d7e21bc26"
+          }
+        },
+        "publicnode": {
+          "logs": 22,
+          "status": 200,
+          "ref": {
+            "store": "data/http-store",
+            "body_sha256": "dbcd58abecc1ec09af9585bcdba40a6cb579f7b8cb6f34e372b8e52d7e21bc26",
+            "key_sha256": "806cc5b837f84eb1f82ffb88ccbb63c27fc34f5f07f7b2299e3b68d4d876938b",
+            "object_path": "data/http-store/objects/db/dbcd58abecc1ec09af9585bcdba40a6cb579f7b8cb6f34e372b8e52d7e21bc26"
+          }
+        }
+      },
+      "below_receipt_history": {
+        "range": [
+          86856780,
+          86857779
+        ],
+        "trongrid_key": {
+          "logs": 36,
+          "status": 200,
+          "ref": {
+            "store": "data/http-store",
+            "body_sha256": "525841e5314694f4fa8f62506809647b37bfcb4f182321e4d6ee87b3386e6cdf",
+            "key_sha256": "822fc033e8a5393db8c3cce48f82acce982edd6972b9a0194fc9db1e6b66319a",
+            "object_path": "data/http-store/objects/52/525841e5314694f4fa8f62506809647b37bfcb4f182321e4d6ee87b3386e6cdf"
+          }
+        },
+        "publicnode": {
+          "logs": 0,
+          "status": 200,
+          "ref": {
+            "store": "data/http-store",
+            "body_sha256": "d1710c251ad1c8154d7c7739d389acba173558b9c63054bb0ba9ea03cd387c59",
+            "key_sha256": "ec0d0f0a0b5cfa01eb13030277badb836b1feca7cc1e82bd4eeb34c0bb4df66e",
+            "object_path": "data/http-store/objects/d1/d1710c251ad1c8154d7c7739d389acba173558b9c63054bb0ba9ea03cd387c59"
+          }
+        }
+      },
+      "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+      "direction": "from",
+      "note": "PublicNode answers 200 with [] where it has no data: a silent gap"
+    },
+    "archival": {
+      "trongrid_key": {
+        "theft_block_86439360_served": true,
+        "block_1000000_served": true
+      }
+    }
+  },
+  "agreement": {
+    "recent_block": 87074256,
+    "groups": {
+      "case-001": {
+        "txids": 5,
+        "sources": {
+          "publicnode": {
+            "answered": 5,
+            "empty_tx": 5,
+            "empty_receipt": 5,
+            "tx_compared": 0,
+            "tx_equal": 0,
+            "tx_bytes_equal": 0,
+            "receipt_compared": 0,
+            "receipt_equal": 0,
+            "receipt_bytes_equal": 0,
+            "diff_paths": []
+          }
+        },
+        "trongrid_v1_events_vs_receipt": {
+          "txids": 5,
+          "transfer_events": 3,
+          "event_index_equal_receipt_ordinal": 3,
+          "event_index_differs": 0,
+          "missing_in_receipt": 0,
+          "missing_in_v1": 0
+        },
+        "trongrid_empty_receipts": 0
+      },
+      "recent": {
+        "txids": 30,
+        "sources": {
+          "publicnode": {
+            "answered": 30,
+            "empty_tx": 0,
+            "empty_receipt": 0,
+            "tx_compared": 30,
+            "tx_equal": 30,
+            "tx_bytes_equal": 30,
+            "receipt_compared": 30,
+            "receipt_equal": 30,
+            "receipt_bytes_equal": 30,
+            "diff_paths": []
+          }
+        },
+        "trongrid_v1_events_vs_receipt": {
+          "txids": 30,
+          "transfer_events": 30,
+          "event_index_equal_receipt_ordinal": 30,
+          "event_index_differs": 0,
+          "missing_in_receipt": 0,
+          "missing_in_v1": 0
+        },
+        "trongrid_empty_receipts": 0
+      }
+    }
+  },
+  "completeness": {
+    "by_source": {
+      "trongrid_key": {
+        "windows": 20,
+        "node_transfers": 3794,
+        "v1_transfers_same_windows": 3794,
+        "matched": 3794,
+        "only_v1": 0,
+        "only_node": 0,
+        "requests": 64,
+        "splits_on_10k_cap": 0,
+        "errors": 0
+      },
+      "publicnode": {
+        "windows": 6,
+        "node_transfers": 1646,
+        "v1_transfers_same_windows": 1667,
+        "matched": 1646,
+        "only_v1": 21,
+        "only_node": 0,
+        "requests": 16,
+        "splits_on_10k_cap": 0,
+        "errors": 0
+      }
+    },
+    "by_source_and_window_kind": {
+      "trongrid_key": {
+        "case": {
+          "windows": 16,
+          "node_transfers": 2148,
+          "v1_transfers": 2148,
+          "matched": 2148,
+          "only_v1": 0,
+          "only_node": 0
+        },
+        "recent": {
+          "windows": 4,
+          "node_transfers": 1646,
+          "v1_transfers": 1646,
+          "matched": 1646,
+          "only_v1": 0,
+          "only_node": 0
+        }
+      },
+      "publicnode": {
+        "case": {
+          "windows": 2,
+          "node_transfers": 0,
+          "v1_transfers": 21,
+          "matched": 0,
+          "only_v1": 21,
+          "only_node": 0
+        },
+        "recent": {
+          "windows": 4,
+          "node_transfers": 1646,
+          "v1_transfers": 1646,
+          "matched": 1646,
+          "only_v1": 0,
+          "only_node": 0
+        }
+      }
+    },
+    "by_address_window": [
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 4,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 2,
+        "v1_in": 2,
+        "v1_distinct_counterparties_out": 2,
+        "node_transfers": {
+          "trongrid_key": 4
+        },
+        "matched": {
+          "trongrid_key": 4
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 19,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 13,
+        "v1_in": 6,
+        "v1_distinct_counterparties_out": 10,
+        "node_transfers": {
+          "trongrid_key": 19
+        },
+        "matched": {
+          "trongrid_key": 19
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 3,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 2,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 2,
+        "node_transfers": {
+          "trongrid_key": 3,
+          "publicnode": 0
+        },
+        "matched": {
+          "trongrid_key": 3,
+          "publicnode": 0
+        },
+        "node_requests": {
+          "trongrid_key": 4,
+          "publicnode": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0,
+          "publicnode": 3
+        },
+        "only_node": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 3,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 2,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 2,
+        "node_transfers": {
+          "trongrid_key": 3
+        },
+        "matched": {
+          "trongrid_key": 3
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 3,
+        "v1_non_transfer_rows": 1,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 2,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 2,
+        "node_transfers": {
+          "trongrid_key": 3
+        },
+        "matched": {
+          "trongrid_key": 3
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 1,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 0,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 0,
+        "node_transfers": {
+          "trongrid_key": 1
+        },
+        "matched": {
+          "trongrid_key": 1
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 1,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 0,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 0,
+        "node_transfers": {
+          "trongrid_key": 1
+        },
+        "matched": {
+          "trongrid_key": 1
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 18,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 5,
+        "v1_in": 13,
+        "v1_distinct_counterparties_out": 5,
+        "node_transfers": {
+          "trongrid_key": 18,
+          "publicnode": 0
+        },
+        "matched": {
+          "trongrid_key": 18,
+          "publicnode": 0
+        },
+        "node_requests": {
+          "trongrid_key": 4,
+          "publicnode": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0,
+          "publicnode": 18
+        },
+        "only_node": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 2,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 1,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_transfers": {
+          "trongrid_key": 2
+        },
+        "matched": {
+          "trongrid_key": 2
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 2,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 1,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_transfers": {
+          "trongrid_key": 2
+        },
+        "matched": {
+          "trongrid_key": 2
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 4,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 0,
+        "v1_in": 4,
+        "v1_distinct_counterparties_out": 0,
+        "node_transfers": {
+          "trongrid_key": 4
+        },
+        "matched": {
+          "trongrid_key": 4
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w1_theft_day",
+        "kind": "case",
+        "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "from_utc": "2026-09-21 10:24:39",
+        "to_utc": "2026-09-21 16:14:42",
+        "v1_transfers": 1551,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 8,
+        "v1_complete": true,
+        "v1_out": 1055,
+        "v1_in": 496,
+        "v1_distinct_counterparties_out": 909,
+        "node_transfers": {
+          "trongrid_key": 1551
+        },
+        "matched": {
+          "trongrid_key": 1551
+        },
+        "node_requests": {
+          "trongrid_key": 4
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w2_next_day",
+        "kind": "case",
+        "address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+        "from_block": 86464000,
+        "to_block": 86464999,
+        "from_utc": "2026-09-22 08:05:03",
+        "to_utc": "2026-09-22 08:55:00",
+        "v1_transfers": 2,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 1,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_transfers": {
+          "trongrid_key": 2
+        },
+        "matched": {
+          "trongrid_key": 2
+        },
+        "node_requests": {
+          "trongrid_key": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "w2_next_day",
+        "kind": "case",
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "from_block": 86464000,
+        "to_block": 86464999,
+        "from_utc": "2026-09-22 08:05:03",
+        "to_utc": "2026-09-22 08:55:00",
+        "v1_transfers": 2,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 1,
+        "v1_in": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_transfers": {
+          "trongrid_key": 2
+        },
+        "matched": {
+          "trongrid_key": 2
+        },
+        "node_requests": {
+          "trongrid_key": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "hv_hot_wallet",
+        "kind": "case",
+        "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "from_block": 86441900,
+        "to_block": 86442099,
+        "from_utc": "2026-09-21 13:39:45",
+        "to_utc": "2026-09-21 13:49:42",
+        "v1_transfers": 126,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 61,
+        "v1_in": 65,
+        "v1_distinct_counterparties_out": 60,
+        "node_transfers": {
+          "trongrid_key": 126
+        },
+        "matched": {
+          "trongrid_key": 126
+        },
+        "node_requests": {
+          "trongrid_key": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "hv_fee_collector",
+        "kind": "case",
+        "address": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "from_block": 86439300,
+        "to_block": 86439419,
+        "from_utc": "2026-09-21 11:29:39",
+        "to_utc": "2026-09-21 11:35:36",
+        "v1_transfers": 407,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 3,
+        "v1_complete": true,
+        "v1_out": 1,
+        "v1_in": 406,
+        "v1_distinct_counterparties_out": 1,
+        "node_transfers": {
+          "trongrid_key": 407
+        },
+        "matched": {
+          "trongrid_key": 407
+        },
+        "node_requests": {
+          "trongrid_key": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0
+        },
+        "only_node": {
+          "trongrid_key": 0
+        }
+      },
+      {
+        "window": "recent_1d",
+        "kind": "recent",
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "from_block": 87073056,
+        "to_block": 87078055,
+        "from_utc": "2026-10-13 11:47:30",
+        "to_utc": "2026-10-13 15:57:33",
+        "v1_transfers": 14,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 4,
+        "v1_in": 10,
+        "v1_distinct_counterparties_out": 4,
+        "node_transfers": {
+          "trongrid_key": 14,
+          "publicnode": 14
+        },
+        "matched": {
+          "trongrid_key": 14,
+          "publicnode": 14
+        },
+        "node_requests": {
+          "trongrid_key": 2,
+          "publicnode": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_node": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        }
+      },
+      {
+        "window": "recent_1d",
+        "kind": "recent",
+        "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+        "from_block": 87073056,
+        "to_block": 87078055,
+        "from_utc": "2026-10-13 11:47:30",
+        "to_utc": "2026-10-13 15:57:33",
+        "v1_transfers": 742,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 4,
+        "v1_complete": true,
+        "v1_out": 408,
+        "v1_in": 334,
+        "v1_distinct_counterparties_out": 363,
+        "node_transfers": {
+          "trongrid_key": 742,
+          "publicnode": 742
+        },
+        "matched": {
+          "trongrid_key": 742,
+          "publicnode": 742
+        },
+        "node_requests": {
+          "trongrid_key": 2,
+          "publicnode": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_node": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        }
+      },
+      {
+        "window": "recent_1d_hv",
+        "kind": "recent",
+        "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "from_block": 87073056,
+        "to_block": 87073255,
+        "from_utc": "2026-10-13 11:47:30",
+        "to_utc": "2026-10-13 11:57:27",
+        "v1_transfers": 96,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 1,
+        "v1_complete": true,
+        "v1_out": 52,
+        "v1_in": 44,
+        "v1_distinct_counterparties_out": 51,
+        "node_transfers": {
+          "trongrid_key": 96,
+          "publicnode": 96
+        },
+        "matched": {
+          "trongrid_key": 96,
+          "publicnode": 96
+        },
+        "node_requests": {
+          "trongrid_key": 2,
+          "publicnode": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_node": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        }
+      },
+      {
+        "window": "recent_1d_hv",
+        "kind": "recent",
+        "address": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "from_block": 87073056,
+        "to_block": 87073255,
+        "from_utc": "2026-10-13 11:47:30",
+        "to_utc": "2026-10-13 11:57:27",
+        "v1_transfers": 794,
+        "v1_non_transfer_rows": 0,
+        "v1_zero_value": 0,
+        "v1_pages": 4,
+        "v1_complete": true,
+        "v1_out": 0,
+        "v1_in": 794,
+        "v1_distinct_counterparties_out": 0,
+        "node_transfers": {
+          "trongrid_key": 794,
+          "publicnode": 794
+        },
+        "matched": {
+          "trongrid_key": 794,
+          "publicnode": 794
+        },
+        "node_requests": {
+          "trongrid_key": 2,
+          "publicnode": 2
+        },
+        "node_splits": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_v1": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        },
+        "only_node": {
+          "trongrid_key": 0,
+          "publicnode": 0
+        }
+      }
+    ],
+    "v1_pages_total": 35,
+    "v1_transfers_total": 3794
+  },
+  "event_index": {
+    "publicnode": {
+      "txids": 89,
+      "receipt_empty": 0,
+      "transfer_events": 89,
+      "equal": 89,
+      "differ": 0,
+      "missing_in_receipt": 0,
+      "missing_in_v1": 0,
+      "errors": 0
+    },
+    "trongrid_key": {
+      "txids": 228,
+      "receipt_empty": 0,
+      "transfer_events": 228,
+      "equal": 228,
+      "differ": 0,
+      "missing_in_receipt": 0,
+      "missing_in_v1": 0,
+      "errors": 0
+    },
+    "repeat_request_same_event_index": {
+      "checked": 10,
+      "same": 10
+    }
+  },
+  "pagination": {
+    "hot_wallet_desc": {
+      "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+      "order_by": "block_timestamp,desc",
+      "max_pages": 60,
+      "pages": 60,
+      "complete": false,
+      "rows": 12000,
+      "duplicates": 0,
+      "order_violations": 0,
+      "span_first_utc": "2026-10-13 23:59:30",
+      "span_last_utc": "2026-10-12 16:10:54",
+      "span_hours": 31.81,
+      "rows_per_hour": 377.2,
+      "latency_ms_p50": 548.4,
+      "latency_ms_p95": 826.3,
+      "wall_s": 34.77,
+      "non_transfer_rows": 0,
+      "zero_value_rows": 0
+    },
+    "hub_asc": {
+      "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "order_by": "block_timestamp,asc",
+      "max_pages": 50,
+      "pages": 12,
+      "complete": true,
+      "rows": 2240,
+      "duplicates": 0,
+      "order_violations": 0,
+      "span_first_utc": "2026-08-06 17:43:48",
+      "span_last_utc": "2026-10-13 19:42:39",
+      "span_hours": 1633.98,
+      "rows_per_hour": 1.4,
+      "latency_ms_p50": 503.6,
+      "latency_ms_p95": 787.2,
+      "wall_s": 6.27,
+      "non_transfer_rows": 0,
+      "zero_value_rows": 0
+    }
+  },
+  "load": {
+    "trongrid_keyless": {
+      "requests_total": 200,
+      "declared_limit_rps": 3,
+      "declared_suspension_s": 5,
+      "ramp_steps": [
+        {
+          "step_rps": 1,
+          "sent": 10,
+          "ok": 10,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 1.0,
+          "achieved_ok_rps": 1.088,
+          "wall_s": 9.194,
+          "latency_ms_p50": 189.4,
+          "latency_ms_p95": 529.1,
+          "latency_ms_max": 741.6,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 3,
+              "p50": 100.2,
+              "p95": 100.8
+            },
+            "v1_events": {
+              "n": 3,
+              "p50": 229.8,
+              "p95": 265.4
+            },
+            "v1_trc20": {
+              "n": 4,
+              "p50": 192.2,
+              "p95": 659.5
+            }
+          },
+          "statuses": {
+            "200": 10
+          }
+        },
+        {
+          "step_rps": 2,
+          "sent": 20,
+          "ok": 20,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 2.0,
+          "achieved_ok_rps": 2.064,
+          "wall_s": 9.692,
+          "latency_ms_p50": 190.2,
+          "latency_ms_p95": 237.0,
+          "latency_ms_max": 407.4,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 6,
+              "p50": 110.7,
+              "p95": 115.2
+            },
+            "v1_events": {
+              "n": 7,
+              "p50": 192.6,
+              "p95": 222.8
+            },
+            "v1_trc20": {
+              "n": 7,
+              "p50": 192.7,
+              "p95": 346.0
+            }
+          },
+          "statuses": {
+            "200": 20
+          }
+        },
+        {
+          "step_rps": 3,
+          "sent": 30,
+          "ok": 30,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 3.0,
+          "achieved_ok_rps": 3.071,
+          "wall_s": 9.77,
+          "latency_ms_p50": 192.1,
+          "latency_ms_p95": 240.1,
+          "latency_ms_max": 280.9,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 10,
+              "p50": 102.6,
+              "p95": 111.5
+            },
+            "v1_events": {
+              "n": 10,
+              "p50": 202.3,
+              "p95": 267.2
+            },
+            "v1_trc20": {
+              "n": 10,
+              "p50": 202.4,
+              "p95": 225.7
+            }
+          },
+          "statuses": {
+            "200": 30
+          }
+        },
+        {
+          "step_rps": 4,
+          "sent": 6,
+          "ok": 5,
+          "http_429": 1,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.1667,
+          "offered_rps": 4.0,
+          "achieved_ok_rps": 3.716,
+          "wall_s": 1.346,
+          "latency_ms_p50": 381.7,
+          "latency_ms_p95": 819.8,
+          "latency_ms_max": 898.8,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 2,
+              "p50": 249.4,
+              "p95": 368.5
+            },
+            "v1_events": {
+              "n": 1,
+              "p50": 503.7,
+              "p95": 503.7
+            },
+            "v1_trc20": {
+              "n": 2,
+              "p50": 544.1,
+              "p95": 863.3
+            }
+          },
+          "statuses": {
+            "200": 5,
+            "429": 1
+          }
+        }
+      ],
+      "first_429_step_rps": 4,
+      "first_429": {
+        "seq": 68,
+        "kind": "v1_events",
+        "step_rps": 4,
+        "t_send_s": 1.3003,
+        "ts_send_utc": "2026-10-14T12:53:21.240Z",
+        "requests_before_in_phase": 5,
+        "sent_in_prev_1s": 4,
+        "sent_in_prev_3s": 5,
+        "retry_after": null,
+        "ratelimit_headers": {},
+        "body_snippet": "{\"Error\":\"request rate exceeded the allowed_rps(3), and the query server is suspended for 5 s. To obtain higher request quotas and a more stable service, it is recommended to authenticate with an API Key. Please refer to the documentation: https:\\/\\/developers.tron.network\\/reference\\/select-network",
+        "http_429_total_in_phase": 1
+      },
+      "highest_clean_step_rps": 3,
+      "penalty": [
+        {
+          "probes": [
+            {
+              "offset_s": 1,
+              "status": 429
+            },
+            {
+              "offset_s": 2,
+              "status": 429
+            },
+            {
+              "offset_s": 3,
+              "status": 429
+            },
+            {
+              "offset_s": 4,
+              "status": 429
+            },
+            {
+              "offset_s": 5,
+              "status": 200
+            }
+          ],
+          "first_ok_offset_s": 5,
+          "last_429_offset_s": 4
+        },
+        {
+          "probes": [
+            {
+              "offset_s": 1,
+              "status": 429
+            },
+            {
+              "offset_s": 2,
+              "status": 429
+            },
+            {
+              "offset_s": 3,
+              "status": 429
+            },
+            {
+              "offset_s": 4,
+              "status": 429
+            },
+            {
+              "offset_s": 5,
+              "status": 200
+            }
+          ],
+          "first_ok_offset_s": 5,
+          "last_429_offset_s": 4
+        }
+      ],
+      "sustained_runs": [
+        {
+          "rate_rps": 3,
+          "sent": 4,
+          "ok": 3,
+          "http_429": 1,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.25,
+          "offered_rps": 3.002,
+          "achieved_ok_rps": 2.749,
+          "wall_s": 1.091,
+          "latency_ms_p50": 379.3,
+          "latency_ms_p95": 514.3,
+          "latency_ms_max": 529.3,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 1,
+              "p50": 379.3,
+              "p95": 379.3
+            },
+            "v1_events": {
+              "n": 1,
+              "p50": 190.6,
+              "p95": 190.6
+            },
+            "v1_trc20": {
+              "n": 1,
+              "p50": 529.3,
+              "p95": 529.3
+            }
+          },
+          "statuses": {
+            "200": 3,
+            "429": 1
+          },
+          "first_429": {
+            "seq": 87,
+            "kind": "v1_trc20",
+            "step_rps": 3,
+            "t_send_s": 1.0503,
+            "ts_send_utc": "2026-10-14T12:53:33.594Z",
+            "requests_before_in_phase": 3,
+            "sent_in_prev_1s": 3,
+            "sent_in_prev_3s": 3,
+            "retry_after": null,
+            "ratelimit_headers": {},
+            "body_snippet": "{\"Error\":\"request rate exceeded the allowed_rps(3), and the query server is suspended for 5 s. To obtain higher request quotas and a more stable service, it is recommended to authenticate with an API Key. Please refer to the documentation: https:\\/\\/developers.tron.network\\/reference\\/select-network",
+            "http_429_total_in_phase": 1
+          }
+        },
+        {
+          "rate_rps": 2,
+          "sent": 120,
+          "ok": 120,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 2.0,
+          "achieved_ok_rps": 2.01,
+          "wall_s": 59.691,
+          "latency_ms_p50": 191.5,
+          "latency_ms_p95": 427.5,
+          "latency_ms_max": 890.1,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 40,
+              "p50": 104.1,
+              "p95": 395.3
+            },
+            "v1_events": {
+              "n": 40,
+              "p50": 195.1,
+              "p95": 432.4
+            },
+            "v1_trc20": {
+              "n": 40,
+              "p50": 197.9,
+              "p95": 428.4
+            }
+          },
+          "statuses": {
+            "200": 120
+          },
+          "first_429": null
+        }
+      ],
+      "sustained": {
+        "rate_rps": 2,
+        "sent": 120,
+        "ok": 120,
+        "http_429": 0,
+        "other_http_errors": 0,
+        "transport_errors": 0,
+        "error_share": 0.0,
+        "offered_rps": 2.0,
+        "achieved_ok_rps": 2.01,
+        "wall_s": 59.691,
+        "latency_ms_p50": 191.5,
+        "latency_ms_p95": 427.5,
+        "latency_ms_max": 890.1,
+        "latency_by_kind": {
+          "node_txinfo": {
+            "n": 40,
+            "p50": 104.1,
+            "p95": 395.3
+          },
+          "v1_events": {
+            "n": 40,
+            "p50": 195.1,
+            "p95": 432.4
+          },
+          "v1_trc20": {
+            "n": 40,
+            "p50": 197.9,
+            "p95": 428.4
+          }
+        },
+        "statuses": {
+          "200": 120
+        },
+        "first_429": null
+      },
+      "latency_all_ok": {
+        "n": 190,
+        "p50": 191.5,
+        "p95": 428.4
+      }
+    },
+    "trongrid_key": {
+      "requests_total": 733,
+      "declared_limit_rps": 15,
+      "declared_suspension_s": 30,
+      "ramp_steps": [
+        {
+          "step_rps": 5,
+          "sent": 50,
+          "ok": 50,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 5.0,
+          "achieved_ok_rps": 5.001,
+          "wall_s": 9.998,
+          "latency_ms_p50": 199.8,
+          "latency_ms_p95": 575.2,
+          "latency_ms_max": 692.3,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 17,
+              "p50": 123.4,
+              "p95": 682.4
+            },
+            "v1_events": {
+              "n": 16,
+              "p50": 198.2,
+              "p95": 309.8
+            },
+            "v1_trc20": {
+              "n": 17,
+              "p50": 209.8,
+              "p95": 363.7
+            }
+          },
+          "statuses": {
+            "200": 50
+          }
+        },
+        {
+          "step_rps": 10,
+          "sent": 100,
+          "ok": 100,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 10.0,
+          "achieved_ok_rps": 9.873,
+          "wall_s": 10.129,
+          "latency_ms_p50": 193.9,
+          "latency_ms_p95": 469.3,
+          "latency_ms_max": 697.2,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 33,
+              "p50": 108.7,
+              "p95": 546.6
+            },
+            "v1_events": {
+              "n": 33,
+              "p50": 198.7,
+              "p95": 471.4
+            },
+            "v1_trc20": {
+              "n": 34,
+              "p50": 200.2,
+              "p95": 373.3
+            }
+          },
+          "statuses": {
+            "200": 100
+          }
+        },
+        {
+          "step_rps": 15,
+          "sent": 89,
+          "ok": 87,
+          "http_429": 2,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0225,
+          "offered_rps": 15.002,
+          "achieved_ok_rps": 14.48,
+          "wall_s": 6.008,
+          "latency_ms_p50": 196.1,
+          "latency_ms_p95": 559.3,
+          "latency_ms_max": 735.1,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 29,
+              "p50": 109.0,
+              "p95": 631.0
+            },
+            "v1_events": {
+              "n": 29,
+              "p50": 200.9,
+              "p95": 358.7
+            },
+            "v1_trc20": {
+              "n": 29,
+              "p50": 196.3,
+              "p95": 246.5
+            }
+          },
+          "statuses": {
+            "200": 87,
+            "429": 2
+          }
+        }
+      ],
+      "first_429_step_rps": 15,
+      "first_429": {
+        "seq": 239,
+        "kind": "v1_events",
+        "step_rps": 15,
+        "t_send_s": 5.8503,
+        "ts_send_utc": "2026-10-14T12:55:26.715Z",
+        "requests_before_in_phase": 87,
+        "sent_in_prev_1s": 15,
+        "sent_in_prev_3s": 45,
+        "retry_after": null,
+        "ratelimit_headers": {},
+        "body_snippet": "{\"Error\":\"The key exceeds the frequency limit(15), and the query server is suspended for 30 s\"}\n",
+        "http_429_total_in_phase": 2
+      },
+      "highest_clean_step_rps": 10,
+      "penalty": [
+        {
+          "probes": [
+            {
+              "offset_s": 1,
+              "status": 429
+            },
+            {
+              "offset_s": 2,
+              "status": 429
+            },
+            {
+              "offset_s": 3,
+              "status": 429
+            },
+            {
+              "offset_s": 4,
+              "status": 429
+            },
+            {
+              "offset_s": 5,
+              "status": 429
+            },
+            {
+              "offset_s": 6,
+              "status": 429
+            },
+            {
+              "offset_s": 7,
+              "status": 429
+            },
+            {
+              "offset_s": 8,
+              "status": 429
+            },
+            {
+              "offset_s": 10,
+              "status": 429
+            },
+            {
+              "offset_s": 12,
+              "status": 429
+            },
+            {
+              "offset_s": 15,
+              "status": 429
+            },
+            {
+              "offset_s": 20,
+              "status": 429
+            },
+            {
+              "offset_s": 30,
+              "status": 200
+            }
+          ],
+          "first_ok_offset_s": 30,
+          "last_429_offset_s": 20
+        },
+        {
+          "probes": [
+            {
+              "offset_s": 1,
+              "status": 429
+            },
+            {
+              "offset_s": 2,
+              "status": 429
+            },
+            {
+              "offset_s": 3,
+              "status": 429
+            },
+            {
+              "offset_s": 4,
+              "status": 429
+            },
+            {
+              "offset_s": 5,
+              "status": 429
+            },
+            {
+              "offset_s": 6,
+              "status": 429
+            },
+            {
+              "offset_s": 7,
+              "status": 429
+            },
+            {
+              "offset_s": 8,
+              "status": 429
+            },
+            {
+              "offset_s": 10,
+              "status": 429
+            },
+            {
+              "offset_s": 12,
+              "status": 429
+            },
+            {
+              "offset_s": 15,
+              "status": 429
+            },
+            {
+              "offset_s": 20,
+              "status": 429
+            },
+            {
+              "offset_s": 30,
+              "status": 200
+            }
+          ],
+          "first_ok_offset_s": 30,
+          "last_429_offset_s": 20
+        }
+      ],
+      "sustained_runs": [
+        {
+          "rate_rps": 13,
+          "sent": 18,
+          "ok": 16,
+          "http_429": 2,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.1111,
+          "offered_rps": 13.003,
+          "achieved_ok_rps": 11.416,
+          "wall_s": 1.401,
+          "latency_ms_p50": 263.2,
+          "latency_ms_p95": 495.7,
+          "latency_ms_max": 509.4,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 6,
+              "p50": 338.1,
+              "p95": 383.7
+            },
+            "v1_events": {
+              "n": 5,
+              "p50": 451.9,
+              "p95": 505.7
+            },
+            "v1_trc20": {
+              "n": 5,
+              "p50": 200.7,
+              "p95": 416.6
+            }
+          },
+          "statuses": {
+            "200": 16,
+            "429": 2
+          },
+          "first_429": {
+            "seq": 272,
+            "kind": "v1_events",
+            "step_rps": 13,
+            "t_send_s": 1.281,
+            "ts_send_utc": "2026-10-14T12:56:04.675Z",
+            "requests_before_in_phase": 16,
+            "sent_in_prev_1s": 13,
+            "sent_in_prev_3s": 16,
+            "retry_after": null,
+            "ratelimit_headers": {},
+            "body_snippet": "{\"Error\":\"The key exceeds the frequency limit(15), and the query server is suspended for 30 s\"}\n",
+            "http_429_total_in_phase": 2
+          }
+        },
+        {
+          "rate_rps": 10,
+          "sent": 450,
+          "ok": 450,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 10.0,
+          "achieved_ok_rps": 9.911,
+          "wall_s": 45.403,
+          "latency_ms_p50": 200.4,
+          "latency_ms_p95": 500.7,
+          "latency_ms_max": 969.0,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 150,
+              "p50": 120.8,
+              "p95": 629.5
+            },
+            "v1_events": {
+              "n": 150,
+              "p50": 206.4,
+              "p95": 429.5
+            },
+            "v1_trc20": {
+              "n": 150,
+              "p50": 206.2,
+              "p95": 458.0
+            }
+          },
+          "statuses": {
+            "200": 450
+          },
+          "first_429": null
+        }
+      ],
+      "sustained": {
+        "rate_rps": 10,
+        "sent": 450,
+        "ok": 450,
+        "http_429": 0,
+        "other_http_errors": 0,
+        "transport_errors": 0,
+        "error_share": 0.0,
+        "offered_rps": 10.0,
+        "achieved_ok_rps": 9.911,
+        "wall_s": 45.403,
+        "latency_ms_p50": 200.4,
+        "latency_ms_p95": 500.7,
+        "latency_ms_max": 969.0,
+        "latency_by_kind": {
+          "node_txinfo": {
+            "n": 150,
+            "p50": 120.8,
+            "p95": 629.5
+          },
+          "v1_events": {
+            "n": 150,
+            "p50": 206.4,
+            "p95": 429.5
+          },
+          "v1_trc20": {
+            "n": 150,
+            "p50": 206.2,
+            "p95": 458.0
+          }
+        },
+        "statuses": {
+          "200": 450
+        },
+        "first_429": null
+      },
+      "latency_all_ok": {
+        "n": 705,
+        "p50": 198.7,
+        "p95": 508.7
+      }
+    },
+    "publicnode": {
+      "requests_total": 640,
+      "declared_limit_rps": null,
+      "declared_suspension_s": null,
+      "ramp_steps": [
+        {
+          "step_rps": 2,
+          "sent": 16,
+          "ok": 16,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 2.0,
+          "achieved_ok_rps": 2.107,
+          "wall_s": 7.594,
+          "latency_ms_p50": 96.2,
+          "latency_ms_p95": 164.9,
+          "latency_ms_max": 295.9,
+          "latency_by_kind": {
+            "node_getaccount": {
+              "n": 5,
+              "p50": 96.6,
+              "p95": 116.4
+            },
+            "node_getblock": {
+              "n": 5,
+              "p50": 95.9,
+              "p95": 99.7
+            },
+            "node_txinfo": {
+              "n": 6,
+              "p50": 96.9,
+              "p95": 248.5
+            }
+          },
+          "statuses": {
+            "200": 16
+          }
+        },
+        {
+          "step_rps": 4,
+          "sent": 32,
+          "ok": 32,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 4.0,
+          "achieved_ok_rps": 4.079,
+          "wall_s": 7.845,
+          "latency_ms_p50": 96.1,
+          "latency_ms_p95": 287.0,
+          "latency_ms_max": 516.4,
+          "latency_by_kind": {
+            "node_getaccount": {
+              "n": 10,
+              "p50": 95.6,
+              "p95": 189.7
+            },
+            "node_getblock": {
+              "n": 11,
+              "p50": 95.1,
+              "p95": 310.8
+            },
+            "node_txinfo": {
+              "n": 11,
+              "p50": 99.5,
+              "p95": 224.9
+            }
+          },
+          "statuses": {
+            "200": 32
+          }
+        },
+        {
+          "step_rps": 6,
+          "sent": 48,
+          "ok": 48,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 6.0,
+          "achieved_ok_rps": 6.051,
+          "wall_s": 7.932,
+          "latency_ms_p50": 97.3,
+          "latency_ms_p95": 124.7,
+          "latency_ms_max": 165.0,
+          "latency_by_kind": {
+            "node_getaccount": {
+              "n": 16,
+              "p50": 96.7,
+              "p95": 105.8
+            },
+            "node_getblock": {
+              "n": 16,
+              "p50": 95.9,
+              "p95": 115.8
+            },
+            "node_txinfo": {
+              "n": 16,
+              "p50": 98.2,
+              "p95": 154.9
+            }
+          },
+          "statuses": {
+            "200": 48
+          }
+        },
+        {
+          "step_rps": 8,
+          "sent": 64,
+          "ok": 64,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 8.0,
+          "achieved_ok_rps": 8.033,
+          "wall_s": 7.967,
+          "latency_ms_p50": 96.8,
+          "latency_ms_p95": 107.4,
+          "latency_ms_max": 215.1,
+          "latency_by_kind": {
+            "node_getaccount": {
+              "n": 21,
+              "p50": 96.6,
+              "p95": 106.8
+            },
+            "node_getblock": {
+              "n": 21,
+              "p50": 98.1,
+              "p95": 107.4
+            },
+            "node_txinfo": {
+              "n": 22,
+              "p50": 96.2,
+              "p95": 107.3
+            }
+          },
+          "statuses": {
+            "200": 64
+          }
+        },
+        {
+          "step_rps": 10,
+          "sent": 80,
+          "ok": 80,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 10.0,
+          "achieved_ok_rps": 9.981,
+          "wall_s": 8.015,
+          "latency_ms_p50": 101.3,
+          "latency_ms_p95": 122.5,
+          "latency_ms_max": 260.6,
+          "latency_by_kind": {
+            "node_getaccount": {
+              "n": 26,
+              "p50": 99.5,
+              "p95": 121.6
+            },
+            "node_getblock": {
+              "n": 27,
+              "p50": 97.9,
+              "p95": 120.7
+            },
+            "node_txinfo": {
+              "n": 27,
+              "p50": 104.6,
+              "p95": 120.0
+            }
+          },
+          "statuses": {
+            "200": 80
+          }
+        }
+      ],
+      "first_429_step_rps": null,
+      "first_429": null,
+      "highest_clean_step_rps": 10,
+      "penalty": [],
+      "sustained_runs": [
+        {
+          "rate_rps": 10,
+          "sent": 400,
+          "ok": 400,
+          "http_429": 0,
+          "other_http_errors": 0,
+          "transport_errors": 0,
+          "error_share": 0.0,
+          "offered_rps": 10.0,
+          "achieved_ok_rps": 10.001,
+          "wall_s": 39.994,
+          "latency_ms_p50": 101.1,
+          "latency_ms_p95": 134.6,
+          "latency_ms_max": 587.8,
+          "latency_by_kind": {
+            "node_getaccount": {
+              "n": 133,
+              "p50": 99.7,
+              "p95": 122.4
+            },
+            "node_getblock": {
+              "n": 134,
+              "p50": 100.8,
+              "p95": 130.9
+            },
+            "node_txinfo": {
+              "n": 133,
+              "p50": 103.7,
+              "p95": 177.8
+            }
+          },
+          "statuses": {
+            "200": 400
+          },
+          "first_429": null
+        }
+      ],
+      "sustained": {
+        "rate_rps": 10,
+        "sent": 400,
+        "ok": 400,
+        "http_429": 0,
+        "other_http_errors": 0,
+        "transport_errors": 0,
+        "error_share": 0.0,
+        "offered_rps": 10.0,
+        "achieved_ok_rps": 10.001,
+        "wall_s": 39.994,
+        "latency_ms_p50": 101.1,
+        "latency_ms_p95": 134.6,
+        "latency_ms_max": 587.8,
+        "latency_by_kind": {
+          "node_getaccount": {
+            "n": 133,
+            "p50": 99.7,
+            "p95": 122.4
+          },
+          "node_getblock": {
+            "n": 134,
+            "p50": 100.8,
+            "p95": 130.9
+          },
+          "node_txinfo": {
+            "n": 133,
+            "p50": 103.7,
+            "p95": 177.8
+          }
+        },
+        "statuses": {
+          "200": 400
+        },
+        "first_429": null
+      },
+      "latency_all_ok": {
+        "n": 640,
+        "p50": 99.4,
+        "p95": 130.3
+      }
+    }
+  },
+  "not_measured": [
+    {
+      "what": "свежесть (отставание solidified): платный TRON RPC (TRON_RPC_URL)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL; код подхватит его сам"
+    },
+    {
+      "what": "свежесть (отставание solidified): платный TRON RPC (TRON_RPC_URL_2)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL_2 не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL_2; код подхватит его сам"
+    },
+    {
+      "what": "глубина истории (архивность): платный TRON RPC (TRON_RPC_URL)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL; код подхватит его сам"
+    },
+    {
+      "what": "глубина истории (архивность): платный TRON RPC (TRON_RPC_URL_2)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL_2 не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL_2; код подхватит его сам"
+    },
+    {
+      "what": "совпадение транзакций с TronGrid: платный TRON RPC (TRON_RPC_URL)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL; код подхватит его сам"
+    },
+    {
+      "what": "совпадение транзакций с TronGrid: платный TRON RPC (TRON_RPC_URL_2)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL_2 не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL_2; код подхватит его сам"
+    },
+    {
+      "what": "полнота истории TRC20 (логи независимого архивного узла по окну case-001): платный TRON RPC (TRON_RPC_URL)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL; код подхватит его сам"
+    },
+    {
+      "what": "полнота истории TRC20 (логи независимого архивного узла по окну case-001): платный TRON RPC (TRON_RPC_URL_2)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL_2 не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL_2; код подхватит его сам"
+    },
+    {
+      "what": "лимит, задержки, устойчивая скорость: платный TRON RPC (TRON_RPC_URL)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL; код подхватит его сам"
+    },
+    {
+      "what": "лимит, задержки, устойчивая скорость: платный TRON RPC (TRON_RPC_URL_2)",
+      "why": "не измерено: нет ключа (TRON_RPC_URL_2 не задан)",
+      "needed": "URL узла провайдера в .env как TRON_RPC_URL_2; код подхватит его сам"
+    }
+  ],
+  "errors": [],
+  "projection_inputs": {
+    "load": {
+      "trongrid_keyless": {
+        "first_429_step_rps": 4,
+        "declared_limit_rps": 3,
+        "declared_suspension_s": 5,
+        "highest_clean_step_rps": 3,
+        "sustained": {
+          "rate_rps": 2,
+          "achieved_ok_rps": 2.01,
+          "error_share": 0.0,
+          "latency_ms_p50": 191.5,
+          "latency_ms_p95": 427.5,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 40,
+              "p50": 104.1,
+              "p95": 395.3
+            },
+            "v1_events": {
+              "n": 40,
+              "p50": 195.1,
+              "p95": 432.4
+            },
+            "v1_trc20": {
+              "n": 40,
+              "p50": 197.9,
+              "p95": 428.4
+            }
+          },
+          "http_429": 0,
+          "sent": 120
+        },
+        "penalty_first_ok_offset_s": [
+          5,
+          5
+        ]
+      },
+      "trongrid_key": {
+        "first_429_step_rps": 15,
+        "declared_limit_rps": 15,
+        "declared_suspension_s": 30,
+        "highest_clean_step_rps": 10,
+        "sustained": {
+          "rate_rps": 10,
+          "achieved_ok_rps": 9.911,
+          "error_share": 0.0,
+          "latency_ms_p50": 200.4,
+          "latency_ms_p95": 500.7,
+          "latency_by_kind": {
+            "node_txinfo": {
+              "n": 150,
+              "p50": 120.8,
+              "p95": 629.5
+            },
+            "v1_events": {
+              "n": 150,
+              "p50": 206.4,
+              "p95": 429.5
+            },
+            "v1_trc20": {
+              "n": 150,
+              "p50": 206.2,
+              "p95": 458.0
+            }
+          },
+          "http_429": 0,
+          "sent": 450
+        },
+        "penalty_first_ok_offset_s": [
+          30,
+          30
+        ]
+      },
+      "publicnode": {
+        "first_429_step_rps": null,
+        "declared_limit_rps": null,
+        "declared_suspension_s": null,
+        "highest_clean_step_rps": 10,
+        "sustained": {
+          "rate_rps": 10,
+          "achieved_ok_rps": 10.001,
+          "error_share": 0.0,
+          "latency_ms_p50": 101.1,
+          "latency_ms_p95": 134.6,
+          "latency_by_kind": {
+            "node_getaccount": {
+              "n": 133,
+              "p50": 99.7,
+              "p95": 122.4
+            },
+            "node_getblock": {
+              "n": 134,
+              "p50": 100.8,
+              "p95": 130.9
+            },
+            "node_txinfo": {
+              "n": 133,
+              "p50": 103.7,
+              "p95": 177.8
+            }
+          },
+          "http_429": 0,
+          "sent": 400
+        },
+        "penalty_first_ok_offset_s": []
+      }
+    },
+    "address_windows": [
+      {
+        "address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 4,
+        "v1_pages": 1,
+        "v1_out": 2,
+        "v1_distinct_counterparties_out": 2,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 19,
+        "v1_pages": 1,
+        "v1_out": 13,
+        "v1_distinct_counterparties_out": 10,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 3,
+        "v1_pages": 1,
+        "v1_out": 2,
+        "v1_distinct_counterparties_out": 2,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 3,
+        "v1_pages": 1,
+        "v1_out": 2,
+        "v1_distinct_counterparties_out": 2,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 3,
+        "v1_pages": 1,
+        "v1_out": 2,
+        "v1_distinct_counterparties_out": 2,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 1,
+        "v1_pages": 1,
+        "v1_out": 0,
+        "v1_distinct_counterparties_out": 0,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 1,
+        "v1_pages": 1,
+        "v1_out": 0,
+        "v1_distinct_counterparties_out": 0,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 18,
+        "v1_pages": 1,
+        "v1_out": 5,
+        "v1_distinct_counterparties_out": 5,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 2,
+        "v1_pages": 1,
+        "v1_out": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 2,
+        "v1_pages": 1,
+        "v1_out": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 4,
+        "v1_pages": 1,
+        "v1_out": 0,
+        "v1_distinct_counterparties_out": 0,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+        "window": "w1_theft_day",
+        "kind": "case",
+        "blocks": 7000,
+        "v1_transfers": 1551,
+        "v1_pages": 8,
+        "v1_out": 1055,
+        "v1_distinct_counterparties_out": 909,
+        "node_requests_trongrid": 4
+      },
+      {
+        "address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+        "window": "w2_next_day",
+        "kind": "case",
+        "blocks": 1000,
+        "v1_transfers": 2,
+        "v1_pages": 1,
+        "v1_out": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_requests_trongrid": 2
+      },
+      {
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "window": "w2_next_day",
+        "kind": "case",
+        "blocks": 1000,
+        "v1_transfers": 2,
+        "v1_pages": 1,
+        "v1_out": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_requests_trongrid": 2
+      },
+      {
+        "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "window": "hv_hot_wallet",
+        "kind": "case",
+        "blocks": 200,
+        "v1_transfers": 126,
+        "v1_pages": 1,
+        "v1_out": 61,
+        "v1_distinct_counterparties_out": 60,
+        "node_requests_trongrid": 2
+      },
+      {
+        "address": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "window": "hv_fee_collector",
+        "kind": "case",
+        "blocks": 120,
+        "v1_transfers": 407,
+        "v1_pages": 3,
+        "v1_out": 1,
+        "v1_distinct_counterparties_out": 1,
+        "node_requests_trongrid": 2
+      },
+      {
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "window": "recent_1d",
+        "kind": "recent",
+        "blocks": 5000,
+        "v1_transfers": 14,
+        "v1_pages": 1,
+        "v1_out": 4,
+        "v1_distinct_counterparties_out": 4,
+        "node_requests_trongrid": 2
+      },
+      {
+        "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+        "window": "recent_1d",
+        "kind": "recent",
+        "blocks": 5000,
+        "v1_transfers": 742,
+        "v1_pages": 4,
+        "v1_out": 408,
+        "v1_distinct_counterparties_out": 363,
+        "node_requests_trongrid": 2
+      },
+      {
+        "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "window": "recent_1d_hv",
+        "kind": "recent",
+        "blocks": 200,
+        "v1_transfers": 96,
+        "v1_pages": 1,
+        "v1_out": 52,
+        "v1_distinct_counterparties_out": 51,
+        "node_requests_trongrid": 2
+      },
+      {
+        "address": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "window": "recent_1d_hv",
+        "kind": "recent",
+        "blocks": 200,
+        "v1_transfers": 794,
+        "v1_pages": 4,
+        "v1_out": 0,
+        "v1_distinct_counterparties_out": 0,
+        "node_requests_trongrid": 2
+      }
+    ],
+    "pagination": {
+      "hot_wallet_desc": {
+        "rows": 12000,
+        "pages": 60,
+        "complete": false,
+        "rows_per_hour": 377.2,
+        "latency_ms_p50": 548.4
+      },
+      "hub_asc": {
+        "rows": 2240,
+        "pages": 12,
+        "complete": true,
+        "rows_per_hour": 1.4,
+        "latency_ms_p50": 503.6
+      }
+    },
+    "freshness": {
+      "samples": 8,
+      "sources": {
+        "publicnode": {
+          "solid_lag_blocks": {
+            "min": 17,
+            "median": 18.0,
+            "max": 18
+          },
+          "solid_lag_s": {
+            "min": 51.0,
+            "median": 54.0,
+            "max": 54.0
+          },
+          "head_age_vs_local_clock_s": {
+            "median": 2.5,
+            "max": 4.413
+          },
+          "n": 8,
+          "head_behind_trongrid_key_blocks": {
+            "min": 0,
+            "median": 0.0,
+            "max": 1
+          }
+        },
+        "trongrid_key": {
+          "solid_lag_blocks": {
+            "min": 18,
+            "median": 18.0,
+            "max": 18
+          },
+          "solid_lag_s": {
+            "min": 54.0,
+            "median": 54.0,
+            "max": 54.0
+          },
+          "head_age_vs_local_clock_s": {
+            "median": 1.3,
+            "max": 2.809
+          },
+          "n": 8
+        }
+      },
+      "trongrid_v1_index": {
+        "latest_event_behind_head_blocks": {
+          "min": 0,
+          "median": 1.0,
+          "max": 1
+        },
+        "latest_confirmed_event_behind_solid_blocks": {
+          "min": 1,
+          "median": 1.5,
+          "max": 2
+        },
+        "note": "positive = the v1 index is behind the node; the latest USDT Transfer event is a proxy (USDT has transfers in almost every block)"
+      }
+    },
+    "publicnode_depth_days": 10.79
+  }
+}

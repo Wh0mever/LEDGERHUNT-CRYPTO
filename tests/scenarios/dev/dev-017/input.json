@@ -1,0 +1,42 @@
+{
+ "schema": "ledgerhunt.scenario-input/1",
+ "scenario_id": "dev-017",
+ "split": "dev",
+ "synthetic": true,
+ "start": {
+  "chain": "tron",
+  "txid": "944115ecbb1ec987373efd6cbc6799602fe9ad583bf34e8d46ce5f82db758f81"
+ },
+ "params": {
+  "max_depth": 20,
+  "asset": "USDT-TRC20",
+  "token_contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+  "snapshot_utc": "2026-03-03T05:30:45Z"
+ },
+ "context": {
+  "labels": [
+   {
+    "address": "TKaUMZRHaYqEMY535MPQMxGFURtv6DJkJK",
+    "entity": "SynthEx Alpha",
+    "type": "exchange_hot_wallet",
+    "source": "synthetic_registry"
+   }
+  ],
+  "supported_bridges": [
+   {
+    "protocol": "usdt0_oft",
+    "dst_eids": [
+     30101
+    ]
+   }
+  ]
+ },
+ "store": "http-store",
+ "request_profile": "scenario-profile/1",
+ "providers": {
+  "primary_index": "trongrid",
+  "secondary_receipts": "tron_publicnode",
+  "bridge_api": "layerzero_scan"
+ },
+ "reference": null
+}

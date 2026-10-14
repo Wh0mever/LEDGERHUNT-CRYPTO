@@ -1,0 +1,80 @@
+[
+  {
+    "provider": "trongrid",
+    "endpoint": "v1/accounts/{address}/transactions/trc20",
+    "real_samples": 9,
+    "synthetic_samples": 497,
+    "checked": true,
+    "missing_in_synthetic": [],
+    "extra_in_synthetic": []
+  },
+  {
+    "provider": "trongrid",
+    "endpoint": "v1/accounts/{address}/transactions",
+    "real_samples": 2,
+    "synthetic_samples": 499,
+    "checked": true,
+    "missing_in_synthetic": [
+      "meta.fingerprint",
+      "meta.links",
+      "meta.links.next"
+    ],
+    "extra_in_synthetic": [
+      "data[].raw_data.fee_limit"
+    ]
+  },
+  {
+    "provider": "trongrid",
+    "endpoint": "v1/transactions/{hash}/events",
+    "real_samples": 9,
+    "synthetic_samples": 444,
+    "checked": true,
+    "missing_in_synthetic": [],
+    "extra_in_synthetic": [
+      "data[].result.owner",
+      "data[].result.spender",
+      "data[].result_type.owner",
+      "data[].result_type.spender"
+    ]
+  },
+  {
+    "provider": "trongrid",
+    "endpoint": "wallet/gettransactionbyid",
+    "real_samples": 3,
+    "synthetic_samples": 456,
+    "checked": true,
+    "missing_in_synthetic": [],
+    "extra_in_synthetic": []
+  },
+  {
+    "provider": "trongrid",
+    "endpoint": "walletsolidity/gettransactioninfobyid",
+    "real_samples": 9,
+    "synthetic_samples": 456,
+    "checked": true,
+    "missing_in_synthetic": [],
+    "extra_in_synthetic": [
+      "receipt.net_usage",
+      "resMessage",
+      "result"
+    ]
+  },
+  {
+    "provider": "trongrid",
+    "endpoint": "wallet/triggerconstantcontract",
+    "real_samples": 2,
+    "synthetic_samples": 499,
+    "checked": true,
+    "missing_in_synthetic": [],
+    "extra_in_synthetic": []
+  },
+  {
+    "provider": "layerzero_scan",
+    "endpoint": "v1/messages/tx/{hash}",
+    "real_samples": 8,
+    "synthetic_samples": 5,
+    "checked": true,
+    "missing_in_synthetic": [],
+    "extra_in_synthetic": []
+  }
+]

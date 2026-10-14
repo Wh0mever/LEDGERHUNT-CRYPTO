@@ -1,0 +1,1977 @@
+{
+  "meta": {
+    "algorithm": "baseline-v1",
+    "start_txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+    "thresholds": {
+      "follow_window_s": 21600,
+      "drain_tolerance_share": "0.001",
+      "follow_min_share": "0.2",
+      "dust_max_amount": "1",
+      "exact_cut_shares": [
+        "0.01"
+      ],
+      "remainder_window_s": 3600,
+      "hub_window_s": 86400,
+      "hub_min_counterparties": 10,
+      "hub_volume_multiple": 5,
+      "exit_max_checks": 10,
+      "deposit_window_s": 21600,
+      "deposit_forward_min_share": "0.99",
+      "deposit_forward_max_delay_s": 3600,
+      "deposit_max_counterparties": 3,
+      "theft_context_window_s": 120,
+      "incoming_lookback_s": 7200,
+      "funding_min_trx_sun": 1000000,
+      "funder_inbound_page_limit": 50,
+      "funder_fanout_page_limit": 200,
+      "funder_fanout_service_threshold": 50,
+      "trc20_page_limit": 200,
+      "max_pages": 5,
+      "blockscout_max_pages": 5
+    },
+    "bridge_registry": [
+      {
+        "id": "usdt0_oft_tron",
+        "protocol": "USDT0 (LayerZero OFT)",
+        "chain": "tron",
+        "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+        "detect": "event OFTSent in the transaction receipt",
+        "source": "on-chain contract name 'UsdtOFT' (TronGrid wallet/getcontract); LayerZero Scan pathway sender id 'usdt0' for this contract (observed in case-001 raw data)"
+      },
+      {
+        "id": "usdt0_oft_ethereum",
+        "protocol": "USDT0 (LayerZero OFT)",
+        "chain": "ethereum",
+        "address": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+        "detect": "event OFTReceived in the destination transaction",
+        "source": "Blockscout verified contract name 'UsdtOFT'; LayerZero Scan pathway receiver id 'usdt0' (observed in case-001 raw data)"
+      },
+      {
+        "id": "rango_diamond_ethereum",
+        "protocol": "Rango (aggregator)",
+        "chain": "ethereum",
+        "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+        "detect": "event RangoBridgeInitiated in the transaction logs",
+        "source": "Blockscout verified contract name 'RangoDiamond' (observed in case-001 raw data)"
+      },
+      {
+        "id": "near_intents_1click",
+        "protocol": "NEAR Intents 1Click",
+        "chain": "any",
+        "address": "",
+        "detect": "GET https://1click.chaindefuser.com/v0/status?depositAddress=<address> answers with a swap",
+        "source": "NEAR Intents 1Click public status API"
+      }
+    ],
+    "event_sources": {
+      "Transfer": "ERC-20 / TRC-20 standard",
+      "Approval": "ERC-20 / TRC-20 standard",
+      "OFTSent": "LayerZero V2 OFT standard; TronGrid v1 decodes it as OFTSent for the USDT0 contract; keccak topic equals topic0 of the raw TRON log (observed in case-001 raw data)",
+      "OFTReceived": "LayerZero V2 OFT standard; keccak topic equals topic0 of the raw Ethereum log (observed in case-001 raw data)",
+      "RangoBridgeInitiated": "Blockscout verified ABI of RangoDiamond (decoded method_call); keccak topic equals topic0 of the raw log (observed in case-001 raw data)",
+      "FeeInfo": "Blockscout verified ABI of RangoDiamond; keccak topic equals raw topic0 (observed)",
+      "Routed": "Blockscout verified ABI of RangoRouter; keccak topic equals raw topic0 (observed)"
+    },
+    "layerzero_eids": {
+      "30101": "ethereum",
+      "30420": "tron"
+    },
+    "exchange_hot_wallet_labels": {
+      "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ": {
+        "chain": "tron",
+        "exchange": "WhiteBIT",
+        "source": "TronScan public address tag, taken from the manual case-001 investigation. Stage 2 re-check (one keyless TronScan account lookup) got HTTP 401: not re-verified, needs TRONSCAN_API_KEY and written consent",
+        "status": "TronScan, pending written consent, not stored in any label store"
+      }
+    },
+    "ai_used": false
+  },
+  "result": {
+    "start": {
+      "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+      "chain": "tron",
+      "block": 86439360,
+      "timestamp_utc": "2026-09-21 11:32:39",
+      "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+      "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+      "amount": "13041.400772",
+      "asset": "USDT-TRC20",
+      "contract_ret": "SUCCESS",
+      "receipt_result": "SUCCESS",
+      "calldata_matches_log": true,
+      "fee_trx": "0.345000",
+      "energy_usage_total": 130285,
+      "evidence": [
+        "trongrid:gettransactionbyid:98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+        "trongrid:gettransactioninfobyid:98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb"
+      ]
+    },
+    "victim": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "mechanism": {
+      "signature_count": 1,
+      "txid_matches_raw_data": true,
+      "recovered_signers": [
+        "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+      ],
+      "permission_id": 0,
+      "permission_used": "owner",
+      "owner_permission": {
+        "threshold": 1,
+        "keys": [
+          "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+        ]
+      },
+      "active_permissions": [
+        {
+          "id": 2,
+          "threshold": 1,
+          "keys": [
+            "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+          ]
+        }
+      ],
+      "permission_update_txids": [],
+      "outgoing_history_complete": true,
+      "outgoing_history_rows": 8,
+      "signed_by_victim_owner_key": true,
+      "permissions_unchanged": true,
+      "conclusion": "transaction signed with the victim's own owner key; permissions never changed -> key/seed compromise (not a permission takeover)",
+      "evidence": [
+        "trongrid:gettransactionbyid:98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+        "trongrid:getaccount:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "trongrid:transactions:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:from:None-None:limit=200:pages=5"
+      ]
+    },
+    "theft_context": {
+      "incoming_before_theft": {
+        "txid": "7472e1e059d44b5fb3d1c6e86a5a907f0fae015e722d1cefdf801045b9f41fbe",
+        "from": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+        "amount": "12937.000000",
+        "timestamp_utc": "2026-09-21 11:31:54",
+        "seconds_before_theft": 45
+      },
+      "resources_received_before_theft": [
+        {
+          "txid": "90b28da07b6ea4eeeca382579f393982418d296e398440895ec00a62928b3873",
+          "type": "DelegateResourceContract",
+          "from": "TQvhNtVLyJy3PfuZQieRd5PSeH8mEpgva1",
+          "timestamp_utc": "2026-09-21 11:32:36",
+          "amount_sun": 20424000000,
+          "resource": "ENERGY",
+          "seconds_before_theft": 3
+        },
+        {
+          "txid": "a241b856691236d3ed98479325d61af03765609a2eb12d7ae2e71216b5007945",
+          "type": "TransferContract",
+          "from": "TUSYcK5yf8Et4xNTiUcpfZwmhFsxfdoooo",
+          "timestamp_utc": "2026-09-21 11:32:39",
+          "amount_sun": 800000,
+          "resource": null,
+          "seconds_before_theft": 0
+        }
+      ],
+      "other_victim_outflows_in_window": [
+        {
+          "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+          "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+          "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+          "amount": "5.137122",
+          "asset": "USDT-TRC20",
+          "timestamp_utc": "2026-09-21 11:32:39",
+          "kind": "victim_side_outflow",
+          "signed_by": [
+            "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+          ],
+          "permission_id": 0,
+          "evidence": [
+            "trongrid:trc20:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:1789983159000-1789990479000",
+            "trongrid:gettransactionbyid:2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94"
+          ]
+        }
+      ],
+      "evidence": [
+        "trongrid:transactions:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:all:1789990239000-1789990479000:limit=50:pages=1",
+        "trongrid:trc20:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:1789983159000-1789990479000"
+      ]
+    },
+    "route": [
+      {
+        "chain": "tron",
+        "address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "role": "victim",
+        "via": null
+      },
+      {
+        "chain": "tron",
+        "address": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "role": "holder",
+        "via": null,
+        "arrived_amount": "13041.400772",
+        "arrived_utc": "2026-09-21 11:32:39",
+        "arrived_txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb"
+      },
+      {
+        "chain": "tron",
+        "address": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "role": "holder",
+        "via": null,
+        "arrived_amount": "13035.640112",
+        "arrived_utc": "2026-09-21 11:35:33",
+        "arrived_txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6"
+      },
+      {
+        "chain": "tron",
+        "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "role": "holder",
+        "via": null,
+        "arrived_amount": "12905.283711",
+        "arrived_utc": "2026-09-21 11:41:18",
+        "arrived_txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe"
+      },
+      {
+        "chain": "ethereum",
+        "address": "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "role": "holder",
+        "via": "USDT0/LayerZero",
+        "arrived_amount": "12901.408416",
+        "arrived_utc": "2026-09-21 11:52:59",
+        "arrived_txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15"
+      },
+      {
+        "chain": "ethereum",
+        "address": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "role": "bridge deposit address",
+        "via": "Rango",
+        "arrived_amount": "12882.058884",
+        "arrived_utc": "2026-09-21 11:56:35",
+        "arrived_txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a"
+      },
+      {
+        "chain": "tron",
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "role": "hub (stop)",
+        "via": "Rango->NEAR Intents",
+        "arrived_amount": "12878.454902",
+        "arrived_utc": "2026-09-21 11:58:09",
+        "arrived_txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+      }
+    ],
+    "edges": [
+      {
+        "n": 1,
+        "chain": "tron",
+        "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+        "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "amount": "13041.400772",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:32:39",
+        "block": 86439360,
+        "kind": "theft",
+        "confirmed_by_receipt": null,
+        "receipt_source": null,
+        "evidence": [
+          "trongrid:gettransactionbyid:98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+          "trongrid:gettransactioninfobyid:98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb"
+        ]
+      },
+      {
+        "n": 2,
+        "chain": "tron",
+        "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+        "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "amount": "5.137122",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:32:39",
+        "block": null,
+        "kind": "victim_side_outflow",
+        "confirmed_by_receipt": null,
+        "receipt_source": null,
+        "evidence": [
+          "trongrid:trc20:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:1789983159000-1789990479000",
+          "trongrid:gettransactionbyid:2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94"
+        ]
+      },
+      {
+        "n": 3,
+        "chain": "tron",
+        "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec",
+        "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "amount": "5.486343",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:35:33",
+        "block": null,
+        "kind": "side",
+        "confirmed_by_receipt": null,
+        "receipt_source": null,
+        "evidence": [
+          "trongrid:trc20:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn:1789990359000-1790076759000"
+        ]
+      },
+      {
+        "n": 4,
+        "chain": "tron",
+        "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+        "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "amount": "13035.640112",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:35:33",
+        "block": 86439418,
+        "kind": "hop",
+        "confirmed_by_receipt": true,
+        "receipt_source": "TronGrid node API receipt (same provider as the v1 index)",
+        "evidence": [
+          "trongrid:trc20:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn:1789990359000-1790076759000",
+          "trongrid:gettransactioninfobyid:36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6"
+        ]
+      },
+      {
+        "n": 5,
+        "chain": "tron",
+        "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+        "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "amount": "12905.283711",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:41:18",
+        "block": 86439533,
+        "kind": "hop",
+        "confirmed_by_receipt": true,
+        "receipt_source": "TronGrid node API receipt (same provider as the v1 index)",
+        "evidence": [
+          "trongrid:trc20:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3:1789990533000-1790076933000",
+          "trongrid:gettransactioninfobyid:f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe"
+        ]
+      },
+      {
+        "n": 6,
+        "chain": "tron",
+        "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+        "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+        "amount": "130.356401",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:43:45",
+        "block": null,
+        "kind": "exact_cut",
+        "confirmed_by_receipt": null,
+        "receipt_source": null,
+        "evidence": [
+          "trongrid:trc20:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3:1789990533000-1790076933000"
+        ]
+      },
+      {
+        "n": 7,
+        "chain": "tron",
+        "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+        "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+        "amount": "12905.280000",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:50:54",
+        "block": 86439725,
+        "kind": "bridge_out",
+        "confirmed_by_receipt": true,
+        "receipt_source": "TronGrid node API receipt (same provider as the v1 index)",
+        "evidence": [
+          "trongrid:trc20:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU:1789990878000-1790077278000",
+          "trongrid:gettransactioninfobyid:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f"
+        ]
+      },
+      {
+        "n": 8,
+        "chain": "ethereum",
+        "txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+        "from": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+        "to": "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "amount": "12901.408416",
+        "asset": "USDT-ERC20",
+        "timestamp_utc": "2026-09-21 11:52:59",
+        "block": 26025709,
+        "kind": "bridge_in",
+        "confirmed_by_receipt": true,
+        "receipt_source": "public Ethereum RPC receipt (independent of Blockscout)",
+        "evidence": [
+          "blockscout:logs:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+          "blockscout:transaction:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+          "eth_publicnode:receipt:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15"
+        ]
+      },
+      {
+        "n": 9,
+        "chain": "tron",
+        "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+        "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+        "amount": "0.009778",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:56:15",
+        "block": null,
+        "kind": "remainder_dust",
+        "confirmed_by_receipt": null,
+        "receipt_source": null,
+        "evidence": [
+          "trongrid:trc20:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU:1789990878000-1790077278000"
+        ]
+      },
+      {
+        "n": 10,
+        "chain": "ethereum",
+        "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+        "from": "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "to": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+        "amount": "12901.411000",
+        "asset": "USDT-ERC20",
+        "timestamp_utc": "2026-09-21 11:56:35",
+        "block": 26025727,
+        "kind": "bridge_out",
+        "confirmed_by_receipt": true,
+        "receipt_source": "public Ethereum RPC receipt (independent of Blockscout)",
+        "evidence": [
+          "blockscout:address_token_transfers:0x4079047990917F3150353FBd8A13b05b6286926d:0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "blockscout:logs:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+          "eth_publicnode:receipt:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a"
+        ]
+      },
+      {
+        "n": 11,
+        "chain": "ethereum",
+        "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+        "from": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+        "to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "amount": "12882.058884",
+        "asset": "USDT-ERC20",
+        "timestamp_utc": "2026-09-21 11:56:35",
+        "block": 26025727,
+        "kind": "aggregator_forward",
+        "confirmed_by_receipt": null,
+        "receipt_source": null,
+        "evidence": [
+          "blockscout:logs:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a"
+        ]
+      },
+      {
+        "n": 12,
+        "chain": "ethereum",
+        "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+        "from": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+        "amount": "12882.058884",
+        "asset": "USDT-ERC20",
+        "timestamp_utc": "2026-09-21 11:57:35",
+        "block": 26025732,
+        "kind": "bridge_deposit_sweep",
+        "confirmed_by_receipt": null,
+        "receipt_source": null,
+        "evidence": [
+          "blockscout:address_token_transfers:0xdA392553ec3602D3e650a725f847C10d04E122C0:0xdAC17F958D2ee523a2206206994597C13D831ec7"
+        ]
+      },
+      {
+        "n": 13,
+        "chain": "tron",
+        "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+        "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+        "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "amount": "12878.454902",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:58:09",
+        "block": 86439870,
+        "kind": "bridge_in",
+        "confirmed_by_receipt": true,
+        "receipt_source": "TronGrid node API receipt (same provider as the v1 index)",
+        "evidence": [
+          "near_intents_1click:status:0xdA392553ec3602D3e650a725f847C10d04E122C0",
+          "trongrid:gettransactioninfobyid:d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+        ]
+      }
+    ],
+    "side_branches": [
+      {
+        "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+        "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "amount": "5.137122",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:32:39",
+        "kind": "victim_side_outflow",
+        "signed_by": [
+          "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+        ],
+        "permission_id": 0,
+        "evidence": [
+          "trongrid:trc20:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:1789983159000-1789990479000",
+          "trongrid:gettransactionbyid:2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94"
+        ],
+        "branch": "victim-side outflow signed with the victim key in the theft window",
+        "counted_in_theft_loss": false
+      },
+      {
+        "branch": "side outflow (fee-like)",
+        "chain": "tron",
+        "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec",
+        "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+        "amount": "5.486343",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:35:33",
+        "share_of_tainted": "0.0421%",
+        "counted_in_theft_loss": true,
+        "evidence": [
+          "trongrid:trc20:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn:1789990359000-1790076759000"
+        ]
+      },
+      {
+        "branch": "exact 1% cut",
+        "chain": "tron",
+        "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+        "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+        "amount": "130.356401",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:43:45",
+        "share_of_tainted": "1.0000%",
+        "counted_in_theft_loss": true,
+        "evidence": [
+          "trongrid:trc20:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3:1789990533000-1790076933000"
+        ]
+      },
+      {
+        "branch": "bridge fee",
+        "protocol": "USDT0 (LayerZero OFT)",
+        "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+        "amount": "3.871584",
+        "asset": "USDT",
+        "counted_in_theft_loss": true,
+        "evidence": [
+          "trongrid:gettransactioninfobyid:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f"
+        ]
+      },
+      {
+        "branch": "remainder dust after the drain",
+        "chain": "tron",
+        "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+        "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+        "amount": "0.009778",
+        "asset": "USDT-TRC20",
+        "timestamp_utc": "2026-09-21 11:56:15",
+        "share_of_tainted": "0.0001%",
+        "counted_in_theft_loss": false,
+        "evidence": [
+          "trongrid:trc20:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU:1789990878000-1790077278000"
+        ]
+      },
+      {
+        "branch": "Rango affiliate fee",
+        "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+        "from": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+        "to": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+        "amount": "19.352116",
+        "asset": "USDT-ERC20",
+        "counted_in_theft_loss": true,
+        "evidence": [
+          "blockscout:logs:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a"
+        ]
+      },
+      {
+        "branch": "bridge fee",
+        "protocol": "NEAR Intents 1Click",
+        "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+        "amount": "3.603982",
+        "asset": "USDT",
+        "counted_in_theft_loss": true,
+        "evidence": [
+          "near_intents_1click:status:0xdA392553ec3602D3e650a725f847C10d04E122C0",
+          "trongrid:gettransactioninfobyid:d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+        ]
+      }
+    ],
+    "cross_chain": [
+      {
+        "protocol": "USDT0 (LayerZero OFT)",
+        "detected_by": "event OFTSent in the TRON receipt",
+        "src_chain": "tron",
+        "src_tx": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+        "src_contract": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+        "src_contract_registered": true,
+        "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "guid": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+        "dstEid": 30101,
+        "dst_chain": "ethereum",
+        "srcEid": 30420,
+        "amount_sent": "12905.280000",
+        "amount_received": "12901.408416",
+        "bridge_fee": "3.871584",
+        "send_calldata_to": "0x0000000000000000000000004079047990917f3150353fbd8a13b05b6286926d",
+        "send_calldata_dstEid": 30101,
+        "layerzero_scan_status": "DELIVERED",
+        "dst_tx": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+        "evidence": [
+          "trongrid:gettransactioninfobyid:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+          "trongrid:gettransactionbyid:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+          "layerzero_scan:messages_by_tx:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+          "blockscout:logs:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+          "blockscout:transaction:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+          "eth_publicnode:receipt:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15"
+        ],
+        "recipient": "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "dst_contract": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+        "dst_contract_registered": true,
+        "dst_amount_received": "12901.408416",
+        "dst_block": 26025709,
+        "dst_timestamp_utc": "2026-09-21 11:52:59",
+        "dst_status": "ok",
+        "recipient_matches_send_calldata": true,
+        "dst_token_transfer_found": true,
+        "dst_confirmed_by_second_source": true,
+        "second_source": "ethereum-rpc.publicnode.com eth_getTransactionReceipt"
+      },
+      {
+        "protocol": "Rango (aggregator)",
+        "detected_by": "event RangoBridgeInitiated in the transaction logs",
+        "src_chain": "ethereum",
+        "src_tx": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+        "src_contract": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+        "src_contract_registered": true,
+        "from": "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "input_amount": "12901.411000",
+        "bridge_amount": "12882.058884",
+        "bridge_token": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "destinationChainId": 1414680398,
+        "destinationChainId_ascii": "TRON",
+        "receiver_raw": "0x54594865483248516e37704d3566653661597747",
+        "receiver_ascii": "TYHeH2HQn7pM5fe6aYwG",
+        "bridgeId": 60,
+        "dAppTag": 1662,
+        "dAppName": "MoonGate",
+        "hasInterchainMessage": false,
+        "hasDestinationSwap": false,
+        "forwarded_to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "routed_to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "affiliate_fees": [
+          {
+            "affiliate": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+            "amount": "19.352116",
+            "dAppTag": 1662,
+            "feeType": 0
+          }
+        ],
+        "confirmed_by_second_source": true,
+        "second_source": "ethereum-rpc.publicnode.com eth_getTransactionReceipt",
+        "evidence": [
+          "blockscout:address_token_transfers:0x4079047990917F3150353FBd8A13b05b6286926d:0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "blockscout:logs:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+          "eth_publicnode:receipt:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a"
+        ],
+        "affiliate_fee_share_of_input": "0.1500%"
+      },
+      {
+        "protocol": "NEAR Intents 1Click",
+        "detected_by": "1Click status API recognises the address as a deposit address",
+        "deposit_address": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "deposit_chain": "ethereum",
+        "status": "SUCCESS",
+        "amount_in": "12882.058884",
+        "amount_out_reported": "12878.410167",
+        "origin_chain_txs": [
+          "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a"
+        ],
+        "deposit_sweep_txs": [
+          {
+            "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+            "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+            "amount": "12882.058884",
+            "timestamp_utc": "2026-09-21 11:57:35"
+          }
+        ],
+        "destination_asset": "nep141:tron-d28a265909efecdcee7c5028585214ea0b96f015.omft.near",
+        "dst_chain": "tron",
+        "recipient": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "refund_to": "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "referral": "rango",
+        "intent_hashes": [
+          "HFxzg5Cz5BCP2ocKGbcSRbh9Skt4fr5QbbqirPL7rHqq"
+        ],
+        "near_txs": [
+          "HgECtUbDx8sahjUaDXRe4Q2vb2bgGm8c9HAHv8rMJmZR",
+          "AjeZCFUWRHddcCDsaERWaPB9RDFsAFxnKmC2zARaWtAw"
+        ],
+        "dst_txs": [
+          "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+        ],
+        "matches_previous_hop_hint": {
+          "destination_chain_ascii": "TRON",
+          "receiver_ascii_prefix": "TYHeH2HQn7pM5fe6aYwG",
+          "recipient_starts_with_prefix": true
+        },
+        "evidence": [
+          "near_intents_1click:status:0xdA392553ec3602D3e650a725f847C10d04E122C0",
+          "blockscout:address_token_transfers:0xdA392553ec3602D3e650a725f847C10d04E122C0:0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          "trongrid:gettransactioninfobyid:d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+        ],
+        "dst_tx_onchain": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+        "dst_block": 86439870,
+        "dst_timestamp_utc": "2026-09-21 11:58:09",
+        "dst_payout_from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+        "dst_amount_onchain": "12878.454902",
+        "amount_out_reported_minus_onchain": "-0.044735"
+      }
+    ],
+    "hubs": [
+      {
+        "chain": "tron",
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "arrived_amount": "12878.454902",
+        "arrived_utc": "2026-09-21 11:58:09",
+        "arrived_txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+        "metrics": {
+          "window_utc": [
+            "2026-09-21 11:58:09",
+            "2026-09-22 11:58:09"
+          ],
+          "other_transfers": 28,
+          "distinct_counterparties": 27,
+          "other_volume": "553140.561978",
+          "volume_multiple_of_tainted": "42.95",
+          "rule_counterparties": true,
+          "rule_volume": true,
+          "is_hub": true,
+          "listing_complete": true
+        },
+        "decision": "stop: high-volume address, stolen funds commingled",
+        "evidence": [
+          "trongrid:trc20:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6:1789991889000-1790078289000"
+        ]
+      }
+    ],
+    "freeze_candidates": [
+      {
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "chain": "tron",
+        "asset": "USDT-TRC20",
+        "reason": "stolen funds arrived and are commingled in a high-volume USDT-TRC20 address; USDT-TRC20 can be frozen by the issuer on a law-enforcement request",
+        "stolen_arrival": "12878.454902",
+        "uncertainty": "commingled: the share of the current balance that is stolen is not determined; the balance changes constantly"
+      }
+    ],
+    "exchange_exits": [
+      {
+        "hub": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "hub_outflow_txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+        "hub_outflow_utc": "2026-09-21 13:41:15",
+        "amount": "150000.000000",
+        "recipient": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+        "forwarded_total_within_max_delay": "150000.000000",
+        "forward_txids": [
+          "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e"
+        ],
+        "forward_destinations": [
+          "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+        ],
+        "forward_delay_s": 201,
+        "distinct_counterparties_in_window": 2,
+        "rule_full": true,
+        "rule_single_destination": true,
+        "rule_few_counterparties": true,
+        "deposit_pattern": true,
+        "evidence": [
+          "trongrid:trc20:TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ:1789998075000-1790019675000",
+          "trongrid:getaccount:TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ"
+        ],
+        "commingled": true,
+        "taint_note": "hub outflow 150000.000000 vs stolen arrival 12878.454902: funds commingled, taint share not determined",
+        "recipient_activated_utc": "2026-09-21 13:43:39",
+        "recipient_activated_between_deposit_and_forward": true,
+        "verdict": "exchange_exit",
+        "exchange": "WhiteBIT",
+        "hot_wallet": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "label_source": "TronScan public address tag, taken from the manual case-001 investigation. Stage 2 re-check (one keyless TronScan account lookup) got HTTP 401: not re-verified, needs TRONSCAN_API_KEY and written consent",
+        "label_status": "TronScan, pending written consent, not stored in any label store"
+      },
+      {
+        "hub": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "hub_outflow_txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+        "hub_outflow_utc": "2026-09-22 08:25:00",
+        "amount": "250000.000000",
+        "recipient": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+        "forwarded_total_within_max_delay": "250000.000000",
+        "forward_txids": [
+          "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf"
+        ],
+        "forward_destinations": [
+          "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+        ],
+        "forward_delay_s": 171,
+        "distinct_counterparties_in_window": 2,
+        "rule_full": true,
+        "rule_single_destination": true,
+        "rule_few_counterparties": true,
+        "deposit_pattern": true,
+        "evidence": [
+          "trongrid:trc20:TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C:1790065500000-1790087100000",
+          "trongrid:getaccount:TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C"
+        ],
+        "commingled": true,
+        "taint_note": "hub outflow 250000.000000 vs stolen arrival 12878.454902: funds commingled, taint share not determined",
+        "recipient_activated_utc": "2026-09-22 08:27:03",
+        "recipient_activated_between_deposit_and_forward": true,
+        "verdict": "exchange_exit",
+        "exchange": "WhiteBIT",
+        "hot_wallet": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "label_source": "TronScan public address tag, taken from the manual case-001 investigation. Stage 2 re-check (one keyless TronScan account lookup) got HTTP 401: not re-verified, needs TRONSCAN_API_KEY and written consent",
+        "label_status": "TronScan, pending written consent, not stored in any label store"
+      }
+    ],
+    "hub_outflow_checks": [
+      {
+        "hub": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "hub_outflow_txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+        "hub_outflow_utc": "2026-09-21 13:41:15",
+        "amount": "150000.000000",
+        "recipient": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+        "forwarded_total_within_max_delay": "150000.000000",
+        "forward_txids": [
+          "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e"
+        ],
+        "forward_destinations": [
+          "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+        ],
+        "forward_delay_s": 201,
+        "distinct_counterparties_in_window": 2,
+        "rule_full": true,
+        "rule_single_destination": true,
+        "rule_few_counterparties": true,
+        "deposit_pattern": true,
+        "evidence": [
+          "trongrid:trc20:TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ:1789998075000-1790019675000",
+          "trongrid:getaccount:TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ"
+        ],
+        "commingled": true,
+        "taint_note": "hub outflow 150000.000000 vs stolen arrival 12878.454902: funds commingled, taint share not determined",
+        "recipient_activated_utc": "2026-09-21 13:43:39",
+        "recipient_activated_between_deposit_and_forward": true,
+        "verdict": "exchange_exit",
+        "exchange": "WhiteBIT",
+        "hot_wallet": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "label_source": "TronScan public address tag, taken from the manual case-001 investigation. Stage 2 re-check (one keyless TronScan account lookup) got HTTP 401: not re-verified, needs TRONSCAN_API_KEY and written consent",
+        "label_status": "TronScan, pending written consent, not stored in any label store"
+      },
+      {
+        "hub": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "hub_outflow_txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "hub_outflow_utc": "2026-09-21 15:14:45",
+        "amount": "14760.000000",
+        "recipient": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+        "forwarded_total_within_max_delay": "14760.000000",
+        "forward_txids": [
+          "1e521119d7e2cbbf09d04b27fbfbd862432544005c5bf6bd0323f0a8876ef153"
+        ],
+        "forward_destinations": [
+          "TDqSquXBgUCLYvYC4XZgrprLK589dkhSCf"
+        ],
+        "forward_delay_s": 504,
+        "distinct_counterparties_in_window": 2,
+        "rule_full": true,
+        "rule_single_destination": true,
+        "rule_few_counterparties": true,
+        "deposit_pattern": true,
+        "evidence": [
+          "trongrid:trc20:TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw:1790003685000-1790025285000",
+          "trongrid:getaccount:TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw"
+        ],
+        "commingled": true,
+        "taint_note": "hub outflow 14760.000000 vs stolen arrival 12878.454902: funds commingled, taint share not determined",
+        "recipient_activated_utc": "2023-03-10 10:26:03",
+        "recipient_activated_between_deposit_and_forward": false,
+        "verdict": "deposit_pattern_unlabelled_destination",
+        "hot_wallet": "TDqSquXBgUCLYvYC4XZgrprLK589dkhSCf",
+        "exchange": null
+      },
+      {
+        "hub": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "hub_outflow_txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "hub_outflow_utc": "2026-09-21 15:18:42",
+        "amount": "21000.000000",
+        "recipient": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+        "forwarded_total_within_max_delay": "0.000000",
+        "forward_txids": [],
+        "forward_destinations": [],
+        "forward_delay_s": null,
+        "distinct_counterparties_in_window": 4,
+        "rule_full": false,
+        "rule_single_destination": false,
+        "rule_few_counterparties": false,
+        "deposit_pattern": false,
+        "evidence": [
+          "trongrid:trc20:TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE:1790003922000-1790025522000"
+        ],
+        "commingled": true,
+        "taint_note": "hub outflow 21000.000000 vs stolen arrival 12878.454902: funds commingled, taint share not determined",
+        "verdict": "no_deposit_pattern"
+      },
+      {
+        "hub": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "hub_outflow_txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+        "hub_outflow_utc": "2026-09-22 08:25:00",
+        "amount": "250000.000000",
+        "recipient": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+        "forwarded_total_within_max_delay": "250000.000000",
+        "forward_txids": [
+          "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf"
+        ],
+        "forward_destinations": [
+          "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+        ],
+        "forward_delay_s": 171,
+        "distinct_counterparties_in_window": 2,
+        "rule_full": true,
+        "rule_single_destination": true,
+        "rule_few_counterparties": true,
+        "deposit_pattern": true,
+        "evidence": [
+          "trongrid:trc20:TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C:1790065500000-1790087100000",
+          "trongrid:getaccount:TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C"
+        ],
+        "commingled": true,
+        "taint_note": "hub outflow 250000.000000 vs stolen arrival 12878.454902: funds commingled, taint share not determined",
+        "recipient_activated_utc": "2026-09-22 08:27:03",
+        "recipient_activated_between_deposit_and_forward": true,
+        "verdict": "exchange_exit",
+        "exchange": "WhiteBIT",
+        "hot_wallet": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "label_source": "TronScan public address tag, taken from the manual case-001 investigation. Stage 2 re-check (one keyless TronScan account lookup) got HTTP 401: not re-verified, needs TRONSCAN_API_KEY and written consent",
+        "label_status": "TronScan, pending written consent, not stored in any label store"
+      }
+    ],
+    "links": [
+      {
+        "type": "shared_funder_with_victim",
+        "funder": "TUSYcK5yf8Et4xNTiUcpfZwmhFsxfdoooo",
+        "funded": [
+          {
+            "address": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+            "txids": [
+              "945e074f01249cc3421388dc5aa828b31553dcdc47a419a91f66fb2919b5352f"
+            ]
+          }
+        ],
+        "victim_funding_txids": [
+          "dc310d850fe21f249cf25a8899df3a92ba5e2fb5dc97fcf5cc07e280a8a2015a"
+        ],
+        "interpretation": "also funded the victim: treated as a service (activation/top-up), not as an operator link",
+        "evidence": [
+          "trongrid:transactions:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:to:None-None:limit=50:pages=1",
+          "trongrid:transactions:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn:to:None-None:limit=50:pages=1"
+        ]
+      },
+      {
+        "type": "common_trx_funder",
+        "statement": "likely same operator (inference from shared TRX funding, not a fact)",
+        "funder": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+        "funded": [
+          {
+            "address": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+            "segment": 0,
+            "txids": [
+              "32480343868c37aeac42bc014bd0c798aba635b8c1fed7648d206ac79063e2e9",
+              "dbbae16c6e8dd0498d02945c1c60f66cc32840acbe2d8b95e990c6b47f6e434d",
+              "e181937194f7f385458f1b1c721b71c7ddeead6a5bb30dd58e956b5cfd87a689"
+            ],
+            "amounts_trx": [
+              "0.000100",
+              "6.529400",
+              "7.021500"
+            ],
+            "first_funding_utc": "2026-09-21 11:38:51"
+          },
+          {
+            "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+            "segment": 0,
+            "txids": [
+              "3599ac14657a1ad4be2f15780bbc93a2b42b0f453dd613adf9bc7f9ea78e8712",
+              "fff90a3e9a32d1570e0fd3c2948f8a20c54c5363a3e88dd7e1341f5c9c073154",
+              "839add38e8b4e2c195dc22f11e8b421c60afabf710c2bedf435d53f9e2bc7c16",
+              "651a5ec6578ff66194ba1ca0db9b8eacbb4ad7d2c38406f3cf4da4637c36b530",
+              "77655efb4e8a060474cecfaf00680f4813e4416069386ea0f99afe4c3cab7d9b",
+              "2d9c64c68d683d81a0e453174d1c0e815a2196e4d31d5b0ee8f27e8c496b6b18"
+            ],
+            "amounts_trx": [
+              "0.000100",
+              "63.898887",
+              "13.017822",
+              "64.806235",
+              "69.407295",
+              "7.070800"
+            ],
+            "first_funding_utc": "2026-08-27 07:29:33"
+          },
+          {
+            "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+            "segment": 2,
+            "txids": [
+              "b44d60c46af55dbe24d4b3a3e37fa1c79cdfd9f3f84296b61121443bcb4ac210",
+              "5c1b1a5466fb61b989e5ab03e8858a8841b0eaf5f5796707304fec7065663a8b",
+              "8386c0b1186a2d5b2f572b726ee1918b6fb9f27c9e94a32bc44bab89f541b872",
+              "bdd5c283f7db3b60a8369c1fe26d90b39635ac5e38b308e9469e4d1a041d7491",
+              "cbd77e89e4725d5dca93e2fc06cd40bf21113f16355fb46519bdefcefdb75eb3",
+              "3b7ef2d087984104a3b83ce00148f3f1516aed03a5b7bbac86ed3c0ce0a67ad6",
+              "e763f52379f1813b4266d59cefdbb54ca8931d7121ce5146e0b5320bfbaefd1a",
+              "066b8db829aa70c438d360f6b5e016b62d08f41f9f58e928c0b74662a0b9ec6d",
+              "05a36fe0c45c0d4cea715064e21cfed1dfbdb459b1a71758d3ab94dfb4d29d56",
+              "ebb4c14abdac7fdc39028678f2329770c6ccaf86172f652b1b8c6d578fdd1581",
+              "4e0e2d961347ec37b7527aceed67862c6b5eb26907ffd3737cd84b91020f97c0",
+              "21c52bf7d99913becafe5537aabcba36b5436c2028f658937f882fb918b158d8",
+              "572580c7199aafcd1309fc557df615151e845630476e46c30964c570da72dc8e",
+              "999df1d88d75dbf147e2d71894190f5b9335169987a131facc9a6ff488a572df",
+              "894b04755338746b805b1194f2844a19e417f8be62e06844a2d33310d5c05836",
+              "0bdf6385f8140bd565521504bedf302f29df0177ab438980eea6a419ddaadc3d",
+              "5a3647a6f6f877b00f6247782604848c2f6db23c5c6dd2760a36e6bbd63fa48f",
+              "c16135db612db092c33619180afb80b1d73c4b1420c2e777ce4bd95f321163c2"
+            ],
+            "amounts_trx": [
+              "0.000100",
+              "13.129400",
+              "13.621495",
+              "13.362500",
+              "6.324476",
+              "13.746494",
+              "6.760497",
+              "13.372500",
+              "13.350500",
+              "6.763499",
+              "13.351491",
+              "6.760500",
+              "6.768500",
+              "13.355498",
+              "6.770496",
+              "6.767500",
+              "13.353500",
+              "13.381485"
+            ],
+            "first_funding_utc": "2026-08-06 17:47:57"
+          }
+        ],
+        "funded_count": 3,
+        "spans_cross_chain_hop": true,
+        "funder_fanout_distinct_trx_recipients": 80,
+        "funder_fanout_rows": 200,
+        "funder_fanout_page_complete": false,
+        "score": 2,
+        "score_rule": "1 (>=2 funded) +1 (>=3 funded) +1 (funded on both sides of a cross-chain hop) -1 (funder fan-out > threshold, looks like a funding service)",
+        "confidence": "medium",
+        "evidence": [
+          "trongrid:transactions:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3:to:None-None:limit=50:pages=1",
+          "trongrid:transactions:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU:to:None-None:limit=50:pages=1",
+          "trongrid:transactions:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6:to:None-None:limit=50:pages=1",
+          "trongrid:transactions:TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ:from:None-None:limit=200:pages=1"
+        ]
+      }
+    ],
+    "value_accounting": {
+      "stolen_amount": "13041.400772",
+      "arrived_at_hub": "12878.454902",
+      "total_lost_before_hub": "162.945870",
+      "components": [
+        {
+          "what": "side outflow (side)",
+          "at": "tron:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+          "amount": "5.486343",
+          "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec"
+        },
+        {
+          "what": "left on holder (not moved in the follow window)",
+          "at": "tron:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+          "amount": "0.274317"
+        },
+        {
+          "what": "side outflow (exact_cut)",
+          "at": "tron:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+          "amount": "130.356401",
+          "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76"
+        },
+        {
+          "what": "bridge fee (USDT0/LayerZero OFT: amountSentLD - amountReceivedLD)",
+          "at": "USDT0 (LayerZero OFT) b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+          "amount": "3.871584"
+        },
+        {
+          "what": "left on holder (not moved in the follow window)",
+          "at": "tron:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+          "amount": "0.003711"
+        },
+        {
+          "what": "Rango side transfer (affiliate fee)",
+          "at": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+          "amount": "19.352116"
+        },
+        {
+          "what": "holder sent more than the tainted arrival (pre-existing balance mixed in)",
+          "at": "ethereum:0x4079047990917F3150353FBd8A13b05b6286926d",
+          "amount": "-0.002584"
+        },
+        {
+          "what": "NEAR Intents 1Click: deposit - on-chain payout",
+          "at": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+          "amount": "3.603982"
+        }
+      ],
+      "components_sum": "162.945870",
+      "components_reconcile": true
+    },
+    "evidence_boundaries": []
+  },
+  "evidence": {
+    "trongrid:gettransactionbyid:98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb": {
+      "provider": "trongrid",
+      "endpoint": "wallet/gettransactionbyid",
+      "request": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "1f5541ab49f74ec862d0d92813f5f9f3c39d305d692ace53552d38a023ceb608"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:gettransactioninfobyid:98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb": {
+      "provider": "trongrid",
+      "endpoint": "walletsolidity/gettransactioninfobyid",
+      "request": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "77e27374c371f3351bd260ad8b5ee496934d997c8ffebff09f609d0c26b94e99"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:getaccount:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx": {
+      "provider": "trongrid",
+      "endpoint": "wallet/getaccount",
+      "request": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "06a273f8a15c9c7596158817d9e7367d6fd33749337ba6ce0b9ae01b7b0cfafd"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:from:None-None:limit=200:pages=5": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx from [None,None] limit=200",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "edffbda9b1f051555baf3828cd4df218e2b8213f64ed833f0fac683dd770a415"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:all:1789990239000-1789990479000:limit=50:pages=1": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx all [1789990239000,1789990479000] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "c5630836c48642b0ebdee8f9bd72e30727709fc79982f933b1694f16fd67e8e9"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:1789983159000-1789990479000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx [1789983159000,1789990479000] limit=200",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "afe05fce70674a962be3d034fbbefd12d5579693068eb89d553dcef4b4979f0a"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:gettransactionbyid:2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94": {
+      "provider": "trongrid",
+      "endpoint": "wallet/gettransactionbyid",
+      "request": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "4dcd9746b60ffaef79e6832ef9ac936ad4f3790b5bd380fea976c0b1766df8a4"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn:1789990359000-1790076759000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn [1789990359000,1790076759000] limit=200",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "38c4a97ec77678ae1fdcbbc96e0c4bb05cc633b79059124bd093ab7f19d15d5e"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:gettransactioninfobyid:36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6": {
+      "provider": "trongrid",
+      "endpoint": "walletsolidity/gettransactioninfobyid",
+      "request": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "9ed2a141200f7c6b054b661e67269fa86d6f1164c659660752f7164e073e0900"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3:1789990533000-1790076933000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3 [1789990533000,1790076933000] limit=200",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "8a91f94026d9d07795b7d2f22045c4078df28862ef18294d6a4e3972246af9ec"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:gettransactioninfobyid:f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe": {
+      "provider": "trongrid",
+      "endpoint": "walletsolidity/gettransactioninfobyid",
+      "request": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "46446fb5e77b0e014a5a3c4cafb6641b7773c5d1d6ab3d4820eb309ddb584144"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU:1789990878000-1790077278000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU [1789990878000,1790077278000] limit=200",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "d165c1a7364e137c7fad883942e4a20a9f0f7498b9f80f79de46a051229a5fa2"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:gettransactioninfobyid:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f": {
+      "provider": "trongrid",
+      "endpoint": "walletsolidity/gettransactioninfobyid",
+      "request": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "00caf9c82d7e1ab41eaa052de84765c81ef9305d6ab77a8c808becd551d8312b"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:gettransactionbyid:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f": {
+      "provider": "trongrid",
+      "endpoint": "wallet/gettransactionbyid",
+      "request": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "146a9711d372a9171edadab8f33e9aeee4124eb2f2a77a4ade1e5cdf8819ebfb"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "layerzero_scan:messages_by_tx:b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f": {
+      "provider": "layerzero_scan",
+      "endpoint": "v1/messages/tx/{hash}",
+      "request": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "9ac53c71e4ef30f2f85a6d833152c742a8ce5f7e19a516c78360afe65cbaa22f"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "blockscout:logs:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15": {
+      "provider": "blockscout_eth",
+      "endpoint": "api/v2/transactions/{hash}/logs",
+      "request": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "695e35d16f8041e5ebbeddd180947d1ae37079981b41a93ba83bd04093e30218"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "blockscout:transaction:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15": {
+      "provider": "blockscout_eth",
+      "endpoint": "api/v2/transactions/{hash}",
+      "request": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "0b44d59a8411d5285b64e52c16281a98359ff9af03a53e5b7bcb81d90cc94609"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "eth_publicnode:receipt:0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15": {
+      "provider": "eth_publicnode",
+      "endpoint": "jsonrpc/eth_getTransactionReceipt",
+      "request": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "f461e80341eb192bb80cd4275f3c51ba966f1aa6fd0d6dd30386202309ebb271"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "near_intents_1click:status:0x4079047990917F3150353FBd8A13b05b6286926d": {
+      "provider": "near_intents_1click",
+      "endpoint": "v0/status",
+      "request": "0x4079047990917F3150353FBd8A13b05b6286926d",
+      "status": [
+        404
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "70af8f18edab96c40d23a7e53683a14f8d9791cbb816a183c249cd45104e1522"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "blockscout:address_token_transfers:0x4079047990917F3150353FBd8A13b05b6286926d:0xdAC17F958D2ee523a2206206994597C13D831ec7": {
+      "provider": "blockscout_eth",
+      "endpoint": "api/v2/addresses/{address}/token-transfers",
+      "request": "0x4079047990917F3150353FBd8A13b05b6286926d token=0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "7177e02895e029e7d547f112e26a78f978a70a5d87b660e59591f6d0de4076f4"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "blockscout:logs:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a": {
+      "provider": "blockscout_eth",
+      "endpoint": "api/v2/transactions/{hash}/logs",
+      "request": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "541844f572e22a7b460a6b3bce2a2bb35cd8aee7dd1118da7826d95e4dc09937"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "eth_publicnode:receipt:0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a": {
+      "provider": "eth_publicnode",
+      "endpoint": "jsonrpc/eth_getTransactionReceipt",
+      "request": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "23ed787d37071aa459eb7efcb1de33de4a9c634f0ab142efffeb612b4119cf2c"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "near_intents_1click:status:0xdA392553ec3602D3e650a725f847C10d04E122C0": {
+      "provider": "near_intents_1click",
+      "endpoint": "v0/status",
+      "request": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "f6409bac22ce6f99fbfb5cca5f17ebff06267b36ed5a92c998175619df6d79ad"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "blockscout:address_token_transfers:0xdA392553ec3602D3e650a725f847C10d04E122C0:0xdAC17F958D2ee523a2206206994597C13D831ec7": {
+      "provider": "blockscout_eth",
+      "endpoint": "api/v2/addresses/{address}/token-transfers",
+      "request": "0xdA392553ec3602D3e650a725f847C10d04E122C0 token=0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "5843445781a339502ea3903155c88080a678e037cf1e5edbdf620b5bbf2d912d"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:gettransactioninfobyid:d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1": {
+      "provider": "trongrid",
+      "endpoint": "walletsolidity/gettransactioninfobyid",
+      "request": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "ca5772f6f9dc596e8db9f1ca79505888cef7dbeb2763622c1b49c1ce68cbfec6"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6:1789991889000-1790078289000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6 [1789991889000,1790078289000] limit=200",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "1883c98851e87e97537ce5cfb1dcb8f27d08a5b6ee57be6a5ae8a403f99749ee"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ:1789998075000-1790019675000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ [1789998075000,1790019675000] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "361ec62481ce6df645f1ef3be22f47bd96f032a90e80c9d6587160b6378990fa"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:getaccount:TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ": {
+      "provider": "trongrid",
+      "endpoint": "wallet/getaccount",
+      "request": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "678ea2592ee250f4386001f2c9f01fca677628dbbac5e7d9a649a56b2877961d"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw:1790003685000-1790025285000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw [1790003685000,1790025285000] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "468762a738d87facc831b4ce48dc1cb6a6daa7a9ead9b2e7239f9d017fd166f8"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:getaccount:TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw": {
+      "provider": "trongrid",
+      "endpoint": "wallet/getaccount",
+      "request": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "73f12b2fbf18fb08d6aebdac287a937fb138b1fe52a0de16a10b6e9bbe9973b4"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE:1790003922000-1790025522000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE [1790003922000,1790025522000] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "75408d50b11ede278c9fee5961badf7c0e11ae09c370b94bff91595a3abe76cf"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:trc20:TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C:1790065500000-1790087100000": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "request": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C [1790065500000,1790087100000] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "e79982592a726e7cbc5d776ec545eb048f70997eb0880edc6475e274c8da6a87"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:getaccount:TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C": {
+      "provider": "trongrid",
+      "endpoint": "wallet/getaccount",
+      "request": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "ac17e4c24b91bea7c7e35ea2bce0050667275fda9ffa6280f55a7e9aa06786e2"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx:to:None-None:limit=50:pages=1": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx to [None,None] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "326201c1676196d7c3548f4c974f1d34cbc4eff471b54e25619d773f0698ccbe"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn:to:None-None:limit=50:pages=1": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn to [None,None] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "25e356957fe67532dfd889c37f6aaa577853637ac8ae39ca48af672947aa5843"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3:to:None-None:limit=50:pages=1": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3 to [None,None] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "bdd10eb26752a758d3670bab3bc03eeab4e630f7cd1556f220fffc4411b3b1ec"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU:to:None-None:limit=50:pages=1": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU to [None,None] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "0c1e9dd107b8192615b91713d74d2870946078f27e7d6568fadac55a52adc5e1"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6:to:None-None:limit=50:pages=1": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6 to [None,None] limit=50",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": false,
+      "body_sha256": [
+        "a298532bbfe0b4698d43ab9e22cc4147ae12381cf1c58a823f6707588123dd25"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:transactions:TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ:from:None-None:limit=200:pages=1": {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "request": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ from [None,None] limit=200",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": false,
+      "body_sha256": [
+        "acf8320ade29e4d9bb6698a9bce5c4f1db13c6d1ff62f59b1b9ead53397d2b0d"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    },
+    "trongrid:balanceOf:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6": {
+      "provider": "trongrid",
+      "endpoint": "wallet/triggerconstantcontract",
+      "request": "balanceOf(TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6)",
+      "status": [
+        200
+      ],
+      "pages": 1,
+      "complete": true,
+      "body_sha256": [
+        "0ff26d2b258aa7fe52265c540506e5362f05b53042cadcd1f05f3d2dc7f1cb00"
+      ],
+      "store": "tests/fixtures/case-001/raw/http-store"
+    }
+  },
+  "live_observations": {
+    "usdt_balance_now:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6": {
+      "amount": "248905.892432",
+      "evidence": "trongrid:balanceOf:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "note": "live value at run time; changes constantly"
+    }
+  },
+  "timings": {
+    "http_mode": "record",
+    "steps": [
+      {
+        "step": "1 start: theft transaction",
+        "wall_ms": 1349.6,
+        "requests": 2,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 2,
+            "latency_ms": 1344.5,
+            "total_ms": 1347.0,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "2 victim: mechanism and theft context",
+        "wall_ms": 1179.6,
+        "requests": 5,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 5,
+            "latency_ms": 1137.1,
+            "total_ms": 1145.3,
+            "rate_wait_ms": 0.3,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.1 holder tron:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "wall_ms": 332.4,
+        "requests": 2,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 2,
+            "latency_ms": 325.7,
+            "total_ms": 328.5,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.2 holder tron:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "wall_ms": 322.4,
+        "requests": 2,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 2,
+            "latency_ms": 310.7,
+            "total_ms": 315.1,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.3 holder tron:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "wall_ms": 2033.8,
+        "requests": 7,
+        "replayed": 0,
+        "by_provider": {
+          "blockscout_eth": {
+            "requests": 2,
+            "latency_ms": 592.8,
+            "total_ms": 594.7,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "eth_publicnode": {
+            "requests": 1,
+            "latency_ms": 293.9,
+            "total_ms": 294.9,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "layerzero_scan": {
+            "requests": 1,
+            "latency_ms": 670.9,
+            "total_ms": 672.8,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "trongrid": {
+            "requests": 3,
+            "latency_ms": 453.9,
+            "total_ms": 458.5,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.4 holder ethereum:0x4079047990917F3150353FBd8A13b05b6286926d",
+        "wall_ms": 1457.7,
+        "requests": 4,
+        "replayed": 0,
+        "by_provider": {
+          "blockscout_eth": {
+            "requests": 2,
+            "latency_ms": 935.8,
+            "total_ms": 938.5,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "eth_publicnode": {
+            "requests": 1,
+            "latency_ms": 128.2,
+            "total_ms": 129.3,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "near_intents_1click": {
+            "requests": 1,
+            "latency_ms": 378.2,
+            "total_ms": 379.3,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 1
+          }
+        }
+      },
+      {
+        "step": "3.5 holder ethereum:0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "wall_ms": 818.2,
+        "requests": 3,
+        "replayed": 0,
+        "by_provider": {
+          "blockscout_eth": {
+            "requests": 1,
+            "latency_ms": 563.4,
+            "total_ms": 564.6,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "near_intents_1click": {
+            "requests": 1,
+            "latency_ms": 116.2,
+            "total_ms": 117.1,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "trongrid": {
+            "requests": 1,
+            "latency_ms": 129.3,
+            "total_ms": 130.7,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.6 holder tron:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "wall_ms": 525.3,
+        "requests": 1,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 1,
+            "latency_ms": 519.2,
+            "total_ms": 520.3,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "4 hub outflows: exchange exit heuristic",
+        "wall_ms": 1460.3,
+        "requests": 7,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 7,
+            "latency_ms": 1436.4,
+            "total_ms": 1446.1,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "5 common TRX funder",
+        "wall_ms": 2929.2,
+        "requests": 6,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 6,
+            "latency_ms": 2896.0,
+            "total_ms": 2902.6,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "6 freeze candidate: live balance (informational)",
+        "wall_ms": 115.5,
+        "requests": 1,
+        "replayed": 0,
+        "by_provider": {
+          "trongrid": {
+            "requests": 1,
+            "latency_ms": 107.4,
+            "total_ms": 110.9,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      }
+    ],
+    "total_requests": 40,
+    "total_wall_ms": 12524.2,
+    "by_provider": {
+      "blockscout_eth": {
+        "requests": 5,
+        "latency_ms": 2092.0,
+        "total_ms": 2097.7,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 0
+      },
+      "eth_publicnode": {
+        "requests": 2,
+        "latency_ms": 422.0,
+        "total_ms": 424.3,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 0
+      },
+      "layerzero_scan": {
+        "requests": 1,
+        "latency_ms": 670.9,
+        "total_ms": 672.8,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 0
+      },
+      "near_intents_1click": {
+        "requests": 2,
+        "latency_ms": 494.4,
+        "total_ms": 496.4,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 1
+      },
+      "trongrid": {
+        "requests": 30,
+        "latency_ms": 8660.2,
+        "total_ms": 8705.0,
+        "rate_wait_ms": 0.3,
+        "retries": 0,
+        "errors": 0
+      }
+    }
+  }
+}

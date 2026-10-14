@@ -1,0 +1,476 @@
+{
+  "note": "live run: wall-clock includes waits of the shared rate limiter (all agents share one IP); rate_wait_ms shows that part. In replay mode latencies are the recorded ones.",
+  "http_mode": "replay",
+  "step1_refetch": {
+    "requests": 296,
+    "errors": 1,
+    "wall_s": 0.2,
+    "by_source": {
+      "blockscout_eth": {
+        "requests": 17,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 5746.7,
+        "total_ms": 7.1,
+        "rate_wait_ms": 0.0,
+        "bytes": 235633,
+        "replayed": 17,
+        "latency_ms_mean": 338.0
+      },
+      "eth_publicnode": {
+        "requests": 4,
+        "errors": 1,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 626.4,
+        "total_ms": 1.4,
+        "rate_wait_ms": 0.0,
+        "bytes": 11115,
+        "replayed": 4,
+        "latency_ms_mean": 156.6
+      },
+      "etherscan": {
+        "requests": 3,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 1102.1,
+        "total_ms": 1.3,
+        "rate_wait_ms": 0.0,
+        "bytes": 459,
+        "replayed": 3,
+        "latency_ms_mean": 367.4
+      },
+      "layerzero_scan": {
+        "requests": 2,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 857.8,
+        "total_ms": 0.9,
+        "rate_wait_ms": 0.0,
+        "bytes": 7452,
+        "replayed": 2,
+        "latency_ms_mean": 428.9
+      },
+      "near_intents_1click": {
+        "requests": 1,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 116.2,
+        "total_ms": 0.5,
+        "rate_wait_ms": 0.0,
+        "bytes": 2456,
+        "replayed": 1,
+        "latency_ms_mean": 116.2
+      },
+      "tron_publicnode": {
+        "requests": 77,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 9505.2,
+        "total_ms": 27.0,
+        "rate_wait_ms": 0.0,
+        "bytes": 69244,
+        "replayed": 77,
+        "latency_ms_mean": 123.4
+      },
+      "trongrid": {
+        "requests": 191,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 42438.0,
+        "total_ms": 75.7,
+        "rate_wait_ms": 0.0,
+        "bytes": 782434,
+        "replayed": 191,
+        "latency_ms_mean": 222.2
+      },
+      "tronscan_pending_consent": {
+        "requests": 1,
+        "errors": 1,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 433.2,
+        "total_ms": 0.6,
+        "rate_wait_ms": 0.0,
+        "bytes": 176,
+        "replayed": 1,
+        "latency_ms_mean": 433.2
+      }
+    },
+    "keys_present": {
+      "TRONGRID_API_KEY": true,
+      "TRON_RPC_URL": false,
+      "BLOCKSCOUT_API_KEY": false,
+      "NEAR_INTENTS_JWT": false,
+      "TRONSCAN_API_KEY": false,
+      "ETHERSCAN_API_KEY": true
+    },
+    "probes": {
+      "eth_getLogs_publicnode": {
+        "range": [
+          26025709,
+          26027509
+        ],
+        "status": 403,
+        "error": "SourceError: eth_publicnode eth_getLogs: HTTP 403: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"},\"id\":1}\n",
+        "logs": null
+      }
+    },
+    "replay_misses": 0,
+    "empty_answers": {
+      "tron_publicnode": 46,
+      "trongrid": 18,
+      "tronscan_pending_consent": 1
+    }
+  },
+  "step3_reference": {
+    "http_mode": "replay",
+    "steps": [
+      {
+        "step": "1 start: theft transaction",
+        "wall_ms": 7.2,
+        "requests": 2,
+        "replayed": 2,
+        "by_provider": {
+          "trongrid": {
+            "requests": 2,
+            "latency_ms": 1344.5,
+            "total_ms": 6.6,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "2 victim: mechanism and theft context",
+        "wall_ms": 37.6,
+        "requests": 5,
+        "replayed": 5,
+        "by_provider": {
+          "trongrid": {
+            "requests": 5,
+            "latency_ms": 1137.1,
+            "total_ms": 3.1,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.1 holder tron:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "wall_ms": 2.0,
+        "requests": 2,
+        "replayed": 2,
+        "by_provider": {
+          "trongrid": {
+            "requests": 2,
+            "latency_ms": 325.7,
+            "total_ms": 1.2,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.2 holder tron:TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "wall_ms": 1.6,
+        "requests": 2,
+        "replayed": 2,
+        "by_provider": {
+          "trongrid": {
+            "requests": 2,
+            "latency_ms": 310.7,
+            "total_ms": 1.0,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.3 holder tron:TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "wall_ms": 4.4,
+        "requests": 7,
+        "replayed": 7,
+        "by_provider": {
+          "blockscout_eth": {
+            "requests": 2,
+            "latency_ms": 592.8,
+            "total_ms": 0.8,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "eth_publicnode": {
+            "requests": 1,
+            "latency_ms": 293.9,
+            "total_ms": 0.5,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "layerzero_scan": {
+            "requests": 1,
+            "latency_ms": 670.9,
+            "total_ms": 0.3,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "trongrid": {
+            "requests": 3,
+            "latency_ms": 453.9,
+            "total_ms": 1.0,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.4 holder ethereum:0x4079047990917F3150353FBd8A13b05b6286926d",
+        "wall_ms": 6.3,
+        "requests": 4,
+        "replayed": 4,
+        "by_provider": {
+          "blockscout_eth": {
+            "requests": 2,
+            "latency_ms": 935.8,
+            "total_ms": 1.4,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "eth_publicnode": {
+            "requests": 1,
+            "latency_ms": 128.2,
+            "total_ms": 0.6,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "near_intents_1click": {
+            "requests": 1,
+            "latency_ms": 378.2,
+            "total_ms": 0.5,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 1
+          }
+        }
+      },
+      {
+        "step": "3.5 holder ethereum:0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "wall_ms": 2.4,
+        "requests": 3,
+        "replayed": 3,
+        "by_provider": {
+          "blockscout_eth": {
+            "requests": 1,
+            "latency_ms": 563.4,
+            "total_ms": 0.4,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "near_intents_1click": {
+            "requests": 1,
+            "latency_ms": 116.2,
+            "total_ms": 0.4,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          },
+          "trongrid": {
+            "requests": 1,
+            "latency_ms": 129.3,
+            "total_ms": 0.5,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "3.6 holder tron:TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "wall_ms": 0.6,
+        "requests": 1,
+        "replayed": 1,
+        "by_provider": {
+          "trongrid": {
+            "requests": 1,
+            "latency_ms": 519.2,
+            "total_ms": 0.3,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "4 hub outflows: exchange exit heuristic",
+        "wall_ms": 3.9,
+        "requests": 7,
+        "replayed": 7,
+        "by_provider": {
+          "trongrid": {
+            "requests": 7,
+            "latency_ms": 1436.4,
+            "total_ms": 2.5,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "5 common TRX funder",
+        "wall_ms": 12.7,
+        "requests": 6,
+        "replayed": 6,
+        "by_provider": {
+          "trongrid": {
+            "requests": 6,
+            "latency_ms": 2896.0,
+            "total_ms": 3.0,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      },
+      {
+        "step": "6 freeze candidate: live balance (informational)",
+        "wall_ms": 0.9,
+        "requests": 1,
+        "replayed": 1,
+        "by_provider": {
+          "trongrid": {
+            "requests": 1,
+            "latency_ms": 107.4,
+            "total_ms": 0.6,
+            "rate_wait_ms": 0.0,
+            "retries": 0,
+            "errors": 0
+          }
+        }
+      }
+    ],
+    "total_requests": 40,
+    "total_wall_ms": 79.7,
+    "by_provider": {
+      "blockscout_eth": {
+        "requests": 5,
+        "latency_ms": 2092.0,
+        "total_ms": 2.6,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 0
+      },
+      "eth_publicnode": {
+        "requests": 2,
+        "latency_ms": 422.0,
+        "total_ms": 1.0,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 0
+      },
+      "layerzero_scan": {
+        "requests": 1,
+        "latency_ms": 670.9,
+        "total_ms": 0.3,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 0
+      },
+      "near_intents_1click": {
+        "requests": 2,
+        "latency_ms": 494.4,
+        "total_ms": 0.9,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 1
+      },
+      "trongrid": {
+        "requests": 30,
+        "latency_ms": 8660.2,
+        "total_ms": 20.1,
+        "rate_wait_ms": 0.0,
+        "retries": 0,
+        "errors": 0
+      }
+    },
+    "wall_s": 0.1,
+    "by_source_detail": {
+      "blockscout_eth": {
+        "requests": 5,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 2092.0,
+        "total_ms": 2.6,
+        "rate_wait_ms": 0.0,
+        "bytes": 143368,
+        "replayed": 5,
+        "latency_ms_mean": 418.4
+      },
+      "eth_publicnode": {
+        "requests": 2,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 422.0,
+        "total_ms": 1.0,
+        "rate_wait_ms": 0.0,
+        "bytes": 9295,
+        "replayed": 2,
+        "latency_ms_mean": 211.0
+      },
+      "layerzero_scan": {
+        "requests": 1,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 670.9,
+        "total_ms": 0.3,
+        "rate_wait_ms": 0.0,
+        "bytes": 3726,
+        "replayed": 1,
+        "latency_ms_mean": 670.9
+      },
+      "near_intents_1click": {
+        "requests": 2,
+        "errors": 1,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 494.4,
+        "total_ms": 0.9,
+        "rate_wait_ms": 0.0,
+        "bytes": 2692,
+        "replayed": 2,
+        "latency_ms_mean": 247.2
+      },
+      "trongrid": {
+        "requests": 30,
+        "errors": 0,
+        "retries": 0,
+        "http_429": 0,
+        "latency_ms": 8660.2,
+        "total_ms": 20.1,
+        "rate_wait_ms": 0.0,
+        "bytes": 416167,
+        "replayed": 30,
+        "latency_ms_mean": 288.7
+      }
+    }
+  }
+}

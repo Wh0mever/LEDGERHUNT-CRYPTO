@@ -28,6 +28,26 @@ dist/
 .cache/
 data/cache/
 
+# Raw responses of LayerZero Scan, NEAR Intents 1Click and TronScan: their terms do not allow
+# storing them in git until the owners get permission. The exact body files are listed in a
+# generated .gitignore inside each store (data/http-store, tests/fixtures/case-001/raw/http-store,
+# tests/fixtures/case-001/raw/tronscan-pending-consent); regenerate after every live run:
+#   python -m ledgerhunt.core.restricted   (pytest fails while a list is out of date)
+
+# Held-out scenario set: kept by the owners, hidden from developers and AI agents.
+# Only README.md and manifest.json (sha256 of every file) are committed.
+tests/scenarios/holdout/**
+!tests/scenarios/holdout/README.md
+!tests/scenarios/holdout/manifest.json
+
+# Hand-over packages for the owners (e.g. the held-out archive); never committed
+handover/
+
+# Runtime lock and temp files of the HTTP stores and the LLM cost ledger (empty, per process)
+.index.lock
+*.jsonl.lock
+*.tmp
+
 # OS / editors
 .DS_Store
 Thumbs.db

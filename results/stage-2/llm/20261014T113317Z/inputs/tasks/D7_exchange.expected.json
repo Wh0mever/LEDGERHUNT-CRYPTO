@@ -1,0 +1,16 @@
+{
+  "expected": {
+    "TNJSC23": "exchange_deposit_address WhiteBIT",
+    "TCiwRN": "exchange_deposit_address WhiteBIT",
+    "others": "unknown_insufficient_data"
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "6172b7d849b5374d7ae29b95f5d1d236df2b05ace2e369573cc83e11ddfb4aaf",
+  "schema_sha256": "593f46a734be5cb11ab92ad78405c8984abd85d241ff3b947a0bc4eb21997046"
+}

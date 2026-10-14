@@ -1,0 +1,135 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-036",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "4104d677902f3248ea1505a105ecb8716036864e6719ca2f7a10c4879de3d61c",
+   "event_index": 0,
+   "from": "TVgg6b3uKYttp2crxXviZ4VQDiX6KZsEnu",
+   "to": "TNc4U2h4zFVfVxKDQMpy4udZGaXFLJRkjk",
+   "amount": "141001.633168",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "5272212be4f9b1c386ca62864fb87dfd65bdea705ab5dab700552ee1a407cfc1",
+   "event_index": 0,
+   "from": "TNc4U2h4zFVfVxKDQMpy4udZGaXFLJRkjk",
+   "to": "TCgAi43MncQF1kK55xFiQMVqpzMkmzYy2H",
+   "amount": "141001.633168",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "4137b08d55ad1ed02156824bf8fb6444b0d204c91f2c1b4b4fcd16e0ffe3117b",
+   "event_index": 0,
+   "from": "TCgAi43MncQF1kK55xFiQMVqpzMkmzYy2H",
+   "to": "TGaTZbmp46TYECMKoj3KdWgDFgNPkxjRyN",
+   "amount": "141001.633168",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "e47920fbb8573b3f1530d8efbef86377eed316643e69a52fce964c8fef7768f9",
+   "event_index": 0,
+   "from": "TGaTZbmp46TYECMKoj3KdWgDFgNPkxjRyN",
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "141001.633168",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "4104d677902f3248ea1505a105ecb8716036864e6719ca2f7a10c4879de3d61c",
+    "5272212be4f9b1c386ca62864fb87dfd65bdea705ab5dab700552ee1a407cfc1",
+    "4137b08d55ad1ed02156824bf8fb6444b0d204c91f2c1b4b4fcd16e0ffe3117b",
+    "e47920fbb8573b3f1530d8efbef86377eed316643e69a52fce964c8fef7768f9"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "reason": "bridge_destination_unconfirmed"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [
+  {
+   "chain": "tron",
+   "txid": "e47920fbb8573b3f1530d8efbef86377eed316643e69a52fce964c8fef7768f9",
+   "protocol": "usdt0_oft",
+   "dst_eid": 30101,
+   "dst_chain": "ethereum",
+   "supported": true,
+   "sender": "TGaTZbmp46TYECMKoj3KdWgDFgNPkxjRyN",
+   "recipient": "0xddbf53e2e790bc0697f0e8ce2459d154dbffa390",
+   "amount_sent": "141001.633168",
+   "amount_received": "140959.332679",
+   "guid": "0x72723ec8f186b7ac711b0e381969cd20f91775448d8039636cf42112c43e5226",
+   "dst_txid": null,
+   "excluded": null
+  }
+ ],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "21bdcaf56ce0391892672ec0af17df066e91fca8196504998647117bb4b4575a",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "0b9fc9361f131e6f7feb36cdbf2f01d6ac11b95c66e2f0ff8c45a0a8c87f578d",
+   "event_index": 0,
+   "reason": "approval_not_transfer"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [
+  {
+   "route_id": "r01",
+   "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "reason": "bridge_destination_unconfirmed",
+   "after_txid": "e47920fbb8573b3f1530d8efbef86377eed316643e69a52fce964c8fef7768f9"
+  }
+ ],
+ "notes": [],
+ "meta": {
+  "category": "bridge",
+  "variant": "oft_not_indexed",
+  "title_ru": "Сообщение моста не найдено в LayerZero Scan",
+  "description": "OFT send whose message LayerZero Scan does not know (404)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

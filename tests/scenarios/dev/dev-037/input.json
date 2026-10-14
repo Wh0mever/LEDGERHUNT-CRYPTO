@@ -1,0 +1,42 @@
+{
+ "schema": "ledgerhunt.scenario-input/1",
+ "scenario_id": "dev-037",
+ "split": "dev",
+ "synthetic": true,
+ "start": {
+  "chain": "tron",
+  "txid": "3dae4c3ad51fa036db3e4c9fadbeaf9737fb73cb43853b471de39944325b6a6e"
+ },
+ "params": {
+  "max_depth": 20,
+  "asset": "USDT-TRC20",
+  "token_contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+  "snapshot_utc": "2026-02-23T18:20:09Z"
+ },
+ "context": {
+  "labels": [
+   {
+    "address": "TD52sQqn6THUTxNK9gK1Vp9zef54vx359y",
+    "entity": "SynthEnergy Rent",
+    "type": "energy_rental_service",
+    "source": "synthetic_registry"
+   }
+  ],
+  "supported_bridges": [
+   {
+    "protocol": "usdt0_oft",
+    "dst_eids": [
+     30101
+    ]
+   }
+  ]
+ },
+ "store": "http-store",
+ "request_profile": "scenario-profile/1",
+ "providers": {
+  "primary_index": "trongrid",
+  "secondary_receipts": "tron_publicnode",
+  "bridge_api": "layerzero_scan"
+ },
+ "reference": null
+}

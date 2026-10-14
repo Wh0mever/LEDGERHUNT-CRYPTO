@@ -1,0 +1,1313 @@
+{
+ "generated_from": {
+  "fixture": "tests/fixtures/case-001/case-001-ground-truth.json",
+  "fixture_sha256": "1da6e3e7c018de43e4cc44a815158ba2b2db3c50e5da9eee595cb6fedeecc748",
+  "raw_bodies_sha256": {
+   "theft_gettransactionbyid": "1f5541ab49f74ec862d0d92813f5f9f3c39d305d692ace53552d38a023ceb608",
+   "theft_gettransactioninfobyid": "77e27374c371f3351bd260ad8b5ee496934d997c8ffebff09f609d0c26b94e99",
+   "layerzero_message_b49b": "9ac53c71e4ef30f2f85a6d833152c742a8ce5f7e19a516c78360afe65cbaa22f",
+   "eth_receipt_8ea2": "f461e80341eb192bb80cd4275f3c51ba966f1aa6fd0d6dd30386202309ebb271",
+   "blockscout_tx_41bac": "c44ac21ad801248b96f3328cade08bc3f7116ad0964c296fc6edda03f9ac5895",
+   "blockscout_logs_41bac": "541844f572e22a7b460a6b3bce2a2bb35cd8aee7dd1118da7826d95e4dc09937",
+   "oneclick_status_da39": "d25bf5a7a4999539bd184749c298f12e3d5422776bd0214f8e14a12194051ba8",
+   "tvnma2_getaccount": "656ffbb9b5c94a85cd070a3756dc6688a5b128e17ccfcd931d261ea927dee8f0"
+  }
+ },
+ "D1_mechanism": {
+  "victim_address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+  "victim_statement": {
+   "provenance": "claimed by victim",
+   "text": "I did not make or approve this transfer. The money left my wallet less than a minute after a large incoming payment arrived."
+  },
+  "account_permissions": {
+   "source": "case-001 fixture (account permission summary)",
+   "owner_permission": {
+    "threshold": 1,
+    "keys": [
+     "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+    ]
+   },
+   "active_permission": {
+    "threshold": 1,
+    "keys": [
+     "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+    ]
+   },
+   "account_permission_update_transactions_found": 0
+  },
+  "theft_transaction_raw": {
+   "source": "TronGrid POST /wallet/gettransactionbyid",
+   "body": {
+    "raw_data": {
+     "ref_block_bytes": "f5bf",
+     "ref_block_hash": "794feb956ebd111f",
+     "expiration": 1790026356000,
+     "contract": [
+      {
+       "parameter": {
+        "value": {
+         "owner_address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+         "contract_address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+         "data": "a9059cbb000000000000000000000041f49e7307ff8215c54450c072bf6d926af59faef5000000000000000000000000000000000000000000000000000000030953fbc4"
+        },
+        "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+       },
+       "type": "TriggerSmartContract"
+      }
+     ],
+     "timestamp": 1789990356000,
+     "fee_limit": 13046000
+    },
+    "signature": [
+     "dafac5f4df2c5a8fe17b07f90ce9022bca08390db9ea14018a539e5830d63bfd1ff9c7b324380ed1316e926b280acffe8ee3db9e80860c75bef8182442c28f2a00"
+    ],
+    "ret": [
+     {
+      "contractRet": "SUCCESS"
+     }
+    ],
+    "raw_data_hex": "0a02f5bf2208794feb956ebd111f40a0aa8aaf8c345aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15418a5aa79a2fd854dc565225ef05570c2c7ec8707f121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb000000000000000000000041f49e7307ff8215c54450c072bf6d926af59faef5000000000000000000000000000000000000000000000000000000030953fbc470a088f59d8c349001f0a19c06",
+    "txID": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb"
+   }
+  },
+  "theft_transaction_info_raw": {
+   "source": "TronGrid POST /walletsolidity/gettransactioninfobyid",
+   "body": {
+    "id": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+    "fee": 345000,
+    "blockNumber": 86439360,
+    "blockTimeStamp": 1789990359000,
+    "contractResult": [
+     "0000000000000000000000000000000000000000000000000000000000000000"
+    ],
+    "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+    "receipt": {
+     "energy_usage": 130285,
+     "energy_usage_total": 130285,
+     "net_fee": 345000,
+     "result": "SUCCESS",
+     "energy_penalty_total": 100635
+    },
+    "log": [
+     {
+      "address": "a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+      "topics": [
+       "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+       "0000000000000000000000008a5aa79a2fd854dc565225ef05570c2c7ec8707f",
+       "000000000000000000000000f49e7307ff8215c54450c072bf6d926af59faef5"
+      ],
+      "data": "000000000000000000000000000000000000000000000000000000030953fbc4"
+     }
+    ]
+   }
+  },
+  "victim_address_timeline": {
+   "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+   "rows": [
+    {
+     "txid": "6be9eabf7568fe67f46d9bf32e795571b4cd2fb4f124b6bdb219d48ed6b46964",
+     "time_utc": "2026-09-21T10:48:33Z",
+     "from": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+     "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+     "amount": "20.000000",
+     "asset": "USDT-TRC20",
+     "event": "incoming USDT transfer"
+    },
+    {
+     "txid": "7472e1e059d44b5fb3d1c6e86a5a907f0fae015e722d1cefdf801045b9f41fbe",
+     "time_utc": "2026-09-21T11:31:54Z",
+     "from": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+     "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+     "amount": "12937.000000",
+     "asset": "USDT-TRC20",
+     "event": "incoming USDT transfer"
+    },
+    {
+     "txid": "90b28da07b6ea4eeeca382579f393982418d296e398440895ec00a62928b3873",
+     "time_utc": "2026-09-21T11:32:36Z",
+     "from": "TQvhNtVLyJy3PfuZQieRd5PSeH8mEpgva1",
+     "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+     "event": "energy delegated to the victim address",
+     "amount": "20424 TRX staked for energy"
+    },
+    {
+     "txid": "a241b856691236d3ed98479325d61af03765609a2eb12d7ae2e71216b5007945",
+     "time_utc": "2026-09-21T11:32:39Z",
+     "from": "TUSYcK5yf8Et4xNTiUcpfZwmhFsxfdoooo",
+     "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+     "amount": "0.800000",
+     "asset": "TRX",
+     "event": "incoming TRX transfer"
+    },
+    {
+     "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+     "time_utc": "2026-09-21T11:32:39Z",
+     "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+     "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+     "amount": "5.137122",
+     "asset": "USDT-TRC20",
+     "event": "outgoing USDT transfer"
+    },
+    {
+     "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+     "time_utc": "2026-09-21T11:32:39Z",
+     "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+     "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+     "amount": "13041.400772",
+     "asset": "USDT-TRC20",
+     "block": 86439360,
+     "event": "outgoing USDT transfer"
+    }
+   ]
+  }
+ },
+ "D2_split": {
+  "address_under_review": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+  "incoming": [
+   {
+    "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+    "time_utc": "2026-09-21T11:35:33Z",
+    "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+    "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "amount": "13035.640112",
+    "asset": "USDT-TRC20"
+   }
+  ],
+  "outgoing_usdt_after_arrival": [
+   {
+    "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+    "time_utc": "2026-09-21T11:41:18Z",
+    "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "amount": "12905.283711",
+    "asset": "USDT-TRC20"
+   },
+   {
+    "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+    "time_utc": "2026-09-21T11:43:45Z",
+    "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+    "amount": "130.356401",
+    "asset": "USDT-TRC20"
+   }
+  ],
+  "usdt_balance_now": "0.000000",
+  "trx_received_for_fees": {
+   "from": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+   "txids": [
+    "32480343868c37aeac42bc014bd0c798aba635b8c1fed7648d206ac79063e2e9",
+    "dbbae16c6e8dd0498d02945c1c60f66cc32840acbe2d8b95e990c6b47f6e434d",
+    "e181937194f7f385458f1b1c721b71c7ddeead6a5bb30dd58e956b5cfd87a689"
+   ]
+  },
+  "earlier_history_of_recipients": [
+   {
+    "address": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+    "observation": "received a transfer of exactly 1% of the forwarded amount in two earlier flows with the same route (2026-08-26 and 2026-08-30)"
+   },
+   {
+    "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "observation": "address active since 2026-08-26; received the 99% part in those earlier flows"
+   }
+  ],
+  "source": "case-001 fixture (TronGrid TRC20 history, parsed)"
+ },
+ "D3_usdt0_exit": {
+  "address_under_review": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+  "trc20_activity": {
+   "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+   "rows": [
+    {
+     "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+     "time_utc": "2026-09-21T11:41:18Z",
+     "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+     "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+     "amount": "12905.283711",
+     "asset": "USDT-TRC20",
+     "direction": "in"
+    },
+    {
+     "txid": "12039abce0c3c27bf587e327d86d00b7753ab4aba422f6b2c898cee563ca9ae9",
+     "time_utc": "2026-09-21T11:50:54Z",
+     "owner": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+     "spender": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+     "allowance": "12905.280000",
+     "asset": "USDT-TRC20",
+     "event": "Approval"
+    },
+    {
+     "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+     "time_utc": "2026-09-21T11:50:54Z",
+     "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+     "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+     "amount": "12905.280000",
+     "asset": "USDT-TRC20",
+     "block": 86439725,
+     "direction": "out"
+    },
+    {
+     "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+     "time_utc": "2026-09-21T11:56:15Z",
+     "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+     "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+     "amount": "0.009778",
+     "asset": "USDT-TRC20",
+     "direction": "out"
+    }
+   ]
+  },
+  "layerzero_scan_message": {
+   "source": "LayerZero Scan GET /v1/messages/tx/{source tx hash}",
+   "body": {
+    "guid": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+    "pathway": {
+     "srcEid": 30420,
+     "dstEid": 30101,
+     "sender": {
+      "address": "0x3a08f76772e200653bb55c2a92998daca62e0e97",
+      "id": "usdt0",
+      "name": "USDT0",
+      "chain": "tron"
+     },
+     "receiver": {
+      "address": "0x1f748c76de468e9d11bd340fa9d5cbadf315dfb0",
+      "id": "usdt0",
+      "name": "USDT0",
+      "chain": "ethereum"
+     }
+    },
+    "source": {
+     "status": "SUCCEEDED",
+     "tx": {
+      "txHash": "0xb49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+      "blockNumber": "86439725",
+      "blockTimestamp": 1789991454,
+      "from": "0xcf20f79f32ed27516b2404178909f1fa35cf54ab",
+      "payload": "0x00020000000000000000000000004079047990917f3150353fbd8a13b05b6286926d0000000300fbdea0"
+     }
+    },
+    "destination": {
+     "status": "SUCCEEDED",
+     "tx": {
+      "txHash": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+      "blockNumber": 26025709,
+      "blockTimestamp": 1789991579
+     }
+    },
+    "status": {
+     "name": "DELIVERED",
+     "message": "Executor transaction confirmed"
+    },
+    "created": "2026-09-21T11:51:11.000Z",
+    "updated": "2026-09-21T11:53:55.000Z"
+   }
+  },
+  "ethereum_receipt_logs": {
+   "source": "Ethereum JSON-RPC eth_getTransactionReceipt",
+   "transactionHash": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+   "blockNumber": "0x18d1eed",
+   "status": "0x1",
+   "logs": [
+    {
+     "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+     "topics": [
+      "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "0x0000000000000000000000001f748c76de468e9d11bd340fa9d5cbadf315dfb0",
+      "0x0000000000000000000000004079047990917f3150353fbd8a13b05b6286926d"
+     ],
+     "data": "0x0000000000000000000000000000000000000000000000000000000300fbdea0",
+     "logIndex": "0x128"
+    },
+    {
+     "address": "0x1f748c76de468e9d11bd340fa9d5cbadf315dfb0",
+     "topics": [
+      "0xefed6d3500546b29533b128a29e3a94d70788727f0507505ac12eaf2e578fd9c",
+      "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+      "0x0000000000000000000000004079047990917f3150353fbd8a13b05b6286926d"
+     ],
+     "data": "0x00000000000000000000000000000000000000000000000000000000000076d40000000000000000000000000000000000000000000000000000000300fbdea0",
+     "logIndex": "0x129"
+    }
+   ],
+   "note": "log 1 is emitted by the Ethereum USDT0 OFT adapter (OFTReceived: guid, srcEid, toAddress, amountReceivedLD)"
+  }
+ },
+ "D4_rango": {
+  "transaction": {
+   "source": "Blockscout GET /api/v2/transactions/{hash}",
+   "hash": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "block_number": 26025727,
+   "timestamp": "2026-09-21T11:56:35.000000Z",
+   "status": "ok",
+   "from": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "to": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+   "to_name": "RangoDiamond",
+   "method": "genericBridge"
+  },
+  "logs": {
+   "source": "Blockscout GET /api/v2/transactions/{hash}/logs",
+   "items": [
+    {
+     "index": 19,
+     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "address_name": "TetherToken",
+     "event": "Transfer(address indexed from, address indexed to, uint256 value)",
+     "topics": [
+      "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "0x0000000000000000000000004079047990917f3150353fbd8a13b05b6286926d",
+      "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d"
+     ],
+     "data": "0x0000000000000000000000000000000000000000000000000000000300fbe8b8",
+     "decoded_parameters": [
+      {
+       "name": "from",
+       "type": "address",
+       "value": "0x4079047990917F3150353FBd8A13b05b6286926d"
+      },
+      {
+       "name": "to",
+       "type": "address",
+       "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+      },
+      {
+       "name": "value",
+       "type": "uint256",
+       "value": "12901411000"
+      }
+     ]
+    },
+    {
+     "index": 20,
+     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "address_name": "TetherToken",
+     "event": "Transfer(address indexed from, address indexed to, uint256 value)",
+     "topics": [
+      "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d",
+      "0x000000000000000000000000dddb9a95e443a204eb8650d5ea578ed707fe2123"
+     ],
+     "data": "0x0000000000000000000000000000000000000000000000000000000001274a34",
+     "decoded_parameters": [
+      {
+       "name": "from",
+       "type": "address",
+       "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+      },
+      {
+       "name": "to",
+       "type": "address",
+       "value": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123"
+      },
+      {
+       "name": "value",
+       "type": "uint256",
+       "value": "19352116"
+      }
+     ]
+    },
+    {
+     "index": 21,
+     "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+     "address_name": "RangoDiamond",
+     "event": "SendToken(address _token, uint256 _amount, address _receiver)",
+     "topics": [
+      "0xdf4363408b2d9811d1e5c23efdb5bae0b7a68bd9de2de1cbae18a11be3e67ef5"
+     ],
+     "data": "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec70000000000000000000000000000000000000000000000000000000001274a34000000000000000000000000dddb9a95e443a204eb8650d5ea578ed707fe2123",
+     "decoded_parameters": [
+      {
+       "name": "_token",
+       "type": "address",
+       "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+      },
+      {
+       "name": "_amount",
+       "type": "uint256",
+       "value": "19352116"
+      },
+      {
+       "name": "_receiver",
+       "type": "address",
+       "value": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123"
+      }
+     ]
+    },
+    {
+     "index": 22,
+     "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+     "address_name": "RangoDiamond",
+     "event": "FeeInfo(address token, address indexed affiliatorAddress, uint256 affiliateFee, uint8 indexed feeType, uint16 indexed dAppTag)",
+     "topics": [
+      "0x7f32e90e3fb6eb794eaf193eacb729a5b0bf5ab7d1f5f348f8f5beeac89e3d54",
+      "0x000000000000000000000000dddb9a95e443a204eb8650d5ea578ed707fe2123",
+      "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "0x000000000000000000000000000000000000000000000000000000000000067e"
+     ],
+     "data": "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec70000000000000000000000000000000000000000000000000000000001274a34",
+     "decoded_parameters": [
+      {
+       "name": "token",
+       "type": "address",
+       "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+      },
+      {
+       "name": "affiliatorAddress",
+       "type": "address",
+       "value": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123"
+      },
+      {
+       "name": "affiliateFee",
+       "type": "uint256",
+       "value": "19352116"
+      },
+      {
+       "name": "feeType",
+       "type": "uint8",
+       "value": "0"
+      },
+      {
+       "name": "dAppTag",
+       "type": "uint16",
+       "value": "1662"
+      }
+     ]
+    },
+    {
+     "index": 23,
+     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "address_name": "TetherToken",
+     "event": "Transfer(address indexed from, address indexed to, uint256 value)",
+     "topics": [
+      "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d",
+      "0x000000000000000000000000da392553ec3602d3e650a725f847c10d04e122c0"
+     ],
+     "data": "0x00000000000000000000000000000000000000000000000000000002ffd49e84",
+     "decoded_parameters": [
+      {
+       "name": "from",
+       "type": "address",
+       "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+      },
+      {
+       "name": "to",
+       "type": "address",
+       "value": "0xdA392553ec3602D3e650a725f847C10d04E122C0"
+      },
+      {
+       "name": "value",
+       "type": "uint256",
+       "value": "12882058884"
+      }
+     ]
+    },
+    {
+     "index": 24,
+     "address": "0xB8cF3cdbc390180257295Bf08cfdEca80dca9e8A",
+     "address_name": "RangoRouter",
+     "event": "Routed(address indexed token, address indexed from, address indexed to, uint256 amount)",
+     "topics": [
+      "0x8b8a3020a34a6b3f440b9b7d3bb9dc72778deeb4ec7cd97d66fb520685fcc4db",
+      "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec7",
+      "0x00000000000000000000000069460570c93f9de5e2edbc3052bf10125f0ca22d",
+      "0x000000000000000000000000da392553ec3602d3e650a725f847c10d04e122c0"
+     ],
+     "data": "0x00000000000000000000000000000000000000000000000000000002ffd49e84",
+     "decoded_parameters": [
+      {
+       "name": "token",
+       "type": "address",
+       "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+      },
+      {
+       "name": "from",
+       "type": "address",
+       "value": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d"
+      },
+      {
+       "name": "to",
+       "type": "address",
+       "value": "0xdA392553ec3602D3e650a725f847C10d04E122C0"
+      },
+      {
+       "name": "amount",
+       "type": "uint256",
+       "value": "12882058884"
+      }
+     ]
+    },
+    {
+     "index": 25,
+     "address": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+     "address_name": "RangoDiamond",
+     "event": "RangoBridgeInitiated(address indexed requestId, address bridgeToken, uint256 bridgeAmount, address receiver, uint256 destinationChainId, bool hasInterchainMessage, bool hasDestinationSwap, uint8 indexed bridgeId, uint16 indexed dAppTag, string dAppName)",
+     "topics": [
+      "0x012c155f3836c4edb9222305b909a109f9efa46288efffe40a0e66da3a9a9800",
+      "0x0000000000000000000000000000000033ae4dc24d564a56877b50864b775dfe",
+      "0x000000000000000000000000000000000000000000000000000000000000003c",
+      "0x000000000000000000000000000000000000000000000000000000000000067e"
+     ],
+     "data": "0x000000000000000000000000dac17f958d2ee523a2206206994597c13d831ec700000000000000000000000000000000000000000000000000000002ffd49e8400000000000000000000000054594865483248516e37704d35666536615977470000000000000000000000000000000000000000000000000000000054524f4e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000000084d6f6f6e47617465000000000000000000000000000000000000000000000000",
+     "decoded_parameters": [
+      {
+       "name": "requestId",
+       "type": "address",
+       "value": "0x0000000033ae4dC24D564a56877B50864b775dfe"
+      },
+      {
+       "name": "bridgeToken",
+       "type": "address",
+       "value": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+      },
+      {
+       "name": "bridgeAmount",
+       "type": "uint256",
+       "value": "12882058884"
+      },
+      {
+       "name": "receiver",
+       "type": "address",
+       "value": "0x54594865483248516E37704D3566653661597747"
+      },
+      {
+       "name": "destinationChainId",
+       "type": "uint256",
+       "value": "1414680398"
+      },
+      {
+       "name": "hasInterchainMessage",
+       "type": "bool",
+       "value": "false"
+      },
+      {
+       "name": "hasDestinationSwap",
+       "type": "bool",
+       "value": "false"
+      },
+      {
+       "name": "bridgeId",
+       "type": "uint8",
+       "value": "60"
+      },
+      {
+       "name": "dAppTag",
+       "type": "uint16",
+       "value": "1662"
+      },
+      {
+       "name": "dAppName",
+       "type": "string",
+       "value": "MoonGate"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "D5_near_intents": {
+  "previous_step_result": {
+   "from_rango_log": "funds forwarded to 0xdA392553ec3602D3e650a725f847C10d04E122C0; receiver field of the Rango event decodes to the ASCII text TYHeH2HQn7pM5fe6aYwG (20 characters)"
+  },
+  "erc20_transfers_of_forwarded_address": {
+   "source": "case-001 fixture (Blockscout ERC-20 token transfers, parsed)",
+   "address": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "rows": [
+    {
+     "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+     "time_utc": "2026-09-21T11:56:35Z",
+     "from": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+     "to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+     "amount": "12882.058884",
+     "asset": "USDT-ERC20",
+     "direction": "in"
+    },
+    {
+     "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+     "time_utc": "2026-09-21T11:57:35Z",
+     "from": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+     "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+     "amount": "12882.058884",
+     "asset": "USDT-ERC20",
+     "direction": "out"
+    }
+   ]
+  },
+  "oneclick_status": {
+   "source": "NEAR Intents 1Click GET /v0/status?depositAddress=0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "body": {
+    "status": "SUCCESS",
+    "updatedAt": "2026-09-21T11:58:13.000Z",
+    "correlationId": "47f79b0d-937f-41a5-9358-dd5e2294c342",
+    "swapDetails": {
+     "depositedAmount": "12882058884",
+     "depositedAmountUsd": "12877.691866038323",
+     "depositedAmountFormatted": "12882.058884",
+     "intentHashes": [
+      "HFxzg5Cz5BCP2ocKGbcSRbh9Skt4fr5QbbqirPL7rHqq"
+     ],
+     "nearTxHashes": [
+      "HgECtUbDx8sahjUaDXRe4Q2vb2bgGm8c9HAHv8rMJmZR",
+      "AjeZCFUWRHddcCDsaERWaPB9RDFsAFxnKmC2zARaWtAw"
+     ],
+     "amountIn": "12882058884",
+     "amountInFormatted": "12882.058884",
+     "amountInUsd": "12877.691866038323",
+     "amountOut": "12878410167",
+     "amountOutFormatted": "12878.410167",
+     "amountOutUsd": "12874.044385953388",
+     "slippage": 0,
+     "refundedAmount": "0",
+     "refundedAmountFormatted": "0",
+     "refundedAmountUsd": "0",
+     "refundReason": null,
+     "refundFee": "300000",
+     "withdrawFee": "939762",
+     "originChainTxHashes": [
+      {
+       "hash": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+       "explorerUrl": ""
+      }
+     ],
+     "destinationChainTxHashes": [
+      {
+       "hash": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+       "explorerUrl": ""
+      }
+     ]
+    },
+    "quoteResponse": {
+     "timestamp": "2026-09-21T11:55:51.591Z",
+     "signature": "ed25519:2A5P4mUr57Lx4BuZZUYnBT2Sm15g37GFn9oai6G1np8cV1WVMp67hmzayinp6TZUS812JSP8nUosC3JFXFyeWBnT",
+     "quoteRequest": {
+      "dry": false,
+      "swapType": "EXACT_INPUT",
+      "depositMode": "SIMPLE",
+      "slippageTolerance": 100,
+      "originAsset": "nep141:eth-0xdac17f958d2ee523a2206206994597c13d831ec7.omft.near",
+      "depositType": "ORIGIN_CHAIN",
+      "destinationAsset": "nep141:tron-d28a265909efecdcee7c5028585214ea0b96f015.omft.near",
+      "amount": "12882058884",
+      "refundTo": "0x4079047990917F3150353FBd8A13b05b6286926d",
+      "refundType": "ORIGIN_CHAIN",
+      "recipient": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "recipientType": "DESTINATION_CHAIN",
+      "deadline": "2026-09-21T12:55:51.574Z",
+      "appFees": [
+       {
+        "limitOrderId": null,
+        "recipient": "rangoni.near",
+        "fee": 0
+       },
+       {
+        "limitOrderId": null,
+        "recipient": "5880ad2b362620fadf759cbceb1cd5737ce8c6ed7fb8e9942881e6731f9247dd",
+        "fee": 1
+       }
+      ],
+      "virtualChainRecipient": null,
+      "virtualChainRefundRecipient": null,
+      "referral": "rango",
+      "confidentiality": "public"
+     },
+     "quote": {
+      "amountIn": "12882058884",
+      "amountInFormatted": "12882.058884",
+      "amountInUsd": "12877.975271333771",
+      "minAmountIn": "12882058884",
+      "amountOut": "12878349626",
+      "amountOutFormatted": "12878.349626",
+      "amountOutUsd": "12874.267189168557",
+      "minAmountOut": "12749566129",
+      "timeWhenInactive": "2026-09-24T12:55:51.574Z",
+      "depositAddress": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+      "deadline": "2026-09-24T12:55:51.574Z",
+      "timeEstimate": 100,
+      "refundFee": "300000",
+      "withdrawFee": "939762"
+     }
+    }
+   }
+  },
+  "tron_trc20_transfer": {
+   "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+   "row": {
+    "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+    "time_utc": "2026-09-21T11:58:09Z",
+    "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+    "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "amount": "12878.454902",
+    "asset": "USDT-TRC20",
+    "block": 86439870
+   }
+  }
+ },
+ "D6_hub": {
+  "address_under_review": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+  "arrival_of_traced_funds": {
+   "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+   "time_utc": "2026-09-21T11:58:09Z",
+   "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+   "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "amount": "12878.454902",
+   "asset": "USDT-TRC20",
+   "block": 86439870,
+   "route_before": "victim -> 3 TRON hops -> USDT0 bridge to Ethereum -> Rango -> NEAR Intents 1Click -> this address"
+  },
+  "traced_amount": "12878.454902",
+  "account_facts": {
+   "activated_utc": "2026-08-06T17:47:57Z",
+   "activated_by": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+   "usdt_balance": {
+    "amount": "238766.644069",
+    "as_of_utc": "2026-10-14T09:00:00Z (approximately)"
+   }
+  },
+  "usdt_outflows_after_arrival": {
+   "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+   "note": "first outflows after the traced funds arrived; the address has much more USDT activity that is not listed",
+   "rows": [
+    {
+     "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+     "time_utc": "2026-09-21T13:41:15Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+     "amount": "150000.000000",
+     "asset": "USDT-TRC20"
+    },
+    {
+     "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+     "time_utc": "2026-09-21T13:54:45Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+     "amount": "14760.000000",
+     "asset": "USDT-TRC20"
+    },
+    {
+     "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+     "time_utc": "2026-09-21T13:58:42Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+     "amount": "21000.000000",
+     "asset": "USDT-TRC20"
+    },
+    {
+     "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+     "time_utc": "2026-09-22T08:25:00Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+     "amount": "250000.000000",
+     "asset": "USDT-TRC20"
+    }
+   ]
+  }
+ },
+ "D7_exchange": {
+  "candidates": [
+   {
+    "address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+    "incoming": [
+     {
+      "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+      "time_utc": "2026-09-21T13:41:15Z",
+      "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "to": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+      "amount": "150000.000000",
+      "asset": "USDT-TRC20"
+     }
+    ],
+    "outgoing": [
+     {
+      "txid": "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e",
+      "time_utc": "2026-09-21T13:44:36Z",
+      "from": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+      "to": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+      "amount": "150000.000000",
+      "asset": "USDT-TRC20"
+     }
+    ]
+   },
+   {
+    "address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+    "incoming": [
+     {
+      "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+      "time_utc": "2026-09-22T08:25:00Z",
+      "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "to": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+      "amount": "250000.000000",
+      "asset": "USDT-TRC20"
+     }
+    ],
+    "outgoing": [
+     {
+      "txid": "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf",
+      "time_utc": "2026-09-22T08:27:51Z",
+      "from": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+      "to": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+      "amount": "250000.000000",
+      "asset": "USDT-TRC20"
+     }
+    ]
+   },
+   {
+    "address": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+    "incoming": [
+     {
+      "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+      "time_utc": "2026-09-21T13:54:45Z",
+      "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "to": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+      "amount": "14760.000000",
+      "asset": "USDT-TRC20"
+     }
+    ],
+    "outgoing": "not fetched"
+   },
+   {
+    "address": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+    "incoming": [
+     {
+      "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+      "time_utc": "2026-09-21T13:58:42Z",
+      "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "to": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+      "amount": "21000.000000",
+      "asset": "USDT-TRC20"
+     }
+    ],
+    "outgoing": "not fetched"
+   }
+  ],
+  "address_tags": [
+   {
+    "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+    "tag": "WhiteBIT",
+    "source": "third-party block explorer tag (TronScan addressTag)"
+   }
+  ],
+  "context": "all four candidates received USDT from TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6, an address where the traced stolen funds were mixed with other funds",
+  "source": "case-001 fixture (TronGrid TRC20 history, parsed)"
+ },
+ "D8_funder": {
+  "funder_account_raw": {
+   "source": "TronGrid POST /wallet/getaccount",
+   "body": {
+    "address": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+    "balance": 423366269,
+    "create_time": 1786036968000,
+    "latest_opration_time": 1791974412000,
+    "free_net_usage": 449,
+    "latest_consume_free_time": 1791960936000,
+    "net_window_size": 28800000,
+    "net_window_optimized": true,
+    "account_resource": {
+     "energy_window_size": 28800000,
+     "energy_window_optimized": true
+    },
+    "owner_permission": {
+     "permission_name": "owner",
+     "threshold": 1,
+     "keys": [
+      {
+       "address": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+       "weight": 1
+      }
+     ]
+    },
+    "active_permission": [
+     {
+      "type": "Active",
+      "id": 2,
+      "permission_name": "active",
+      "threshold": 1,
+      "operations": "7fff1fc0033ec30f000000000000000000000000000000000000000000000000",
+      "keys": [
+       {
+        "address": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+        "weight": 1
+       }
+      ]
+     }
+    ],
+    "frozenV2": [
+     {},
+     {
+      "type": "ENERGY"
+     },
+     {
+      "type": "TRON_POWER"
+     }
+    ],
+    "assetV2": [
+     {
+      "key": "1005193",
+      "value": 4444444444
+     },
+     {
+      "key": "1005119",
+      "value": 8888
+     },
+     {
+      "key": "1005114",
+      "value": 8888
+     },
+     {
+      "key": "1005157",
+      "value": 8888888
+     },
+     {
+      "key": "1005185",
+      "value": 4444444444
+     },
+     {
+      "key": "1005074",
+      "value": 222222
+     }
+    ],
+    "free_asset_net_usageV2": [
+     {
+      "key": "1005193",
+      "value": 0
+     },
+     {
+      "key": "1005119",
+      "value": 0
+     },
+     {
+      "key": "1005114",
+      "value": 0
+     },
+     {
+      "key": "1005157",
+      "value": 0
+     },
+     {
+      "key": "1005185",
+      "value": 0
+     },
+     {
+      "key": "1005074",
+      "value": 0
+     }
+    ],
+    "asset_optimized": true
+   }
+  },
+  "trx_transfers_from_funder": [
+   {
+    "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "txids": [
+     "32480343868c37aeac42bc014bd0c798aba635b8c1fed7648d206ac79063e2e9",
+     "dbbae16c6e8dd0498d02945c1c60f66cc32840acbe2d8b95e990c6b47f6e434d",
+     "e181937194f7f385458f1b1c721b71c7ddeead6a5bb30dd58e956b5cfd87a689"
+    ]
+   },
+   {
+    "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "txids": [
+     "3599ac14657a1ad4be2f15780bbc93a2b42b0f453dd613adf9bc7f9ea78e8712",
+     "77655efb4e8a060474cecfaf00680f4813e4416069386ea0f99afe4c3cab7d9b"
+    ],
+    "returned_trx_to_funder_txids": [
+     "48eca492eef755db84fa60feb1743ffe76618023fb16423e57a4f78efa8c25cc",
+     "9ab7c48183c9809baf1441c8b1fc9c88aa3dd0ed2d1f043edc2381f50225adf1",
+     "1f6185270470955219b635876ba9e6ab18d4adf4e654ba0868f94f83cc31f9d2"
+    ]
+   },
+   {
+    "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "txids": [
+     "b44d60c46af55dbe24d4b3a3e37fa1c79cdfd9f3f84296b61121443bcb4ac210",
+     "5c1b1a5466fb61b989e5ab03e8858a8841b0eaf5f5796707304fec7065663a8b",
+     "8386c0b1186a2d5b2f572b726ee1918b6fb9f27c9e94a32bc44bab89f541b872",
+     "bdd5c283f7db3b60a8369c1fe26d90b39635ac5e38b308e9469e4d1a041d7491",
+     "b617d75b6c305528c0156c7bef33bdb2d00d6fb77b36e034bb5a5c7dfd1431ce"
+    ]
+   }
+  ],
+  "activation": {
+   "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "activated_utc": "2026-08-06T17:47:57Z",
+   "activated_by": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+   "funder_created_utc": "2026-08-06T17:22:48Z"
+  },
+  "funder_upstream": [
+   {
+    "txid": "673c0f9f0ca1029a6b9c16d3d345c9ba2f9f3af2463fb369eac390dd2a9582f5",
+    "from": "TMGtBUqWevfE2y1XpvzTsHEkLpSDi4bW51",
+    "amount": "918",
+    "asset": "TRX",
+    "note": "the sender was itself funded by TSm7vUxW9DvKiwwDRcaR36X8vBjKc99Sxe"
+   },
+   {
+    "txid": "d88f4a8b58905f5f3d6eb036f23615fea9d1238e6803340a01803e998e7c0462",
+    "from": "TSm7vUxW9DvKiwwDRcaR36X8vBjKc99Sxe",
+    "amount": "849.68",
+    "asset": "TRX"
+   }
+  ],
+  "upstream_observation": "TSm7vUxW9DvKiwwDRcaR36X8vBjKc99Sxe is a high-volume USDT payout wallet active since 2024-11, no public label",
+  "roles_in_traced_route": {
+   "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3": "second hop of the stolen funds",
+   "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU": "third hop; sent the funds into the USDT0 bridge",
+   "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6": "received the stolen funds after the cross-chain round trip"
+  },
+  "source": "case-001 fixture (TRX transfers, parsed) and raw getaccount"
+ },
+ "R1_report": {
+  "case": {
+   "theft_txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+   "victim_address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "asset": "USDT-TRC20",
+   "amount": "13041.400772",
+   "time_utc": "2026-09-21T11:32:39Z",
+   "block": 86439360
+  },
+  "verified_route": [
+   {
+    "order": 1,
+    "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+    "time_utc": "2026-09-21T11:32:39Z",
+    "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+    "amount": "13041.400772",
+    "asset": "USDT-TRC20",
+    "block": 86439360,
+    "chain": "tron"
+   },
+   {
+    "order": 2,
+    "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+    "time_utc": "2026-09-21T11:35:33Z",
+    "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+    "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "amount": "13035.640112",
+    "asset": "USDT-TRC20",
+    "chain": "tron"
+   },
+   {
+    "order": 3,
+    "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+    "time_utc": "2026-09-21T11:41:18Z",
+    "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "amount": "12905.283711",
+    "asset": "USDT-TRC20",
+    "chain": "tron"
+   },
+   {
+    "order": 4,
+    "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+    "time_utc": "2026-09-21T11:50:54Z",
+    "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "amount": "12905.280000",
+    "asset": "USDT-TRC20",
+    "block": 86439725,
+    "chain": "tron"
+   },
+   {
+    "order": 5,
+    "txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+    "time_utc": "2026-09-21T11:52:59Z",
+    "from": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+    "to": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "amount": "12901.408416",
+    "asset": "USDT-ERC20",
+    "block": 26025709,
+    "chain": "ethereum"
+   },
+   {
+    "order": 6,
+    "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+    "time_utc": "2026-09-21T11:56:35Z",
+    "from": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "to": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+    "amount": "12901.411000",
+    "asset": "USDT-ERC20",
+    "block": 26025727,
+    "chain": "ethereum"
+   },
+   {
+    "order": 7,
+    "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+    "time_utc": "2026-09-21T11:57:35Z",
+    "from": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+    "amount": "12882.058884",
+    "asset": "USDT-ERC20",
+    "chain": "ethereum"
+   },
+   {
+    "order": 8,
+    "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+    "time_utc": "2026-09-21T11:58:09Z",
+    "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+    "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "amount": "12878.454902",
+    "asset": "USDT-TRC20",
+    "block": 86439870,
+    "chain": "tron"
+   }
+  ],
+  "bridge_details": {
+   "usdt0_layerzero": {
+    "source_txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+    "srcEid": 30420,
+    "dstEid": 30101,
+    "guid": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+    "sent": "12905.280000",
+    "received_on_ethereum": "12901.408416",
+    "recipient": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "status": "DELIVERED"
+   },
+   "rango": {
+    "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+    "destinationChainId": 1414680398,
+    "destinationChainId_ascii": "TRON",
+    "receiver_bytes_ascii": "TYHeH2HQn7pM5fe6aYwG",
+    "affiliate": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+    "affiliate_fee": "19.352116",
+    "forwarded_to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "forwarded_amount": "12882.058884",
+    "dAppName": "MoonGate"
+   },
+   "near_intents_1click": {
+    "deposit_address": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "status": "SUCCESS",
+    "recipient": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "destination_txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+    "amount_out_reported_by_1click": "12878.410167",
+    "amount_received_on_chain": "12878.454902"
+   }
+  },
+  "side_branches": [
+   {
+    "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+    "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+    "amount": "5.137122",
+    "what": "energy-rental fee paid from the victim address in the theft transaction sequence"
+   },
+   {
+    "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+    "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec",
+    "amount": "5.486343",
+    "what": "energy-rental fee paid by the first thief address"
+   },
+   {
+    "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+    "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+    "amount": "130.356401",
+    "what": "exactly 1% of 13035.640112, recurring fee collector"
+   },
+   {
+    "to": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+    "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+    "amount": "19.352116",
+    "what": "Rango affiliate fee (dApp MoonGate)"
+   },
+   {
+    "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+    "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+    "amount": "0.009778",
+    "what": "dust remainder"
+   },
+   {
+    "what": "bridge and swap fees",
+    "usdt0_fee": "3.871584",
+    "near_intents_difference": "3.603982"
+   }
+  ],
+  "total_lost_between_theft_and_hub": {
+   "amount": "162.94587",
+   "computed_as": "13041.400772 - 12878.454902 = 162.945870",
+   "what": "fees, the 1% cut and small residues left on intermediate addresses"
+  },
+  "hub": {
+   "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "received": "12878.454902",
+   "commingled": true,
+   "usdt_balance": {
+    "amount": "238766.644069",
+    "as_of_utc": "2026-10-14T09:00:00Z (approximately)"
+   },
+   "outflows_after_arrival": [
+    {
+     "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+     "time_utc": "2026-09-21T13:41:15Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+     "amount": "150000.000000",
+     "asset": "USDT-TRC20"
+    },
+    {
+     "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+     "time_utc": "2026-09-21T13:54:45Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+     "amount": "14760.000000",
+     "asset": "USDT-TRC20"
+    },
+    {
+     "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+     "time_utc": "2026-09-21T13:58:42Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+     "amount": "21000.000000",
+     "asset": "USDT-TRC20"
+    },
+    {
+     "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+     "time_utc": "2026-09-22T08:25:00Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+     "amount": "250000.000000",
+     "asset": "USDT-TRC20"
+    }
+   ]
+  },
+  "exchange_exits": [
+   {
+    "deposit_address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+    "exchange": "WhiteBIT",
+    "evidence": [
+     "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+     "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e"
+    ],
+    "label_source": "third-party explorer tag of the sweep destination TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+   },
+   {
+    "deposit_address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+    "exchange": "WhiteBIT",
+    "evidence": [
+     "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+     "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf"
+    ],
+    "label_source": "third-party explorer tag of the sweep destination TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+   }
+  ],
+  "freeze_candidate": {
+   "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "asset": "USDT-TRC20",
+   "funds": "commingled"
+  },
+  "mechanism": {
+   "finding": "the theft transaction and the fee transfer were signed with the victim's own owner key; account permissions were never changed",
+   "interpretation": "consistent with compromise of the seed phrase or private key"
+  },
+  "links": [
+   {
+    "type": "common TRX funder",
+    "funder": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+    "funded": [
+     "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+     "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+     "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+    ],
+    "status": "hypothesis: probably the same operator",
+    "confidence": "medium-high"
+   }
+  ],
+  "route_reuse": "the same route (hop -> 99% + exactly 1% -> USDT0 bridge -> 0x4079... -> Rango) was used on 2026-08-26/27 and 2026-08-30/31"
+ }
+}

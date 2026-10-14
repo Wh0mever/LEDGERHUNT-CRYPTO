@@ -1,0 +1,71 @@
+{
+  "type": "object",
+  "properties": {
+    "classification": {
+      "type": "string",
+      "enum": [
+        "holds_only_stolen_funds",
+        "commingled_hub",
+        "exchange_deposit_address",
+        "exchange_hot_wallet",
+        "bridge_or_service_contract",
+        "unknown"
+      ]
+    },
+    "funds_commingled": {
+      "type": "boolean"
+    },
+    "outflow_attribution": {
+      "type": "string",
+      "enum": [
+        "one_to_one_traceable",
+        "cannot_be_determined_commingled",
+        "not_applicable"
+      ]
+    },
+    "freeze_candidate": {
+      "type": "boolean",
+      "description": "should a freeze request for this address be prepared"
+    },
+    "freeze_asset": {
+      "type": "string",
+      "enum": [
+        "USDT-TRC20",
+        "TRX",
+        "none"
+      ]
+    },
+    "traced_amount_received": {
+      "type": "string"
+    },
+    "current_balance_exceeds_traced_amount": {
+      "type": "boolean"
+    },
+    "uncertainty_statement": {
+      "type": "string",
+      "description": "what cannot be concluded about the stolen funds at this address"
+    },
+    "recommended_next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "classification",
+    "funds_commingled",
+    "outflow_attribution",
+    "freeze_candidate",
+    "freeze_asset",
+    "traced_amount_received",
+    "current_balance_exceeds_traced_amount",
+    "uncertainty_statement",
+    "recommended_next_steps",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

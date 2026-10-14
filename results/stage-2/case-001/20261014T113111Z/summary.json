@@ -1,0 +1,114 @@
+{
+  "run_id": "20261014T113111Z",
+  "http_mode": "record",
+  "facts": {
+    "confirmed": 240,
+    "mismatch": 5,
+    "not_verifiable": 25
+  },
+  "facts_count": 270,
+  "mismatches": [
+    {
+      "n": 158,
+      "group": "transactions",
+      "subject": "step 20 9cfd1cad95",
+      "field": "timestamp_utc",
+      "claim": "2026-09-21 13:54:45",
+      "observed": "2026-09-21 15:14:45",
+      "note": "block timestamp from gettransactioninfobyid",
+      "evidence": [
+        "tron_tx:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_info:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_events:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_info_publicnode:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96"
+      ]
+    },
+    {
+      "n": 164,
+      "group": "transactions",
+      "subject": "step 21 284c7baae1",
+      "field": "timestamp_utc",
+      "claim": "2026-09-21 13:58:42",
+      "observed": "2026-09-21 15:18:42",
+      "note": "block timestamp from gettransactioninfobyid",
+      "evidence": [
+        "tron_tx:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_info:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_events:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_info_publicnode:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7"
+      ]
+    },
+    {
+      "n": 197,
+      "group": "addresses",
+      "subject": "TYGdh7qysH (thief hop 1 (fresh, activated 11:35:27))",
+      "field": "activated 11:35:27 (create_time)",
+      "claim": "2026-09-21 11:35:27",
+      "observed": "2026-09-21 11:35:24",
+      "note": null,
+      "evidence": [
+        "tron_account:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn"
+      ]
+    },
+    {
+      "n": 209,
+      "group": "addresses",
+      "subject": "0x40790479 (launderer Ethereum transit EOA (reused A)",
+      "field": "EOA reused Aug-Oct 2026",
+      "claim": "reused Aug-Oct 2026",
+      "observed": "is_contract=False; USDT transfers 36 from 2026-06-04 13:41:11 to 2026-10-13 16:27:11",
+      "note": null,
+      "evidence": [
+        "eth_address_transfers:0x4079047990917F3150353FBd8A13b05b6286926d"
+      ]
+    },
+    {
+      "n": 259,
+      "group": "links",
+      "subject": "reused route via TX7WP5CptZ",
+      "field": "99% to TUrQNN + exactly 1% to TRUJEt",
+      "claim": "99%/1% split",
+      "observed": "TX7WP5CptZ received 3089.264374, sent 3058.371730 to TUrQNNez22 and 30.892644 to TRUJEt (2026-08-30 09:28:54)",
+      "note": null,
+      "evidence": [
+        "trc20:reuse_flow:TX7WP5CptZqkBfbN71iwWTLDzHyzNuBuj3"
+      ]
+    }
+  ],
+  "comparison": {
+    "match": 12,
+    "partial": 3
+  },
+  "route": [
+    "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+    "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+  ],
+  "total_lost_before_hub": "162.945870",
+  "exchange_exits": [
+    [
+      "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+      "WhiteBIT"
+    ],
+    [
+      "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+      "WhiteBIT"
+    ]
+  ],
+  "expected_check": {
+    "status": "no expected file yet (run with --update-expected)"
+  },
+  "requests": {
+    "step1": 296,
+    "step3": 40
+  },
+  "wall_s": {
+    "step1": 67.4,
+    "step3": 10.3
+  },
+  "report": "results/stage-2/case-001/20261014T113111Z/report.md"
+}

@@ -1,0 +1,192 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-007",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "9abf65bb58c830eed78c4d11b4a79d0fdc224b97345ff5e25dcd703b8cd362b5",
+   "event_index": 0,
+   "from": "TKmSPMfRcXM8yGwtSZSEjJ65Smj7duJq9N",
+   "to": "TKMcmgCf2UM6zMWcuiTmWW4KDX7RGCPZkF",
+   "amount": "52204.057660",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852",
+   "event_index": 0,
+   "from": "TKMcmgCf2UM6zMWcuiTmWW4KDX7RGCPZkF",
+   "to": "TQuhQciWcaDRXijFcNLHs58FNLUksKHGNf",
+   "amount": "1261.729490",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852",
+   "event_index": 1,
+   "from": "TKMcmgCf2UM6zMWcuiTmWW4KDX7RGCPZkF",
+   "to": "T9zREMXZkNGdKaJZ48KEC4vZn144fJEaVd",
+   "amount": "8674.390245",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852",
+   "event_index": 2,
+   "from": "TKMcmgCf2UM6zMWcuiTmWW4KDX7RGCPZkF",
+   "to": "TKP9YK3QMC9PddpBUesz4NMmLH8SsiZpSz",
+   "amount": "15456.186255",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852",
+   "event_index": 3,
+   "from": "TKMcmgCf2UM6zMWcuiTmWW4KDX7RGCPZkF",
+   "to": "TH7hYA1c57PafJW2Ye84q9SFEEkZq6B7Hv",
+   "amount": "14194.456765",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852",
+   "event_index": 4,
+   "from": "TKMcmgCf2UM6zMWcuiTmWW4KDX7RGCPZkF",
+   "to": "TJpuHspXzaxdB2YxCZwLupf6EPGGufN7jn",
+   "amount": "12617.294905",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "9abf65bb58c830eed78c4d11b4a79d0fdc224b97345ff5e25dcd703b8cd362b5",
+    "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "T9zREMXZkNGdKaJZ48KEC4vZn144fJEaVd",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "9abf65bb58c830eed78c4d11b4a79d0fdc224b97345ff5e25dcd703b8cd362b5",
+    "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TH7hYA1c57PafJW2Ye84q9SFEEkZq6B7Hv",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r03",
+   "kind": "main",
+   "txids": [
+    "9abf65bb58c830eed78c4d11b4a79d0fdc224b97345ff5e25dcd703b8cd362b5",
+    "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TJpuHspXzaxdB2YxCZwLupf6EPGGufN7jn",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r04",
+   "kind": "main",
+   "txids": [
+    "9abf65bb58c830eed78c4d11b4a79d0fdc224b97345ff5e25dcd703b8cd362b5",
+    "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TKP9YK3QMC9PddpBUesz4NMmLH8SsiZpSz",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r05",
+   "kind": "main",
+   "txids": [
+    "9abf65bb58c830eed78c4d11b4a79d0fdc224b97345ff5e25dcd703b8cd362b5",
+    "ca44fb55d16444bab9231663e989882ae7d7b3e31af3044b6a1c48ce6652c852"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TQuhQciWcaDRXijFcNLHs58FNLUksKHGNf",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "c23ca1e2319e88c7f23b9006657be4392b1cc08d574e29f32d9f933fabccc3f2",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "369d21e70d37519cb3a1598d145cb965f8fab7f628e1a856059020cee20ed62f",
+   "event_index": 0,
+   "reason": "approval_not_transfer"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "fan_out",
+  "variant": "batch_one_txid",
+  "title_ru": "Разветвление одной транзакцией (несколько Transfer в одном TXID)",
+  "description": "batch contract emits 5 transfers in one txid",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

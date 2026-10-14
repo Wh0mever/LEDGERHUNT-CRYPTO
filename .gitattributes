@@ -1,0 +1,21 @@
+# Normalise text files to LF in the repository and working tree.
+* text=auto eol=lf
+
+# Raw HTTP response bodies are content-addressed (sha256 of the exact bytes):
+# git must never touch their line endings.
+data/http-store/objects/** binary
+# same for the synthetic scenario stores (replayed byte for byte by the scenario validator)
+tests/scenarios/**/http-store/objects/** binary
+
+# Binary formats
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.xlsx binary
+*.docx binary
+*.pptx binary

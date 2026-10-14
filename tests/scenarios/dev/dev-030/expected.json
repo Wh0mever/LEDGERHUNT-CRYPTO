@@ -1,0 +1,144 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-030",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "7f5d330f1d799a4bb73248589ebf7c725c3cf513956eb832c68531a62d53a4cb",
+   "event_index": 0,
+   "from": "TR2gkJjY2o5AWCg1VdMhemXCv6WS3fr2Eh",
+   "to": "TMn6uCNmqNqBCDjj2saXRFM4497CTneSE5",
+   "amount": "101720.821145",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "175ecac40941900d830b052b27fc01ec6dae54f14ec947af3dd9acb03f8c2f8b",
+   "event_index": 0,
+   "from": "TMn6uCNmqNqBCDjj2saXRFM4497CTneSE5",
+   "to": "TDeDE7sMZoQ6UQv68nBJZr426ccGFEg81p",
+   "amount": "101720.821145",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "d9cb630d34fc33741f68519a125dbd5010a4c76838acaa4e3a9b497360e0e332",
+   "event_index": 0,
+   "from": "TDeDE7sMZoQ6UQv68nBJZr426ccGFEg81p",
+   "to": "TQ9Lfh1UzZ2pkNctAKKgVLjEMxHkhqMpsF",
+   "amount": "101720.821145",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "e912b93662576772e9e17ec3e7db367cf3df42d868c30d68fbd481ff0297bab5",
+   "event_index": 0,
+   "from": "TQ9Lfh1UzZ2pkNctAKKgVLjEMxHkhqMpsF",
+   "to": "TAngH83Kg13dHzG26judBsKpfQiNKeXFPH",
+   "amount": "101720.821145",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": "source_data_gap"
+  },
+  {
+   "chain": "tron",
+   "txid": "c94a29d2e6f84ce62d44845d758f355734e8ed0c26d51648b9a8ef2b8faac858",
+   "event_index": 0,
+   "from": "TAngH83Kg13dHzG26judBsKpfQiNKeXFPH",
+   "to": "TGCdqfcqsMK75f7Nxr2iAbG4bWznSmj8U1",
+   "amount": "101720.821145",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": "source_data_gap"
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "7f5d330f1d799a4bb73248589ebf7c725c3cf513956eb832c68531a62d53a4cb",
+    "175ecac40941900d830b052b27fc01ec6dae54f14ec947af3dd9acb03f8c2f8b",
+    "d9cb630d34fc33741f68519a125dbd5010a4c76838acaa4e3a9b497360e0e332"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TQ9Lfh1UzZ2pkNctAKKgVLjEMxHkhqMpsF",
+    "reason": "data_gap"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [
+  {
+   "source_role": "tron_index",
+   "target": "TQ9Lfh1UzZ2pkNctAKKgVLjEMxHkhqMpsF",
+   "limitation": "data_gap",
+   "excluded": null
+  }
+ ],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "b8b5bcb564dfbaf238b2336f31132409acb4c5d8235a1e3baf3b7656490af403",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [
+  {
+   "role": "trongrid_v1",
+   "endpoint": "index_gap",
+   "target": "e912b93662576772e9e17ec3e7db367cf3df42d868c30d68fbd481ff0297bab5",
+   "page": null,
+   "status": 200,
+   "mode": "hidden"
+  }
+ ],
+ "evidence_boundaries": [
+  {
+   "route_id": "r01",
+   "address": "TQ9Lfh1UzZ2pkNctAKKgVLjEMxHkhqMpsF",
+   "reason": "data_gap",
+   "after_txid": "d9cb630d34fc33741f68519a125dbd5010a4c76838acaa4e3a9b497360e0e332"
+  }
+ ],
+ "notes": [
+  "one transfer is missing from the TronGrid v1 index; balanceOf shows the gap"
+ ],
+ "meta": {
+  "category": "incomplete_data",
+  "variant": "index_gap",
+  "title_ru": "Пробел в индексе: перевод не виден в списке TronGrid",
+  "description": "a transfer is missing from the v1 index (balance reveals it)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": true
+ }
+}

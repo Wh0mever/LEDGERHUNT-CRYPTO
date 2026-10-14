@@ -1,0 +1,111 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-014",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "b80500808ab3e41dc7929fc2bd359c89abfb5824a08841a202466ff54776aa4d",
+   "event_index": 0,
+   "from": "TL2GY3W3mTbrV2TWdBDeaExBuQsCUU68Ht",
+   "to": "TH5ZTnUtEtyEnsqxhzu92G2ofmcPzhMoYS",
+   "amount": "27781.497394",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "10cbb25314acdb527e2f74dbc1d26dd71b8f600562423979e96caabe051c742d",
+   "event_index": 0,
+   "from": "TH5ZTnUtEtyEnsqxhzu92G2ofmcPzhMoYS",
+   "to": "TTJWpzvWfCFWzYx2EvnKfAmuXULDrR7aBD",
+   "amount": "13612.933723",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "7c7c70684bae81631dab68e245d5bf3539a56e9b6da1846a0c513025fd19a424",
+   "event_index": 0,
+   "from": "TH5ZTnUtEtyEnsqxhzu92G2ofmcPzhMoYS",
+   "to": "TTJWpzvWfCFWzYx2EvnKfAmuXULDrR7aBD",
+   "amount": "14168.563671",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "b80500808ab3e41dc7929fc2bd359c89abfb5824a08841a202466ff54776aa4d",
+    "10cbb25314acdb527e2f74dbc1d26dd71b8f600562423979e96caabe051c742d"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TTJWpzvWfCFWzYx2EvnKfAmuXULDrR7aBD",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "b80500808ab3e41dc7929fc2bd359c89abfb5824a08841a202466ff54776aa4d",
+    "7c7c70684bae81631dab68e245d5bf3539a56e9b6da1846a0c513025fd19a424"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TTJWpzvWfCFWzYx2EvnKfAmuXULDrR7aBD",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "047b1b67ae21f0ce251d148022b063168040b79b11be865f6a6cb9a10274dffd",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "8c59a15a349d537f9ec7afef2e66e5d69eecc8301f1d517e76de325659bd10cc",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "direct",
+  "variant": "two_installments",
+  "title_ru": "Два платежа жертве, кража всего баланса, перевод двумя частями",
+  "description": "two installments to the same address (two routes)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

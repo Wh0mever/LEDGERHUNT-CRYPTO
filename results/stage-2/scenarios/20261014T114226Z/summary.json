@@ -1,0 +1,254 @@
+{
+  "dev_generation": {
+    "synthetic_scenarios": 54,
+    "by_category": {
+      "bridge": 6,
+      "cycles": 6,
+      "direct": 6,
+      "exchange": 6,
+      "fan_out": 6,
+      "incomplete_data": 6,
+      "long_chain": 6,
+      "merge": 6,
+      "source_failure": 6
+    },
+    "seconds": 18.49,
+    "files_count": 3010,
+    "bytes_total": 9155947,
+    "tree_sha256": "56a1d600890c6880c02c77c7cbd5aba1cd59b04d52132c5526a3bcdfd2cd224a",
+    "changed_vs_previous": null,
+    "http_requests_recorded": 3793,
+    "designed_failures_recorded": 18
+  },
+  "dev_validation": {
+    "scenarios": 55,
+    "ok": 55,
+    "failed": 0,
+    "failed_ids": [],
+    "seconds": 2.65
+  },
+  "self_score_dev": {
+    "scenarios_total": 54,
+    "scenarios_counted": 45,
+    "scenarios_passed": 45,
+    "pass_rate": 1.0,
+    "pass_rate_wilson95": [
+      0.9213,
+      1.0
+    ],
+    "scenarios_with_source_failure": 9,
+    "source_failure_scenarios_handled": 9,
+    "routes_expected": 97,
+    "routes_found": 97,
+    "facts_expected_counted": 428,
+    "facts_correct": 428,
+    "facts_weaker": 0,
+    "facts_missed": 0,
+    "facts_false": 0,
+    "facts_neutral": 0,
+    "facts_excluded_unavailable": 6,
+    "fact_recall": 1.0,
+    "fact_precision": 1.0,
+    "by_category": {
+      "bridge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "cycles": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "direct": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "exchange": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "fan_out": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "incomplete_data": {
+        "scenarios": 6,
+        "counted": 3,
+        "passed": 3,
+        "with_source_failure": 3,
+        "source_failure_handled": 3
+      },
+      "long_chain": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "merge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "source_failure": {
+        "scenarios": 6,
+        "counted": 0,
+        "passed": 0,
+        "with_source_failure": 6,
+        "source_failure_handled": 6
+      }
+    }
+  },
+  "holdout_created": {
+    "scenarios": 27,
+    "by_category": {
+      "bridge": 3,
+      "cycles": 3,
+      "direct": 3,
+      "exchange": 3,
+      "fan_out": 3,
+      "incomplete_data": 3,
+      "long_chain": 3,
+      "merge": 3,
+      "source_failure": 3
+    },
+    "tree_sha256": "4f725bb20c48209b2c7bd2c28293a33e8c35f1ca0aacd060f9d3c08bff4d614d"
+  },
+  "holdout": {
+    "present": true,
+    "synthetic_scenarios": 27,
+    "by_category": {
+      "bridge": 3,
+      "cycles": 3,
+      "direct": 3,
+      "exchange": 3,
+      "fan_out": 3,
+      "incomplete_data": 3,
+      "long_chain": 3,
+      "merge": 3,
+      "source_failure": 3
+    },
+    "files_listed": 1695,
+    "files_matching": 1695,
+    "files_missing": 0,
+    "files_unlisted": 0,
+    "tree_sha256": "4f725bb20c48209b2c7bd2c28293a33e8c35f1ca0aacd060f9d3c08bff4d614d",
+    "integrity_ok": true,
+    "regeneration": "identical",
+    "regenerated_files_matching": 1695,
+    "validation_ok": 27,
+    "validation_failed": 0
+  },
+  "format_parity": [
+    {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions/trc20",
+      "real_samples": 9,
+      "synthetic_samples": 497,
+      "checked": true,
+      "missing_in_synthetic": [],
+      "extra_in_synthetic": []
+    },
+    {
+      "provider": "trongrid",
+      "endpoint": "v1/accounts/{address}/transactions",
+      "real_samples": 2,
+      "synthetic_samples": 499,
+      "checked": true,
+      "missing_in_synthetic": [
+        "meta.fingerprint",
+        "meta.links",
+        "meta.links.next"
+      ],
+      "extra_in_synthetic": [
+        "data[].raw_data.fee_limit"
+      ]
+    },
+    {
+      "provider": "trongrid",
+      "endpoint": "v1/transactions/{hash}/events",
+      "real_samples": 9,
+      "synthetic_samples": 444,
+      "checked": true,
+      "missing_in_synthetic": [],
+      "extra_in_synthetic": [
+        "data[].result.owner",
+        "data[].result.spender",
+        "data[].result_type.owner",
+        "data[].result_type.spender"
+      ]
+    },
+    {
+      "provider": "trongrid",
+      "endpoint": "wallet/gettransactionbyid",
+      "real_samples": 3,
+      "synthetic_samples": 456,
+      "checked": true,
+      "missing_in_synthetic": [],
+      "extra_in_synthetic": []
+    },
+    {
+      "provider": "trongrid",
+      "endpoint": "walletsolidity/gettransactioninfobyid",
+      "real_samples": 9,
+      "synthetic_samples": 456,
+      "checked": true,
+      "missing_in_synthetic": [],
+      "extra_in_synthetic": [
+        "receipt.net_usage",
+        "resMessage",
+        "result"
+      ]
+    },
+    {
+      "provider": "trongrid",
+      "endpoint": "wallet/triggerconstantcontract",
+      "real_samples": 2,
+      "synthetic_samples": 499,
+      "checked": true,
+      "missing_in_synthetic": [],
+      "extra_in_synthetic": []
+    },
+    {
+      "provider": "layerzero_scan",
+      "endpoint": "v1/messages/tx/{hash}",
+      "real_samples": 8,
+      "synthetic_samples": 5,
+      "checked": true,
+      "missing_in_synthetic": [],
+      "extra_in_synthetic": []
+    }
+  ],
+  "counts": {
+    "dev_synthetic": 54,
+    "dev_reference": 1,
+    "holdout": 27,
+    "dev_by_category": {
+      "incomplete_data": 6,
+      "source_failure": 6,
+      "cycles": 6,
+      "exchange": 6,
+      "fan_out": 6,
+      "long_chain": 6,
+      "direct": 6,
+      "merge": 6,
+      "bridge": 6
+    }
+  }
+}

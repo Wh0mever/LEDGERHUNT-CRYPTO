@@ -1,0 +1,246 @@
+{
+  "area": "tron-sources",
+  "run_id": "20261014T123619Z",
+  "started_utc": "2026-10-14T12:36:19Z",
+  "date_utc": "2026-10-14",
+  "git": {
+    "commit": "90bd06b729c3c4c8702e7e04035ea9960974b80b",
+    "branch": "main",
+    "dirty": true,
+    "dirty_paths": 23
+  },
+  "python": {
+    "version": "3.13.0",
+    "implementation": "CPython"
+  },
+  "packages": {
+    "ledgerhunt": "0.2.0",
+    "httpx": "0.28.1",
+    "anthropic": "1.13.0",
+    "pydantic": "2.14.1",
+    "python-dotenv": "1.2.4",
+    "base58": "2.1.1",
+    "pycryptodome": "3.24.1",
+    "pillow": "12.3.0",
+    "pytest": "9.1.1"
+  },
+  "machine": {
+    "os": "Майкрософт Windows 11 Pro",
+    "os_version": "10.0.26200 (build 26200)",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "cpu_model": "13th Gen Intel(R) Core(TM) i9-13900H",
+    "cpu_cores_physical": 14,
+    "cpu_threads_logical": 20,
+    "ram_total_bytes": 33965801472,
+    "ram_total_gb": "31.6",
+    "disk_free_bytes": 15894589440,
+    "disk_free_gb": "14.8",
+    "disk_total_gb": "475.7",
+    "python": "3.13.0",
+    "python_implementation": "CPython",
+    "source": "platform+cim"
+  },
+  "secrets_present": {
+    "ANTHROPIC_API_KEY": true,
+    "TRONGRID_API_KEY": true,
+    "TRON_RPC_URL": false,
+    "TRON_RPC_URL_2": false,
+    "TRONSCAN_API_KEY": false,
+    "ETH_RPC_URL": false,
+    "ETHERSCAN_API_KEY": true,
+    "BLOCKSCOUT_API_KEY": false,
+    "NEAR_INTENTS_JWT": false
+  },
+  "command": "python -m ledgerhunt stage2 tron_sources",
+  "reproduce": "python -m ledgerhunt stage2 tron_sources",
+  "http": {
+    "mode": "live",
+    "store": "data/http-store"
+  },
+  "config": {
+    "phases": "F,D,A,C,P,L",
+    "case_windows": [
+      {
+        "id": "w1_theft_day",
+        "from_block": 86438000,
+        "to_block": 86444999,
+        "note": "2026-09-21 ~10:24-16:14 UTC: incoming payments, theft, hops, bridge-out, NEAR payout, first hub outflows",
+        "addresses": [
+          "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+          "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+          "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+          "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+          "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+          "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+          "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+          "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+          "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+          "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+          "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+          "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke"
+        ]
+      },
+      {
+        "id": "w2_next_day",
+        "from_block": 86464000,
+        "to_block": 86464999,
+        "note": "2026-09-22 ~07:45-08:35 UTC: hub outflow to the second WhiteBIT deposit address",
+        "addresses": [
+          "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+          "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+        ]
+      },
+      {
+        "id": "hv_hot_wallet",
+        "from_block": 86441900,
+        "to_block": 86442099,
+        "note": "WhiteBIT hot wallet TWBPGL, 10 min around the first exchange sweep (step 19)",
+        "addresses": [
+          "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+        ]
+      },
+      {
+        "id": "hv_fee_collector",
+        "from_block": 86439300,
+        "to_block": 86439419,
+        "note": "energy-rental fee collector TDii6v, 6 min around the theft (>10 000 incoming logs per 5 000 blocks)",
+        "addresses": [
+          "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx"
+        ]
+      }
+    ],
+    "recent_windows": [
+      {
+        "id": "recent_1d",
+        "offset_blocks": 30000,
+        "length": 5000,
+        "addresses": [
+          "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+          "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke"
+        ],
+        "note": "about 1 day before the run, 5 000 blocks"
+      },
+      {
+        "id": "recent_1d_hv",
+        "offset_blocks": 30000,
+        "length": 200,
+        "addresses": [
+          "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+          "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx"
+        ],
+        "note": "about 1 day before the run, 200 blocks, high-volume addresses"
+      }
+    ],
+    "pagination_targets": [
+      {
+        "id": "hot_wallet_desc",
+        "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "order_by": "block_timestamp,desc",
+        "max_pages": 60,
+        "note": "WhiteBIT hot wallet, newest first, up to 60 pages of 200"
+      },
+      {
+        "id": "hub_asc",
+        "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "order_by": "block_timestamp,asc",
+        "max_pages": 50,
+        "note": "hub TYHeH2, full history from creation, up to 50 pages of 200"
+      }
+    ],
+    "pagination_max_timestamp_ms": 1791936000000,
+    "ramp": {
+      "trongrid_keyless": {
+        "steps": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8
+        ],
+        "step_s": 10,
+        "pause_s": 3,
+        "sustained_s": 60
+      },
+      "trongrid_key": {
+        "steps": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          40
+        ],
+        "step_s": 10,
+        "pause_s": 3,
+        "sustained_s": 45
+      },
+      "publicnode": {
+        "steps": [
+          2,
+          4,
+          6,
+          8,
+          10
+        ],
+        "step_s": 8,
+        "pause_s": 3,
+        "sustained_s": 40
+      },
+      "paid_rpc": {
+        "steps": [
+          5,
+          10,
+          15,
+          20,
+          25
+        ],
+        "step_s": 10,
+        "pause_s": 3,
+        "sustained_s": 60
+      },
+      "paid_rpc_2": {
+        "steps": [
+          5,
+          10,
+          15,
+          20
+        ],
+        "step_s": 10,
+        "pause_s": 3,
+        "sustained_s": 60
+      }
+    },
+    "penalty_offsets_s": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10,
+      12,
+      15,
+      20,
+      30
+    ],
+    "event_index_cap": 25,
+    "v1_max_pages": 40,
+    "getlogs_max_range": 5000,
+    "default_limiter_rps": {
+      "api.trongrid.io (keyless)": 1.0,
+      "api.trongrid.io#key": 10.0,
+      "tron-rpc.publicnode.com": 2.0,
+      "paid-tron": 10.0
+    },
+    "notes": "Load phases use a separate RecordingClient in live mode (max_attempts=1) and dedicated limiter buckets with rate 0: the dispatcher sets the pace. Data phases use the shared default buckets."
+  },
+  "finished_utc": "2026-10-14T12:47:02Z",
+  "status": "ok",
+  "duration_s": 642.981
+}

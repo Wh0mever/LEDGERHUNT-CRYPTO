@@ -1,0 +1,79 @@
+{
+  "type": "object",
+  "properties": {
+    "theft_txid": {
+      "type": "string"
+    },
+    "called_method": {
+      "type": "string",
+      "enum": [
+        "transfer",
+        "transferFrom",
+        "approve",
+        "other"
+      ]
+    },
+    "signer_permission": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "active_or_custom",
+        "unknown"
+      ]
+    },
+    "permission_id_present": {
+      "type": "boolean"
+    },
+    "signature_count": {
+      "type": "integer"
+    },
+    "account_permissions_changed": {
+      "type": "boolean"
+    },
+    "mechanism": {
+      "type": "string",
+      "enum": [
+        "private_key_or_seed_compromise",
+        "permission_change_hijack",
+        "token_approval_drain",
+        "victim_initiated_transfer",
+        "unknown"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "advice_to_victim": {
+      "type": "string",
+      "description": "one or two sentences for the victim about the wallet itself"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "theft_txid",
+    "called_method",
+    "signer_permission",
+    "permission_id_present",
+    "signature_count",
+    "account_permissions_changed",
+    "mechanism",
+    "confidence",
+    "advice_to_victim",
+    "evidence",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

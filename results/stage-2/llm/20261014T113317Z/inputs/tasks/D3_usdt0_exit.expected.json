@@ -1,0 +1,16 @@
+{
+  "expected": {
+    "bridge": "USDT0_LayerZero_OFT",
+    "recipient": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "amount_received": "12901.408416"
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "5ba3ba101aa490bbd3fcc3755a20941cf3b23b210875e3262fec01c118f2b414",
+  "schema_sha256": "4ebe61f8872dce3af666b2344d8c7ab108f1c4a5b0d65d50395552fb771da9dd"
+}

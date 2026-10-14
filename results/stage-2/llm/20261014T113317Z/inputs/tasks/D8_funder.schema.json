@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "properties": {
+    "link_type": {
+      "type": "string",
+      "enum": [
+        "common_trx_funder",
+        "direct_transfer",
+        "same_route_reuse",
+        "none"
+      ]
+    },
+    "funder": {
+      "type": "string"
+    },
+    "funded_addresses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "funding_transfers_status": {
+      "type": "string",
+      "enum": [
+        "fact",
+        "claimed",
+        "hypothesis"
+      ]
+    },
+    "same_operator_status": {
+      "type": "string",
+      "enum": [
+        "fact",
+        "hypothesis",
+        "rejected"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "medium_high",
+        "high"
+      ]
+    },
+    "identity_known": {
+      "type": "boolean",
+      "description": "is the real-world identity of the operator known from this data"
+    },
+    "statement_for_report": {
+      "type": "string",
+      "description": "one or two sentences for the case report"
+    },
+    "what_would_strengthen_it": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "link_type",
+    "funder",
+    "funded_addresses",
+    "funding_transfers_status",
+    "same_operator_status",
+    "confidence",
+    "identity_known",
+    "statement_for_report",
+    "what_would_strengthen_it",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

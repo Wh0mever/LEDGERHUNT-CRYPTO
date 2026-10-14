@@ -1,0 +1,16 @@
+{
+  "expected": {
+    "same_operator_status": "hypothesis",
+    "confidence": "medium or medium_high",
+    "identity_known": false
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "f14004c0cf6c9c6e9b52b03ba140578d8094d06c5f2a2c53878cb7bb8245f7d7",
+  "schema_sha256": "eb4fedbcc5f0d9eba9c1257cdd4df0608fe19f7cd33a7ec24a8276961ed576d9"
+}

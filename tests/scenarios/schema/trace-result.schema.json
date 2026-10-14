@@ -1,0 +1,733 @@
+{
+ "$defs": {
+  "Allowed": {
+   "additionalProperties": false,
+   "description": "True facts a candidate may report without being required to (beyond depth, after commingling, sweeps).",
+   "properties": {
+    "transfers": {
+     "items": {
+      "$ref": "#/$defs/TransferFact"
+     },
+     "title": "Transfers",
+     "type": "array"
+    },
+    "exchange_deposits": {
+     "items": {
+      "$ref": "#/$defs/ExchangeDeposit"
+     },
+     "title": "Exchange Deposits",
+     "type": "array"
+    },
+    "bridge_exits": {
+     "items": {
+      "$ref": "#/$defs/BridgeExit"
+     },
+     "title": "Bridge Exits",
+     "type": "array"
+    },
+    "merges": {
+     "items": {
+      "$ref": "#/$defs/Merge"
+     },
+     "title": "Merges",
+     "type": "array"
+    }
+   },
+   "title": "Allowed",
+   "type": "object"
+  },
+  "BridgeExit": {
+   "additionalProperties": false,
+   "properties": {
+    "chain": {
+     "default": "tron",
+     "enum": [
+      "tron",
+      "ethereum"
+     ],
+     "title": "Chain",
+     "type": "string"
+    },
+    "txid": {
+     "title": "Txid",
+     "type": "string"
+    },
+    "protocol": {
+     "title": "Protocol",
+     "type": "string"
+    },
+    "dst_eid": {
+     "anyOf": [
+      {
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Dst Eid"
+    },
+    "dst_chain": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Dst Chain"
+    },
+    "supported": {
+     "title": "Supported",
+     "type": "boolean"
+    },
+    "sender": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Sender"
+    },
+    "recipient": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Recipient"
+    },
+    "amount_sent": {
+     "anyOf": [
+      {
+       "pattern": "^\\d+\\.\\d{6}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Amount Sent"
+    },
+    "amount_received": {
+     "anyOf": [
+      {
+       "pattern": "^\\d+\\.\\d{6}$",
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Amount Received"
+    },
+    "guid": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Guid"
+    },
+    "dst_txid": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Dst Txid"
+    },
+    "excluded": {
+     "anyOf": [
+      {
+       "enum": [
+        "source_unavailable",
+        "source_data_gap"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Excluded"
+    }
+   },
+   "required": [
+    "txid",
+    "protocol",
+    "supported"
+   ],
+   "title": "BridgeExit",
+   "type": "object"
+  },
+  "ExchangeDeposit": {
+   "additionalProperties": false,
+   "properties": {
+    "chain": {
+     "default": "tron",
+     "enum": [
+      "tron",
+      "ethereum"
+     ],
+     "title": "Chain",
+     "type": "string"
+    },
+    "deposit_address": {
+     "title": "Deposit Address",
+     "type": "string"
+    },
+    "exchange": {
+     "title": "Exchange",
+     "type": "string"
+    },
+    "hot_wallet": {
+     "title": "Hot Wallet",
+     "type": "string"
+    },
+    "sweep_txids": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Sweep Txids",
+     "type": "array"
+    },
+    "excluded": {
+     "anyOf": [
+      {
+       "enum": [
+        "source_unavailable",
+        "source_data_gap"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Excluded"
+    }
+   },
+   "required": [
+    "deposit_address",
+    "exchange",
+    "hot_wallet",
+    "sweep_txids"
+   ],
+   "title": "ExchangeDeposit",
+   "type": "object"
+  },
+  "Limitation": {
+   "additionalProperties": false,
+   "properties": {
+    "source_role": {
+     "enum": [
+      "tron_index",
+      "tron_events",
+      "tron_receipts_secondary",
+      "bridge_api"
+     ],
+     "title": "Source Role",
+     "type": "string"
+    },
+    "target": {
+     "title": "Target",
+     "type": "string"
+    },
+    "limitation": {
+     "enum": [
+      "unavailable",
+      "incomplete_listing",
+      "data_gap"
+     ],
+     "title": "Limitation",
+     "type": "string"
+    },
+    "excluded": {
+     "anyOf": [
+      {
+       "enum": [
+        "source_unavailable",
+        "source_data_gap"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Excluded"
+    }
+   },
+   "required": [
+    "source_role",
+    "target",
+    "limitation"
+   ],
+   "title": "Limitation",
+   "type": "object"
+  },
+  "Merge": {
+   "additionalProperties": false,
+   "properties": {
+    "chain": {
+     "default": "tron",
+     "enum": [
+      "tron",
+      "ethereum"
+     ],
+     "title": "Chain",
+     "type": "string"
+    },
+    "address": {
+     "title": "Address",
+     "type": "string"
+    },
+    "attribution": {
+     "default": "uncertain",
+     "enum": [
+      "uncertain",
+      "exact"
+     ],
+     "title": "Attribution",
+     "type": "string"
+    },
+    "traced_inflow_txids": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Traced Inflow Txids",
+     "type": "array"
+    },
+    "foreign_inflow_txids": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Foreign Inflow Txids",
+     "type": "array"
+    },
+    "excluded": {
+     "anyOf": [
+      {
+       "enum": [
+        "source_unavailable",
+        "source_data_gap"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Excluded"
+    }
+   },
+   "required": [
+    "address",
+    "traced_inflow_txids"
+   ],
+   "title": "Merge",
+   "type": "object"
+  },
+  "Route": {
+   "additionalProperties": false,
+   "properties": {
+    "route_id": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Route Id"
+    },
+    "kind": {
+     "anyOf": [
+      {
+       "enum": [
+        "main",
+        "side_branch"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Kind"
+    },
+    "txids": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Txids",
+     "type": "array"
+    },
+    "terminal": {
+     "$ref": "#/$defs/Terminal"
+    },
+    "excluded": {
+     "anyOf": [
+      {
+       "enum": [
+        "source_unavailable",
+        "source_data_gap"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Excluded"
+    }
+   },
+   "required": [
+    "txids",
+    "terminal"
+   ],
+   "title": "Route",
+   "type": "object"
+  },
+  "Terminal": {
+   "additionalProperties": false,
+   "properties": {
+    "chain": {
+     "default": "tron",
+     "enum": [
+      "tron",
+      "ethereum"
+     ],
+     "title": "Chain",
+     "type": "string"
+    },
+    "address": {
+     "title": "Address",
+     "type": "string"
+    },
+    "reason": {
+     "enum": [
+      "funds_at_rest",
+      "exchange_deposit",
+      "exchange_hot_wallet",
+      "known_service",
+      "bridge_exit_supported",
+      "bridge_exit_unsupported",
+      "bridge_destination_unconfirmed",
+      "commingled",
+      "max_depth",
+      "source_unavailable",
+      "incomplete_listing",
+      "data_gap"
+     ],
+     "title": "Reason",
+     "type": "string"
+    }
+   },
+   "required": [
+    "address",
+    "reason"
+   ],
+   "title": "Terminal",
+   "type": "object"
+  },
+  "TransferFact": {
+   "additionalProperties": false,
+   "properties": {
+    "chain": {
+     "default": "tron",
+     "enum": [
+      "tron",
+      "ethereum"
+     ],
+     "title": "Chain",
+     "type": "string"
+    },
+    "txid": {
+     "title": "Txid",
+     "type": "string"
+    },
+    "event_index": {
+     "anyOf": [
+      {
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Event Index"
+    },
+    "from": {
+     "title": "From",
+     "type": "string"
+    },
+    "to": {
+     "title": "To",
+     "type": "string"
+    },
+    "amount": {
+     "pattern": "^\\d+\\.\\d{6}$",
+     "title": "Amount",
+     "type": "string"
+    },
+    "asset": {
+     "default": "USDT-TRC20",
+     "title": "Asset",
+     "type": "string"
+    },
+    "taint": {
+     "default": "traced",
+     "enum": [
+      "traced",
+      "uncertain",
+      "none"
+     ],
+     "title": "Taint",
+     "type": "string"
+    },
+    "verification": {
+     "default": "second_source_confirmed",
+     "enum": [
+      "second_source_confirmed",
+      "unverified"
+     ],
+     "title": "Verification",
+     "type": "string"
+    },
+    "role": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Role"
+    },
+    "excluded": {
+     "anyOf": [
+      {
+       "enum": [
+        "source_unavailable",
+        "source_data_gap"
+       ],
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Excluded"
+    }
+   },
+   "required": [
+    "txid",
+    "from",
+    "to",
+    "amount"
+   ],
+   "title": "TransferFact",
+   "type": "object"
+  },
+  "Trap": {
+   "additionalProperties": false,
+   "properties": {
+    "txid": {
+     "title": "Txid",
+     "type": "string"
+    },
+    "event_index": {
+     "anyOf": [
+      {
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Event Index"
+    },
+    "reason": {
+     "enum": [
+      "pre_theft_inflow",
+      "pre_theft_history",
+      "zero_value_poisoning",
+      "lookalike_dust",
+      "failed_transaction",
+      "approval_not_transfer",
+      "foreign_inflow",
+      "foreign_outflow",
+      "exchange_internal",
+      "unrelated"
+     ],
+     "title": "Reason",
+     "type": "string"
+    }
+   },
+   "required": [
+    "txid",
+    "reason"
+   ],
+   "title": "Trap",
+   "type": "object"
+  }
+ },
+ "additionalProperties": false,
+ "properties": {
+  "schema": {
+   "default": "ledgerhunt.scenario-result/1",
+   "title": "Schema",
+   "type": "string"
+  },
+  "scenario_id": {
+   "title": "Scenario Id",
+   "type": "string"
+  },
+  "result_type": {
+   "default": "candidate",
+   "enum": [
+    "expected",
+    "candidate"
+   ],
+   "title": "Result Type",
+   "type": "string"
+  },
+  "transfers": {
+   "items": {
+    "$ref": "#/$defs/TransferFact"
+   },
+   "title": "Transfers",
+   "type": "array"
+  },
+  "routes": {
+   "items": {
+    "$ref": "#/$defs/Route"
+   },
+   "title": "Routes",
+   "type": "array"
+  },
+  "exchange_deposits": {
+   "items": {
+    "$ref": "#/$defs/ExchangeDeposit"
+   },
+   "title": "Exchange Deposits",
+   "type": "array"
+  },
+  "bridge_exits": {
+   "items": {
+    "$ref": "#/$defs/BridgeExit"
+   },
+   "title": "Bridge Exits",
+   "type": "array"
+  },
+  "merges": {
+   "items": {
+    "$ref": "#/$defs/Merge"
+   },
+   "title": "Merges",
+   "type": "array"
+  },
+  "limitations": {
+   "items": {
+    "$ref": "#/$defs/Limitation"
+   },
+   "title": "Limitations",
+   "type": "array"
+  },
+  "allowed": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/Allowed"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "traps": {
+   "items": {
+    "$ref": "#/$defs/Trap"
+   },
+   "title": "Traps",
+   "type": "array"
+  },
+  "outages": {
+   "items": {
+    "additionalProperties": true,
+    "type": "object"
+   },
+   "title": "Outages",
+   "type": "array"
+  },
+  "evidence_boundaries": {
+   "items": {
+    "additionalProperties": true,
+    "type": "object"
+   },
+   "title": "Evidence Boundaries",
+   "type": "array"
+  },
+  "notes": {
+   "items": {
+    "type": "string"
+   },
+   "title": "Notes",
+   "type": "array"
+  },
+  "meta": {
+   "anyOf": [
+    {
+     "additionalProperties": true,
+     "type": "object"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null,
+   "title": "Meta"
+  }
+ },
+ "required": [
+  "scenario_id"
+ ],
+ "title": "TraceResult",
+ "type": "object"
+}

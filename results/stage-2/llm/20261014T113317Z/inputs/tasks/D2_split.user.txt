@@ -1,0 +1,60 @@
+<case_data>
+{
+ "address_under_review": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+ "incoming": [
+  {
+   "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+   "time_utc": "2026-09-21T11:35:33Z",
+   "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "amount": "13035.640112",
+   "asset": "USDT-TRC20"
+  }
+ ],
+ "outgoing_usdt_after_arrival": [
+  {
+   "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+   "time_utc": "2026-09-21T11:41:18Z",
+   "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "amount": "12905.283711",
+   "asset": "USDT-TRC20"
+  },
+  {
+   "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+   "time_utc": "2026-09-21T11:43:45Z",
+   "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+   "amount": "130.356401",
+   "asset": "USDT-TRC20"
+  }
+ ],
+ "usdt_balance_now": "0.000000",
+ "trx_received_for_fees": {
+  "from": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+  "txids": [
+   "32480343868c37aeac42bc014bd0c798aba635b8c1fed7648d206ac79063e2e9",
+   "dbbae16c6e8dd0498d02945c1c60f66cc32840acbe2d8b95e990c6b47f6e434d",
+   "e181937194f7f385458f1b1c721b71c7ddeead6a5bb30dd58e956b5cfd87a689"
+  ]
+ },
+ "earlier_history_of_recipients": [
+  {
+   "address": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+   "observation": "received a transfer of exactly 1% of the forwarded amount in two earlier flows with the same route (2026-08-26 and 2026-08-30)"
+  },
+  {
+   "address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "observation": "address active since 2026-08-26; received the 99% part in those earlier flows"
+  }
+ ],
+ "source": "case-001 fixture (TronGrid TRC20 history, parsed)"
+}
+</case_data>
+
+<task>
+Decision: the address under review received stolen USDT and split it. For every outgoing USDT
+transfer decide whether the tracer follows it as the main route of the stolen funds, records it as a side
+branch (amount noted, not traced further now) or ignores it. Give each branch's share of the incoming amount in
+percent as a decimal string. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

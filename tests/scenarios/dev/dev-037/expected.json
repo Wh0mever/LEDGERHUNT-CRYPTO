@@ -1,0 +1,183 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-037",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "3dae4c3ad51fa036db3e4c9fadbeaf9737fb73cb43853b471de39944325b6a6e",
+   "event_index": 0,
+   "from": "TEXHn921DvgE7KY9oXsAeKhPLNYVK4gyBP",
+   "to": "TNK1N2DGZqCS2ezY3f2CkwsmG9ceHbFE14",
+   "amount": "133559.404382",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "4e8be23f546c94ff1319783736ef9ca85bb1749e2c292e093e73bf1f5b336d75",
+   "event_index": 0,
+   "from": "TNK1N2DGZqCS2ezY3f2CkwsmG9ceHbFE14",
+   "to": "TD52sQqn6THUTxNK9gK1Vp9zef54vx359y",
+   "amount": "5.005070",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "2240443edbc9e53463206d6fae64911425e9c6de054e1d623e3c87164c8e78d2",
+   "event_index": 0,
+   "from": "TNK1N2DGZqCS2ezY3f2CkwsmG9ceHbFE14",
+   "to": "TCjCWZ2Zmj7N1kmGF5o1DiGwhTu8AiyyTq",
+   "amount": "133554.399312",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "d9d750fc22f678541d37110eb52f4483b774ab5c2baa886f7086ae5f8262a912",
+   "event_index": 0,
+   "from": "TCjCWZ2Zmj7N1kmGF5o1DiGwhTu8AiyyTq",
+   "to": "TAagnmyq4FUd8YzWyM4CiXBV9mpHKwrRDM",
+   "amount": "1335.543993",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "0c9a03d8a14d899f5405665c1955802046439da399a21404e459b454f4f323de",
+   "event_index": 0,
+   "from": "TCjCWZ2Zmj7N1kmGF5o1DiGwhTu8AiyyTq",
+   "to": "TWsCLqGhQAz5oRrwLicUuepLXRMG8cVjfj",
+   "amount": "132218.855319",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "f8691efc7a4a8f2007714a60dda5404c53ca77cab40018b9596419592a94d463",
+   "event_index": 0,
+   "from": "TWsCLqGhQAz5oRrwLicUuepLXRMG8cVjfj",
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "132218.855319",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "side_branch",
+   "txids": [
+    "3dae4c3ad51fa036db3e4c9fadbeaf9737fb73cb43853b471de39944325b6a6e",
+    "4e8be23f546c94ff1319783736ef9ca85bb1749e2c292e093e73bf1f5b336d75"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TD52sQqn6THUTxNK9gK1Vp9zef54vx359y",
+    "reason": "known_service"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "side_branch",
+   "txids": [
+    "3dae4c3ad51fa036db3e4c9fadbeaf9737fb73cb43853b471de39944325b6a6e",
+    "2240443edbc9e53463206d6fae64911425e9c6de054e1d623e3c87164c8e78d2",
+    "d9d750fc22f678541d37110eb52f4483b774ab5c2baa886f7086ae5f8262a912"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TAagnmyq4FUd8YzWyM4CiXBV9mpHKwrRDM",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r03",
+   "kind": "main",
+   "txids": [
+    "3dae4c3ad51fa036db3e4c9fadbeaf9737fb73cb43853b471de39944325b6a6e",
+    "2240443edbc9e53463206d6fae64911425e9c6de054e1d623e3c87164c8e78d2",
+    "0c9a03d8a14d899f5405665c1955802046439da399a21404e459b454f4f323de",
+    "f8691efc7a4a8f2007714a60dda5404c53ca77cab40018b9596419592a94d463"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "reason": "bridge_exit_supported"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [
+  {
+   "chain": "tron",
+   "txid": "f8691efc7a4a8f2007714a60dda5404c53ca77cab40018b9596419592a94d463",
+   "protocol": "usdt0_oft",
+   "dst_eid": 30101,
+   "dst_chain": "ethereum",
+   "supported": true,
+   "sender": "TWsCLqGhQAz5oRrwLicUuepLXRMG8cVjfj",
+   "recipient": "0x21b05060511439c8c6255e83def5967faa3cb1dd",
+   "amount_sent": "132218.855319",
+   "amount_received": "132179.189663",
+   "guid": "0xbfd92676a04f03a4ee8a31881c97671ea3a0b650091c04efa623ca4534b7b071",
+   "dst_txid": "0x216495b6e6c533addcac669f773f5d7d7dbed07bbe82d5a06244b58becdbb906",
+   "excluded": null
+  }
+ ],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "7f1a17fa034b070691789b4cbf9119eca055958518770c7b3019884e20242933",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "7a718f6082ae1b6d7d2641a03a45e4dcc97ed992b616e664926561d320e513ad",
+   "event_index": 0,
+   "reason": "approval_not_transfer"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "bridge",
+  "variant": "case001_like",
+  "title_ru": "Схема как в case-001: комиссия, 1%, мост USDT0",
+  "description": "case-001 pattern: energy fee, 1% cut, OFT send to Ethereum",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

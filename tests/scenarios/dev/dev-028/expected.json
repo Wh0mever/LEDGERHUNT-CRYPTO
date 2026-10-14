@@ -1,0 +1,93 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-028",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "a8fb23d1968e883964e99dd095b08c8c4fe0e54a0d4787ed5efcc96c92b2dae9",
+   "event_index": 0,
+   "from": "TJ4nKHsCiq7PNPdoq4Lez4ZSQqCMNREJ1H",
+   "to": "TJa6tmiDZSn3rtiteTdSFTHK7vWThcYFrz",
+   "amount": "5499.642345",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "af30460dbc31c7dd38f68b076795292132e62ed57ee4a789dee99ddeb04ce22c",
+   "event_index": 0,
+   "from": "TJa6tmiDZSn3rtiteTdSFTHK7vWThcYFrz",
+   "to": "TNm7nuU6RL3fB8wKZwAB6WKS5L8tZ1s42p",
+   "amount": "5499.642345",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "dbf9e79f71dccafef658a2c26f1f4f2c2f60a9a5392906385ff841bda235b766",
+   "event_index": 0,
+   "from": "TNm7nuU6RL3fB8wKZwAB6WKS5L8tZ1s42p",
+   "to": "TYcCn4hJsu96hHZ944S7sUWHqn6Q6etMHY",
+   "amount": "5499.642345",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "a8fb23d1968e883964e99dd095b08c8c4fe0e54a0d4787ed5efcc96c92b2dae9",
+    "af30460dbc31c7dd38f68b076795292132e62ed57ee4a789dee99ddeb04ce22c",
+    "dbf9e79f71dccafef658a2c26f1f4f2c2f60a9a5392906385ff841bda235b766"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TYcCn4hJsu96hHZ944S7sUWHqn6Q6etMHY",
+    "reason": "known_service"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "d7ca3242fb0d7d03e750e93b8ecfd2e33f8410114da9a611e77d4f7116adf642",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "direct",
+  "variant": "known_service",
+  "title_ru": "Цепочка заканчивается на известном сервисе",
+  "description": "ends at a labelled payment service",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

@@ -1,0 +1,157 @@
+<case_data>
+{
+ "victim_address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+ "victim_statement": {
+  "provenance": "claimed by victim",
+  "text": "I did not make or approve this transfer. The money left my wallet less than a minute after a large incoming payment arrived."
+ },
+ "account_permissions": {
+  "source": "case-001 fixture (account permission summary)",
+  "owner_permission": {
+   "threshold": 1,
+   "keys": [
+    "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+   ]
+  },
+  "active_permission": {
+   "threshold": 1,
+   "keys": [
+    "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+   ]
+  },
+  "account_permission_update_transactions_found": 0
+ },
+ "theft_transaction_raw": {
+  "source": "TronGrid POST /wallet/gettransactionbyid",
+  "body": {
+   "raw_data": {
+    "ref_block_bytes": "f5bf",
+    "ref_block_hash": "794feb956ebd111f",
+    "expiration": 1790026356000,
+    "contract": [
+     {
+      "parameter": {
+       "value": {
+        "owner_address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "contract_address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+        "data": "a9059cbb000000000000000000000041f49e7307ff8215c54450c072bf6d926af59faef5000000000000000000000000000000000000000000000000000000030953fbc4"
+       },
+       "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+      },
+      "type": "TriggerSmartContract"
+     }
+    ],
+    "timestamp": 1789990356000,
+    "fee_limit": 13046000
+   },
+   "signature": [
+    "dafac5f4df2c5a8fe17b07f90ce9022bca08390db9ea14018a539e5830d63bfd1ff9c7b324380ed1316e926b280acffe8ee3db9e80860c75bef8182442c28f2a00"
+   ],
+   "ret": [
+    {
+     "contractRet": "SUCCESS"
+    }
+   ],
+   "raw_data_hex": "0a02f5bf2208794feb956ebd111f40a0aa8aaf8c345aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15418a5aa79a2fd854dc565225ef05570c2c7ec8707f121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb000000000000000000000041f49e7307ff8215c54450c072bf6d926af59faef5000000000000000000000000000000000000000000000000000000030953fbc470a088f59d8c349001f0a19c06",
+   "txID": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb"
+  }
+ },
+ "theft_transaction_info_raw": {
+  "source": "TronGrid POST /walletsolidity/gettransactioninfobyid",
+  "body": {
+   "id": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+   "fee": 345000,
+   "blockNumber": 86439360,
+   "blockTimeStamp": 1789990359000,
+   "contractResult": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+   "receipt": {
+    "energy_usage": 130285,
+    "energy_usage_total": 130285,
+    "net_fee": 345000,
+    "result": "SUCCESS",
+    "energy_penalty_total": 100635
+   },
+   "log": [
+    {
+     "address": "a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+     "topics": [
+      "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "0000000000000000000000008a5aa79a2fd854dc565225ef05570c2c7ec8707f",
+      "000000000000000000000000f49e7307ff8215c54450c072bf6d926af59faef5"
+     ],
+     "data": "000000000000000000000000000000000000000000000000000000030953fbc4"
+    }
+   ]
+  }
+ },
+ "victim_address_timeline": {
+  "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+  "rows": [
+   {
+    "txid": "6be9eabf7568fe67f46d9bf32e795571b4cd2fb4f124b6bdb219d48ed6b46964",
+    "time_utc": "2026-09-21T10:48:33Z",
+    "from": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+    "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "amount": "20.000000",
+    "asset": "USDT-TRC20",
+    "event": "incoming USDT transfer"
+   },
+   {
+    "txid": "7472e1e059d44b5fb3d1c6e86a5a907f0fae015e722d1cefdf801045b9f41fbe",
+    "time_utc": "2026-09-21T11:31:54Z",
+    "from": "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL",
+    "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "amount": "12937.000000",
+    "asset": "USDT-TRC20",
+    "event": "incoming USDT transfer"
+   },
+   {
+    "txid": "90b28da07b6ea4eeeca382579f393982418d296e398440895ec00a62928b3873",
+    "time_utc": "2026-09-21T11:32:36Z",
+    "from": "TQvhNtVLyJy3PfuZQieRd5PSeH8mEpgva1",
+    "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "event": "energy delegated to the victim address",
+    "amount": "20424 TRX staked for energy"
+   },
+   {
+    "txid": "a241b856691236d3ed98479325d61af03765609a2eb12d7ae2e71216b5007945",
+    "time_utc": "2026-09-21T11:32:39Z",
+    "from": "TUSYcK5yf8Et4xNTiUcpfZwmhFsxfdoooo",
+    "to": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "amount": "0.800000",
+    "asset": "TRX",
+    "event": "incoming TRX transfer"
+   },
+   {
+    "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+    "time_utc": "2026-09-21T11:32:39Z",
+    "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+    "amount": "5.137122",
+    "asset": "USDT-TRC20",
+    "event": "outgoing USDT transfer"
+   },
+   {
+    "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+    "time_utc": "2026-09-21T11:32:39Z",
+    "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+    "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+    "amount": "13041.400772",
+    "asset": "USDT-TRC20",
+    "block": 86439360,
+    "event": "outgoing USDT transfer"
+   }
+  ]
+ }
+}
+</case_data>
+
+<task>
+Decision: how were the funds taken from the victim address?
+Read the raw theft transaction (method selector in the call data, signer, Permission_id, signatures),
+the account permissions and the timeline. Classify the mechanism. 'advice_to_victim' says what the victim
+must do about this wallet. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

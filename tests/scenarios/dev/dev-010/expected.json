@@ -1,0 +1,142 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-010",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "f8cd6f2edf8a8192c6051495ea45363b6fc6d4e821eb28f81fbe0eb48d903bea",
+   "event_index": 0,
+   "from": "TAnhFMCe2Cn1hvLk7UMDz6NPuvvn4CS26c",
+   "to": "TUj1Kh9bZzMZQZUKeUWA29q11JGDFQFaCZ",
+   "amount": "94123.342638",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "775faa2417895cadbcfc053a00f81a6fe21e061093f5114d9fde7328031457c1",
+   "event_index": 0,
+   "from": "TUj1Kh9bZzMZQZUKeUWA29q11JGDFQFaCZ",
+   "to": "TSni9FENpkMGVvaQz5K15Ym3yuDZyqtTrt",
+   "amount": "94123.342638",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "b92cbaca23943645e1e0b6d939be2ae52e7e9f3960d2d926b4b01e94b7f7eb6e",
+   "event_index": 0,
+   "from": "TSni9FENpkMGVvaQz5K15Ym3yuDZyqtTrt",
+   "to": "TP1GaJuVJzU2MRV7hdcCQBt48YHDhuR6gG",
+   "amount": "94123.342638",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "7fcb97b1b95a0cc8c8cf6cfca5f9a8a7a2df1e00455586ae43c50560667c6b6b",
+   "event_index": 0,
+   "from": "TP1GaJuVJzU2MRV7hdcCQBt48YHDhuR6gG",
+   "to": "TQR3a1iZcfJu41aEpP7dKeZXQLnm8YhGbh",
+   "amount": "94123.342638",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "f8cd6f2edf8a8192c6051495ea45363b6fc6d4e821eb28f81fbe0eb48d903bea",
+    "775faa2417895cadbcfc053a00f81a6fe21e061093f5114d9fde7328031457c1",
+    "b92cbaca23943645e1e0b6d939be2ae52e7e9f3960d2d926b4b01e94b7f7eb6e",
+    "7fcb97b1b95a0cc8c8cf6cfca5f9a8a7a2df1e00455586ae43c50560667c6b6b"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TQR3a1iZcfJu41aEpP7dKeZXQLnm8YhGbh",
+    "reason": "exchange_deposit"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [
+  {
+   "chain": "tron",
+   "deposit_address": "TQR3a1iZcfJu41aEpP7dKeZXQLnm8YhGbh",
+   "exchange": "SynthEx Beta",
+   "hot_wallet": "TAn6hNEjrsJrAbuVFFs8dsqEjLFyowjJfE",
+   "sweep_txids": [
+    "7326b2ff899b707aa1241311b10349253474b649d581369a9622b5552640afaf"
+   ],
+   "excluded": null
+  }
+ ],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [
+   {
+    "chain": "tron",
+    "txid": "7326b2ff899b707aa1241311b10349253474b649d581369a9622b5552640afaf",
+    "event_index": 0,
+    "from": "TQR3a1iZcfJu41aEpP7dKeZXQLnm8YhGbh",
+    "to": "TAn6hNEjrsJrAbuVFFs8dsqEjLFyowjJfE",
+    "amount": "94123.342638",
+    "asset": "USDT-TRC20",
+    "taint": "traced",
+    "verification": "second_source_confirmed",
+    "role": "sweep",
+    "excluded": null
+   }
+  ],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "9921ef7b74fdf371f1a44c86e1a4842dbdaaf1a62440baf976ae69cd0a61e67b",
+   "event_index": 0,
+   "reason": "unrelated"
+  },
+  {
+   "txid": "302d5c19ee5d19b0e75c9384a814619aaedd95a9be8d6130ff68a295f5246fb2",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "3f2a768b2f9d4f87f0f0d5093930ae1dbdc63b902c91cc05abc2843a50fe8114",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "exchange",
+  "variant": "prior_activity",
+  "title_ru": "Депозит с прошлой историей и задержанным свипом",
+  "description": "deposit address used before; sweep after hours",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

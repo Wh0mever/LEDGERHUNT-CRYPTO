@@ -1,0 +1,105 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-004",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "086b9dfecda52c1e8bb11706dbd7cdc1345af3f06825de59149eef507d2b617c",
+   "event_index": 0,
+   "from": "THjzi25YBDrzEXCa5zYQYQw9nzktHdMoA8",
+   "to": "TPVzpHAPWuGBwFXeDTnzBskotveQzQ8tuB",
+   "amount": "108136.559729",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "819cb78d39dc684f41805234186c69d621fd0dc49b8a29ab2d369cfae8ae0e96",
+   "event_index": 0,
+   "from": "TPVzpHAPWuGBwFXeDTnzBskotveQzQ8tuB",
+   "to": "TW2KdAzHMWcGaFECShcgZjoryjPQuSJjGE",
+   "amount": "108136.559729",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "3d1740ea1709011b5e9c41502a0e9da42ee353a50974b66e3fba9049c7ebc1a9",
+   "event_index": 0,
+   "from": "TW2KdAzHMWcGaFECShcgZjoryjPQuSJjGE",
+   "to": "TQYQdA3M9LgCiqiJg2iSbcEtsGWeGmHdma",
+   "amount": "108136.559729",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "086b9dfecda52c1e8bb11706dbd7cdc1345af3f06825de59149eef507d2b617c",
+    "819cb78d39dc684f41805234186c69d621fd0dc49b8a29ab2d369cfae8ae0e96",
+    "3d1740ea1709011b5e9c41502a0e9da42ee353a50974b66e3fba9049c7ebc1a9"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TQYQdA3M9LgCiqiJg2iSbcEtsGWeGmHdma",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "f7a677dd038639dc7cd8fb9e1e4780e11eb266632f4ae35a2e3152fd4126e9c3",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "1fa0060bf8296e7bf41f8bd5f7fa2b364ac7ea0cf31a56565694fc9d2d13f902",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "90e2e9bff9fe2dcb76e7709d4ee9ad9bf8b6b25f86324ebaa42bf74bc31dde6f",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [
+  "the intermediate address forwards everything within minutes to an unlabelled address: not an exchange"
+ ],
+ "meta": {
+  "category": "exchange",
+  "variant": "fast_forwarder",
+  "title_ru": "Быстрая полная пересылка на неизвестный адрес: не биржа",
+  "description": "hard negative: fast full forward to an unknown address",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

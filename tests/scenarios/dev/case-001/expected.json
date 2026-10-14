@@ -1,0 +1,340 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "case-001",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+   "event_index": 0,
+   "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "amount": "13041.400772",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+   "event_index": null,
+   "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "amount": "13035.640112",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+   "event_index": null,
+   "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "amount": "12905.283711",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+   "event_index": 0,
+   "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "12905.280000",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "ethereum",
+   "txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+   "event_index": null,
+   "from": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+   "to": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "amount": "12901.408416",
+   "asset": "USDT-ERC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "ethereum",
+   "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "event_index": null,
+   "from": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "to": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+   "amount": "12901.411000",
+   "asset": "USDT-ERC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "ethereum",
+   "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+   "event_index": null,
+   "from": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+   "amount": "12882.058884",
+   "asset": "USDT-ERC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+   "event_index": null,
+   "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+   "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "amount": "12878.454902",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec",
+   "event_index": null,
+   "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+   "amount": "5.486343",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+   "event_index": null,
+   "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+   "amount": "130.356401",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "ethereum",
+   "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "event_index": null,
+   "from": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+   "to": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+   "amount": "19.352116",
+   "asset": "USDT-ERC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+    "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+    "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+    "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+    "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+    "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+    "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+    "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "reason": "commingled"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "side_branch",
+   "txids": [
+    "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+    "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+    "reason": "known_service"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r03",
+   "kind": "side_branch",
+   "txids": [
+    "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+    "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+    "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [
+  {
+   "chain": "tron",
+   "deposit_address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+   "exchange": "WhiteBIT",
+   "hot_wallet": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+   "sweep_txids": [
+    "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e"
+   ],
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "deposit_address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+   "exchange": "WhiteBIT",
+   "hot_wallet": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+   "sweep_txids": [
+    "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf"
+   ],
+   "excluded": null
+  }
+ ],
+ "bridge_exits": [
+  {
+   "chain": "tron",
+   "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+   "protocol": "usdt0_oft",
+   "dst_eid": 30101,
+   "dst_chain": "ethereum",
+   "supported": true,
+   "sender": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "recipient": "0x4079047990917f3150353fbd8a13b05b6286926d",
+   "amount_sent": "12905.280000",
+   "amount_received": "12901.408416",
+   "guid": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+   "dst_txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+   "excluded": null
+  },
+  {
+   "chain": "ethereum",
+   "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "protocol": "rango",
+   "dst_eid": null,
+   "dst_chain": "tron",
+   "supported": true,
+   "sender": "0x4079047990917f3150353fbd8a13b05b6286926d",
+   "recipient": null,
+   "amount_sent": "12901.411000",
+   "amount_received": null,
+   "guid": null,
+   "dst_txid": null,
+   "excluded": null
+  },
+  {
+   "chain": "ethereum",
+   "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+   "protocol": "near_intents_1click",
+   "dst_eid": null,
+   "dst_chain": "tron",
+   "supported": true,
+   "sender": "0xda392553ec3602d3e650a725f847c10d04e122c0",
+   "recipient": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "amount_sent": "12882.058884",
+   "amount_received": "12878.454902",
+   "guid": null,
+   "dst_txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+   "excluded": null
+  }
+ ],
+ "merges": [
+  {
+   "chain": "tron",
+   "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "attribution": "uncertain",
+   "traced_inflow_txids": [
+    "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+   ],
+   "foreign_inflow_txids": [],
+   "excluded": null
+  }
+ ],
+ "limitations": [],
+ "allowed": {
+  "transfers": [
+   {
+    "chain": "tron",
+    "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+    "event_index": null,
+    "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+    "amount": "0.009778",
+    "asset": "USDT-TRC20",
+    "taint": "uncertain",
+    "verification": "second_source_confirmed",
+    "role": "dust",
+    "excluded": null
+   }
+  ],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "7472e1e059d44b5fb3d1c6e86a5a907f0fae015e722d1cefdf801045b9f41fbe",
+   "event_index": null,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "6be9eabf7568fe67f46d9bf32e795571b4cd2fb4f124b6bdb219d48ed6b46964",
+   "event_index": null,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "12039abce0c3c27bf587e327d86d00b7753ab4aba422f6b2c898cee563ca9ae9",
+   "event_index": null,
+   "reason": "approval_not_transfer"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [
+  "Reference answer restated from the fixture ground_truth; values are not re-verified here.",
+  "Exchange exits follow the owners' expectation (expected_exchange_exits) although they come after the commingled hub; synthetic scenarios treat such facts as allowed, not required.",
+  "Open question from the foundation probe: 1Click lists 0x41bac... (Rango) as origin tx; the fixture's step 16 (0x224f...) is the deposit-address -> vault sweep. The bridges area should settle which TXID represents the NEAR Intents exit.",
+  "0x4079... sent 12901.411000 to Rango after receiving 12901.408416 (reused EOA): a 0.002584 USDT mix on Ethereum is ignored here.",
+  "Expected mechanism: Transactions signed with victim's own owner key (no permission change); key/seed compromise",
+  "Expected freeze candidate: TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6 (USDT-TRC20, commingled)",
+  "Total fees lost before hub (fixture): 162.94587",
+  "Common TRX funder TVNMa2... is a 'probably same operator' link with a confidence level, not a fact."
+ ],
+ "meta": {
+  "category": "reference_real",
+  "variant": "case-001",
+  "title_ru": "Эталонный реальный кейс case-001",
+  "description": "real theft 2026-09-21, TRON -> USDT0 -> Ethereum -> Rango/NEAR Intents -> TRON",
+  "split": "dev",
+  "counts_toward_metrics": false
+ }
+}

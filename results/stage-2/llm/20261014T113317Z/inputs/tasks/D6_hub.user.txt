@@ -1,0 +1,68 @@
+<case_data>
+{
+ "address_under_review": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+ "arrival_of_traced_funds": {
+  "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+  "time_utc": "2026-09-21T11:58:09Z",
+  "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+  "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+  "amount": "12878.454902",
+  "asset": "USDT-TRC20",
+  "block": 86439870,
+  "route_before": "victim -> 3 TRON hops -> USDT0 bridge to Ethereum -> Rango -> NEAR Intents 1Click -> this address"
+ },
+ "traced_amount": "12878.454902",
+ "account_facts": {
+  "activated_utc": "2026-08-06T17:47:57Z",
+  "activated_by": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+  "usdt_balance": {
+   "amount": "238766.644069",
+   "as_of_utc": "2026-10-14T09:00:00Z (approximately)"
+  }
+ },
+ "usdt_outflows_after_arrival": {
+  "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+  "note": "first outflows after the traced funds arrived; the address has much more USDT activity that is not listed",
+  "rows": [
+   {
+    "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+    "time_utc": "2026-09-21T13:41:15Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+    "amount": "150000.000000",
+    "asset": "USDT-TRC20"
+   },
+   {
+    "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+    "time_utc": "2026-09-21T13:54:45Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+    "amount": "14760.000000",
+    "asset": "USDT-TRC20"
+   },
+   {
+    "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+    "time_utc": "2026-09-21T13:58:42Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+    "amount": "21000.000000",
+    "asset": "USDT-TRC20"
+   },
+   {
+    "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+    "time_utc": "2026-09-22T08:25:00Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+    "amount": "250000.000000",
+    "asset": "USDT-TRC20"
+   }
+  ]
+ }
+}
+</case_data>
+
+<task>
+Decision: classify the address where the traced funds arrived after the cross-chain round trip, decide
+whether it is a candidate for a freeze request and state explicitly what remains uncertain about the stolen
+funds there. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

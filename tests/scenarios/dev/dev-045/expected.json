@@ -1,0 +1,148 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-045",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "deefe29683343364eea3ef6d5e03a1fb3358e9a6416085a7445b156877d521d9",
+   "event_index": 0,
+   "from": "TArNmepnCLzzdaA2w1puA4jCW2jCL26Swe",
+   "to": "TA1UBpXdNoUTuvAFUME1hu31XqDj6D3Qc1",
+   "amount": "121425.329147",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "f66c2f89eb2bde12dc2e0cdde592e62e78efd8f0b9e54a43c33a37aa2e333992",
+   "event_index": 0,
+   "from": "TA1UBpXdNoUTuvAFUME1hu31XqDj6D3Qc1",
+   "to": "TGke426u86m4Az4Y6jj78qTf6G7nAJoZQp",
+   "amount": "66737.585485",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "85873219b7b15875f0dfb4dcbd10b9f0c8911acdf13bf3cf0f7e9450b0fdfcec",
+   "event_index": 0,
+   "from": "TA1UBpXdNoUTuvAFUME1hu31XqDj6D3Qc1",
+   "to": "TQ7o7eL4k7YkeRforLaiHTRdfdqyrvVwrE",
+   "amount": "54687.743662",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "d95a5a228676ef368329e300bdbb9a6f39012bc071d7e1cdfafca44cb1f08684",
+   "event_index": 0,
+   "from": "TGke426u86m4Az4Y6jj78qTf6G7nAJoZQp",
+   "to": "TZA5kUVNqDwnViJhWJBvHFnk1wprP73fMy",
+   "amount": "66737.585485",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c0190c6ba8b379e51b70eda3c3c95e6e726fabfe200a6bd3c3abe2697eeb66d0",
+   "event_index": 0,
+   "from": "TZA5kUVNqDwnViJhWJBvHFnk1wprP73fMy",
+   "to": "TBXwr3B5pcb83jRcCV4QrWmWfLWZ4mHkUy",
+   "amount": "66737.585485",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "94524ece51a8fb6c691770532813a078b365cd743a065a516b93b9da86163e61",
+   "event_index": 0,
+   "from": "TQ7o7eL4k7YkeRforLaiHTRdfdqyrvVwrE",
+   "to": "TBXwr3B5pcb83jRcCV4QrWmWfLWZ4mHkUy",
+   "amount": "54687.743662",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "deefe29683343364eea3ef6d5e03a1fb3358e9a6416085a7445b156877d521d9",
+    "85873219b7b15875f0dfb4dcbd10b9f0c8911acdf13bf3cf0f7e9450b0fdfcec",
+    "94524ece51a8fb6c691770532813a078b365cd743a065a516b93b9da86163e61"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TBXwr3B5pcb83jRcCV4QrWmWfLWZ4mHkUy",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "deefe29683343364eea3ef6d5e03a1fb3358e9a6416085a7445b156877d521d9",
+    "f66c2f89eb2bde12dc2e0cdde592e62e78efd8f0b9e54a43c33a37aa2e333992",
+    "d95a5a228676ef368329e300bdbb9a6f39012bc071d7e1cdfafca44cb1f08684",
+    "c0190c6ba8b379e51b70eda3c3c95e6e726fabfe200a6bd3c3abe2697eeb66d0"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TBXwr3B5pcb83jRcCV4QrWmWfLWZ4mHkUy",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "481dcc4cd2f4af6377ed3f5e1bf4de4b5dd773c4919b2c5b575db989fe99153b",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "cycles",
+  "variant": "reconverge",
+  "title_ru": "Ветки сходятся на одном адресе разными переводами",
+  "description": "two branches end at the same address via separate transfers",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

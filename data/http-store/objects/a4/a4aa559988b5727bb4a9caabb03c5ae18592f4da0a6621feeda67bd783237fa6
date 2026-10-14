@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","error":{"code":-32047,"message":"Invalid eth_getLogs request. 'fromBlock'-'toBlock' range too large. Max range: 800"},"id":1}

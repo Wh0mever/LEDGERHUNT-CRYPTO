@@ -1,0 +1,148 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-021",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "b0fddbf2496fa6dfa36e5407e3a5170b90a07bc1c4a14ee5d565fb0537a7dcd9",
+   "event_index": 0,
+   "from": "TNXtWjHBkDiMBSPknpjj8VcV4f75YcYy3w",
+   "to": "TSi42UCV45kEgdS3xFrqb5nbGABKqMRMo9",
+   "amount": "7540.827803",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "30112b4d9171fbfa0eaa48fd38e9ea08ee79f936a19b86f540dc18a5c4b871a3",
+   "event_index": 0,
+   "from": "TSi42UCV45kEgdS3xFrqb5nbGABKqMRMo9",
+   "to": "TPRE7bPj6V7VgBdUgBazoRLFQNUrQM9Lxj",
+   "amount": "7.840265",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "a4b667a16f190a9d2756310323896ff3b6fdc71a2cec96e680fe0e75ec17e184",
+   "event_index": 0,
+   "from": "TSi42UCV45kEgdS3xFrqb5nbGABKqMRMo9",
+   "to": "TJQ7MdF7RDYEDTVgb49VBLpmYJCfmMckm1",
+   "amount": "7532.987538",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "59cb9f4a5cc4bc439d42a421db60d667de814ae9ca2c05ed7716ffe9cfd57cf2",
+   "event_index": 0,
+   "from": "TJQ7MdF7RDYEDTVgb49VBLpmYJCfmMckm1",
+   "to": "TXXUr6bnfcBb8vCrWVhfjFvMGDPb9ExP1s",
+   "amount": "7532.987538",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "48a5eb7cb46260bfba323a7ea8a821d2dca056afc596719fb7a14c96f48e5faa",
+   "event_index": 0,
+   "from": "TXXUr6bnfcBb8vCrWVhfjFvMGDPb9ExP1s",
+   "to": "TVb8arPUQK4PhcfU6XzbcoxPLordZATd1A",
+   "amount": "7532.987538",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "a206469690ed70c96567ab87e9ad05dbca9d9177066680b0470a0e7393ef7335",
+   "event_index": 0,
+   "from": "TVb8arPUQK4PhcfU6XzbcoxPLordZATd1A",
+   "to": "TXGbC4YZV5U5oY4Bgbe6214y4kFokFnxfc",
+   "amount": "7532.987538",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "side_branch",
+   "txids": [
+    "b0fddbf2496fa6dfa36e5407e3a5170b90a07bc1c4a14ee5d565fb0537a7dcd9",
+    "30112b4d9171fbfa0eaa48fd38e9ea08ee79f936a19b86f540dc18a5c4b871a3"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TPRE7bPj6V7VgBdUgBazoRLFQNUrQM9Lxj",
+    "reason": "known_service"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "b0fddbf2496fa6dfa36e5407e3a5170b90a07bc1c4a14ee5d565fb0537a7dcd9",
+    "a4b667a16f190a9d2756310323896ff3b6fdc71a2cec96e680fe0e75ec17e184",
+    "59cb9f4a5cc4bc439d42a421db60d667de814ae9ca2c05ed7716ffe9cfd57cf2",
+    "48a5eb7cb46260bfba323a7ea8a821d2dca056afc596719fb7a14c96f48e5faa",
+    "a206469690ed70c96567ab87e9ad05dbca9d9177066680b0470a0e7393ef7335"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TXGbC4YZV5U5oY4Bgbe6214y4kFokFnxfc",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "413fe4a20f271cc41f0088b13c9396b7b9d61e19a1cdc374b350744c6df14346",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "direct",
+  "variant": "hops_energy_fee",
+  "title_ru": "Прямая цепочка с комиссией за аренду энергии",
+  "description": "straight hops; the thief pays an energy-rental fee (side branch)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

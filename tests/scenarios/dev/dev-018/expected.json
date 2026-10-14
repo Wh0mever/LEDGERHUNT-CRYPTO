@@ -1,0 +1,107 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-018",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "abbb775272a545d371ea13ecd758cbf67b1374fbe0920f9b38c0f8061a76557f",
+   "event_index": 0,
+   "from": "TVpxX6iz8ioUxURhqcJBZ3zu5vQxVPka3n",
+   "to": "TPWmLzJmiqKrLP7V5WDbpitndcw7ktnN36",
+   "amount": "41122.857888",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "5a6c350bb6fb11407a438667efbb132b29fb8e3ab0ec629346719a86d89f60d2",
+   "event_index": 0,
+   "from": "TPWmLzJmiqKrLP7V5WDbpitndcw7ktnN36",
+   "to": "TMAJT6J4R8SqsJzVmEw6sQC8oAhggtSS8y",
+   "amount": "41122.857888",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c36baf3227b061e7638f8dc8eb3f620e97326309b074f438a567850dccf54293",
+   "event_index": 0,
+   "from": "TMAJT6J4R8SqsJzVmEw6sQC8oAhggtSS8y",
+   "to": "TGf5am7LXquCkdKDJgYhyGsJwEwzAw9HEQ",
+   "amount": "41122.857888",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "1673c3dc43856c8277fa22734b8450fe91ba8761af325d82fff8c26390f7d9f4",
+   "event_index": 0,
+   "from": "TGf5am7LXquCkdKDJgYhyGsJwEwzAw9HEQ",
+   "to": "TC7WyNxtoT53aJvuixeo3NdrxHaZBc2oCn",
+   "amount": "41122.857888",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "abbb775272a545d371ea13ecd758cbf67b1374fbe0920f9b38c0f8061a76557f",
+    "5a6c350bb6fb11407a438667efbb132b29fb8e3ab0ec629346719a86d89f60d2",
+    "c36baf3227b061e7638f8dc8eb3f620e97326309b074f438a567850dccf54293",
+    "1673c3dc43856c8277fa22734b8450fe91ba8761af325d82fff8c26390f7d9f4"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TC7WyNxtoT53aJvuixeo3NdrxHaZBc2oCn",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "1290a4776d6b81c24190b9d2cba9ab84f83ec49131de518f68c705d1ff7b330f",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "direct",
+  "variant": "gas_funding_noise",
+  "title_ru": "Прямая цепочка с пополнением TRX для газа",
+  "description": "hops funded with TRX by a common gas wallet (native noise)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

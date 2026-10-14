@@ -1,0 +1,148 @@
+{
+  "area": "llm",
+  "run_id": "20261014T113317Z",
+  "started_utc": "2026-10-14T11:33:17Z",
+  "date_utc": "2026-10-14",
+  "git": {
+    "commit": "90bd06b729c3c4c8702e7e04035ea9960974b80b",
+    "branch": "main",
+    "dirty": true,
+    "dirty_paths": 21
+  },
+  "python": {
+    "version": "3.13.0",
+    "implementation": "CPython"
+  },
+  "packages": {
+    "ledgerhunt": "0.2.0",
+    "httpx": "0.28.1",
+    "anthropic": "1.13.0",
+    "pydantic": "2.14.1",
+    "python-dotenv": "1.2.4",
+    "base58": "2.1.1",
+    "pycryptodome": "3.24.1",
+    "pillow": "12.3.0",
+    "pytest": "9.1.1"
+  },
+  "machine": {
+    "os": "Майкрософт Windows 11 Pro",
+    "os_version": "10.0.26200 (build 26200)",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "cpu_model": "13th Gen Intel(R) Core(TM) i9-13900H",
+    "cpu_cores_physical": 14,
+    "cpu_threads_logical": 20,
+    "ram_total_bytes": 33965801472,
+    "ram_total_gb": "31.6",
+    "disk_free_bytes": 17356185600,
+    "disk_free_gb": "16.2",
+    "disk_total_gb": "475.7",
+    "python": "3.13.0",
+    "python_implementation": "CPython",
+    "source": "platform+cim"
+  },
+  "secrets_present": {
+    "ANTHROPIC_API_KEY": true,
+    "TRONGRID_API_KEY": true,
+    "TRON_RPC_URL": false,
+    "TRON_RPC_URL_2": false,
+    "TRONSCAN_API_KEY": false,
+    "ETH_RPC_URL": false,
+    "ETHERSCAN_API_KEY": true,
+    "BLOCKSCOUT_API_KEY": false,
+    "NEAR_INTENTS_JWT": false
+  },
+  "command": "python -m ledgerhunt stage2 llm_models --llm",
+  "reproduce": "python run_stage2.py --only llm_models --llm",
+  "http": {
+    "mode": "record"
+  },
+  "config": {
+    "mode": "live",
+    "models": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5",
+      "claude-opus-5-5"
+    ],
+    "repeats": {
+      "claude-haiku-5-5": 5,
+      "claude-sonnet-5-5": 3,
+      "claude-opus-5-5": 3
+    },
+    "tasks": [
+      "D1_mechanism",
+      "D2_split",
+      "D3_usdt0_exit",
+      "D4_rango",
+      "D5_near_intents",
+      "D6_hub",
+      "D7_exchange",
+      "D8_funder",
+      "S1_wallet_detail",
+      "S2_explorer_tx",
+      "S3_chat_buyer",
+      "S4_chat_seed_phone",
+      "S5_chat_injection",
+      "R1_report"
+    ],
+    "efforts_by_kind": {
+      "screenshot": [
+        "low",
+        "medium"
+      ],
+      "decision": [
+        "medium",
+        "high"
+      ],
+      "report": [
+        "medium",
+        "high"
+      ]
+    },
+    "cap_usd_whole_benchmark": "20.00",
+    "ledger": "results/stage-2/llm/cost-ledger.jsonl",
+    "workers": 10,
+    "api_checks": true,
+    "checks_only": false,
+    "anthropic_base_url": "https://api.anthropic.com",
+    "prompt_cache": "system prompt, explicit 5-minute breakpoint",
+    "thinking": "not set (adaptive by default on all three models), display omitted (default)",
+    "output": "structured outputs: output_config.format json_schema"
+  },
+  "resumes": [
+    {
+      "resumed_utc": "2026-10-14T11:48:53Z",
+      "closed_stale_reservations": [
+        {
+          "call_id": "llm/20261014T113317Z:claude-sonnet-5-5|high|R1_report|2",
+          "model": "claude-sonnet-5-5",
+          "upper_bound_usd": "0.358864"
+        },
+        {
+          "call_id": "llm/20261014T113317Z:claude-haiku-5-5|medium|R1_report|4",
+          "model": "claude-haiku-5-5",
+          "upper_bound_usd": "0.0179432"
+        },
+        {
+          "call_id": "llm/20261014T113317Z:claude-opus-5-5|medium|R1_report|3",
+          "model": "claude-opus-5-5",
+          "upper_bound_usd": "0.717728"
+        },
+        {
+          "call_id": "llm/20261014T113317Z:claude-opus-5-5|medium|D1_mechanism|2",
+          "model": "claude-opus-5-5",
+          "upper_bound_usd": "0.37452"
+        },
+        {
+          "call_id": "llm/20261014T113317Z:claude-sonnet-5-5|high|D5_near_intents|2",
+          "model": "claude-sonnet-5-5",
+          "upper_bound_usd": "0.186564"
+        }
+      ],
+      "calls_sent": 39
+    }
+  ],
+  "finished_utc": "2026-10-14T11:53:38Z",
+  "status": "ok",
+  "duration_s": 1221.841
+}

@@ -1,0 +1,135 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-034",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "1b326a389d9b84a9fcd356271af483887a09193cb1521099db69033ad60072ef",
+   "event_index": 0,
+   "from": "TWM3cqhrePCNZSAvPLJknktaUUSDy9UKjr",
+   "to": "TM8pe3mE5AaqDnnWpP2kfMujboNxY8rhko",
+   "amount": "114819.776587",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "7d31699fc97688a6d4a8ef6e16da2589692ff2e93af0b0ad6b5bcf2688642d13",
+   "event_index": 0,
+   "from": "TM8pe3mE5AaqDnnWpP2kfMujboNxY8rhko",
+   "to": "TEdVwzBWLeUEnT52n34Hc9uSEKtCpQrqnX",
+   "amount": "114819.776587",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "6145515dca95c52c158c0dc4259a82a20f8083bd713c2a3a7f43b78867ab0fdc",
+   "event_index": 0,
+   "from": "TEdVwzBWLeUEnT52n34Hc9uSEKtCpQrqnX",
+   "to": "TUxT7uARCH8mcivYzUNwBh2WLyg4eLMUJ9",
+   "amount": "114819.776587",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "197a4d98e3a748ad8429bcdb5b4d8c029cf99ce22742e6e0eff62f9f5a2db6a9",
+   "event_index": 0,
+   "from": "TUxT7uARCH8mcivYzUNwBh2WLyg4eLMUJ9",
+   "to": "TKQ7X72Y5D7Fux1482bxL1hUVtT8sH3Cvw",
+   "amount": "114819.776587",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ffcba3b68c9f75bc06b742c5c09def4b0fd1fc53c34f19927ba033c54c27b9cd",
+   "event_index": 0,
+   "from": "TKQ7X72Y5D7Fux1482bxL1hUVtT8sH3Cvw",
+   "to": "TM8pe3mE5AaqDnnWpP2kfMujboNxY8rhko",
+   "amount": "114819.776587",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "985f6b2a82e9dcb791f5ab1b21463bc0625c5e296ed6d8efe2051b0c8cfb8c0c",
+   "event_index": 0,
+   "from": "TM8pe3mE5AaqDnnWpP2kfMujboNxY8rhko",
+   "to": "TWd4t8cY6z1CVvrvrXdP7HjMvSqxpDbaog",
+   "amount": "114819.776587",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "1b326a389d9b84a9fcd356271af483887a09193cb1521099db69033ad60072ef",
+    "7d31699fc97688a6d4a8ef6e16da2589692ff2e93af0b0ad6b5bcf2688642d13",
+    "6145515dca95c52c158c0dc4259a82a20f8083bd713c2a3a7f43b78867ab0fdc",
+    "197a4d98e3a748ad8429bcdb5b4d8c029cf99ce22742e6e0eff62f9f5a2db6a9",
+    "ffcba3b68c9f75bc06b742c5c09def4b0fd1fc53c34f19927ba033c54c27b9cd",
+    "985f6b2a82e9dcb791f5ab1b21463bc0625c5e296ed6d8efe2051b0c8cfb8c0c"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TWd4t8cY6z1CVvrvrXdP7HjMvSqxpDbaog",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "c4d2021314f6ffd08e7d3dece43e8ecbf8f691789898127aa1e1a5bbcf0419c6",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "cycles",
+  "variant": "loop_back",
+  "title_ru": "Цикл: средства возвращаются на адрес вора и уходят дальше",
+  "description": "loop A->B->C->A->D",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

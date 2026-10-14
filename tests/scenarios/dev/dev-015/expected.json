@@ -1,0 +1,105 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-015",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "4d5f50379016ac203b20a71258def75c23be41bcaae2fed06cb56da630e11f13",
+   "event_index": 0,
+   "from": "TEWyZLBJP4TVZjZefa9C5HeKpKttsxPGdX",
+   "to": "TRRsgx6FfgeipKaUgQwzPYXTX1qmPEFmL8",
+   "amount": "139008.635790",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "87e351aab28653d839d4ea5368e2029fffc460939f17e583c804c806a4b5b151",
+   "event_index": 0,
+   "from": "TRRsgx6FfgeipKaUgQwzPYXTX1qmPEFmL8",
+   "to": "TGrSnUr12JaxXm26Cu9VVxQrcbS1nUMvRU",
+   "amount": "139008.635790",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "f918dd3ef7c92b7e708d63aa6cd6d823a17d451560f820b0b3b8904320a21366",
+   "event_index": 0,
+   "from": "TGrSnUr12JaxXm26Cu9VVxQrcbS1nUMvRU",
+   "to": "TFTFBFpe8jnLGfRpkWY7T3Q5tdmW1LwuBX",
+   "amount": "139008.635790",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "4d5f50379016ac203b20a71258def75c23be41bcaae2fed06cb56da630e11f13",
+    "87e351aab28653d839d4ea5368e2029fffc460939f17e583c804c806a4b5b151",
+    "f918dd3ef7c92b7e708d63aa6cd6d823a17d451560f820b0b3b8904320a21366"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TFTFBFpe8jnLGfRpkWY7T3Q5tdmW1LwuBX",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "5ba10d1fdc861ac820f744ebda2c985e703358626812c33392c619ed3e2851ef",
+   "event_index": 0,
+   "reason": "pre_theft_history"
+  },
+  {
+   "txid": "2c32269428b55da7d7d45d4eb4469942055024b41552eebda4aa8e90e397be02",
+   "event_index": 0,
+   "reason": "pre_theft_history"
+  },
+  {
+   "txid": "b85655d67047991a81ed4dbccb40283b64ef015120f01fa2a134ef90efc5b0aa",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [
+  "the hub had foreign funds earlier but its balance was zero when the stolen funds arrived"
+ ],
+ "meta": {
+  "category": "merge",
+  "variant": "spent_history",
+  "title_ru": "Адрес с прошлой историей и нулевым балансом: слияния нет",
+  "description": "hub had earlier foreign funds, fully spent before",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

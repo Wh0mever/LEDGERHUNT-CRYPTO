@@ -1,0 +1,98 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-032",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "bd6c19b0074ced305b910870f26bb2cca8f780be876736fd0a6d2dcf6a245aab",
+   "event_index": 0,
+   "from": "TEoTdkBqqAc3VC6H53McYZQXY8QkEU2bU3",
+   "to": "TXWX8ojdbogHo6zNF8FcpQNJK7BUNBfbq7",
+   "amount": "129256.261240",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "70f2b9fb5c5cb767b1bd873dd97cffd11153c59ed8ad49b580b9aa9dcf91db32",
+   "event_index": 0,
+   "from": "TXWX8ojdbogHo6zNF8FcpQNJK7BUNBfbq7",
+   "to": "TY8PnaE9mkodS2KYn95tGusfyDv9CYhyeg",
+   "amount": "129256.261240",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "b0e312f48caf2a694de695c1f2e4d2a5c76c28fb378f60a6786cec767f99670f",
+   "event_index": 0,
+   "from": "TY8PnaE9mkodS2KYn95tGusfyDv9CYhyeg",
+   "to": "TY6K9WJ9H7GRTE8ZcugNhZYBUu6ZoyiXEN",
+   "amount": "129256.261240",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "bd6c19b0074ced305b910870f26bb2cca8f780be876736fd0a6d2dcf6a245aab",
+    "70f2b9fb5c5cb767b1bd873dd97cffd11153c59ed8ad49b580b9aa9dcf91db32",
+    "b0e312f48caf2a694de695c1f2e4d2a5c76c28fb378f60a6786cec767f99670f"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TY6K9WJ9H7GRTE8ZcugNhZYBUu6ZoyiXEN",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "e18444c89a2b09b2a6dcb83842e2bfab123c1ee52db0424cf8d4090ccd2d516c",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "4b28baa5dc3d74884967e2408555bddb5a4086bf67b41b734d6ba72703fbb33d",
+   "event_index": 0,
+   "reason": "approval_not_transfer"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "direct",
+  "variant": "approval_phishing",
+  "title_ru": "Кража через ранее выданное разрешение (transferFrom)",
+  "description": "approval phishing: theft signed by a spender via transferFrom",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

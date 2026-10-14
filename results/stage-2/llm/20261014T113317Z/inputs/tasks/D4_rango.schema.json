@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "properties": {
+    "aggregator": {
+      "type": "string",
+      "enum": [
+        "Rango",
+        "other",
+        "unknown"
+      ]
+    },
+    "input_from": {
+      "type": "string"
+    },
+    "input_amount": {
+      "type": "string"
+    },
+    "affiliate_address": {
+      "type": "string"
+    },
+    "affiliate_fee": {
+      "type": "string"
+    },
+    "forwarded_to": {
+      "type": "string"
+    },
+    "forwarded_amount": {
+      "type": "string"
+    },
+    "amounts_reconcile": {
+      "type": "boolean",
+      "description": "input_amount minus affiliate_fee equals forwarded_amount exactly"
+    },
+    "destination_chain_id": {
+      "type": "integer"
+    },
+    "destination_chain": {
+      "type": "string",
+      "description": "name of the destination chain"
+    },
+    "receiver_field_raw": {
+      "type": "string",
+      "description": "the receiver value exactly as it appears in the event"
+    },
+    "receiver_is_ethereum_address": {
+      "type": "boolean"
+    },
+    "receiver_on_destination_chain": {
+      "type": "string",
+      "description": "the receiver on the destination chain as far as this data shows it (may be partial); empty if unknown"
+    },
+    "receiver_is_complete_address": {
+      "type": "boolean"
+    },
+    "next_action": {
+      "type": "string",
+      "enum": [
+        "query_bridge_status_api_for_forwarded_address",
+        "trace_receiver_address_on_ethereum",
+        "stop_evidence_boundary"
+      ]
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "aggregator",
+    "input_from",
+    "input_amount",
+    "affiliate_address",
+    "affiliate_fee",
+    "forwarded_to",
+    "forwarded_amount",
+    "amounts_reconcile",
+    "destination_chain_id",
+    "destination_chain",
+    "receiver_field_raw",
+    "receiver_is_ethereum_address",
+    "receiver_on_destination_chain",
+    "receiver_is_complete_address",
+    "next_action",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

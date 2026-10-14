@@ -1,0 +1,16 @@
+{
+  "expected": {
+    "mechanism": "private_key_or_seed_compromise",
+    "signer_permission": "owner",
+    "account_permissions_changed": false
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "46dd1b743fb665212b87e5589828d8b09967e2ec942cbb2dc69865bbb74cda9c",
+  "schema_sha256": "33e95648c94d1aa4ead976bd5c2a50032cdab13691f84a2e49901e8f385745c9"
+}

@@ -1,0 +1,90 @@
+{
+ "additionalProperties": false,
+ "description": "What a tracer gets: the start, parameters, context (labels, supported bridges) and the store.",
+ "properties": {
+  "schema": {
+   "default": "ledgerhunt.scenario-input/1",
+   "title": "Schema",
+   "type": "string"
+  },
+  "scenario_id": {
+   "title": "Scenario Id",
+   "type": "string"
+  },
+  "split": {
+   "enum": [
+    "dev",
+    "holdout"
+   ],
+   "title": "Split",
+   "type": "string"
+  },
+  "synthetic": {
+   "default": true,
+   "title": "Synthetic",
+   "type": "boolean"
+  },
+  "start": {
+   "additionalProperties": true,
+   "title": "Start",
+   "type": "object"
+  },
+  "params": {
+   "additionalProperties": true,
+   "title": "Params",
+   "type": "object"
+  },
+  "context": {
+   "additionalProperties": true,
+   "title": "Context",
+   "type": "object"
+  },
+  "store": {
+   "anyOf": [
+    {
+     "type": "string"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "title": "Store"
+  },
+  "request_profile": {
+   "title": "Request Profile",
+   "type": "string"
+  },
+  "providers": {
+   "additionalProperties": {
+    "type": "string"
+   },
+   "title": "Providers",
+   "type": "object"
+  },
+  "reference": {
+   "anyOf": [
+    {
+     "additionalProperties": true,
+     "type": "object"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null,
+   "title": "Reference"
+  }
+ },
+ "required": [
+  "scenario_id",
+  "split",
+  "start",
+  "params",
+  "context",
+  "store",
+  "request_profile",
+  "providers"
+ ],
+ "title": "ScenarioInput",
+ "type": "object"
+}

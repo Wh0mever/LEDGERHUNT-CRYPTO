@@ -1,0 +1,150 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-033",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "c80cc3e338ee788f9d00a99b627f4624674f64522d30b497c904d7a3fb4c8020",
+   "event_index": 0,
+   "from": "TLGizuhyhcFJDF2v2vSeX3eCWY15qUZAmW",
+   "to": "TVZRFXBYZqiEPNehpj1M5vhYchATgNniCY",
+   "amount": "71627.858133",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "eb5be4ba92a91a3f0ff53167cd4a80df5778b7633b0296d9f336447eb203f2f7",
+   "event_index": 0,
+   "from": "TVZRFXBYZqiEPNehpj1M5vhYchATgNniCY",
+   "to": "TJKRRivUXuJC42GfsMFxadFbAGkSw4mFd6",
+   "amount": "71627.858133",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "9f6c1bc13457203c838e423f2b21d6657ea4328da8df57bb45fbab1e790597aa",
+   "event_index": 0,
+   "from": "TJKRRivUXuJC42GfsMFxadFbAGkSw4mFd6",
+   "to": "TC4qJDbEnWfNStbCF1aShHUoRfrDAoE18f",
+   "amount": "71627.858133",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ae22ce8932fff3d77d631988721977a91dfe0ebb1376ec7e42779ba892e3b5f0",
+   "event_index": 0,
+   "from": "TC4qJDbEnWfNStbCF1aShHUoRfrDAoE18f",
+   "to": "TC4RMPC15byyNcqTufDr89aM23PH46aEuw",
+   "amount": "4.406949",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "side_branch",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "da5f46a858c9d0b8a565a9fd6c27cfcb247dfd1f27a39f7925b2917fb45614fc",
+   "event_index": 0,
+   "from": "TC4qJDbEnWfNStbCF1aShHUoRfrDAoE18f",
+   "to": "TJKRRivUXuJC42GfsMFxadFbAGkSw4mFd6",
+   "amount": "71623.451184",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "487579e337b85259ed1ac532d7069b68c8cb4ade4d01ea4c184bbd29ae1554b4",
+   "event_index": 0,
+   "from": "TJKRRivUXuJC42GfsMFxadFbAGkSw4mFd6",
+   "to": "TQ1EjeqEUWmhRmMBfKbRquVa4ZfKyeTQu3",
+   "amount": "71623.451184",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "side_branch",
+   "txids": [
+    "c80cc3e338ee788f9d00a99b627f4624674f64522d30b497c904d7a3fb4c8020",
+    "eb5be4ba92a91a3f0ff53167cd4a80df5778b7633b0296d9f336447eb203f2f7",
+    "9f6c1bc13457203c838e423f2b21d6657ea4328da8df57bb45fbab1e790597aa",
+    "ae22ce8932fff3d77d631988721977a91dfe0ebb1376ec7e42779ba892e3b5f0"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TC4RMPC15byyNcqTufDr89aM23PH46aEuw",
+    "reason": "known_service"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "c80cc3e338ee788f9d00a99b627f4624674f64522d30b497c904d7a3fb4c8020",
+    "eb5be4ba92a91a3f0ff53167cd4a80df5778b7633b0296d9f336447eb203f2f7",
+    "9f6c1bc13457203c838e423f2b21d6657ea4328da8df57bb45fbab1e790597aa",
+    "da5f46a858c9d0b8a565a9fd6c27cfcb247dfd1f27a39f7925b2917fb45614fc",
+    "487579e337b85259ed1ac532d7069b68c8cb4ade4d01ea4c184bbd29ae1554b4"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TQ1EjeqEUWmhRmMBfKbRquVa4ZfKyeTQu3",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "d55376f87c6365875ec56ad5f41457696ce953e8fef4fab19f7c8c4192fcf5f2",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "cycles",
+  "variant": "revisit_fee",
+  "title_ru": "Повторное посещение адреса с комиссией по пути",
+  "description": "A->B->C (fee)->B->D",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

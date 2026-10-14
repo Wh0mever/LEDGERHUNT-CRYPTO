@@ -1,0 +1,107 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "executive_summary": {
+      "type": "string",
+      "description": "5-8 sentences"
+    },
+    "mechanism": {
+      "type": "string"
+    },
+    "route_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "integer"
+          },
+          "chain": {
+            "type": "string"
+          },
+          "from_address": {
+            "type": "string"
+          },
+          "to_address": {
+            "type": "string"
+          },
+          "txid": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "asset": {
+            "type": "string"
+          },
+          "time_utc": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "order",
+          "chain",
+          "from_address",
+          "to_address",
+          "txid",
+          "amount",
+          "asset",
+          "time_utc",
+          "note"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "cross_chain_section": {
+      "type": "string"
+    },
+    "side_branches_section": {
+      "type": "string"
+    },
+    "hub_and_freeze_section": {
+      "type": "string"
+    },
+    "exchange_exits_section": {
+      "type": "string"
+    },
+    "links_and_hypotheses_section": {
+      "type": "string"
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "executive_summary",
+    "mechanism",
+    "route_steps",
+    "cross_chain_section",
+    "side_branches_section",
+    "hub_and_freeze_section",
+    "exchange_exits_section",
+    "links_and_hypotheses_section",
+    "uncertainties",
+    "recommended_actions",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

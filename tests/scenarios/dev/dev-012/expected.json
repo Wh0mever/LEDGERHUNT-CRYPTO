@@ -1,0 +1,132 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-012",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "219dd1cbe1fcf1c3f7eedd1dae8f052df0eee659cc98fb72bc4c48898b5a4e11",
+   "event_index": 0,
+   "from": "TKcosY4CwugVfjC42vhkHdR5mmhUVhHRjv",
+   "to": "TB3phMWRXx91sLJoa25cUc6cy9ynC9Uc9W",
+   "amount": "13094.370529",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "2d2a1e0289efcb1d1b3a3f962478a472ae042444fb393a178f7c14ea90c70153",
+   "event_index": 0,
+   "from": "TB3phMWRXx91sLJoa25cUc6cy9ynC9Uc9W",
+   "to": "TNv3uRH6oHfy66TQMDFSxt8W5ay5Ws5W13",
+   "amount": "13094.370529",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "51ec736c919b91cf2567db82eede8e749983407f76064054d372e98b0de10984",
+   "event_index": 0,
+   "from": "TNv3uRH6oHfy66TQMDFSxt8W5ay5Ws5W13",
+   "to": "TENumwacLFbkQmh9MUQTSpbT5N2DCLfsAr",
+   "amount": "13094.370529",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "2feb6a6a5c9ac5906756489954198bbad12d47ca0341907dd7356f32aa3e8d18",
+   "event_index": 0,
+   "from": "TENumwacLFbkQmh9MUQTSpbT5N2DCLfsAr",
+   "to": "TJGgaXuHAf1J5dXxPo8iwpXHJb9dxZ1J8A",
+   "amount": "13094.370529",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "219dd1cbe1fcf1c3f7eedd1dae8f052df0eee659cc98fb72bc4c48898b5a4e11",
+    "2d2a1e0289efcb1d1b3a3f962478a472ae042444fb393a178f7c14ea90c70153",
+    "51ec736c919b91cf2567db82eede8e749983407f76064054d372e98b0de10984",
+    "2feb6a6a5c9ac5906756489954198bbad12d47ca0341907dd7356f32aa3e8d18"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TJGgaXuHAf1J5dXxPo8iwpXHJb9dxZ1J8A",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "fc8bbc8d40623a28b7481cdee76947380981bc3080258a0500227ebecefca14e",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "48b4e7f39de4ac40f126b1b96b1a19a237bf15413115679f8a7024581d0e27b7",
+   "event_index": 0,
+   "reason": "lookalike_dust"
+  },
+  {
+   "txid": "afe9f6e5ba9755dc3c291cce165648b229a276329b6fe5a83bf3b6dfdfc46314",
+   "event_index": 0,
+   "reason": "zero_value_poisoning"
+  },
+  {
+   "txid": "f2f294c2fec20b29fae4df4bd4c5d24dc9e77f65284bd2498d88ff07dfb5536a",
+   "event_index": 0,
+   "reason": "zero_value_poisoning"
+  },
+  {
+   "txid": "27290013921e5e217457a7427b7c9c1b256fe3eea9f8d5202c43795d0784b957",
+   "event_index": 0,
+   "reason": "zero_value_poisoning"
+  },
+  {
+   "txid": "12336e7c862ea09987dec2c6a3eaecd0c9d3be73019817a593443a54120fbdad",
+   "event_index": 0,
+   "reason": "zero_value_poisoning"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "incomplete_data",
+  "variant": "poisoning",
+  "title_ru": "Отравление адресов: нулевые переводы и пыль с похожих адресов",
+  "description": "zero-value poisoning and lookalike dust around the route",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

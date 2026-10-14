@@ -1,0 +1,271 @@
+<case_data>
+{
+ "case": {
+  "theft_txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+  "victim_address": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+  "asset": "USDT-TRC20",
+  "amount": "13041.400772",
+  "time_utc": "2026-09-21T11:32:39Z",
+  "block": 86439360
+ },
+ "verified_route": [
+  {
+   "order": 1,
+   "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+   "time_utc": "2026-09-21T11:32:39Z",
+   "from": "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+   "to": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "amount": "13041.400772",
+   "asset": "USDT-TRC20",
+   "block": 86439360,
+   "chain": "tron"
+  },
+  {
+   "order": 2,
+   "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+   "time_utc": "2026-09-21T11:35:33Z",
+   "from": "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+   "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "amount": "13035.640112",
+   "asset": "USDT-TRC20",
+   "chain": "tron"
+  },
+  {
+   "order": 3,
+   "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+   "time_utc": "2026-09-21T11:41:18Z",
+   "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "amount": "12905.283711",
+   "asset": "USDT-TRC20",
+   "chain": "tron"
+  },
+  {
+   "order": 4,
+   "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+   "time_utc": "2026-09-21T11:50:54Z",
+   "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "12905.280000",
+   "asset": "USDT-TRC20",
+   "block": 86439725,
+   "chain": "tron"
+  },
+  {
+   "order": 5,
+   "txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+   "time_utc": "2026-09-21T11:52:59Z",
+   "from": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+   "to": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "amount": "12901.408416",
+   "asset": "USDT-ERC20",
+   "block": 26025709,
+   "chain": "ethereum"
+  },
+  {
+   "order": 6,
+   "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "time_utc": "2026-09-21T11:56:35Z",
+   "from": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "to": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+   "amount": "12901.411000",
+   "asset": "USDT-ERC20",
+   "block": 26025727,
+   "chain": "ethereum"
+  },
+  {
+   "order": 7,
+   "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+   "time_utc": "2026-09-21T11:57:35Z",
+   "from": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+   "amount": "12882.058884",
+   "asset": "USDT-ERC20",
+   "chain": "ethereum"
+  },
+  {
+   "order": 8,
+   "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+   "time_utc": "2026-09-21T11:58:09Z",
+   "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+   "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "amount": "12878.454902",
+   "asset": "USDT-TRC20",
+   "block": 86439870,
+   "chain": "tron"
+  }
+ ],
+ "bridge_details": {
+  "usdt0_layerzero": {
+   "source_txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+   "srcEid": 30420,
+   "dstEid": 30101,
+   "guid": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+   "sent": "12905.280000",
+   "received_on_ethereum": "12901.408416",
+   "recipient": "0x4079047990917F3150353FBd8A13b05b6286926d",
+   "status": "DELIVERED"
+  },
+  "rango": {
+   "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "destinationChainId": 1414680398,
+   "destinationChainId_ascii": "TRON",
+   "receiver_bytes_ascii": "TYHeH2HQn7pM5fe6aYwG",
+   "affiliate": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+   "affiliate_fee": "19.352116",
+   "forwarded_to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "forwarded_amount": "12882.058884",
+   "dAppName": "MoonGate"
+  },
+  "near_intents_1click": {
+   "deposit_address": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+   "status": "SUCCESS",
+   "recipient": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "destination_txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+   "amount_out_reported_by_1click": "12878.410167",
+   "amount_received_on_chain": "12878.454902"
+  }
+ },
+ "side_branches": [
+  {
+   "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+   "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+   "amount": "5.137122",
+   "what": "energy-rental fee paid from the victim address in the theft transaction sequence"
+  },
+  {
+   "to": "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx",
+   "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec",
+   "amount": "5.486343",
+   "what": "energy-rental fee paid by the first thief address"
+  },
+  {
+   "to": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz",
+   "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+   "amount": "130.356401",
+   "what": "exactly 1% of 13035.640112, recurring fee collector"
+  },
+  {
+   "to": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+   "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+   "amount": "19.352116",
+   "what": "Rango affiliate fee (dApp MoonGate)"
+  },
+  {
+   "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+   "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+   "amount": "0.009778",
+   "what": "dust remainder"
+  },
+  {
+   "what": "bridge and swap fees",
+   "usdt0_fee": "3.871584",
+   "near_intents_difference": "3.603982"
+  }
+ ],
+ "total_lost_between_theft_and_hub": {
+  "amount": "162.94587",
+  "computed_as": "13041.400772 - 12878.454902 = 162.945870",
+  "what": "fees, the 1% cut and small residues left on intermediate addresses"
+ },
+ "hub": {
+  "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+  "received": "12878.454902",
+  "commingled": true,
+  "usdt_balance": {
+   "amount": "238766.644069",
+   "as_of_utc": "2026-10-14T09:00:00Z (approximately)"
+  },
+  "outflows_after_arrival": [
+   {
+    "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+    "time_utc": "2026-09-21T13:41:15Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+    "amount": "150000.000000",
+    "asset": "USDT-TRC20"
+   },
+   {
+    "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+    "time_utc": "2026-09-21T13:54:45Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+    "amount": "14760.000000",
+    "asset": "USDT-TRC20"
+   },
+   {
+    "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+    "time_utc": "2026-09-21T13:58:42Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+    "amount": "21000.000000",
+    "asset": "USDT-TRC20"
+   },
+   {
+    "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+    "time_utc": "2026-09-22T08:25:00Z",
+    "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "to": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+    "amount": "250000.000000",
+    "asset": "USDT-TRC20"
+   }
+  ]
+ },
+ "exchange_exits": [
+  {
+   "deposit_address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+   "exchange": "WhiteBIT",
+   "evidence": [
+    "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+    "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e"
+   ],
+   "label_source": "third-party explorer tag of the sweep destination TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+  },
+  {
+   "deposit_address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+   "exchange": "WhiteBIT",
+   "evidence": [
+    "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+    "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf"
+   ],
+   "label_source": "third-party explorer tag of the sweep destination TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ"
+  }
+ ],
+ "freeze_candidate": {
+  "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+  "asset": "USDT-TRC20",
+  "funds": "commingled"
+ },
+ "mechanism": {
+  "finding": "the theft transaction and the fee transfer were signed with the victim's own owner key; account permissions were never changed",
+  "interpretation": "consistent with compromise of the seed phrase or private key"
+ },
+ "links": [
+  {
+   "type": "common TRX funder",
+   "funder": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+   "funded": [
+    "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+   ],
+   "status": "hypothesis: probably the same operator",
+   "confidence": "medium-high"
+  }
+ ],
+ "route_reuse": "the same route (hop -> 99% + exactly 1% -> USDT0 bridge -> 0x4079... -> Rango) was used on 2026-08-26/27 and 2026-08-30/31"
+}
+</case_data>
+
+<task>
+Write the narrative sections of the investigation report for case-001 from the verified facts above.
+The report will be read by the victim, by exchange security teams and by the police; an operator reviews it first.
+- route_steps: one entry per transaction of the verified route, in order, with exact identifiers and amounts.
+- Name each bridge or swap service and what the data shows at each cross-chain step.
+- side_branches_section: the side branches with their amounts and the total lost between the theft and the hub.
+- hub_and_freeze_section: why the hub address is a freeze candidate and what is uncertain about the funds there.
+- exchange_exits_section: what the exchange deposits mean for the investigation.
+- links_and_hypotheses_section: links between addresses with their status (fact or hypothesis) and confidence.
+- recommended_actions: concrete requests (freeze request through law enforcement, exchange notification, ...).
+Use only the facts provided. Plain, precise English. No promises about outcomes.
+</task>

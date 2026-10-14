@@ -1,0 +1,506 @@
+[
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "TRON bridge-out block",
+    "fixture": 86439725,
+    "observed": 86439725,
+    "source": "TronGrid walletsolidity/gettransactioninfobyid",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "TRON bridge-out time",
+    "fixture": "2026-09-21 11:50:54",
+    "observed": "2026-09-21 11:50:54",
+    "source": "TronGrid gettransactioninfobyid",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "TRON bridge-out contract (USDT0 OFT)",
+    "fixture": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "observed": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "source": "TronGrid gettransactioninfobyid",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "TRON bridge-out sender",
+    "fixture": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "observed": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "source": "OFTSent (raw TRON log, own decoder)",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "TRON bridge-out amount",
+    "fixture": "12905.280000",
+    "observed": "12905.280000",
+    "source": "OFTSent.amountSentLD",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "LayerZero guid",
+    "fixture": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+    "observed": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+    "source": "OFTSent topic1 (raw TRON log)",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "LayerZero guid",
+    "fixture": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+    "observed": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+    "source": "LayerZero Scan /messages/tx/{dst}",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "srcEid",
+    "fixture": 30420,
+    "observed": 30420,
+    "source": "PacketSent (raw TRON log)",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "srcEid",
+    "fixture": 30420,
+    "observed": 30420,
+    "source": "LayerZero Scan",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "dstEid",
+    "fixture": 30101,
+    "observed": 30101,
+    "source": "OFTSent.dstEid",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "dstEid",
+    "fixture": 30101,
+    "observed": 30101,
+    "source": "LayerZero Scan",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "sendTo",
+    "fixture": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "observed": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "source": "PacketSent message (raw TRON log)",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "sendTo",
+    "fixture": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "observed": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "source": "LayerZero Scan payload",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "sendTo",
+    "fixture": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "observed": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "source": "OFTReceived.toAddress (Ethereum receipt)",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "amountReceivedLD",
+    "fixture": "12901.408416",
+    "observed": "12901.408416",
+    "source": "OFTSent.amountReceivedLD",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "amountReceivedLD",
+    "fixture": "12901.408416",
+    "observed": "12901.408416",
+    "source": "OFTReceived.amountReceivedLD",
+    "match": true
+  },
+  {
+    "step": 12,
+    "kind": "fact",
+    "fact": "LayerZero status",
+    "fixture": "DELIVERED",
+    "observed": "DELIVERED",
+    "source": "LayerZero Scan",
+    "match": true
+  },
+  {
+    "step": 14,
+    "kind": "fact",
+    "fact": "Ethereum bridge-in tx",
+    "fixture": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+    "observed": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+    "source": "LayerZero Scan destination.tx",
+    "match": true
+  },
+  {
+    "step": 14,
+    "kind": "fact",
+    "fact": "Ethereum bridge-in tx",
+    "fixture": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+    "observed": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+    "source": "eth_getLogs OFTReceived(guid) without LayerZero Scan",
+    "match": true
+  },
+  {
+    "step": 14,
+    "kind": "fact",
+    "fact": "Ethereum bridge-in block",
+    "fixture": 26025709,
+    "observed": 26025709,
+    "source": "eth_getTransactionReceipt",
+    "match": true
+  },
+  {
+    "step": 14,
+    "kind": "fact",
+    "fact": "Ethereum bridge-in time",
+    "fixture": "2026-09-21 11:52:59",
+    "observed": "2026-09-21 11:52:59",
+    "source": "LayerZero Scan destination.tx",
+    "match": true
+  },
+  {
+    "step": 14,
+    "kind": "fact",
+    "fact": "Ethereum bridge-in time",
+    "fixture": "2026-09-21 11:52:59",
+    "observed": "2026-09-21 11:52:59",
+    "source": "Blockscout token transfer",
+    "match": true
+  },
+  {
+    "step": 14,
+    "kind": "fact",
+    "fact": "Ethereum bridge-in from (USDT0 OFT)",
+    "fixture": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+    "observed": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0",
+    "source": "Blockscout token transfer",
+    "match": true
+  },
+  {
+    "step": 14,
+    "kind": "fact",
+    "fact": "Ethereum bridge-in amount",
+    "fixture": "12901.408416",
+    "observed": "12901.408416",
+    "source": "Blockscout token transfer",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "Rango tx block",
+    "fixture": 26025727,
+    "observed": 26025727,
+    "source": "eth_getTransactionReceipt",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "Rango tx time",
+    "fixture": "2026-09-21 11:56:35",
+    "observed": "2026-09-21 11:56:35",
+    "source": "Blockscout token transfer",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "Rango tx amount into Rango",
+    "fixture": "12901.411000",
+    "observed": "12901.411000",
+    "source": "Blockscout token transfer",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "Rango Diamond",
+    "fixture": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+    "observed": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+    "source": "Blockscout token transfer",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "dAppName",
+    "fixture": "MoonGate",
+    "observed": "MoonGate",
+    "source": "RangoBridgeInitiated (own decoder, receipt log)",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "dAppTag",
+    "fixture": 1662,
+    "observed": 1662,
+    "source": "RangoBridgeInitiated",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "bridgeId",
+    "fixture": 60,
+    "observed": 60,
+    "source": "RangoBridgeInitiated",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "destinationChainId",
+    "fixture": 1414680398,
+    "observed": 1414680398,
+    "source": "RangoBridgeInitiated",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "destinationChainId ASCII",
+    "fixture": "TRON",
+    "observed": "TRON",
+    "source": "RangoBridgeInitiated",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "receiver ASCII",
+    "fixture": "TYHeH2HQn7pM5fe6aYwG",
+    "observed": "TYHeH2HQn7pM5fe6aYwG",
+    "source": "RangoBridgeInitiated.receiver",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "affiliate",
+    "fixture": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+    "observed": "0xDDdb9a95E443A204EB8650D5EA578ed707Fe2123",
+    "source": "FeeInfo",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "affiliateFee",
+    "fixture": "19.352116",
+    "observed": "19.352116",
+    "source": "FeeInfo",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "forwarded_to",
+    "fixture": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "observed": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "source": "Routed (RangoRouter)",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "forwarded_amount",
+    "fixture": "12882.058884",
+    "observed": "12882.058884",
+    "source": "Routed",
+    "match": true
+  },
+  {
+    "step": 15,
+    "kind": "fact",
+    "fact": "forwarded_amount = RangoBridgeInitiated.bridgeAmount",
+    "fixture": "12882.058884",
+    "observed": "12882.058884",
+    "source": "RangoBridgeInitiated",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "deposit sweep tx",
+    "fixture": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+    "observed": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+    "source": "Blockscout address token-transfers (deposit address)",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "deposit sweep to (NEAR vault)",
+    "fixture": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+    "observed": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+    "source": "Blockscout",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "deposit sweep amount",
+    "fixture": "12882.058884",
+    "observed": "12882.058884",
+    "source": "Blockscout",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "deposit sweep time",
+    "fixture": "2026-09-21 11:57:35",
+    "observed": "2026-09-21 11:57:35",
+    "source": "Blockscout",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "1Click status",
+    "fixture": "SUCCESS",
+    "observed": "SUCCESS",
+    "source": "1Click /v0/status",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "1Click recipient",
+    "fixture": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "observed": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "source": "1Click quoteRequest.recipient",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "1Click refundTo",
+    "fixture": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "observed": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "source": "1Click quoteRequest.refundTo",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "1Click intentHash",
+    "fixture": "HFxzg5Cz5BCP2ocKGbcSRbh9Skt4fr5QbbqirPL7rHqq",
+    "observed": "HFxzg5Cz5BCP2ocKGbcSRbh9Skt4fr5QbbqirPL7rHqq",
+    "source": "1Click swapDetails.intentHashes",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "1Click NEAR txs",
+    "fixture": "HgECtUbDx8sahjUaDXRe4Q2vb2bgGm8c9HAHv8rMJmZR,AjeZCFUWRHddcCDsaERWaPB9RDFsAFxnKmC2zARaWtAw",
+    "observed": "HgECtUbDx8sahjUaDXRe4Q2vb2bgGm8c9HAHv8rMJmZR,AjeZCFUWRHddcCDsaERWaPB9RDFsAFxnKmC2zARaWtAw",
+    "source": "1Click swapDetails.nearTxHashes",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "fact",
+    "fact": "1Click destination tx",
+    "fixture": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+    "observed": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+    "source": "1Click",
+    "match": true
+  },
+  {
+    "step": 16,
+    "kind": "observation",
+    "fact": "1Click originChainTxHashes vs fixture step 16 tx (different meaning: deposit tx vs sweep)",
+    "fixture": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+    "observed": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+    "source": "1Click originChainTxHashes",
+    "match": false
+  },
+  {
+    "step": 17,
+    "kind": "fact",
+    "fact": "TRON payout block",
+    "fixture": 86439870,
+    "observed": 86439870,
+    "source": "TronGrid /v1/transactions/{id}/events",
+    "match": true
+  },
+  {
+    "step": 17,
+    "kind": "fact",
+    "fact": "TRON payout time",
+    "fixture": "2026-09-21 11:58:09",
+    "observed": "2026-09-21 11:58:09",
+    "source": "TronGrid events",
+    "match": true
+  },
+  {
+    "step": 17,
+    "kind": "fact",
+    "fact": "TRON payout from (NEAR Intents payout wallet)",
+    "fixture": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+    "observed": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+    "source": "TronGrid events",
+    "match": true
+  },
+  {
+    "step": 17,
+    "kind": "fact",
+    "fact": "TRON payout to",
+    "fixture": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "observed": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "source": "TronGrid events",
+    "match": true
+  },
+  {
+    "step": 17,
+    "kind": "fact",
+    "fact": "TRON payout amount (on-chain)",
+    "fixture": "12878.454902",
+    "observed": "12878.454902",
+    "source": "TronGrid events (USDT Transfer value)",
+    "match": true
+  },
+  {
+    "step": 17,
+    "kind": "observation",
+    "fact": "TRON payout amount vs 1Click amountOut (fixture note: differs)",
+    "fixture": "12878.454902",
+    "observed": "12878.410167",
+    "source": "1Click swapDetails.amountOut",
+    "match": false
+  }
+]

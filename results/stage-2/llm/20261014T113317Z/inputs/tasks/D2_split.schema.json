@@ -1,0 +1,80 @@
+{
+  "type": "object",
+  "properties": {
+    "branches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "to_address": {
+            "type": "string"
+          },
+          "txid": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "share_of_incoming_percent": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "follow_as_main_route",
+              "record_as_side_branch",
+              "ignore"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "laundering_hop",
+              "fee_collector",
+              "exchange_deposit",
+              "bridge",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "to_address",
+          "txid",
+          "amount",
+          "share_of_incoming_percent",
+          "decision",
+          "role"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "split_pattern": {
+      "type": "string",
+      "enum": [
+        "fixed_percentage_split",
+        "even_split",
+        "peel_chain",
+        "single_transfer",
+        "other"
+      ]
+    },
+    "amounts_reconcile": {
+      "type": "boolean",
+      "description": "do the outgoing amounts add up exactly to the incoming amount"
+    },
+    "main_route_next_address": {
+      "type": "string"
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "branches",
+    "split_pattern",
+    "amounts_reconcile",
+    "main_route_next_address",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

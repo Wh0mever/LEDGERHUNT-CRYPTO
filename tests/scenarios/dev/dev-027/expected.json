@@ -1,0 +1,169 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-027",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "ca651ce25025e7e4b3393ec21a9df2b2d6b6ae80ec23dc43c9beba04ae5c8c22",
+   "event_index": 0,
+   "from": "THPhPmHKpdjopx7cAqatG5V57k7TcDGzWe",
+   "to": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+   "amount": "97694.872076",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "a3f991b25ec2bac80321560bcc088967007a17953a3782d606cfbcf91b973673",
+   "event_index": 0,
+   "from": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+   "to": "TY5nNoateGgRf56fvJ1gDe5jMmkQfhPtFH",
+   "amount": "58797.839675",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "14f160efb2603b3c9736548dad56325a31f7c2240146943c83c49185d5040aaa",
+   "event_index": 0,
+   "from": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+   "to": "TPqh32c5P1o1K7reL7Msoq6DHZHet8QjPJ",
+   "amount": "38897.032401",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "ad9dfb9d2f4eedf3abe85319e296a44c35388b9075794d1ba559c177027f8a3c",
+   "event_index": 0,
+   "from": "TY5nNoateGgRf56fvJ1gDe5jMmkQfhPtFH",
+   "to": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+   "amount": "58797.839675",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "553299b81336838115342ef7e22557bdc216253a9924da9f0445b3deee53257b",
+   "event_index": 0,
+   "from": "TPqh32c5P1o1K7reL7Msoq6DHZHet8QjPJ",
+   "to": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+   "amount": "38897.032401",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "ca651ce25025e7e4b3393ec21a9df2b2d6b6ae80ec23dc43c9beba04ae5c8c22",
+    "a3f991b25ec2bac80321560bcc088967007a17953a3782d606cfbcf91b973673",
+    "ad9dfb9d2f4eedf3abe85319e296a44c35388b9075794d1ba559c177027f8a3c"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+    "reason": "exchange_deposit"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "ca651ce25025e7e4b3393ec21a9df2b2d6b6ae80ec23dc43c9beba04ae5c8c22",
+    "14f160efb2603b3c9736548dad56325a31f7c2240146943c83c49185d5040aaa",
+    "553299b81336838115342ef7e22557bdc216253a9924da9f0445b3deee53257b"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+    "reason": "exchange_deposit"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [
+  {
+   "chain": "tron",
+   "deposit_address": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+   "exchange": "SynthEx Beta",
+   "hot_wallet": "TK1mjsACiowr5By8BDmWSASYrJAYd4vxUk",
+   "sweep_txids": [
+    "ecc4d6e038fd9688a46c9fa0a11dcd5532efbc582a66c3dff2d9bbb7c7216a95"
+   ],
+   "excluded": null
+  }
+ ],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [
+   {
+    "chain": "tron",
+    "txid": "ecc4d6e038fd9688a46c9fa0a11dcd5532efbc582a66c3dff2d9bbb7c7216a95",
+    "event_index": 0,
+    "from": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+    "to": "TK1mjsACiowr5By8BDmWSASYrJAYd4vxUk",
+    "amount": "97694.872076",
+    "asset": "USDT-TRC20",
+    "taint": "traced",
+    "verification": "second_source_confirmed",
+    "role": "sweep",
+    "excluded": null
+   }
+  ],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "09ead8e06954bedef99e1b3de00cd6824cbf121c9e3f0d947d1c913284966c68",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "002aa40243ba0aed8a1f1277a1aa9394734f2d98d63091257900b11e7b4e8b42",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "a2b5422ecb0639dc7afec9892447f0863166312618ff4f6c244f42abe80c0aca",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "exchange",
+  "variant": "two_deposits_one_sweep",
+  "title_ru": "Два депозита на один адрес биржи, один свип",
+  "description": "two deposits to one deposit address, one sweep",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

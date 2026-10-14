@@ -1,0 +1,162 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-040",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "33a4ac06bb01457e2d7410ab96888cb14badc048c5be17e6b033525c21149174",
+   "event_index": 0,
+   "from": "TPHbchJrerLs5xPDK9Pm8bwtvS2rrMsFe8",
+   "to": "TEyXnYK8MevWoSxgbMvvj4ChX2rQCZdd2x",
+   "amount": "7585.497970",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "03988498c69dc10306bfb8e66b45313c4bcd6e7acb90fe637b7a6ac16e95feed",
+   "event_index": 0,
+   "from": "TEyXnYK8MevWoSxgbMvvj4ChX2rQCZdd2x",
+   "to": "TTfinktRWmJUvCn7FGfiu1QeQ5FKveGugZ",
+   "amount": "2461.959867",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c54fcdf914af6499e0c947c6fa02510fe4ea8f4f8fe1f32fe090d619d62cbbdf",
+   "event_index": 0,
+   "from": "TEyXnYK8MevWoSxgbMvvj4ChX2rQCZdd2x",
+   "to": "TYF4hcjYZDq3xEc3Fj1NWaZ44LEDuUBVTb",
+   "amount": "5123.538103",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c189008cfcd9bb254583f55ded914e4fe1d607920dff506297d6c7417ce14023",
+   "event_index": 0,
+   "from": "TTfinktRWmJUvCn7FGfiu1QeQ5FKveGugZ",
+   "to": "TAxHYNqbMFPaM9ZfzXG3opvJRWRKUtjaMu",
+   "amount": "335.721800",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "675989798ba511c9415c1d4737820f6c595d9dbb6e31322b26b35c07617fddc5",
+   "event_index": 0,
+   "from": "TTfinktRWmJUvCn7FGfiu1QeQ5FKveGugZ",
+   "to": "TBzRGPyHHmzTsPaguJ8z4oB3Wk6LhDtnJv",
+   "amount": "2126.238067",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "a11b45af2c3e9b2cb95dddc460ed425320e2f24815a3089bb4eae253e91fe59b",
+   "event_index": 0,
+   "from": "TYF4hcjYZDq3xEc3Fj1NWaZ44LEDuUBVTb",
+   "to": "TUNFymDitpzurEtkd2XiPbeRCjwYSW1SaW",
+   "amount": "5123.538103",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "33a4ac06bb01457e2d7410ab96888cb14badc048c5be17e6b033525c21149174",
+    "03988498c69dc10306bfb8e66b45313c4bcd6e7acb90fe637b7a6ac16e95feed",
+    "c189008cfcd9bb254583f55ded914e4fe1d607920dff506297d6c7417ce14023"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TAxHYNqbMFPaM9ZfzXG3opvJRWRKUtjaMu",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "33a4ac06bb01457e2d7410ab96888cb14badc048c5be17e6b033525c21149174",
+    "03988498c69dc10306bfb8e66b45313c4bcd6e7acb90fe637b7a6ac16e95feed",
+    "675989798ba511c9415c1d4737820f6c595d9dbb6e31322b26b35c07617fddc5"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TBzRGPyHHmzTsPaguJ8z4oB3Wk6LhDtnJv",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r03",
+   "kind": "main",
+   "txids": [
+    "33a4ac06bb01457e2d7410ab96888cb14badc048c5be17e6b033525c21149174",
+    "c54fcdf914af6499e0c947c6fa02510fe4ea8f4f8fe1f32fe090d619d62cbbdf",
+    "a11b45af2c3e9b2cb95dddc460ed425320e2f24815a3089bb4eae253e91fe59b"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TUNFymDitpzurEtkd2XiPbeRCjwYSW1SaW",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "8f044613a9b6c23d69a12d5bf1611aab736d22360b8cfd0926a7cee017434ab7",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "fan_out",
+  "variant": "two_level",
+  "title_ru": "Двухуровневое дерево разветвлений",
+  "description": "two-level split tree",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

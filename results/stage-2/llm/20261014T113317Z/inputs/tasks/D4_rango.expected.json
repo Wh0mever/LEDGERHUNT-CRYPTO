@@ -1,0 +1,16 @@
+{
+  "expected": {
+    "destination_chain": "TRON",
+    "receiver_on_destination_chain": "TYHeH2HQn7pM5fe6aYwG (partial)",
+    "receiver_is_ethereum_address": false
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "e3270c26ca15835c58f6ff680459da2f63103918f9c7215dbc0a59c9e37779df",
+  "schema_sha256": "c283bc339f2fce558d01b2ddd9d835d6b035c036bde894fbfa609d0744541d4d"
+}

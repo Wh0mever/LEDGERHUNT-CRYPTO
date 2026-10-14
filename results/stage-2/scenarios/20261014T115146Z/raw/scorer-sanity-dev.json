@@ -1,0 +1,266 @@
+{
+  "perfect_candidate": {
+    "scenarios_total": 54,
+    "scenarios_counted": 45,
+    "scenarios_passed": 45,
+    "pass_rate": 1.0,
+    "pass_rate_wilson95": [
+      0.9213,
+      1.0
+    ],
+    "scenarios_with_source_failure": 9,
+    "source_failure_scenarios_handled": 9,
+    "routes_expected": 97,
+    "routes_found": 97,
+    "facts_expected_counted": 428,
+    "facts_correct": 428,
+    "facts_weaker": 0,
+    "facts_missed": 0,
+    "facts_false": 0,
+    "facts_neutral": 0,
+    "facts_excluded_unavailable": 6,
+    "fact_recall": 1.0,
+    "fact_precision": 1.0,
+    "by_category": {
+      "bridge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "cycles": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "direct": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "exchange": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "fan_out": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "incomplete_data": {
+        "scenarios": 6,
+        "counted": 3,
+        "passed": 3,
+        "with_source_failure": 3,
+        "source_failure_handled": 3
+      },
+      "long_chain": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "merge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "source_failure": {
+        "scenarios": 6,
+        "counted": 0,
+        "passed": 0,
+        "with_source_failure": 6,
+        "source_failure_handled": 6
+      }
+    }
+  },
+  "empty_candidate": {
+    "scenarios_total": 54,
+    "scenarios_counted": 45,
+    "scenarios_passed": 0,
+    "pass_rate": 0.0,
+    "pass_rate_wilson95": [
+      0.0,
+      0.0787
+    ],
+    "scenarios_with_source_failure": 9,
+    "source_failure_scenarios_handled": 0,
+    "routes_expected": 97,
+    "routes_found": 0,
+    "facts_expected_counted": 428,
+    "facts_correct": 0,
+    "facts_weaker": 0,
+    "facts_missed": 428,
+    "facts_false": 0,
+    "facts_neutral": 0,
+    "facts_excluded_unavailable": 6,
+    "fact_recall": 0.0,
+    "fact_precision": null,
+    "by_category": {
+      "bridge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "cycles": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "direct": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "exchange": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "fan_out": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "incomplete_data": {
+        "scenarios": 6,
+        "counted": 3,
+        "passed": 0,
+        "with_source_failure": 3,
+        "source_failure_handled": 0
+      },
+      "long_chain": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "merge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "source_failure": {
+        "scenarios": 6,
+        "counted": 0,
+        "passed": 0,
+        "with_source_failure": 6,
+        "source_failure_handled": 0
+      }
+    }
+  },
+  "one_invented_fact": {
+    "scenarios_total": 54,
+    "scenarios_counted": 45,
+    "scenarios_passed": 0,
+    "pass_rate": 0.0,
+    "pass_rate_wilson95": [
+      0.0,
+      0.0787
+    ],
+    "scenarios_with_source_failure": 9,
+    "source_failure_scenarios_handled": 0,
+    "routes_expected": 97,
+    "routes_found": 97,
+    "facts_expected_counted": 428,
+    "facts_correct": 428,
+    "facts_weaker": 0,
+    "facts_missed": 0,
+    "facts_false": 54,
+    "facts_neutral": 0,
+    "facts_excluded_unavailable": 6,
+    "fact_recall": 1.0,
+    "fact_precision": 0.888,
+    "by_category": {
+      "bridge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "cycles": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "direct": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "exchange": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "fan_out": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "incomplete_data": {
+        "scenarios": 6,
+        "counted": 3,
+        "passed": 0,
+        "with_source_failure": 3,
+        "source_failure_handled": 0
+      },
+      "long_chain": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "merge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 0,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "source_failure": {
+        "scenarios": 6,
+        "counted": 0,
+        "passed": 0,
+        "with_source_failure": 6,
+        "source_failure_handled": 0
+      }
+    }
+  }
+}

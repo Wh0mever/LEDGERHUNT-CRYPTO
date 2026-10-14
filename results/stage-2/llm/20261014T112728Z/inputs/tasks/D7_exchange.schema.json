@@ -1,0 +1,79 @@
+{
+  "type": "object",
+  "properties": {
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "exchange_deposit_address",
+              "exchange_hot_wallet",
+              "unknown_insufficient_data",
+              "personal_or_unlabelled_wallet",
+              "service"
+            ]
+          },
+          "exchange": {
+            "type": "string",
+            "description": "exchange name, or empty"
+          },
+          "forwarded_full_amount": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no",
+              "unknown"
+            ]
+          },
+          "evidence_txids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "address",
+          "classification",
+          "exchange",
+          "forwarded_full_amount",
+          "evidence_txids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "label_basis": {
+      "type": "string",
+      "enum": [
+        "third_party_tag_and_forwarding_pattern",
+        "forwarding_pattern_only",
+        "third_party_tag_only",
+        "none"
+      ]
+    },
+    "commingled_caveat": {
+      "type": "string",
+      "description": "what the exchange deposits do and do not prove about the stolen funds"
+    },
+    "recommended_action": {
+      "type": "string"
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidates",
+    "label_basis",
+    "commingled_caveat",
+    "recommended_action",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

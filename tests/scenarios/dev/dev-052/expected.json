@@ -1,0 +1,137 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-052",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "085ff98efa6c5297be824d7683d773924e0cc83df65476240212b776e23cb9b4",
+   "event_index": 0,
+   "from": "TFBcbzBdL3qKmhyKVHLe6vE2SiMZh68p33",
+   "to": "TCSV2hJWoKY2Fd4zhpKuYBV7PrSQiFTQDw",
+   "amount": "37688.953248",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "9ca5e5bd242c3e52d846596de37e18463934f477ebcbc806f4a0bcac3792af7b",
+   "event_index": 0,
+   "from": "TCSV2hJWoKY2Fd4zhpKuYBV7PrSQiFTQDw",
+   "to": "TNaT4ZhhtYZ1SFY2VzmzxTDgXBQ7wi5sfA",
+   "amount": "37688.953248",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "9994cfa99f69211cb6ebcfec909d1b124d1452f302c30f8e1d856131be289a7b",
+   "event_index": 0,
+   "from": "TNaT4ZhhtYZ1SFY2VzmzxTDgXBQ7wi5sfA",
+   "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "amount": "37688.953248",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "085ff98efa6c5297be824d7683d773924e0cc83df65476240212b776e23cb9b4",
+    "9ca5e5bd242c3e52d846596de37e18463934f477ebcbc806f4a0bcac3792af7b",
+    "9994cfa99f69211cb6ebcfec909d1b124d1452f302c30f8e1d856131be289a7b"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "reason": "bridge_destination_unconfirmed"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [
+  {
+   "chain": "tron",
+   "txid": "9994cfa99f69211cb6ebcfec909d1b124d1452f302c30f8e1d856131be289a7b",
+   "protocol": "usdt0_oft",
+   "dst_eid": 30101,
+   "dst_chain": "ethereum",
+   "supported": true,
+   "sender": "TNaT4ZhhtYZ1SFY2VzmzxTDgXBQ7wi5sfA",
+   "recipient": "0xf6c9956e734dbfd93de3fe6b3ac0fe832399789e",
+   "amount_sent": "37688.953248",
+   "amount_received": "37677.646563",
+   "guid": "0x536c7dcfa009c206132df1bc746bbe228532423ffb9e10d14830c7c5c3109ad4",
+   "dst_txid": null,
+   "excluded": null
+  }
+ ],
+ "merges": [],
+ "limitations": [
+  {
+   "source_role": "bridge_api",
+   "target": "9994cfa99f69211cb6ebcfec909d1b124d1452f302c30f8e1d856131be289a7b",
+   "limitation": "unavailable",
+   "excluded": null
+  }
+ ],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "586ebad0dee65d1e89ab91b79ece3b0460471a8e730c8ce281be3cf5a5a356f1",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "34bf2f87f5f1ab278237a2a2566098e67bae642235c788661b60b6e0cd4d86f3",
+   "event_index": 0,
+   "reason": "approval_not_transfer"
+  }
+ ],
+ "outages": [
+  {
+   "role": "layerzero_scan",
+   "endpoint": "*",
+   "target": "9994cfa99f69211cb6ebcfec909d1b124d1452f302c30f8e1d856131be289a7b",
+   "page": null,
+   "status": 503,
+   "mode": "http"
+  }
+ ],
+ "evidence_boundaries": [
+  {
+   "route_id": "r01",
+   "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+   "reason": "bridge_destination_unconfirmed",
+   "after_txid": "9994cfa99f69211cb6ebcfec909d1b124d1452f302c30f8e1d856131be289a7b"
+  }
+ ],
+ "notes": [],
+ "meta": {
+  "category": "source_failure",
+  "variant": "layerzero_down",
+  "title_ru": "LayerZero Scan недоступен при выходе в мост",
+  "description": "bridge API down at the OFT send",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": true
+ }
+}

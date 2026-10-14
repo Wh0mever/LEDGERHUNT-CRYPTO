@@ -1,0 +1,27 @@
+{
+  "expected": {
+    "txids": [
+      "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb"
+    ],
+    "addresses": [
+      "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+      "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn"
+    ],
+    "amounts": [
+      "13041.400772"
+    ],
+    "times_utc": [
+      "2026-09-21T11:32:39Z"
+    ],
+    "time_zone_visible": true
+  },
+  "efforts": [
+    "low",
+    "medium"
+  ],
+  "max_tokens": 8000,
+  "image": "S1_wallet_detail.png",
+  "image_sha256": "2aea60fc934cd0a0579ace3cd43d5c151eeadc011800b8b28fa96e1678e078e5",
+  "input_sha256": "824c8951fbdce28998e91cb68a4990b4b29a25dd16a9edfb56bd6b343c731993",
+  "schema_sha256": "22270fd6c9b1ffde6854406c53ed2c2f1b02c2231af0cb7fdd09dae18e0daa3d"
+}

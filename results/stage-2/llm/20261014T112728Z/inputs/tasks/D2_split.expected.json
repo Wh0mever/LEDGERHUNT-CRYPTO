@@ -1,0 +1,15 @@
+{
+  "expected": {
+    "main_route_next_address": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "fee_branch": "TRUJEtAFzBWReAUu5L83wFRvxWtrVw3sAz record_as_side_branch"
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "a7693710e96e93d9e8b0e8c811c2fb5254fd7dc420cba8ecf415c910fa842bca",
+  "schema_sha256": "829d0ad55ecb4939ed9b91dc1f45e7f4e13dfdcdf11c6b47a65e47820c052023"
+}

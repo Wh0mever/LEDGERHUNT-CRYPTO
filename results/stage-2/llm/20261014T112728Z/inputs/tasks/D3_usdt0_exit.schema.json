@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "properties": {
+    "is_bridge_exit": {
+      "type": "boolean"
+    },
+    "bridge": {
+      "type": "string",
+      "enum": [
+        "USDT0_LayerZero_OFT",
+        "Rango",
+        "NEAR_Intents_1Click",
+        "other",
+        "none"
+      ]
+    },
+    "source_txid": {
+      "type": "string"
+    },
+    "destination_chain": {
+      "type": "string",
+      "enum": [
+        "ethereum",
+        "tron",
+        "other",
+        "unknown"
+      ]
+    },
+    "destination_endpoint_id": {
+      "type": "integer"
+    },
+    "layerzero_guid": {
+      "type": "string"
+    },
+    "destination_txid": {
+      "type": "string"
+    },
+    "destination_recipient": {
+      "type": "string"
+    },
+    "amount_sent": {
+      "type": "string"
+    },
+    "amount_received": {
+      "type": "string"
+    },
+    "bridge_fee": {
+      "type": "string"
+    },
+    "message_status": {
+      "type": "string"
+    },
+    "other_outflows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "txid": {
+            "type": "string"
+          },
+          "to_address": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "follow",
+              "side_branch",
+              "ignore_dust"
+            ]
+          }
+        },
+        "required": [
+          "txid",
+          "to_address",
+          "amount",
+          "decision"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "next_action": {
+      "type": "string",
+      "enum": [
+        "continue_tracing_on_destination_chain",
+        "continue_on_tron",
+        "stop_evidence_boundary"
+      ]
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "is_bridge_exit",
+    "bridge",
+    "source_txid",
+    "destination_chain",
+    "destination_endpoint_id",
+    "layerzero_guid",
+    "destination_txid",
+    "destination_recipient",
+    "amount_sent",
+    "amount_received",
+    "bridge_fee",
+    "message_status",
+    "other_outflows",
+    "next_action",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

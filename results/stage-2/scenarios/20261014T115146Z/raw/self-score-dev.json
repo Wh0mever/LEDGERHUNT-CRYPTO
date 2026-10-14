@@ -1,0 +1,1692 @@
+{
+  "aggregate": {
+    "scenarios_total": 54,
+    "scenarios_counted": 45,
+    "scenarios_passed": 45,
+    "pass_rate": 1.0,
+    "pass_rate_wilson95": [
+      0.9213,
+      1.0
+    ],
+    "scenarios_with_source_failure": 9,
+    "source_failure_scenarios_handled": 9,
+    "routes_expected": 97,
+    "routes_found": 97,
+    "facts_expected_counted": 428,
+    "facts_correct": 428,
+    "facts_weaker": 0,
+    "facts_missed": 0,
+    "facts_false": 0,
+    "facts_neutral": 0,
+    "facts_excluded_unavailable": 6,
+    "fact_recall": 1.0,
+    "fact_precision": 1.0,
+    "by_category": {
+      "bridge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "cycles": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "direct": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "exchange": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "fan_out": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "incomplete_data": {
+        "scenarios": 6,
+        "counted": 3,
+        "passed": 3,
+        "with_source_failure": 3,
+        "source_failure_handled": 3
+      },
+      "long_chain": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "merge": {
+        "scenarios": 6,
+        "counted": 6,
+        "passed": 6,
+        "with_source_failure": 0,
+        "source_failure_handled": 0
+      },
+      "source_failure": {
+        "scenarios": 6,
+        "counted": 0,
+        "passed": 0,
+        "with_source_failure": 6,
+        "source_failure_handled": 6
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "dev-001",
+      "category": "incomplete_data",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-002",
+      "category": "source_failure",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 2,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 2,
+          "excluded": 2
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-003",
+      "category": "cycles",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 7,
+        "correct": 7,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-004",
+      "category": "exchange",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-005",
+      "category": "fan_out",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 5,
+      "routes_found": 5,
+      "facts": {
+        "expected_counted": 11,
+        "correct": 11,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 5
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-006",
+      "category": "long_chain",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 14,
+      "routes_found": 14,
+      "facts": {
+        "expected_counted": 41,
+        "correct": 41,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 14
+        },
+        "transfer": {
+          "correct": 27
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-007",
+      "category": "fan_out",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 5,
+      "routes_found": 5,
+      "facts": {
+        "expected_counted": 11,
+        "correct": 11,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 5
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-008",
+      "category": "cycles",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-009",
+      "category": "direct",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 2,
+        "correct": 2,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 1
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-010",
+      "category": "exchange",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "exchange_deposit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-011",
+      "category": "exchange",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-012",
+      "category": "incomplete_data",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-013",
+      "category": "long_chain",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 3,
+      "routes_found": 3,
+      "facts": {
+        "expected_counted": 24,
+        "correct": 24,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 3
+        },
+        "transfer": {
+          "correct": 21
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-014",
+      "category": "direct",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-015",
+      "category": "merge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-016",
+      "category": "merge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 9,
+        "correct": 9,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "merge": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-017",
+      "category": "exchange",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "exchange_deposit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-018",
+      "category": "direct",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-019",
+      "category": "source_failure",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 9,
+        "correct": 9,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 2
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-020",
+      "category": "long_chain",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 13,
+        "correct": 13,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 12
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-021",
+      "category": "direct",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 8,
+        "correct": 8,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-022",
+      "category": "merge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "merge": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-023",
+      "category": "bridge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-024",
+      "category": "exchange",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 9,
+        "correct": 9,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "exchange_deposit": {
+          "correct": 2
+        },
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-025",
+      "category": "bridge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-026",
+      "category": "merge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-027",
+      "category": "exchange",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 8,
+        "correct": 8,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "exchange_deposit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-028",
+      "category": "direct",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-029",
+      "category": "bridge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 9,
+        "correct": 9,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "exchange_deposit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-030",
+      "category": "incomplete_data",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 2,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3,
+          "excluded": 2
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-031",
+      "category": "incomplete_data",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-032",
+      "category": "direct",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-033",
+      "category": "cycles",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 8,
+        "correct": 8,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-034",
+      "category": "cycles",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 7,
+        "correct": 7,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-035",
+      "category": "long_chain",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 15,
+        "correct": 15,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 13
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-036",
+      "category": "bridge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-037",
+      "category": "bridge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 3,
+      "routes_found": 3,
+      "facts": {
+        "expected_counted": 10,
+        "correct": 10,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 3
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-038",
+      "category": "merge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "merge": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 4
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-039",
+      "category": "source_failure",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 8,
+        "correct": 8,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-040",
+      "category": "fan_out",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 3,
+      "routes_found": 3,
+      "facts": {
+        "expected_counted": 9,
+        "correct": 9,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 3
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-041",
+      "category": "merge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "merge": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-042",
+      "category": "source_failure",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 7,
+        "correct": 7,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 1,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 4,
+          "excluded": 1
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-043",
+      "category": "incomplete_data",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 4,
+        "correct": 4,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 1,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 2,
+          "excluded": 1
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-044",
+      "category": "long_chain",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 14,
+        "correct": 14,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 13
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-045",
+      "category": "cycles",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 8,
+        "correct": 8,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-046",
+      "category": "cycles",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 7,
+        "correct": 7,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 6
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-047",
+      "category": "incomplete_data",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-048",
+      "category": "bridge",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-049",
+      "category": "long_chain",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 15,
+        "correct": 15,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "exchange_deposit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 13
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-050",
+      "category": "fan_out",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 8,
+        "correct": 8,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 7
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-051",
+      "category": "source_failure",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 5,
+        "correct": 5,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-052",
+      "category": "source_failure",
+      "passed": true,
+      "affected_by_unavailability": true,
+      "routes_expected": 1,
+      "routes_found": 1,
+      "facts": {
+        "expected_counted": 6,
+        "correct": 6,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "bridge_exit": {
+          "correct": 1
+        },
+        "limitation": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 1
+        },
+        "transfer": {
+          "correct": 3
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-053",
+      "category": "fan_out",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 3,
+      "routes_found": 3,
+      "facts": {
+        "expected_counted": 9,
+        "correct": 9,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "exchange_deposit": {
+          "correct": 1
+        },
+        "stop": {
+          "correct": 3
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    },
+    {
+      "scenario_id": "dev-054",
+      "category": "fan_out",
+      "passed": true,
+      "affected_by_unavailability": false,
+      "routes_expected": 2,
+      "routes_found": 2,
+      "facts": {
+        "expected_counted": 7,
+        "correct": 7,
+        "weaker": 0,
+        "missed": 0,
+        "false": 0,
+        "neutral": 0,
+        "excluded_unavailable": 0,
+        "excluded_found": 0
+      },
+      "false_facts": [],
+      "missed_routes": [],
+      "by_kind": {
+        "stop": {
+          "correct": 2
+        },
+        "transfer": {
+          "correct": 5
+        }
+      }
+    }
+  ]
+}

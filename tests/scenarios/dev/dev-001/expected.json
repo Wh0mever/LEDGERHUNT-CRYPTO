@@ -1,0 +1,103 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-001",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "a79f1085c7791041458c6c5a01e4b95bb90398f21c74ff8ace0ebed1e25cdd78",
+   "event_index": 0,
+   "from": "TDnScRLqeXfd28i4moeEsDg7Ueg6VdrAM4",
+   "to": "TAAkjy9n2a5tW5Uh9mTxxutEgGdEnQkKb7",
+   "amount": "122463.664166",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "af4236a9e686e0ac71ae20c41eefdca2cf1be97c0648a59b396d3f628b74f355",
+   "event_index": 0,
+   "from": "TAAkjy9n2a5tW5Uh9mTxxutEgGdEnQkKb7",
+   "to": "TXK6ri1jgTgmj4chGXzcN1iy43tt1MGcKy",
+   "amount": "122463.664166",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "3d8b2f5e43db72f0d416eb31c14660580b8c9be260627eabdf269e2dec265667",
+   "event_index": 0,
+   "from": "TXK6ri1jgTgmj4chGXzcN1iy43tt1MGcKy",
+   "to": "THMEEWeofn4oD1iDs386ZowhfAD3qfTaPA",
+   "amount": "122463.664166",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "a79f1085c7791041458c6c5a01e4b95bb90398f21c74ff8ace0ebed1e25cdd78",
+    "af4236a9e686e0ac71ae20c41eefdca2cf1be97c0648a59b396d3f628b74f355",
+    "3d8b2f5e43db72f0d416eb31c14660580b8c9be260627eabdf269e2dec265667"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "THMEEWeofn4oD1iDs386ZowhfAD3qfTaPA",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "7fd2e29012a1ceb4696c3a4dce48c9fc6d806bd185d3a56954ba0aece243f8ad",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  },
+  {
+   "txid": "64bbc92590048d0b61673709470aafca6611f93a0428413c135f937f3d24390a",
+   "event_index": null,
+   "reason": "failed_transaction"
+  },
+  {
+   "txid": "c3f9e33a12e5821fbc0c356a95de327649172457031c32a34cd014818014b836",
+   "event_index": null,
+   "reason": "failed_transaction"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "incomplete_data",
+  "variant": "failed_then_success",
+  "title_ru": "Неуспешные транзакции перед успешными",
+  "description": "failed transfers (OUT_OF_ENERGY, REVERT) before successful ones",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

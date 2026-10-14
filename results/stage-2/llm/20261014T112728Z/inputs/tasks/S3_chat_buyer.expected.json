@@ -1,0 +1,27 @@
+{
+  "expected": {
+    "txids": [
+      "6be9eabf7568fe67f46d9bf32e795571b4cd2fb4f124b6bdb219d48ed6b46964",
+      "7472e1e059d44b5fb3d1c6e86a5a907f0fae015e722d1cefdf801045b9f41fbe"
+    ],
+    "addresses": [
+      "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+      "TBY9jt5TJJQnJNWudTm3AGPJ3e2FcevgQL"
+    ],
+    "amounts": [
+      "20",
+      "12937"
+    ],
+    "times_utc": [],
+    "time_zone_visible": false
+  },
+  "efforts": [
+    "low",
+    "medium"
+  ],
+  "max_tokens": 8000,
+  "image": "S3_chat_buyer.png",
+  "image_sha256": "61e0adeb4e506e00fa573563db4f50c5213b38dfa0dc93e61899673a142ab851",
+  "input_sha256": "69790a34d32d0c1f2596d6e59e073461e1268a1873c9e849b818b0c721091725",
+  "schema_sha256": "22270fd6c9b1ffde6854406c53ed2c2f1b02c2231af0cb7fdd09dae18e0daa3d"
+}

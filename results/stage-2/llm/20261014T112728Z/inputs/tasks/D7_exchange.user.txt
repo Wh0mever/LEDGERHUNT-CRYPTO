@@ -1,0 +1,95 @@
+<case_data>
+{
+ "candidates": [
+  {
+   "address": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+   "incoming": [
+    {
+     "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+     "time_utc": "2026-09-21T13:41:15Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+     "amount": "150000.000000",
+     "asset": "USDT-TRC20"
+    }
+   ],
+   "outgoing": [
+    {
+     "txid": "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e",
+     "time_utc": "2026-09-21T13:44:36Z",
+     "from": "TNJSC23oMcb5ws9tppANFTGtEDcKQgQBYQ",
+     "to": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+     "amount": "150000.000000",
+     "asset": "USDT-TRC20"
+    }
+   ]
+  },
+  {
+   "address": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+   "incoming": [
+    {
+     "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+     "time_utc": "2026-09-22T08:25:00Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+     "amount": "250000.000000",
+     "asset": "USDT-TRC20"
+    }
+   ],
+   "outgoing": [
+    {
+     "txid": "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf",
+     "time_utc": "2026-09-22T08:27:51Z",
+     "from": "TCiwRNyeUK7JwkEgF5W3AExFpZ2ErRZG4C",
+     "to": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+     "amount": "250000.000000",
+     "asset": "USDT-TRC20"
+    }
+   ]
+  },
+  {
+   "address": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+   "incoming": [
+    {
+     "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+     "time_utc": "2026-09-21T13:54:45Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw",
+     "amount": "14760.000000",
+     "asset": "USDT-TRC20"
+    }
+   ],
+   "outgoing": "not fetched"
+  },
+  {
+   "address": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+   "incoming": [
+    {
+     "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+     "time_utc": "2026-09-21T13:58:42Z",
+     "from": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "to": "TP5KYiUg6pT6LF6ar88UpCV2Q6wnFSgHdE",
+     "amount": "21000.000000",
+     "asset": "USDT-TRC20"
+    }
+   ],
+   "outgoing": "not fetched"
+  }
+ ],
+ "address_tags": [
+  {
+   "address": "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+   "tag": "WhiteBIT",
+   "source": "third-party block explorer tag (TronScan addressTag)"
+  }
+ ],
+ "context": "all four candidates received USDT from TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6, an address where the traced stolen funds were mixed with other funds",
+ "source": "case-001 fixture (TronGrid TRC20 history, parsed)"
+}
+</case_data>
+
+<task>
+Decision: apply the exchange-deposit heuristic (a deposit address forwards the full amount to a known
+exchange hot wallet within minutes) to each candidate. Classify every candidate; do not classify an address as an
+exchange deposit without evidence. Name the exchange only where the data supports it. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

@@ -1,0 +1,4 @@
+# Raw response bodies are content-addressed (file name = sha256 of the exact bytes):
+# git must never change their line endings.
+http-store/objects/** binary
+tronscan-pending-consent/objects/** binary

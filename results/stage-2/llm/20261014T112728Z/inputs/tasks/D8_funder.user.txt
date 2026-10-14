@@ -1,0 +1,173 @@
+<case_data>
+{
+ "funder_account_raw": {
+  "source": "TronGrid POST /wallet/getaccount",
+  "body": {
+   "address": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+   "balance": 423366269,
+   "create_time": 1786036968000,
+   "latest_opration_time": 1791974412000,
+   "free_net_usage": 449,
+   "latest_consume_free_time": 1791960936000,
+   "net_window_size": 28800000,
+   "net_window_optimized": true,
+   "account_resource": {
+    "energy_window_size": 28800000,
+    "energy_window_optimized": true
+   },
+   "owner_permission": {
+    "permission_name": "owner",
+    "threshold": 1,
+    "keys": [
+     {
+      "address": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+      "weight": 1
+     }
+    ]
+   },
+   "active_permission": [
+    {
+     "type": "Active",
+     "id": 2,
+     "permission_name": "active",
+     "threshold": 1,
+     "operations": "7fff1fc0033ec30f000000000000000000000000000000000000000000000000",
+     "keys": [
+      {
+       "address": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+       "weight": 1
+      }
+     ]
+    }
+   ],
+   "frozenV2": [
+    {},
+    {
+     "type": "ENERGY"
+    },
+    {
+     "type": "TRON_POWER"
+    }
+   ],
+   "assetV2": [
+    {
+     "key": "1005193",
+     "value": 4444444444
+    },
+    {
+     "key": "1005119",
+     "value": 8888
+    },
+    {
+     "key": "1005114",
+     "value": 8888
+    },
+    {
+     "key": "1005157",
+     "value": 8888888
+    },
+    {
+     "key": "1005185",
+     "value": 4444444444
+    },
+    {
+     "key": "1005074",
+     "value": 222222
+    }
+   ],
+   "free_asset_net_usageV2": [
+    {
+     "key": "1005193",
+     "value": 0
+    },
+    {
+     "key": "1005119",
+     "value": 0
+    },
+    {
+     "key": "1005114",
+     "value": 0
+    },
+    {
+     "key": "1005157",
+     "value": 0
+    },
+    {
+     "key": "1005185",
+     "value": 0
+    },
+    {
+     "key": "1005074",
+     "value": 0
+    }
+   ],
+   "asset_optimized": true
+  }
+ },
+ "trx_transfers_from_funder": [
+  {
+   "to": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+   "txids": [
+    "32480343868c37aeac42bc014bd0c798aba635b8c1fed7648d206ac79063e2e9",
+    "dbbae16c6e8dd0498d02945c1c60f66cc32840acbe2d8b95e990c6b47f6e434d",
+    "e181937194f7f385458f1b1c721b71c7ddeead6a5bb30dd58e956b5cfd87a689"
+   ]
+  },
+  {
+   "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+   "txids": [
+    "3599ac14657a1ad4be2f15780bbc93a2b42b0f453dd613adf9bc7f9ea78e8712",
+    "77655efb4e8a060474cecfaf00680f4813e4416069386ea0f99afe4c3cab7d9b"
+   ],
+   "returned_trx_to_funder_txids": [
+    "48eca492eef755db84fa60feb1743ffe76618023fb16423e57a4f78efa8c25cc",
+    "9ab7c48183c9809baf1441c8b1fc9c88aa3dd0ed2d1f043edc2381f50225adf1",
+    "1f6185270470955219b635876ba9e6ab18d4adf4e654ba0868f94f83cc31f9d2"
+   ]
+  },
+  {
+   "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "txids": [
+    "b44d60c46af55dbe24d4b3a3e37fa1c79cdfd9f3f84296b61121443bcb4ac210",
+    "5c1b1a5466fb61b989e5ab03e8858a8841b0eaf5f5796707304fec7065663a8b",
+    "8386c0b1186a2d5b2f572b726ee1918b6fb9f27c9e94a32bc44bab89f541b872",
+    "bdd5c283f7db3b60a8369c1fe26d90b39635ac5e38b308e9469e4d1a041d7491",
+    "b617d75b6c305528c0156c7bef33bdb2d00d6fb77b36e034bb5a5c7dfd1431ce"
+   ]
+  }
+ ],
+ "activation": {
+  "address": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+  "activated_utc": "2026-08-06T17:47:57Z",
+  "activated_by": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ",
+  "funder_created_utc": "2026-08-06T17:22:48Z"
+ },
+ "funder_upstream": [
+  {
+   "txid": "673c0f9f0ca1029a6b9c16d3d345c9ba2f9f3af2463fb369eac390dd2a9582f5",
+   "from": "TMGtBUqWevfE2y1XpvzTsHEkLpSDi4bW51",
+   "amount": "918",
+   "asset": "TRX",
+   "note": "the sender was itself funded by TSm7vUxW9DvKiwwDRcaR36X8vBjKc99Sxe"
+  },
+  {
+   "txid": "d88f4a8b58905f5f3d6eb036f23615fea9d1238e6803340a01803e998e7c0462",
+   "from": "TSm7vUxW9DvKiwwDRcaR36X8vBjKc99Sxe",
+   "amount": "849.68",
+   "asset": "TRX"
+  }
+ ],
+ "upstream_observation": "TSm7vUxW9DvKiwwDRcaR36X8vBjKc99Sxe is a high-volume USDT payout wallet active since 2024-11, no public label",
+ "roles_in_traced_route": {
+  "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3": "second hop of the stolen funds",
+  "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU": "third hop; sent the funds into the USDT0 bridge",
+  "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6": "received the stolen funds after the cross-chain round trip"
+ },
+ "source": "case-001 fixture (TRX transfers, parsed) and raw getaccount"
+}
+</case_data>
+
+<task>
+Decision: one address paid TRX (network fees) to several addresses of the traced route. Decide what this
+link means, how it must be stated in the report and with what confidence. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

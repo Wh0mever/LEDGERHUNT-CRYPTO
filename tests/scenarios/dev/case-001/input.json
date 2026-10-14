@@ -1,0 +1,46 @@
+{
+ "schema": "ledgerhunt.scenario-input/1",
+ "scenario_id": "case-001",
+ "split": "dev",
+ "synthetic": false,
+ "start": {
+  "chain": "tron",
+  "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb"
+ },
+ "params": {
+  "max_depth": 20,
+  "asset": "USDT-TRC20",
+  "token_contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+ },
+ "context": {
+  "labels": [],
+  "supported_bridges": [
+   {
+    "protocol": "usdt0_oft",
+    "dst_eids": [
+     30101
+    ]
+   },
+   {
+    "protocol": "rango"
+   },
+   {
+    "protocol": "near_intents_1click"
+   }
+  ]
+ },
+ "store": null,
+ "request_profile": "live-sources (shared data/http-store)",
+ "providers": {
+  "primary_index": "trongrid",
+  "secondary_receipts": "paid TRON RPC (TRON_RPC_URL)",
+  "bridge_api": "layerzero_scan, near_intents_1click",
+  "ethereum": "blockscout_eth, eth_publicnode"
+ },
+ "reference": {
+  "fixture": "tests/fixtures/case-001/case-001-ground-truth.json",
+  "fixture_sha256": "1da6e3e7c018de43e4cc44a815158ba2b2db3c50e5da9eee595cb6fedeecc748",
+  "counts_toward_metrics": false,
+  "status": "fixture-derived, not re-verified from raw responses (see results/stage-2/case001)"
+ }
+}

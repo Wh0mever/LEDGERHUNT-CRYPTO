@@ -1,0 +1,70 @@
+{
+  "solid_head_at_run": {
+    "num": 87102815,
+    "ts_ms": 1791981357000,
+    "id": "000000000531155f375fdf1a465b608e7d8fcee8999f08e4f937b3cbc52213ea",
+    "ref": {
+      "store": "data/http-store",
+      "body_sha256": "e004af248707f9d99153e976a00523069f189550e9c2e9b3700d75b881f60cbd",
+      "key_sha256": "26353845f813a6ee5978fe353d503ab529fcbeb6b651d32378f56cc1554ad336",
+      "object_path": "data/http-store/objects/e0/e004af248707f9d99153e976a00523069f189550e9c2e9b3700d75b881f60cbd"
+    },
+    "latency_ms": 103.27
+  },
+  "publicnode_oldest_block": 86792411,
+  "agreement_block": 87074015,
+  "agreement_recent_txids": [
+    "14b7aee181000dc84022a7326d9958db05c365d074391a9dfd773bdc5c65f6a6",
+    "cabd1b38b3c95f5f4aef921db26f024d61067aa46a4ade5a68636258eacd1edb",
+    "ed19ee8a8e710d94d6f582275df62806ce3c62585e80fdec8b0fa3ee635e401c",
+    "7ef349755d2c8d5e67256e0a277429b8e8161e4073df8b574ec2d63f7dd38299",
+    "20e590ee1d95d31de9736f276c3e7b83fdaaa2c13334df09147d680fcda0c6b0",
+    "3cfb2e815bb3a4cd24db147240c76ec6bd02764e3f7ef858adeef5b9ad2c9423",
+    "d8da1640fa002c5982f8816729460f1a759fe209726a7f7416bbd381bdf95315",
+    "08f3c762664242c70649ac4d75982cc2b2caad54840cb8903325aa3263becc13",
+    "1db70f46556f8c35d2b84d120a2d9970d73ff6bf20549a201dbd870fdf1ab102",
+    "727605003a6afa6fbdad069d471c91be1077e7c008e0def097ecae63aba46c2c",
+    "0a82b553042792bb8abb9ec3b23d707ef9f92c60d87e29d3b08ee379cb15c17a",
+    "9d73d123ff67e0dc8f2cabff884e2c92697593d5775aa052f058be534fdd595c",
+    "c79c18052165341b1c61341107b2387c7202e35cc0e6c88fb3778622e927bd59",
+    "c696791fe642bec29a934af69156a58e5b4bd8d7c3c966e02c1e747dd3d9f9dc",
+    "7bfea7c346617a5d25287f8d151dcb321d44f76dee50f389a214f8f3ed32abbf",
+    "58035531f0855c8b8c1654812b41521b176bc4e15f2dea1cd2c91b4a252ddb9e",
+    "c00d903b9f805c02945325a87605e8e44aeeab24207763da8e7c104114611685",
+    "333890f3328102bed558c176343efdf4dc56fa8a27366d3575d27ddf58493781",
+    "28b0a5d72252187f8b24b7a0a0699287237e55cddf5d0b7c84b31ee2bc1e1781",
+    "d9f972dcaa5440f76dee882100fde1a04fa67db6a0fc4df4b94c4005b52b40e6",
+    "c6db36dda36149e3a4e6156d958b3530cb914e50852c1d126f9a742b8883cc16",
+    "a336a81487a16a3d2a89b86cbea6b196f6aa3e1e928f301243c6880f70cba1bf",
+    "0fd146ba022f07852b83acb31e31b55af6a95179dfdb0d28e79136aae0f5283e",
+    "71ab32a8df4f999c4ad6a40fc754d5ce7e89a84fe69e5a427fa04ef69e2c2ff4",
+    "4f26685d51fc5a4b15336aa7ceeb5e544710f8a886ca1525ed26298b4a991f92",
+    "c733d8a16a2d19651d8afad3a874f989b754f691ed649087fc10f73f31c17818",
+    "929c47dae1cbb2e8a1bb73e606eeadebcb5f5083666dfef1ec9c9c678f895031",
+    "03602c1d414a09fce73dd20e62b68eb46b37a33330a4e0814e10468f160a05ea",
+    "4b2b84e5a177a4387337fb48c4dae15b981919d6c87fe6754efa3466d3a25d32",
+    "731021f75b64c7a003e156d03772fa2935198b59088aa0aca836d2dae7728b6f"
+  ],
+  "recent_windows": [
+    {
+      "id": "recent_1d",
+      "from_block": 87072815,
+      "to_block": 87077814,
+      "addresses": [
+        "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+        "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke"
+      ],
+      "note": "about 1 day before the run, 5 000 blocks"
+    },
+    {
+      "id": "recent_1d_hv",
+      "from_block": 87072815,
+      "to_block": 87073014,
+      "addresses": [
+        "TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ",
+        "TDii6vao7xyWg2rKPbCPWVRpSmne8xcqYx"
+      ],
+      "note": "about 1 day before the run, 200 blocks, high-volume addresses"
+    }
+  ]
+}

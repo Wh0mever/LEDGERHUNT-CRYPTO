@@ -1,0 +1,188 @@
+{
+  "run_id": "20261014T130106Z",
+  "inputs_from": {
+    "tron_sources": "results/stage-2/tron-sources/20261014T130101Z (офлайн-повтор живого прогона results/stage-2/tron-sources/20261014T124823Z)",
+    "case001": "results/stage-2/case-001/20261014T113519Z"
+  },
+  "scenarios": {
+    "low": {
+      "trongrid": 1200,
+      "node": 1083,
+      "graphs_per_day": 83,
+      "time_trongrid_s": {
+        "trongrid_keyless_measured": 597.0,
+        "trongrid_keyless_declared": 400.0,
+        "trongrid_key_measured": 121.1,
+        "trongrid_key_declared": 80.0
+      },
+      "time_node_s": {
+        "publicnode_measured": 108.3,
+        "chainstack_developer_25": 43.3,
+        "chainstack_growth_250": 4.3,
+        "paid_rpc_measured": null
+      },
+      "needed_trongrid_rps": {
+        "in_240_s": 5.0,
+        "in_300_s": 4.0
+      },
+      "cost": {
+        "trongrid_basic": {
+          "usd": "0",
+          "note": "в пределах 100 000 запросов в сутки"
+        },
+        "publicnode": {
+          "usd": "0",
+          "note": "только разработка; квитанции не старше ≈8.5 сут; условия не подтверждены"
+        },
+        "chainstack_developer": {
+          "usd": "0",
+          "ru_per_graph": 1083,
+          "graphs_per_month_in_plan": 2770,
+          "note": "архива нет (документировано): квитанции старых транзакций, вероятно, недоступны; не измерено — нет ключа"
+        },
+        "chainstack_growth_archive": {
+          "ru_per_graph": 2166,
+          "usd_amortized": "0.0053",
+          "usd_overage_rate": "0.0325",
+          "graphs_per_month_in_plan": 9233,
+          "note": "$49/мес; 2 RU за архивный запрос; сверх 20 млн RU — $15 за 1 млн RU"
+        },
+        "getblock_starter": {
+          "usd": null,
+          "note": "не рассчитано: вес методов TRON в CU не опубликован"
+        },
+        "nodit_basic": {
+          "usd": null,
+          "note": "не рассчитано: Node API для TRON не подтверждён"
+        },
+        "own_node": {
+          "usd": null,
+          "note": "не проверено: цены выделенных серверов с ≥3.5 ТБ NVMe на страницах Hetzner рисуются скриптом и в тексте страниц отсутствуют (проверено 2026-10-14)"
+        }
+      }
+    },
+    "base": {
+      "trongrid": 2400,
+      "node": 2115,
+      "graphs_per_day": 41,
+      "time_trongrid_s": {
+        "trongrid_keyless_measured": 1194.0,
+        "trongrid_keyless_declared": 800.0,
+        "trongrid_key_measured": 242.2,
+        "trongrid_key_declared": 160.0
+      },
+      "time_node_s": {
+        "publicnode_measured": 211.5,
+        "chainstack_developer_25": 84.6,
+        "chainstack_growth_250": 8.5,
+        "paid_rpc_measured": null
+      },
+      "needed_trongrid_rps": {
+        "in_240_s": 10.0,
+        "in_300_s": 8.0
+      },
+      "cost": {
+        "trongrid_basic": {
+          "usd": "0",
+          "note": "в пределах 100 000 запросов в сутки"
+        },
+        "publicnode": {
+          "usd": "0",
+          "note": "только разработка; квитанции не старше ≈8.5 сут; условия не подтверждены"
+        },
+        "chainstack_developer": {
+          "usd": "0",
+          "ru_per_graph": 2115,
+          "graphs_per_month_in_plan": 1418,
+          "note": "архива нет (документировано): квитанции старых транзакций, вероятно, недоступны; не измерено — нет ключа"
+        },
+        "chainstack_growth_archive": {
+          "ru_per_graph": 4230,
+          "usd_amortized": "0.0104",
+          "usd_overage_rate": "0.0635",
+          "graphs_per_month_in_plan": 4728,
+          "note": "$49/мес; 2 RU за архивный запрос; сверх 20 млн RU — $15 за 1 млн RU"
+        },
+        "getblock_starter": {
+          "usd": null,
+          "note": "не рассчитано: вес методов TRON в CU не опубликован"
+        },
+        "nodit_basic": {
+          "usd": null,
+          "note": "не рассчитано: Node API для TRON не подтверждён"
+        },
+        "own_node": {
+          "usd": null,
+          "note": "не проверено: цены выделенных серверов с ≥3.5 ТБ NVMe на страницах Hetzner рисуются скриптом и в тексте страниц отсутствуют (проверено 2026-10-14)"
+        }
+      }
+    },
+    "high": {
+      "trongrid": 8667,
+      "node": 5000,
+      "graphs_per_day": 11,
+      "time_trongrid_s": {
+        "trongrid_keyless_measured": 4311.8,
+        "trongrid_keyless_declared": 2888.9,
+        "trongrid_key_measured": 874.4,
+        "trongrid_key_declared": 577.8
+      },
+      "time_node_s": {
+        "publicnode_measured": 500.0,
+        "chainstack_developer_25": 200.0,
+        "chainstack_growth_250": 20.0,
+        "paid_rpc_measured": null
+      },
+      "needed_trongrid_rps": {
+        "in_240_s": 36.1,
+        "in_300_s": 28.9
+      },
+      "cost": {
+        "trongrid_basic": {
+          "usd": "0",
+          "note": "в пределах 100 000 запросов в сутки"
+        },
+        "publicnode": {
+          "usd": "0",
+          "note": "только разработка; квитанции не старше ≈8.5 сут; условия не подтверждены"
+        },
+        "chainstack_developer": {
+          "usd": "0",
+          "ru_per_graph": 5000,
+          "graphs_per_month_in_plan": 600,
+          "note": "архива нет (документировано): квитанции старых транзакций, вероятно, недоступны; не измерено — нет ключа"
+        },
+        "chainstack_growth_archive": {
+          "ru_per_graph": 10000,
+          "usd_amortized": "0.0245",
+          "usd_overage_rate": "0.1500",
+          "graphs_per_month_in_plan": 2000,
+          "note": "$49/мес; 2 RU за архивный запрос; сверх 20 млн RU — $15 за 1 млн RU"
+        },
+        "getblock_starter": {
+          "usd": null,
+          "note": "не рассчитано: вес методов TRON в CU не опубликован"
+        },
+        "nodit_basic": {
+          "usd": null,
+          "note": "не рассчитано: Node API для TRON не подтверждён"
+        },
+        "own_node": {
+          "usd": null,
+          "note": "не проверено: цены выделенных серверов с ≥3.5 ТБ NVMe на страницах Hetzner рисуются скриптом и в тексте страниц отсутствуют (проверено 2026-10-14)"
+        }
+      }
+    }
+  },
+  "stage1": {
+    "trongrid_requests": "≈3 300 (индекс события из квитанции) … 6–7 тыс. (запрос событий на каждое ребро)",
+    "node_receipts": "3 000–4 000 TXID (по одной квитанции на TXID)",
+    "total_requests": "6–10 тыс.",
+    "graphs_per_day": "14–30",
+    "rps_5_min": "11–24 зап/с",
+    "rps_240_s": "14–29 зап/с",
+    "data_share_s": 240,
+    "energy_context": "около 2 000 из 3 300 — контекст энергии",
+    "source": "docs/stage-1-stack-proposal.md, раздел 1 «Инфраструктура и затраты» и A6"
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "area": "bridges",
+  "run_id": "20261014T120636Z",
+  "started_utc": "2026-10-14T12:06:36Z",
+  "date_utc": "2026-10-14",
+  "git": {
+    "commit": "90bd06b729c3c4c8702e7e04035ea9960974b80b",
+    "branch": "main",
+    "dirty": true,
+    "dirty_paths": 23
+  },
+  "python": {
+    "version": "3.13.0",
+    "implementation": "CPython"
+  },
+  "packages": {
+    "ledgerhunt": "0.2.0",
+    "httpx": "0.28.1",
+    "anthropic": "1.13.0",
+    "pydantic": "2.14.1",
+    "python-dotenv": "1.2.4",
+    "base58": "2.1.1",
+    "pycryptodome": "3.24.1",
+    "pillow": "12.3.0",
+    "pytest": "9.1.1"
+  },
+  "machine": {
+    "os": "Майкрософт Windows 11 Pro",
+    "os_version": "10.0.26200 (build 26200)",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "cpu_model": "13th Gen Intel(R) Core(TM) i9-13900H",
+    "cpu_cores_physical": 14,
+    "cpu_threads_logical": 20,
+    "ram_total_bytes": 33965801472,
+    "ram_total_gb": "31.6",
+    "disk_free_bytes": 17228591104,
+    "disk_free_gb": "16.0",
+    "disk_total_gb": "475.7",
+    "python": "3.13.0",
+    "python_implementation": "CPython",
+    "source": "platform+cim"
+  },
+  "secrets_present": {
+    "ANTHROPIC_API_KEY": true,
+    "TRONGRID_API_KEY": true,
+    "TRON_RPC_URL": false,
+    "TRON_RPC_URL_2": false,
+    "TRONSCAN_API_KEY": false,
+    "ETH_RPC_URL": false,
+    "ETHERSCAN_API_KEY": true,
+    "BLOCKSCOUT_API_KEY": false,
+    "NEAR_INTENTS_JWT": false
+  },
+  "command": "python -m ledgerhunt stage2 bridges --replay",
+  "reproduce": "python run_stage2.py --only bridges --replay",
+  "http": {
+    "mode": "replay",
+    "store": "data/http-store"
+  },
+  "config": {
+    "purpose": "decisions 2.3/4.2: Ethereum and bridge sources for case-001 (USDT0/LayerZero, Rango, NEAR Intents 1Click)",
+    "options": {
+      "pace_s": 5.0,
+      "burst_n": 20,
+      "skip_burst": false,
+      "skip_candidates": false,
+      "other_txs": 6,
+      "pool_cutoff": "2026-10-14T00:00:00Z",
+      "window_blocks": 150,
+      "payout_window_s": 1200,
+      "payout_pages": 2
+    },
+    "transit_address": "0x4079047990917F3150353FBd8A13b05b6286926d",
+    "rpc_candidates": [
+      {
+        "provider": "eth_publicnode",
+        "url": "https://ethereum-rpc.publicnode.com"
+      },
+      {
+        "provider": "eth_drpc",
+        "url": "https://eth.drpc.org"
+      },
+      {
+        "provider": "eth_tenderly",
+        "url": "https://mainnet.gateway.tenderly.co"
+      },
+      {
+        "provider": "eth_nodies",
+        "url": "https://ethereum-public.nodies.app"
+      },
+      {
+        "provider": "eth_mevblocker",
+        "url": "https://rpc.mevblocker.io"
+      },
+      {
+        "provider": "eth_1rpc",
+        "url": "https://1rpc.io/eth"
+      },
+      {
+        "provider": "eth_flashbots",
+        "url": "https://rpc.flashbots.net"
+      },
+      {
+        "provider": "eth_cloudflare",
+        "url": "https://cloudflare-eth.com"
+      },
+      {
+        "provider": "eth_llamarpc",
+        "url": "https://eth.llamarpc.com"
+      },
+      {
+        "provider": "eth_ankr",
+        "url": "https://rpc.ankr.com/eth"
+      },
+      {
+        "provider": "eth_blockpi",
+        "url": "https://ethereum.blockpi.network/v1/rpc/public"
+      },
+      {
+        "provider": "eth_merkle",
+        "url": "https://eth.merkle.io"
+      },
+      {
+        "provider": "eth_onfinality",
+        "url": "https://eth.api.onfinality.io/public"
+      }
+    ],
+    "sampled_rpcs": [
+      "eth_publicnode",
+      "eth_drpc",
+      "eth_tenderly"
+    ],
+    "getlogs_chunk_blocks": 50,
+    "eth_anchor_block": 26000000,
+    "keys_used": {
+      "etherscan": true,
+      "blockscout_pro": false,
+      "eth_rpc_paid": false,
+      "near_intents_partner_key": false,
+      "rango": false,
+      "trongrid": true
+    },
+    "notes": [
+      "keyless measurements use the shared default rate limits (never raised for keyless hosts)",
+      "latency_ms is the final attempt; in replay mode it is the recorded value",
+      "repeated identical requests (burst) replay the latest recorded response"
+    ]
+  },
+  "finished_utc": "2026-10-14T12:06:40Z",
+  "status": "ok",
+  "duration_s": 3.878
+}

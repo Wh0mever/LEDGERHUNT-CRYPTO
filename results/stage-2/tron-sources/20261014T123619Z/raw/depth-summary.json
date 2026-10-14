@@ -1,0 +1,89 @@
+{
+  "head_block": 87102833,
+  "head_utc": "2026-10-14 12:36:51",
+  "oldest_served_block": 86792411,
+  "oldest_served_utc": "2026-10-03 17:51:21",
+  "depth_blocks": 310422,
+  "depth_days": 10.78,
+  "probes": 49,
+  "consistency_boundary_served_repeats": [
+    true,
+    true,
+    true
+  ],
+  "consistency_boundary_minus_1_served_repeats": [
+    false,
+    false,
+    false
+  ],
+  "boundary_plus_1000_served": true,
+  "boundary_minus_1000_served": false,
+  "receipt_oldest_served_block_approx": 86857920,
+  "receipt_oldest_served_utc": "2026-10-06 00:27:48",
+  "receipt_bisect_precision_blocks": 50,
+  "receipt_check_inside": true,
+  "receipt_check_outside": false,
+  "getlogs_vs_history": {
+    "inside_receipt_history": {
+      "range": [
+        86858020,
+        86859019
+      ],
+      "trongrid_key": {
+        "logs": 21,
+        "status": 200,
+        "ref": {
+          "store": "data/http-store",
+          "body_sha256": "e5bfcbf0c214e546e57a5a0756bd2223de9a91de0880f092cff42c899ff023be",
+          "key_sha256": "8b87230ed0519ad1a72520fb36cf98fa3dedce212ec67a7f9fa6c1edfb120c60",
+          "object_path": "data/http-store/objects/e5/e5bfcbf0c214e546e57a5a0756bd2223de9a91de0880f092cff42c899ff023be"
+        }
+      },
+      "publicnode": {
+        "logs": 21,
+        "status": 200,
+        "ref": {
+          "store": "data/http-store",
+          "body_sha256": "e5bfcbf0c214e546e57a5a0756bd2223de9a91de0880f092cff42c899ff023be",
+          "key_sha256": "33ce5ebf0874577024ed0d8e1f85ee86ea6ee46a903cfeaad3771ad9e03e3303",
+          "object_path": "data/http-store/objects/e5/e5bfcbf0c214e546e57a5a0756bd2223de9a91de0880f092cff42c899ff023be"
+        }
+      }
+    },
+    "below_receipt_history": {
+      "range": [
+        86856792,
+        86857791
+      ],
+      "trongrid_key": {
+        "logs": 36,
+        "status": 200,
+        "ref": {
+          "store": "data/http-store",
+          "body_sha256": "525841e5314694f4fa8f62506809647b37bfcb4f182321e4d6ee87b3386e6cdf",
+          "key_sha256": "4b762c8dd6bed19f901d54096af7c26ed1573c7e301c3b78546ebcf9df830a65",
+          "object_path": "data/http-store/objects/52/525841e5314694f4fa8f62506809647b37bfcb4f182321e4d6ee87b3386e6cdf"
+        }
+      },
+      "publicnode": {
+        "logs": 0,
+        "status": 200,
+        "ref": {
+          "store": "data/http-store",
+          "body_sha256": "d1710c251ad1c8154d7c7739d389acba173558b9c63054bb0ba9ea03cd387c59",
+          "key_sha256": "ce0e0e53eabf895d654461a34f40bc5ff1f0dfc5556b7a9ce6580382fb06364e",
+          "object_path": "data/http-store/objects/d1/d1710c251ad1c8154d7c7739d389acba173558b9c63054bb0ba9ea03cd387c59"
+        }
+      }
+    },
+    "address": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+    "direction": "from",
+    "note": "PublicNode answers 200 with [] where it has no data: a silent gap"
+  },
+  "archival": {
+    "trongrid_key": {
+      "theft_block_86439360_served": true,
+      "block_1000000_served": true
+    }
+  }
+}

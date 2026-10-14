@@ -1,0 +1,23 @@
+{
+  "expected": {
+    "route": [
+      "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+      "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+      "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+      "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+      "[USDT0/LayerZero] 0x4079047990917F3150353FBd8A13b05b6286926d",
+      "[Rango->NEAR Intents] 0xdA392553ec3602D3e650a725f847C10d04E122C0",
+      "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+    ],
+    "total_lost": "162.94587"
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "c1ad0beb60d0fa05139126769f2463d2591f371bddc9e8ced8bb69ff8b97afa6",
+  "schema_sha256": "ccde13a226f74c38d46bda887997040e04ef9b9e93cba2b0e84ade769c85143d"
+}

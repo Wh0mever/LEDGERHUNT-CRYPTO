@@ -1,0 +1,268 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-049",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "aa9f08392cdcdba1a7321dd8c1ca302716e09386a8b3596c84a1b8cb92751d96",
+   "event_index": 0,
+   "from": "TD9kdc96mhrVpC5X9eYJKP6ft5YP6vtDrE",
+   "to": "TQ1TDLFhFv9REH6u1YWMQAZxX1LAobRwFc",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "cd79a7b0fbdb8443c6ace026c440a173ae1d812f2a378f9d534e26a93e90fefb",
+   "event_index": 0,
+   "from": "TQ1TDLFhFv9REH6u1YWMQAZxX1LAobRwFc",
+   "to": "TQVDzwdbxKVKXTgiGM9QyHt9w1netGWPyK",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "9766465a64f80a9ee39ddce51472373e7d095aa90db53849dbc2f84c3d441cb6",
+   "event_index": 0,
+   "from": "TQVDzwdbxKVKXTgiGM9QyHt9w1netGWPyK",
+   "to": "TQTwAUH8uXkSWEY8bgNK3qmqL6f1i5sHMq",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "31bfe2afb9af553430bf0b4c9bd85ca3366c4d78747aea4c56c679199f1737ad",
+   "event_index": 0,
+   "from": "TQTwAUH8uXkSWEY8bgNK3qmqL6f1i5sHMq",
+   "to": "TKF7CWLizqQprBMUUT9XbAzhLyiQSDJNUX",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "d3edc92f5e6287af5b63e5475af8e1617f503577d8dfae383e09973c9904a007",
+   "event_index": 0,
+   "from": "TKF7CWLizqQprBMUUT9XbAzhLyiQSDJNUX",
+   "to": "TVMcF9X3MaRkGu3G24jsRigU9Z4oVs4gcZ",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "d4e892246b89d4f5fb6531c3e6a6841ffa3dcfb209a53bd5c06fc187cec8a7d1",
+   "event_index": 0,
+   "from": "TVMcF9X3MaRkGu3G24jsRigU9Z4oVs4gcZ",
+   "to": "TVuWuW8xJaGWyCCAG2fJVe82zkhAEmWQ32",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "0c576c6073909f976f0c416175a4d303374dce1a242fe56f9efb06326ac006dc",
+   "event_index": 0,
+   "from": "TVuWuW8xJaGWyCCAG2fJVe82zkhAEmWQ32",
+   "to": "TB8AtExrJ35vjbD86ebMLBnv97tKdrKUJz",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "bd5ce53251422dded616e15ddc9e28a1d1d452699a416cae684d556ca5809ce2",
+   "event_index": 0,
+   "from": "TB8AtExrJ35vjbD86ebMLBnv97tKdrKUJz",
+   "to": "TBa3zuEUshk5r1mshyGYENLWMLxRhBFovw",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "4332b0f3ae7d3cf9691e263c1ed467dfe338e0c41ab86dab94b26cf6d72f8c14",
+   "event_index": 0,
+   "from": "TBa3zuEUshk5r1mshyGYENLWMLxRhBFovw",
+   "to": "TDnpQzvJLsB2wQ9r4mTGFikciCsrTYjouA",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "7508f2bb6f33fcec57499865379f9b9f7bb2c27fdfc926cfc6210db82e18ae53",
+   "event_index": 0,
+   "from": "TDnpQzvJLsB2wQ9r4mTGFikciCsrTYjouA",
+   "to": "TCzu9vzrzXdQiFBSWbJ7T72H5RUDKs4Rx4",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "baa16af9dd287780b55612adbe0116d482d1e35f5612331bb4fe2b367509c79b",
+   "event_index": 0,
+   "from": "TCzu9vzrzXdQiFBSWbJ7T72H5RUDKs4Rx4",
+   "to": "TMKESDTGBMJAS27nBkdgUMhVVRNgUHJcKE",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "1d8d0d44f1a602286c6a4a17cbe44284cabd3a7376179def2a94b6c71e770b10",
+   "event_index": 0,
+   "from": "TMKESDTGBMJAS27nBkdgUMhVVRNgUHJcKE",
+   "to": "TCA14GfbHjbzivmbHZHNZ8jH4mfdyLSD97",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "946d9a7f9efb8dacc6927988a021d6837ff915d49bda4564c1745672cb28e031",
+   "event_index": 0,
+   "from": "TCA14GfbHjbzivmbHZHNZ8jH4mfdyLSD97",
+   "to": "TYSgtaKKiGotw4jek1NkdeQe72eLSrtFD3",
+   "amount": "51981.282035",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "aa9f08392cdcdba1a7321dd8c1ca302716e09386a8b3596c84a1b8cb92751d96",
+    "cd79a7b0fbdb8443c6ace026c440a173ae1d812f2a378f9d534e26a93e90fefb",
+    "9766465a64f80a9ee39ddce51472373e7d095aa90db53849dbc2f84c3d441cb6",
+    "31bfe2afb9af553430bf0b4c9bd85ca3366c4d78747aea4c56c679199f1737ad",
+    "d3edc92f5e6287af5b63e5475af8e1617f503577d8dfae383e09973c9904a007",
+    "d4e892246b89d4f5fb6531c3e6a6841ffa3dcfb209a53bd5c06fc187cec8a7d1",
+    "0c576c6073909f976f0c416175a4d303374dce1a242fe56f9efb06326ac006dc",
+    "bd5ce53251422dded616e15ddc9e28a1d1d452699a416cae684d556ca5809ce2",
+    "4332b0f3ae7d3cf9691e263c1ed467dfe338e0c41ab86dab94b26cf6d72f8c14",
+    "7508f2bb6f33fcec57499865379f9b9f7bb2c27fdfc926cfc6210db82e18ae53",
+    "baa16af9dd287780b55612adbe0116d482d1e35f5612331bb4fe2b367509c79b",
+    "1d8d0d44f1a602286c6a4a17cbe44284cabd3a7376179def2a94b6c71e770b10",
+    "946d9a7f9efb8dacc6927988a021d6837ff915d49bda4564c1745672cb28e031"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TYSgtaKKiGotw4jek1NkdeQe72eLSrtFD3",
+    "reason": "exchange_deposit"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [
+  {
+   "chain": "tron",
+   "deposit_address": "TYSgtaKKiGotw4jek1NkdeQe72eLSrtFD3",
+   "exchange": "SynthEx Gamma",
+   "hot_wallet": "TESSdmB8vXdJmFKXsSG7kDPMkd5vt5CLYu",
+   "sweep_txids": [
+    "80c278e8d695f0b4397c608d4e6600960e885e19f7acdfdc449321a468ca3596"
+   ],
+   "excluded": null
+  }
+ ],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [
+   {
+    "chain": "tron",
+    "txid": "80c278e8d695f0b4397c608d4e6600960e885e19f7acdfdc449321a468ca3596",
+    "event_index": 0,
+    "from": "TYSgtaKKiGotw4jek1NkdeQe72eLSrtFD3",
+    "to": "TESSdmB8vXdJmFKXsSG7kDPMkd5vt5CLYu",
+    "amount": "51981.282035",
+    "asset": "USDT-TRC20",
+    "taint": "traced",
+    "verification": "second_source_confirmed",
+    "role": "sweep",
+    "excluded": null
+   }
+  ],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "290b9dbc77d3a290262550da55e25967246a4fa11e73df91306bd58500e4c90f",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "11473322ef01e622d25ad94350c7d294755db8ee46af1088c184e08f032a29b1",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "6c4a5f3b3d1106cdf4e032ff02f979c9746e1ac41fd03355463edf76e2388a60",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "long_chain",
+  "variant": "to_exchange",
+  "title_ru": "Длинная цепочка до депозита биржи",
+  "description": "long chain with time gaps ending at an exchange deposit",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

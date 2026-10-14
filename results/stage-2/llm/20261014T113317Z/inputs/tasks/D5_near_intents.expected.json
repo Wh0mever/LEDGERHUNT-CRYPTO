@@ -1,0 +1,15 @@
+{
+  "expected": {
+    "recipient": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+    "destination_txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+  },
+  "efforts": [
+    "medium",
+    "high"
+  ],
+  "max_tokens": 16000,
+  "image": null,
+  "image_sha256": null,
+  "input_sha256": "b30198743aea5e75363f34aff95bc0be74aff72da8fc1827eb246571cfdde4dc",
+  "schema_sha256": "5b7b3d7f38630a5dfac01594218b026079fc4a233cddaf00214cfe54f4983d69"
+}

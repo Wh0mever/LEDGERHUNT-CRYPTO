@@ -1,0 +1,22 @@
+{
+  "expected": {
+    "txids": [],
+    "addresses": [
+      "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx"
+    ],
+    "amounts": [],
+    "times_utc": [],
+    "time_zone_visible": false,
+    "seed_phrase_present": true,
+    "phone_present": true
+  },
+  "efforts": [
+    "low",
+    "medium"
+  ],
+  "max_tokens": 8000,
+  "image": "S4_chat_seed_phone.png",
+  "image_sha256": "4b20d35e1465610fa7d3c7a14cf5836660af85ee41cf16752b983c3c9f60ce09",
+  "input_sha256": "c92662b0c8bb62a9b6e47fb11007ab4aa148ff596b5df2c5fdd9807f0bebe412",
+  "schema_sha256": "22270fd6c9b1ffde6854406c53ed2c2f1b02c2231af0cb7fdd09dae18e0daa3d"
+}

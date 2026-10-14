@@ -1,0 +1,159 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-041",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "d5c8e2d29874a8eab933a60d9fcff2ebf5a6abfbf3290be2ea245ae8580c69f7",
+   "event_index": 0,
+   "from": "TYukTzWN9vJd9uQWpUw3a6wczbpHjemBAT",
+   "to": "TBN1fVwpKBHo9H4gVDxA2Tpga7uvuyhPvD",
+   "amount": "114001.323397",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "bbaff40a43a014c4d8f7d1fdd84d8ff386d79758d7036d8f895b56a6e3f2569f",
+   "event_index": 0,
+   "from": "TBN1fVwpKBHo9H4gVDxA2Tpga7uvuyhPvD",
+   "to": "TNBgQbfuBoYNBYTpRpqd6k8LUnGjSGZB5D",
+   "amount": "114001.323397",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "c307bb3836c571c347260864d9a36f8d2a8c45cb10c5601475772b1912eefd94",
+   "event_index": 0,
+   "from": "TNBgQbfuBoYNBYTpRpqd6k8LUnGjSGZB5D",
+   "to": "TRbx6TvscvMLtvyZV4MentGsr2MsDFbcvJ",
+   "amount": "114001.323397",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "d5c8e2d29874a8eab933a60d9fcff2ebf5a6abfbf3290be2ea245ae8580c69f7",
+    "bbaff40a43a014c4d8f7d1fdd84d8ff386d79758d7036d8f895b56a6e3f2569f",
+    "c307bb3836c571c347260864d9a36f8d2a8c45cb10c5601475772b1912eefd94"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TRbx6TvscvMLtvyZV4MentGsr2MsDFbcvJ",
+    "reason": "commingled"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [
+  {
+   "chain": "tron",
+   "address": "TRbx6TvscvMLtvyZV4MentGsr2MsDFbcvJ",
+   "attribution": "uncertain",
+   "traced_inflow_txids": [
+    "c307bb3836c571c347260864d9a36f8d2a8c45cb10c5601475772b1912eefd94"
+   ],
+   "foreign_inflow_txids": [
+    "72ca2b928cf7fca66a38a150cad67eaa60e440a251cf7ba8000a2b96179e760a"
+   ],
+   "excluded": null
+  }
+ ],
+ "limitations": [],
+ "allowed": {
+  "transfers": [
+   {
+    "chain": "tron",
+    "txid": "7b76b6e493411a30ffe5c61e48281d59ad5f8a8bda193aec596ed779412892fe",
+    "event_index": 0,
+    "from": "TRbx6TvscvMLtvyZV4MentGsr2MsDFbcvJ",
+    "to": "TJRNVyJyFaSX44zVsDQWTPP43gQL366B2i",
+    "amount": "186971.792120",
+    "asset": "USDT-TRC20",
+    "taint": "uncertain",
+    "verification": "second_source_confirmed",
+    "role": "commingled_outflow",
+    "excluded": null
+   },
+   {
+    "chain": "tron",
+    "txid": "072c6ad87a2e363dc2b4410be399a1745214486c391a19bf2bf376cfa9ce00af",
+    "event_index": 0,
+    "from": "TJRNVyJyFaSX44zVsDQWTPP43gQL366B2i",
+    "to": "TVnXGUKTdQjbjhWiG1kLyBEQqFwyqYPdYT",
+    "amount": "186971.792120",
+    "asset": "USDT-TRC20",
+    "taint": "traced",
+    "verification": "second_source_confirmed",
+    "role": "sweep",
+    "excluded": null
+   }
+  ],
+  "exchange_deposits": [
+   {
+    "chain": "tron",
+    "deposit_address": "TJRNVyJyFaSX44zVsDQWTPP43gQL366B2i",
+    "exchange": "SynthEx Beta",
+    "hot_wallet": "TVnXGUKTdQjbjhWiG1kLyBEQqFwyqYPdYT",
+    "sweep_txids": [
+     "072c6ad87a2e363dc2b4410be399a1745214486c391a19bf2bf376cfa9ce00af"
+    ],
+    "excluded": null
+   }
+  ],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "b2fdfb868117ad60454d6f726ad1277bb25dc9b461a03fbf4f652eaf98b31298",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "a66f338652b3bcaff576da900a2c4329c77577cfe100008025ce630cef3d8006",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "72ca2b928cf7fca66a38a150cad67eaa60e440a251cf7ba8000a2b96179e760a",
+   "event_index": 0,
+   "reason": "foreign_inflow"
+  },
+  {
+   "txid": "1e8e753ae67d6a292b2a902a859fc92035a6f9df6377646f5305b3f8ed5ef083",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "merge",
+  "variant": "hub_to_exchange",
+  "title_ru": "Смешанные средства уходят на депозит биржи",
+  "description": "commingled hub sends to an exchange deposit (uncertain origin)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

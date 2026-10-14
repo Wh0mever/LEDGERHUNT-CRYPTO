@@ -1,0 +1,120 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-008",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "cc4c0dd8ed7268e3c9c084d9f5d620822393a23577ce0a0f36b48fd54d317eb9",
+   "event_index": 0,
+   "from": "TJNyJxiP6xPpTWNosvx9fhhT6XMEjn4ktR",
+   "to": "TS7yGGVdjNhkT6tx9qMigvpicjkR6Uyt9m",
+   "amount": "75716.898016",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "21796cac7d48e4933a87f47ee18dd11aa31abbfd477726d844e380f2a535376d",
+   "event_index": 0,
+   "from": "TS7yGGVdjNhkT6tx9qMigvpicjkR6Uyt9m",
+   "to": "TJNyJxiP6xPpTWNosvx9fhhT6XMEjn4ktR",
+   "amount": "1514.337960",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "b486520a68ca6979c74213b9086722558a7a28dd259f8d66240f956cc1e6f0f4",
+   "event_index": 0,
+   "from": "TS7yGGVdjNhkT6tx9qMigvpicjkR6Uyt9m",
+   "to": "TQvnE87rq2o2LmATLkcQYFSqT1TRqLbedz",
+   "amount": "74202.560056",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "783774069b5b2fc7cd5a16c43ddab265a31ebe66054cc6b6946c64c5cfcad5d3",
+   "event_index": 0,
+   "from": "TQvnE87rq2o2LmATLkcQYFSqT1TRqLbedz",
+   "to": "THw9k1unizhTWJfdTpGNPuV7qwcjF3PmTJ",
+   "amount": "74202.560056",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "cc4c0dd8ed7268e3c9c084d9f5d620822393a23577ce0a0f36b48fd54d317eb9",
+    "21796cac7d48e4933a87f47ee18dd11aa31abbfd477726d844e380f2a535376d"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TJNyJxiP6xPpTWNosvx9fhhT6XMEjn4ktR",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "cc4c0dd8ed7268e3c9c084d9f5d620822393a23577ce0a0f36b48fd54d317eb9",
+    "b486520a68ca6979c74213b9086722558a7a28dd259f8d66240f956cc1e6f0f4",
+    "783774069b5b2fc7cd5a16c43ddab265a31ebe66054cc6b6946c64c5cfcad5d3"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "THw9k1unizhTWJfdTpGNPuV7qwcjF3PmTJ",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "e23bac841df80f53fdc8cc8894933275496e0710a085978b30f6c5fda6bc00fd",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "cycles",
+  "variant": "return_to_victim",
+  "title_ru": "Часть средств возвращается жертве",
+  "description": "a small part returns to the victim address",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

@@ -1,0 +1,146 @@
+<case_data>
+{
+ "previous_step_result": {
+  "from_rango_log": "funds forwarded to 0xdA392553ec3602D3e650a725f847C10d04E122C0; receiver field of the Rango event decodes to the ASCII text TYHeH2HQn7pM5fe6aYwG (20 characters)"
+ },
+ "erc20_transfers_of_forwarded_address": {
+  "source": "case-001 fixture (Blockscout ERC-20 token transfers, parsed)",
+  "address": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+  "rows": [
+   {
+    "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+    "time_utc": "2026-09-21T11:56:35Z",
+    "from": "0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+    "to": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "amount": "12882.058884",
+    "asset": "USDT-ERC20",
+    "direction": "in"
+   },
+   {
+    "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+    "time_utc": "2026-09-21T11:57:35Z",
+    "from": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+    "to": "0x2CfF890f0378a11913B6129B2E97417a2c302680",
+    "amount": "12882.058884",
+    "asset": "USDT-ERC20",
+    "direction": "out"
+   }
+  ]
+ },
+ "oneclick_status": {
+  "source": "NEAR Intents 1Click GET /v0/status?depositAddress=0xdA392553ec3602D3e650a725f847C10d04E122C0",
+  "body": {
+   "status": "SUCCESS",
+   "updatedAt": "2026-09-21T11:58:13.000Z",
+   "correlationId": "47f79b0d-937f-41a5-9358-dd5e2294c342",
+   "swapDetails": {
+    "depositedAmount": "12882058884",
+    "depositedAmountUsd": "12877.691866038323",
+    "depositedAmountFormatted": "12882.058884",
+    "intentHashes": [
+     "HFxzg5Cz5BCP2ocKGbcSRbh9Skt4fr5QbbqirPL7rHqq"
+    ],
+    "nearTxHashes": [
+     "HgECtUbDx8sahjUaDXRe4Q2vb2bgGm8c9HAHv8rMJmZR",
+     "AjeZCFUWRHddcCDsaERWaPB9RDFsAFxnKmC2zARaWtAw"
+    ],
+    "amountIn": "12882058884",
+    "amountInFormatted": "12882.058884",
+    "amountInUsd": "12877.691866038323",
+    "amountOut": "12878410167",
+    "amountOutFormatted": "12878.410167",
+    "amountOutUsd": "12874.044385953388",
+    "slippage": 0,
+    "refundedAmount": "0",
+    "refundedAmountFormatted": "0",
+    "refundedAmountUsd": "0",
+    "refundReason": null,
+    "refundFee": "300000",
+    "withdrawFee": "939762",
+    "originChainTxHashes": [
+     {
+      "hash": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+      "explorerUrl": ""
+     }
+    ],
+    "destinationChainTxHashes": [
+     {
+      "hash": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+      "explorerUrl": ""
+     }
+    ]
+   },
+   "quoteResponse": {
+    "timestamp": "2026-09-21T11:55:51.591Z",
+    "signature": "ed25519:2A5P4mUr57Lx4BuZZUYnBT2Sm15g37GFn9oai6G1np8cV1WVMp67hmzayinp6TZUS812JSP8nUosC3JFXFyeWBnT",
+    "quoteRequest": {
+     "dry": false,
+     "swapType": "EXACT_INPUT",
+     "depositMode": "SIMPLE",
+     "slippageTolerance": 100,
+     "originAsset": "nep141:eth-0xdac17f958d2ee523a2206206994597c13d831ec7.omft.near",
+     "depositType": "ORIGIN_CHAIN",
+     "destinationAsset": "nep141:tron-d28a265909efecdcee7c5028585214ea0b96f015.omft.near",
+     "amount": "12882058884",
+     "refundTo": "0x4079047990917F3150353FBd8A13b05b6286926d",
+     "refundType": "ORIGIN_CHAIN",
+     "recipient": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+     "recipientType": "DESTINATION_CHAIN",
+     "deadline": "2026-09-21T12:55:51.574Z",
+     "appFees": [
+      {
+       "limitOrderId": null,
+       "recipient": "rangoni.near",
+       "fee": 0
+      },
+      {
+       "limitOrderId": null,
+       "recipient": "5880ad2b362620fadf759cbceb1cd5737ce8c6ed7fb8e9942881e6731f9247dd",
+       "fee": 1
+      }
+     ],
+     "virtualChainRecipient": null,
+     "virtualChainRefundRecipient": null,
+     "referral": "rango",
+     "confidentiality": "public"
+    },
+    "quote": {
+     "amountIn": "12882058884",
+     "amountInFormatted": "12882.058884",
+     "amountInUsd": "12877.975271333771",
+     "minAmountIn": "12882058884",
+     "amountOut": "12878349626",
+     "amountOutFormatted": "12878.349626",
+     "amountOutUsd": "12874.267189168557",
+     "minAmountOut": "12749566129",
+     "timeWhenInactive": "2026-09-24T12:55:51.574Z",
+     "depositAddress": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+     "deadline": "2026-09-24T12:55:51.574Z",
+     "timeEstimate": 100,
+     "refundFee": "300000",
+     "withdrawFee": "939762"
+    }
+   }
+  }
+ },
+ "tron_trc20_transfer": {
+  "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+  "row": {
+   "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+   "time_utc": "2026-09-21T11:58:09Z",
+   "from": "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+   "to": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+   "amount": "12878.454902",
+   "asset": "USDT-TRC20",
+   "block": 86439870
+  }
+ }
+}
+</case_data>
+
+<task>
+Decision: the funds were forwarded to an address on Ethereum. Using the transfers of that address, the
+swap service status and the TRON transfer, determine what the forwarded address is, where the funds were
+delivered, whether the delivery is confirmed on-chain and whether the reported and on-chain amounts agree.
+Choose the tracer's next action. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

@@ -1,0 +1,129 @@
+<case_data>
+{
+ "address_under_review": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+ "trc20_activity": {
+  "source": "case-001 fixture (TronGrid TRC20 history, parsed)",
+  "rows": [
+   {
+    "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+    "time_utc": "2026-09-21T11:41:18Z",
+    "from": "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+    "to": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "amount": "12905.283711",
+    "asset": "USDT-TRC20",
+    "direction": "in"
+   },
+   {
+    "txid": "12039abce0c3c27bf587e327d86d00b7753ab4aba422f6b2c898cee563ca9ae9",
+    "time_utc": "2026-09-21T11:50:54Z",
+    "owner": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "spender": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "allowance": "12905.280000",
+    "asset": "USDT-TRC20",
+    "event": "Approval"
+   },
+   {
+    "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+    "time_utc": "2026-09-21T11:50:54Z",
+    "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "to": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt",
+    "amount": "12905.280000",
+    "asset": "USDT-TRC20",
+    "block": 86439725,
+    "direction": "out"
+   },
+   {
+    "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+    "time_utc": "2026-09-21T11:56:15Z",
+    "from": "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+    "to": "TMU9a6ZWhxJNfZen7YRZ81cvVx2Go1xZTA",
+    "amount": "0.009778",
+    "asset": "USDT-TRC20",
+    "direction": "out"
+   }
+  ]
+ },
+ "layerzero_scan_message": {
+  "source": "LayerZero Scan GET /v1/messages/tx/{source tx hash}",
+  "body": {
+   "guid": "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+   "pathway": {
+    "srcEid": 30420,
+    "dstEid": 30101,
+    "sender": {
+     "address": "0x3a08f76772e200653bb55c2a92998daca62e0e97",
+     "id": "usdt0",
+     "name": "USDT0",
+     "chain": "tron"
+    },
+    "receiver": {
+     "address": "0x1f748c76de468e9d11bd340fa9d5cbadf315dfb0",
+     "id": "usdt0",
+     "name": "USDT0",
+     "chain": "ethereum"
+    }
+   },
+   "source": {
+    "status": "SUCCEEDED",
+    "tx": {
+     "txHash": "0xb49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+     "blockNumber": "86439725",
+     "blockTimestamp": 1789991454,
+     "from": "0xcf20f79f32ed27516b2404178909f1fa35cf54ab",
+     "payload": "0x00020000000000000000000000004079047990917f3150353fbd8a13b05b6286926d0000000300fbdea0"
+    }
+   },
+   "destination": {
+    "status": "SUCCEEDED",
+    "tx": {
+     "txHash": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+     "blockNumber": 26025709,
+     "blockTimestamp": 1789991579
+    }
+   },
+   "status": {
+    "name": "DELIVERED",
+    "message": "Executor transaction confirmed"
+   },
+   "created": "2026-09-21T11:51:11.000Z",
+   "updated": "2026-09-21T11:53:55.000Z"
+  }
+ },
+ "ethereum_receipt_logs": {
+  "source": "Ethereum JSON-RPC eth_getTransactionReceipt",
+  "transactionHash": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+  "blockNumber": "0x18d1eed",
+  "status": "0x1",
+  "logs": [
+   {
+    "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    "topics": [
+     "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+     "0x0000000000000000000000001f748c76de468e9d11bd340fa9d5cbadf315dfb0",
+     "0x0000000000000000000000004079047990917f3150353fbd8a13b05b6286926d"
+    ],
+    "data": "0x0000000000000000000000000000000000000000000000000000000300fbdea0",
+    "logIndex": "0x128"
+   },
+   {
+    "address": "0x1f748c76de468e9d11bd340fa9d5cbadf315dfb0",
+    "topics": [
+     "0xefed6d3500546b29533b128a29e3a94d70788727f0507505ac12eaf2e578fd9c",
+     "0xba20537a6870e4ba2538d40ae16772f198f02d88d24c47d016b53863a7337bf8",
+     "0x0000000000000000000000004079047990917f3150353fbd8a13b05b6286926d"
+    ],
+    "data": "0x00000000000000000000000000000000000000000000000000000000000076d40000000000000000000000000000000000000000000000000000000300fbdea0",
+    "logIndex": "0x129"
+   }
+  ],
+  "note": "log 1 is emitted by the Ethereum USDT0 OFT adapter (OFTReceived: guid, srcEid, toAddress, amountReceivedLD)"
+ }
+}
+</case_data>
+
+<task>
+Decision: did the stolen funds leave TRON from the address under review? If they did, identify the
+bridge and the other side: destination chain, LayerZero GUID, destination transaction, recipient and the amount
+received there (decode raw values where needed), and the bridge fee (amount_sent minus amount_received).
+Classify the remaining outflows. Choose the tracer's next action. Base every field on the case data and the reference data in the system prompt. Use exact identifiers and exact decimal amounts. Keep 'explanation' under 80 words.
+</task>

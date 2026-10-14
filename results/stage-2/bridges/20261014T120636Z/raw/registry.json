@@ -1,0 +1,30 @@
+{
+  "fetched": true,
+  "tron_oft": [
+    {
+      "section": "usdt0/legacyMesh",
+      "chain": "Tron",
+      "lz_eid": "30420",
+      "contract": "OFT",
+      "address": "TFG4wBaDQ8sHWWP1ACeSGnoNR6RRzevLPt"
+    }
+  ],
+  "ethereum_oft": [
+    {
+      "section": "usdt0/legacyMesh",
+      "chain": "Ethereum",
+      "lz_eid": "30101",
+      "contract": "OFT",
+      "address": "0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0"
+    }
+  ],
+  "arbitrum_oft": [
+    {
+      "section": "usdt0/legacyMesh",
+      "chain": "Arbitrum",
+      "lz_eid": "30110",
+      "contract": "OFT",
+      "address": "0x77652D5aba086137b595875263FC200182919B92"
+    }
+  ]
+}

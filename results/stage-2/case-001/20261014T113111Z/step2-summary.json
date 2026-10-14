@@ -1,0 +1,138 @@
+{
+  "total": {
+    "confirmed": 240,
+    "mismatch": 5,
+    "not_verifiable": 25
+  },
+  "facts": 270,
+  "by_group": {
+    "transactions": {
+      "confirmed": 150,
+      "mismatch": 2,
+      "not_verifiable": 0
+    },
+    "layerzero": {
+      "confirmed": 8,
+      "mismatch": 0,
+      "not_verifiable": 0
+    },
+    "rango": {
+      "confirmed": 10,
+      "mismatch": 0,
+      "not_verifiable": 0
+    },
+    "near_intents": {
+      "confirmed": 7,
+      "mismatch": 0,
+      "not_verifiable": 0
+    },
+    "addresses": {
+      "confirmed": 13,
+      "mismatch": 2,
+      "not_verifiable": 25
+    },
+    "theft": {
+      "confirmed": 5,
+      "mismatch": 0,
+      "not_verifiable": 0
+    },
+    "mechanism": {
+      "confirmed": 6,
+      "mismatch": 0,
+      "not_verifiable": 0
+    },
+    "links": {
+      "confirmed": 35,
+      "mismatch": 1,
+      "not_verifiable": 0
+    },
+    "ground_truth": {
+      "confirmed": 6,
+      "mismatch": 0,
+      "not_verifiable": 0
+    }
+  },
+  "mismatches": [
+    {
+      "n": 158,
+      "group": "transactions",
+      "subject": "step 20 9cfd1cad95",
+      "field": "timestamp_utc",
+      "claim": "2026-09-21 13:54:45",
+      "observed": "2026-09-21 15:14:45",
+      "note": "block timestamp from gettransactioninfobyid",
+      "evidence": [
+        "tron_tx:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_info:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_events:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+        "tron_info_publicnode:9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96"
+      ]
+    },
+    {
+      "n": 164,
+      "group": "transactions",
+      "subject": "step 21 284c7baae1",
+      "field": "timestamp_utc",
+      "claim": "2026-09-21 13:58:42",
+      "observed": "2026-09-21 15:18:42",
+      "note": "block timestamp from gettransactioninfobyid",
+      "evidence": [
+        "tron_tx:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_info:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_events:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+        "tron_info_publicnode:284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7"
+      ]
+    },
+    {
+      "n": 197,
+      "group": "addresses",
+      "subject": "TYGdh7qysH (thief hop 1 (fresh, activated 11:35:27))",
+      "field": "activated 11:35:27 (create_time)",
+      "claim": "2026-09-21 11:35:27",
+      "observed": "2026-09-21 11:35:24",
+      "note": null,
+      "evidence": [
+        "tron_account:TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn"
+      ]
+    },
+    {
+      "n": 209,
+      "group": "addresses",
+      "subject": "0x40790479 (launderer Ethereum transit EOA (reused A)",
+      "field": "EOA reused Aug-Oct 2026",
+      "claim": "reused Aug-Oct 2026",
+      "observed": "is_contract=False; USDT transfers 36 from 2026-06-04 13:41:11 to 2026-10-13 16:27:11",
+      "note": null,
+      "evidence": [
+        "eth_address_transfers:0x4079047990917F3150353FBd8A13b05b6286926d"
+      ]
+    },
+    {
+      "n": 259,
+      "group": "links",
+      "subject": "reused route via TX7WP5CptZ",
+      "field": "99% to TUrQNN + exactly 1% to TRUJEt",
+      "claim": "99%/1% split",
+      "observed": "TX7WP5CptZ received 3089.264374, sent 3058.371730 to TUrQNNez22 and 30.892644 to TRUJEt (2026-08-30 09:28:54)",
+      "note": null,
+      "evidence": [
+        "trc20:reuse_flow:TX7WP5CptZqkBfbN71iwWTLDzHyzNuBuj3"
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "subject": "step 16 0x224f3859d0",
+      "what": "1Click originChainTxHashes",
+      "observed": [
+        "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a"
+      ],
+      "fixture_step_txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+      "note": "1Click lists the tx that paid INTO the deposit address (the Rango tx) as the origin tx; fixture step 16 is the sweep OUT of the deposit address to 0x2CfF. Both transactions are real and the fixture does not claim otherwise: an observation, not a mismatch.",
+      "evidence": [
+        "oneclick_status:0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "eth_tx:0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762"
+      ]
+    }
+  ]
+}

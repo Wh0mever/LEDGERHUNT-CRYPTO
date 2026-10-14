@@ -1,0 +1,28 @@
+{
+  "expected": {
+    "txids": [
+      "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1"
+    ],
+    "addresses": [
+      "TX5XiRXdyz7sdFwF5mnhT1QoGCpbkncpke",
+      "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6",
+      "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+    ],
+    "amounts": [
+      "12878.454902"
+    ],
+    "times_utc": [
+      "2026-09-21T11:58:09Z"
+    ],
+    "time_zone_visible": true
+  },
+  "efforts": [
+    "low",
+    "medium"
+  ],
+  "max_tokens": 8000,
+  "image": "S2_explorer_tx.png",
+  "image_sha256": "552cec2422dc82dfdf08c1f0231336d6b8f71d912a7f68ec930a6e07cf79a02e",
+  "input_sha256": "8d5f82cd98289b38b8f6a15188ecd2f9bd66941066df83f70961b3c23ae40554",
+  "schema_sha256": "22270fd6c9b1ffde6854406c53ed2c2f1b02c2231af0cb7fdd09dae18e0daa3d"
+}

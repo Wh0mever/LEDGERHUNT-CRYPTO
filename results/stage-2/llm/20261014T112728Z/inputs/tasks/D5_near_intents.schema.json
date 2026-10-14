@@ -1,0 +1,89 @@
+{
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string",
+      "enum": [
+        "NEAR_Intents_1Click",
+        "Rango",
+        "other"
+      ]
+    },
+    "deposit_address": {
+      "type": "string"
+    },
+    "deposit_address_is_one_time": {
+      "type": "boolean"
+    },
+    "swap_status": {
+      "type": "string"
+    },
+    "destination_chain": {
+      "type": "string",
+      "enum": [
+        "tron",
+        "ethereum",
+        "other"
+      ]
+    },
+    "recipient": {
+      "type": "string"
+    },
+    "recipient_matches_rango_receiver_prefix": {
+      "type": "boolean"
+    },
+    "destination_txid": {
+      "type": "string"
+    },
+    "destination_tx_confirmed_on_chain": {
+      "type": "boolean",
+      "description": "the destination transaction hash matches an on-chain transfer to the recipient"
+    },
+    "amount_deposited": {
+      "type": "string"
+    },
+    "amount_out_reported": {
+      "type": "string",
+      "description": "amountOut reported by the service"
+    },
+    "amount_received_on_chain": {
+      "type": "string"
+    },
+    "reported_and_onchain_amounts_match": {
+      "type": "boolean"
+    },
+    "refund_address": {
+      "type": "string"
+    },
+    "next_action": {
+      "type": "string",
+      "enum": [
+        "continue_tracing_on_tron_from_recipient",
+        "trace_vault_on_ethereum",
+        "stop_evidence_boundary"
+      ]
+    },
+    "explanation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "service",
+    "deposit_address",
+    "deposit_address_is_one_time",
+    "swap_status",
+    "destination_chain",
+    "recipient",
+    "recipient_matches_rango_receiver_prefix",
+    "destination_txid",
+    "destination_tx_confirmed_on_chain",
+    "amount_deposited",
+    "amount_out_reported",
+    "amount_received_on_chain",
+    "reported_and_onchain_amounts_match",
+    "refund_address",
+    "next_action",
+    "explanation"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,163 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-050",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "ae7fd875c5222aa04b56f014f2049e1d0fd7f5f9cae19bf48f69b915bb5dbce8",
+   "event_index": 0,
+   "from": "THop9iKdwxJcPwRRGVBdLEwGcGeKdzUmET",
+   "to": "TMM8rZJLnPhYPAJXtVCCs4jYt5qnCcM8X2",
+   "amount": "56536.957272",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "8eaf7f69f6f113681582eefc91542a5803d5ab630b59f093c5d9c3c99d4e416a",
+   "event_index": 0,
+   "from": "TMM8rZJLnPhYPAJXtVCCs4jYt5qnCcM8X2",
+   "to": "TYtVZ6Upp2SKPjUzGnCAEpw3BqUBrUCQW9",
+   "amount": "34157.745018",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "b8c5b9eb2cdf73fc80061f69c992b907509ee31503af40dab7a0a18c7a047983",
+   "event_index": 0,
+   "from": "TMM8rZJLnPhYPAJXtVCCs4jYt5qnCcM8X2",
+   "to": "TALY3oRCMXDYDcNpk8rxtNxjPsWihkoxNu",
+   "amount": "22379.212254",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "8279ec79b642e39168c882ef27f8309f2d711f8dfa0003494c1f3fbc78cc629c",
+   "event_index": 0,
+   "from": "TYtVZ6Upp2SKPjUzGnCAEpw3BqUBrUCQW9",
+   "to": "TS2aT8pU2E7xAiEndZL5Bx5Pv36zjXPRtR",
+   "amount": "34157.745018",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "81ef1b4c39c842acd62eb8380135f7b6420da901b8462131f103cddd195ed823",
+   "event_index": 0,
+   "from": "TALY3oRCMXDYDcNpk8rxtNxjPsWihkoxNu",
+   "to": "TEwGeA7dD3PC5SMQiwCeAV8wNg4vKNh2yx",
+   "amount": "22379.212254",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "798de39e4077d775fafc89bb7cefe00108ab1bae1731afc142aedc7836cd0abe",
+   "event_index": 0,
+   "from": "TEwGeA7dD3PC5SMQiwCeAV8wNg4vKNh2yx",
+   "to": "TS2aT8pU2E7xAiEndZL5Bx5Pv36zjXPRtR",
+   "amount": "22379.212254",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "4d958e33d1bac696fae4f06e1f804a9a660a81a155f1433cdd12354a0e41710b",
+   "event_index": 0,
+   "from": "TS2aT8pU2E7xAiEndZL5Bx5Pv36zjXPRtR",
+   "to": "TCQaNvHh81x4uWwFAWNLVm4nqkiVWSCmYT",
+   "amount": "56536.957272",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "ae7fd875c5222aa04b56f014f2049e1d0fd7f5f9cae19bf48f69b915bb5dbce8",
+    "8eaf7f69f6f113681582eefc91542a5803d5ab630b59f093c5d9c3c99d4e416a",
+    "8279ec79b642e39168c882ef27f8309f2d711f8dfa0003494c1f3fbc78cc629c",
+    "4d958e33d1bac696fae4f06e1f804a9a660a81a155f1433cdd12354a0e41710b"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TCQaNvHh81x4uWwFAWNLVm4nqkiVWSCmYT",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  },
+  {
+   "route_id": "r02",
+   "kind": "main",
+   "txids": [
+    "ae7fd875c5222aa04b56f014f2049e1d0fd7f5f9cae19bf48f69b915bb5dbce8",
+    "b8c5b9eb2cdf73fc80061f69c992b907509ee31503af40dab7a0a18c7a047983",
+    "81ef1b4c39c842acd62eb8380135f7b6420da901b8462131f103cddd195ed823",
+    "798de39e4077d775fafc89bb7cefe00108ab1bae1731afc142aedc7836cd0abe",
+    "4d958e33d1bac696fae4f06e1f804a9a660a81a155f1433cdd12354a0e41710b"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TCQaNvHh81x4uWwFAWNLVm4nqkiVWSCmYT",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "a19e682818668ccf84689a809683830f71ec897bf39aeb09e46df1d07859129b",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "fan_out",
+  "variant": "diamond",
+  "title_ru": "Разветвление и повторное слияние без чужих средств",
+  "description": "split and re-merge of the same theft (not commingled)",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

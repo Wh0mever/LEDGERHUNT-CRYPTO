@@ -1,0 +1,117 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-011",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "dd829bd67d6f85a9cb4d98ed126c7a253c10190a4995f6e397105820f14d0338",
+   "event_index": 0,
+   "from": "TW5SJ9tQBH6e832SYZq9Xs3DcV2LtvAjqT",
+   "to": "TGQi5LEFQS2Np9LHuSFZDCghPtYMTWpACz",
+   "amount": "35317.571944",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "e17484bfe29d77c58ae649229f20f661f2f3e538f75251670c2d381eeacaea20",
+   "event_index": 0,
+   "from": "TGQi5LEFQS2Np9LHuSFZDCghPtYMTWpACz",
+   "to": "TM8EtGokqbU9uic4kjjMiMxjLHgw78t7vC",
+   "amount": "35317.571944",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "5183666061b58f509077b86b6782924c9e9a9f5eda3ea373fdd097dd6c4a3c6a",
+   "event_index": 0,
+   "from": "TM8EtGokqbU9uic4kjjMiMxjLHgw78t7vC",
+   "to": "TUhm3TYmbEF2zTiCviv9BBamXMfNLLLjoo",
+   "amount": "35317.571944",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "4470777a5a4a43f2b275f5d10070e99cdbbd19c11953cc34948f801f728c52e6",
+   "event_index": 0,
+   "from": "TUhm3TYmbEF2zTiCviv9BBamXMfNLLLjoo",
+   "to": "TJhQmeh2X5grDFmNvwct3w3dNnUT1EwDVM",
+   "amount": "35317.571944",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "dd829bd67d6f85a9cb4d98ed126c7a253c10190a4995f6e397105820f14d0338",
+    "e17484bfe29d77c58ae649229f20f661f2f3e538f75251670c2d381eeacaea20",
+    "5183666061b58f509077b86b6782924c9e9a9f5eda3ea373fdd097dd6c4a3c6a",
+    "4470777a5a4a43f2b275f5d10070e99cdbbd19c11953cc34948f801f728c52e6"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TJhQmeh2X5grDFmNvwct3w3dNnUT1EwDVM",
+    "reason": "exchange_hot_wallet"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "86b3684b69d44efae2e907ab6266ff926f6a4fbf11d8578b97819819617a51ef",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "f15708fd8b0ee609346e2110dd9c37b025405507bc6a2f2d84a789e19f112438",
+   "event_index": 0,
+   "reason": "exchange_internal"
+  },
+  {
+   "txid": "95a53689a233b874d9a9546d85525accc5de1ef88ed5eed3edb23048b6361260",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "exchange",
+  "variant": "direct_hot_wallet",
+  "title_ru": "Перевод прямо на горячий кошелёк биржи",
+  "description": "transfer straight to a labelled exchange hot wallet",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

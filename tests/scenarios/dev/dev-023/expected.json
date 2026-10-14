@@ -1,0 +1,116 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-023",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "852f2bb334c2a482842738c56a78e2ecfcc7d605e38b6ec9ebf4736426feb8ba",
+   "event_index": 0,
+   "from": "TNwtxGBG2Acr6WtoNFdMoWaGP2Q6FrJqgA",
+   "to": "TLubrcetxnewg99oJqgj9bEVrPExPr7FW2",
+   "amount": "119952.543039",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "12b46ba80f61a70d5d15a8529bd53073df3b6371b7e2179bf3e93059c4c74937",
+   "event_index": 0,
+   "from": "TLubrcetxnewg99oJqgj9bEVrPExPr7FW2",
+   "to": "TMDVFT2i64Hg2a44okm7JzNFzpbfznEdBL",
+   "amount": "119952.543039",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  },
+  {
+   "chain": "tron",
+   "txid": "052457fda8ecb240e1316f9e2c5740221730e1ea454c53478fe9c05574ee4a0d",
+   "event_index": 0,
+   "from": "TMDVFT2i64Hg2a44okm7JzNFzpbfznEdBL",
+   "to": "TNMpf1cG2by3RexkF9CkscVaZMx8FAFqbq",
+   "amount": "119952.543039",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "852f2bb334c2a482842738c56a78e2ecfcc7d605e38b6ec9ebf4736426feb8ba",
+    "12b46ba80f61a70d5d15a8529bd53073df3b6371b7e2179bf3e93059c4c74937",
+    "052457fda8ecb240e1316f9e2c5740221730e1ea454c53478fe9c05574ee4a0d"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TNMpf1cG2by3RexkF9CkscVaZMx8FAFqbq",
+    "reason": "bridge_exit_unsupported"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [
+  {
+   "chain": "tron",
+   "txid": "052457fda8ecb240e1316f9e2c5740221730e1ea454c53478fe9c05574ee4a0d",
+   "protocol": "unknown_bridge:synthbridge_x",
+   "dst_eid": null,
+   "dst_chain": null,
+   "supported": false,
+   "sender": "TMDVFT2i64Hg2a44okm7JzNFzpbfznEdBL",
+   "recipient": null,
+   "amount_sent": "119952.543039",
+   "amount_received": null,
+   "guid": null,
+   "dst_txid": null,
+   "excluded": null
+  }
+ ],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "fac8316f097ca3d08683408408c24f27016b5a8491c3746661c59c9d1e6233a0",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [
+  {
+   "route_id": "r01",
+   "address": "TNMpf1cG2by3RexkF9CkscVaZMx8FAFqbq",
+   "reason": "bridge_exit_unsupported",
+   "after_txid": "052457fda8ecb240e1316f9e2c5740221730e1ea454c53478fe9c05574ee4a0d"
+  }
+ ],
+ "notes": [],
+ "meta": {
+  "category": "bridge",
+  "variant": "unknown_bridge",
+  "title_ru": "Перевод в контракт неподдерживаемого моста",
+  "description": "transfer into a labelled bridge contract of an unsupported protocol",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}

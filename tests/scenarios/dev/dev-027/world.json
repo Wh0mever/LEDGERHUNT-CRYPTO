@@ -1,0 +1,388 @@
+{
+ "schema": "ledgerhunt.scenario-world/1",
+ "scenario_id": "dev-027",
+ "snapshot_ms": 1783622541000,
+ "snapshot_block": 84316754,
+ "snapshot_ref": {
+  "ref_block_bytes": "923f",
+  "ref_block_hash": "831c96d9a330b330"
+ },
+ "labels": [
+  {
+   "address": "TK1mjsACiowr5By8BDmWSASYrJAYd4vxUk",
+   "entity": "SynthEx Beta",
+   "type": "exchange_hot_wallet",
+   "source": "synthetic_registry"
+  }
+ ],
+ "opening_balances_raw": {
+  "THnjwoa5St3jc5knQThstN2TzqVYkRhzkX": "33414294641",
+  "TLmu2Dt2kAF9Z4Tfz5nfDCHjKJvVDLmyer": "4921445732",
+  "TTiVbBwEuKhDQW45mPP4d8f6AKLX4DJeFr": "97694872076"
+ },
+ "hidden_from_index": [],
+ "outages": [],
+ "layerzero_messages": [],
+ "transactions": [
+  {
+   "block": 84112451,
+   "ts_ms": 1783009632000,
+   "created_ms": 1783009629529,
+   "owner": "TLmu2Dt2kAF9Z4Tfz5nfDCHjKJvVDLmyer",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "742e",
+   "ref_block_hash": "f19a387affda13db",
+   "expiration": 1783009689529,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "TLmu2Dt2kAF9Z4Tfz5nfDCHjKJvVDLmyer",
+      "to": "TK1mjsACiowr5By8BDmWSASYrJAYd4vxUk",
+      "value": "4921445732"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "345000",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb00000000000000000000000063354ad5945e83b3fbe0838499c7dfc7228176990000000000000000000000000000000000000000000000000000000125574d64",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_usage": 130285,
+    "energy_usage_total": 130285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 100635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a02742e2208f19a387affda13db40b9ffa29df2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15417685cc95119195ccd9536d2362fa45ffbb799238121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb00000000000000000000000063354ad5945e83b3fbe0838499c7dfc7228176990000000000000000000000000000000000000000000000000000000125574d6470d9aa9f9df23390018087a70e",
+   "txid": "09ead8e06954bedef99e1b3de00cd6824cbf121c9e3f0d947d1c913284966c68",
+   "signature": "e763f3fa0deb54d9d287344e01ea5689d1499ea07cf77f43fe1bd9ef07e2b60df9b4c9ec75020b2e5fb4b3172c01efc82cbfe244b1e8cedf80481fcfdfa29c27be"
+  },
+  {
+   "block": 84112614,
+   "ts_ms": 1783010121000,
+   "created_ms": 1783010119041,
+   "owner": "THnjwoa5St3jc5knQThstN2TzqVYkRhzkX",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "74c9",
+   "ref_block_hash": "d753befcf375f59c",
+   "expiration": 1783010179041,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "THnjwoa5St3jc5knQThstN2TzqVYkRhzkX",
+      "to": "TK1mjsACiowr5By8BDmWSASYrJAYd4vxUk",
+      "value": "33414294641"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "345000",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb00000000000000000000000063354ad5945e83b3fbe0838499c7dfc72281769900000000000000000000000000000000000000000000000000000007c7a5ac71",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_usage": 64285,
+    "energy_usage_total": 64285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 34635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a0274c92208d753befcf375f59c40e1efc09df2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a154155c642e6f4d05bdca6dbf39819255213c8111c0c121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb00000000000000000000000063354ad5945e83b3fbe0838499c7dfc72281769900000000000000000000000000000000000000000000000000000007c7a5ac7170819bbd9df23390018087a70e",
+   "txid": "002aa40243ba0aed8a1f1277a1aa9394734f2d98d63091257900b11e7b4e8b42",
+   "signature": "0b345099888db7281942e69c3211066541f72f2bcb41673381d8f0900bd41d7c175905707e2befe74e06b30ee0876996d9f76189ecfa5c2622134a0d1fe71611c6"
+  },
+  {
+   "block": 84112736,
+   "ts_ms": 1783010487000,
+   "created_ms": 1783010485213,
+   "owner": "TTiVbBwEuKhDQW45mPP4d8f6AKLX4DJeFr",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "7545",
+   "ref_block_hash": "f68eeb46f8a30703",
+   "expiration": 1783010545213,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "TTiVbBwEuKhDQW45mPP4d8f6AKLX4DJeFr",
+      "to": "THPhPmHKpdjopx7cAqatG5V57k7TcDGzWe",
+      "value": "97694872076"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "13373500",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb000000000000000000000000516a90467b35c2c7807246cc9dc9270008fbe25200000000000000000000000000000000000000000000000000000016bf11720c",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_fee": "13028500",
+    "energy_usage_total": 130285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 100635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a0275452208f68eeb46f8a3070340bd9cd79df2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541c2a9df3d10c4973f356c75d1651284fc07b66701121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb000000000000000000000000516a90467b35c2c7807246cc9dc9270008fbe25200000000000000000000000000000000000000000000000000000016bf11720c70ddc7d39df23390018087a70e",
+   "txid": "a2b5422ecb0639dc7afec9892447f0863166312618ff4f6c244f42abe80c0aca",
+   "signature": "7357398565fd348f7e18be449ca9c2d563f3c4b267ee3d46549054e74b8d06c11c5e73f6e0a0a7bb24a289f0378150d0eda4ae22e2f157765b537339df4dab3f04"
+  },
+  {
+   "block": 84114570,
+   "ts_ms": 1783015989000,
+   "created_ms": 1783015986212,
+   "owner": "THPhPmHKpdjopx7cAqatG5V57k7TcDGzWe",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "7c74",
+   "ref_block_hash": "068903a08ffec49c",
+   "expiration": 1783016046212,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "THPhPmHKpdjopx7cAqatG5V57k7TcDGzWe",
+      "to": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+      "value": "97694872076"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "345000",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb0000000000000000000000006b2fead67b3deb59579467d4546e9fa8c8d7a94700000000000000000000000000000000000000000000000000000016bf11720c",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_usage": 130285,
+    "energy_usage_total": 130285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 100635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a027c742208068903a08ffec49c4084fda6a0f2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541516a90467b35c2c7807246cc9dc9270008fbe252121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000006b2fead67b3deb59579467d4546e9fa8c8d7a94700000000000000000000000000000000000000000000000000000016bf11720c70a4a8a3a0f23390018087a70e",
+   "txid": "ca651ce25025e7e4b3393ec21a9df2b2d6b6ae80ec23dc43c9beba04ae5c8c22",
+   "signature": "a97172cb210626f4e6842703dd0b7b246c933f7c26f569fc7f10cc6d1d936fce0e5779f834201ea9e5f75881598e686e1bfc5924bab5190701d6f44d747e9d717e"
+  },
+  {
+   "block": 84114701,
+   "ts_ms": 1783016382000,
+   "created_ms": 1783016379438,
+   "owner": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "7cf9",
+   "ref_block_hash": "3d563309b098ddd3",
+   "expiration": 1783016439438,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+      "to": "TY5nNoateGgRf56fvJ1gDe5jMmkQfhPtFH",
+      "value": "58797839675"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "345000",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb000000000000000000000000f2911f7c317bceab55affc7abedb89aabe93a6b10000000000000000000000000000000000000000000000000000000db09fd53b",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_usage": 130285,
+    "energy_usage_total": 130285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 100635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a027cf922083d563309b098ddd3408efdbea0f2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15416b2fead67b3deb59579467d4546e9fa8c8d7a947121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb000000000000000000000000f2911f7c317bceab55affc7abedb89aabe93a6b10000000000000000000000000000000000000000000000000000000db09fd53b70aea8bba0f23390018087a70e",
+   "txid": "a3f991b25ec2bac80321560bcc088967007a17953a3782d606cfbcf91b973673",
+   "signature": "c598fc3429e5618608ca281609b10d60a225e2e51c7dd0342233ccf8e987b890860d236bfd1704de034d7a5f2d123bc1b1df229c7bd596d0c2d009d4d5fcf6ffcf"
+  },
+  {
+   "block": 84114881,
+   "ts_ms": 1783016922000,
+   "created_ms": 1783016919559,
+   "owner": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "7db1",
+   "ref_block_hash": "bd42728a65d7f86c",
+   "expiration": 1783016979559,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "TKjxhwTKD4fT4JsuWrLGTcsCjXFjseq6gT",
+      "to": "TPqh32c5P1o1K7reL7Msoq6DHZHet8QjPJ",
+      "value": "38897032401"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "13373500",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb0000000000000000000000009825d5b889dcc71689cf51b02c32a147feed2db8000000000000000000000000000000000000000000000000000000090e719cd1",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_fee": "13028500",
+    "energy_usage_total": 130285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 100635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a027db12208bd42728a65d7f86c40e7f8dfa0f2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15416b2fead67b3deb59579467d4546e9fa8c8d7a947121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000009825d5b889dcc71689cf51b02c32a147feed2db8000000000000000000000000000000000000000000000000000000090e719cd17087a4dca0f23390018087a70e",
+   "txid": "14f160efb2603b3c9736548dad56325a31f7c2240146943c83c49185d5040aaa",
+   "signature": "068d464aaaad149ea6f8965699606bbfc2c9d0edebb5d1ef63917fb78953d7b1bddad549ac3cd4a84b3925e0b8672e60fcde6682fb2fcfcc42cdd2460d84910e1a"
+  },
+  {
+   "block": 84114915,
+   "ts_ms": 1783017024000,
+   "created_ms": 1783017021471,
+   "owner": "TY5nNoateGgRf56fvJ1gDe5jMmkQfhPtFH",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "7dd7",
+   "ref_block_hash": "2a9ee74fdf20b6e9",
+   "expiration": 1783017081471,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "TY5nNoateGgRf56fvJ1gDe5jMmkQfhPtFH",
+      "to": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+      "value": "58797839675"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "13373500",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb000000000000000000000000bee68c69a17995ced05b0064e0964b33508d4da70000000000000000000000000000000000000000000000000000000db09fd53b",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_fee": "13028500",
+    "energy_usage_total": 130285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 100635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a027dd722082a9ee74fdf20b6e940ff94e6a0f2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541f2911f7c317bceab55affc7abedb89aabe93a6b1121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb000000000000000000000000bee68c69a17995ced05b0064e0964b33508d4da70000000000000000000000000000000000000000000000000000000db09fd53b709fc0e2a0f23390018087a70e",
+   "txid": "ad9dfb9d2f4eedf3abe85319e296a44c35388b9075794d1ba559c177027f8a3c",
+   "signature": "3df89b401b95fb3cb90094d027abe34046f364359247b0881bc37f7bb1ba93041ec2b4695b18a06974bd31a92835397ba3cb331ce7541f2afc0cd0a0485b52470f"
+  },
+  {
+   "block": 84114937,
+   "ts_ms": 1783017090000,
+   "created_ms": 1783017088522,
+   "owner": "TPqh32c5P1o1K7reL7Msoq6DHZHet8QjPJ",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "7ddf",
+   "ref_block_hash": "5feead37953017bb",
+   "expiration": 1783017148522,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "TPqh32c5P1o1K7reL7Msoq6DHZHet8QjPJ",
+      "to": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+      "value": "38897032401"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "345000",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb000000000000000000000000bee68c69a17995ced05b0064e0964b33508d4da7000000000000000000000000000000000000000000000000000000090e719cd1",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_usage": 64285,
+    "energy_usage_total": 64285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 34635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a027ddf22085feead37953017bb40eaa0eaa0f2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15419825d5b889dcc71689cf51b02c32a147feed2db8121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb000000000000000000000000bee68c69a17995ced05b0064e0964b33508d4da7000000000000000000000000000000000000000000000000000000090e719cd1708acce6a0f23390018087a70e",
+   "txid": "553299b81336838115342ef7e22557bdc216253a9924da9f0445b3deee53257b",
+   "signature": "496c082b0cd25f08f19dbd567fe691ef5dda45de0c26eca55779736361122a3435f664bd01c1243da213a733b9b48826797739904a0030f8bab723ff80399ec688"
+  },
+  {
+   "block": 84115154,
+   "ts_ms": 1783017741000,
+   "created_ms": 1783017738245,
+   "owner": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+   "ctype": "TriggerSmartContract",
+   "ref_block_bytes": "7ebb",
+   "ref_block_hash": "66976b80348b9109",
+   "expiration": 1783017798245,
+   "status": "SUCCESS",
+   "events": [
+    {
+     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+     "name": "Transfer",
+     "args": {
+      "from": "TTNbaJ9aXc5jnyX73DF7VqYjkbeC379wJV",
+      "to": "TK1mjsACiowr5By8BDmWSASYrJAYd4vxUk",
+      "value": "97694872076"
+     },
+     "index": 0
+    }
+   ],
+   "fee": "6773500",
+   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+   "data": "a9059cbb00000000000000000000000063354ad5945e83b3fbe0838499c7dfc72281769900000000000000000000000000000000000000000000000000000016bf11720c",
+   "fee_limit": 30000000,
+   "receipt": {
+    "energy_fee": "6428500",
+    "energy_usage_total": 64285,
+    "net_fee": "345000",
+    "result": "SUCCESS",
+    "energy_penalty_total": 34635
+   },
+   "contract_result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "raw_data_hex": "0a027ebb220866976b80348b910940e5f491a1f2335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541bee68c69a17995ced05b0064e0964b33508d4da7121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb00000000000000000000000063354ad5945e83b3fbe0838499c7dfc72281769900000000000000000000000000000000000000000000000000000016bf11720c7085a08ea1f23390018087a70e",
+   "txid": "ecc4d6e038fd9688a46c9fa0a11dcd5532efbc582a66c3dff2d9bbb7c7216a95",
+   "signature": "6f6a060bbc8687af949cb92b0695aa24a86a3a0d9d41f74987a414362975cc47e8aa0c96a54e28f63f9d00eb3a65fec8d67ba67106a761775b9faf1cdc3dcda6d0"
+  }
+ ]
+}

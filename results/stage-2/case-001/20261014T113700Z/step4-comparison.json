@@ -1,0 +1,357 @@
+{
+  "comparison": [
+    {
+      "item": "route (addresses in order)",
+      "expected": [
+        "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+      ],
+      "observed": [
+        "TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx",
+        "TYGdh7qysHLr3A4gVGivcRwSg79PpVzgNn",
+        "TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3",
+        "TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU",
+        "0x4079047990917F3150353FBd8A13b05b6286926d",
+        "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6"
+      ],
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "route: bridge labels on cross-chain hops",
+      "expected": {
+        "0x4079047990917F3150353FBd8A13b05b6286926d": "USDT0/LayerZero",
+        "0xdA392553ec3602D3e650a725f847C10d04E122C0": "Rango->NEAR Intents"
+      },
+      "observed": {
+        "0x4079047990917F3150353FBd8A13b05b6286926d": "USDT0/LayerZero",
+        "0xdA392553ec3602D3e650a725f847C10d04E122C0": "Rango",
+        "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6": "Rango->NEAR Intents"
+      },
+      "verdict": "partial",
+      "note": "the reference run labels each address with the hop that delivered funds INTO it; the fixture may place a label on a neighbouring address"
+    },
+    {
+      "item": "side branch: TDii6v... energy fees (5.137122 + 5.486343)",
+      "expected": [
+        "5.137122",
+        "5.486343"
+      ],
+      "observed": {
+        "5.137122": "victim-side outflow signed with the victim key in the theft window",
+        "5.486343": "side outflow (fee-like)"
+      },
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "side branch: TRUJEt... 1% (130.356401)",
+      "expected": [
+        "130.356401"
+      ],
+      "observed": {
+        "130.356401": "exact 1% cut"
+      },
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "side branch: Rango affiliate 0xDDdb9a... 19.352116",
+      "expected": [
+        "19.352116"
+      ],
+      "observed": {
+        "19.352116": "Rango affiliate fee"
+      },
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "side branch: bridge fees",
+      "expected": "bridge fees on each bridge hop",
+      "observed": [
+        "USDT0 (LayerZero OFT): 3.871584",
+        "NEAR Intents 1Click: 3.603982"
+      ],
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "cross-chain: USDT0 OFT TRON->Ethereum (dstEid 30101)",
+      "expected": "dstEid 30101, tron->ethereum",
+      "observed": "dstEid 30101, tron->ethereum, recipient 0x4079047990917F3150353FBd8A13b05b6286926d, LayerZero Scan DELIVERED",
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "cross-chain: Rango destinationChainId=1414680398 ('TRON') and ASCII receiver",
+      "expected": "1414680398 / TRON / ASCII receiver",
+      "observed": "1414680398 / TRON / TYHeH2HQn7pM5fe6aYwG",
+      "verdict": "match",
+      "note": "the ASCII receiver holds only the first 20 characters of the TRON address; the full recipient comes from the NEAR Intents 1Click status"
+    },
+    {
+      "item": "cross-chain: NEAR Intents 1Click deposit address",
+      "expected": "0xdA392553ec3602D3e650a725f847C10d04E122C0",
+      "observed": "0xdA392553ec3602D3e650a725f847C10d04E122C0 -> TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6 (dst tx d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1)",
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "exchange exits: WhiteBIT via deposit addresses TNJSC23... and TCiwRN... (commingled hub outflows)",
+      "expected": [
+        "TNJSC23",
+        "TCiwRN"
+      ],
+      "observed": {
+        "TNJSC23": "WhiteBIT via TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ (forward 201 s, tx 1258e508eff1)",
+        "TCiwRN": "WhiteBIT via TWBPGLwQw2EbqYLLw1DJnTDt2ZQ9yJW1JJ (forward 171 s, tx 3cceeee9edb9)"
+      },
+      "verdict": "match",
+      "note": "commingled hub outflows; exchange identity comes from the labelled hot wallet (TronScan tag, pending written consent)"
+    },
+    {
+      "item": "extra: hub outflows with a deposit-like pattern to an unlabelled address",
+      "expected": "not traced in the fixture (steps 20-21: 'Not traced further')",
+      "observed": [
+        "TWx6Z8roV3nWTqp8FjTKZSWdWLGbcJyxxw -> TDqSquXBgUCLYvYC4XZgrprLK589dkhSCf 14760.000000 after 504 s"
+      ],
+      "verdict": "partial",
+      "note": "new observation, not a contradiction: destination is not labelled, so no exchange is attributed"
+    },
+    {
+      "item": "freeze candidate",
+      "expected": "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6 (USDT-TRC20, commingled)",
+      "observed": [
+        "TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6 (USDT-TRC20, commingled)"
+      ],
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "mechanism",
+      "expected": "Transactions signed with victim's own owner key (no permission change); key/seed compromise",
+      "observed": "signatures=1, signer=['TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx'], permission=owner, permission updates=0, owner keys=['TNakrL7VUMLNN4EEpi64HKjj5YqafR5tUx']",
+      "verdict": "match",
+      "note": null
+    },
+    {
+      "item": "total_fees_lost_before_hub",
+      "expected": "162.94587",
+      "observed": "162.945870",
+      "verdict": "match",
+      "note": "components reconcile: True"
+    },
+    {
+      "item": "common TRX funder (likely same operator, with confidence)",
+      "expected": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ funds ['TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3', 'TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU', 'TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6']; fixture confidence: high (common funder)",
+      "observed": "TVNMa2ZrUWE9sdBawJoQ8aN6LPFjv9ZppZ funds ['TYn3YpDxmduw6fuKmFE3qkRHEoE2zeCfx3', 'TUrQNNez22bPosc9NUuNvu7pxVWbziKFYU', 'TYHeH2HQn7pM5fe6aYwGabz9x4yizJbwp6']; confidence medium (score 2; funder fan-out 80 distinct TRX recipients)",
+      "verdict": "partial",
+      "note": "funder fan-out (distinct TRX recipients) lowers the score: the funder also tops up many other addresses, as a funding service would"
+    }
+  ],
+  "coverage": [
+    {
+      "step": 1,
+      "txid": "7472e1e059d44b5fb3d1c6e86a5a907f0fae015e722d1cefdf801045b9f41fbe",
+      "kind": "incoming_payment",
+      "reached": true,
+      "how": "theft context (victim side)",
+      "differences": []
+    },
+    {
+      "step": 2,
+      "txid": "6be9eabf7568fe67f46d9bf32e795571b4cd2fb4f124b6bdb219d48ed6b46964",
+      "kind": "incoming_test_payment",
+      "reached": false,
+      "how": "not reached (not needed by the rules)",
+      "differences": []
+    },
+    {
+      "step": 3,
+      "txid": "90b28da07b6ea4eeeca382579f393982418d296e398440895ec00a62928b3873",
+      "kind": "energy_delegation",
+      "reached": true,
+      "how": "theft context (victim side)",
+      "differences": []
+    },
+    {
+      "step": 4,
+      "txid": "a241b856691236d3ed98479325d61af03765609a2eb12d7ae2e71216b5007945",
+      "kind": "trx_topup",
+      "reached": true,
+      "how": "theft context (victim side)",
+      "differences": []
+    },
+    {
+      "step": 5,
+      "txid": "2e2e2fb81522ef16fffca4a24735487e11029acb66aba04cef6e303570de2b94",
+      "kind": "theft_fee_energy_rental",
+      "reached": true,
+      "how": "edge 2 (victim_side_outflow)",
+      "differences": []
+    },
+    {
+      "step": 6,
+      "txid": "98f3ffca9d141f2172d28f46905c08e5f32fc6ce8d23f9a37b731fe2a6c1d1bb",
+      "kind": "THEFT",
+      "reached": true,
+      "how": "edge 1 (theft)",
+      "differences": []
+    },
+    {
+      "step": 7,
+      "txid": "0a195e40d736d3e789fe6c9bf8c4d6d7eb451d76247910515d59c70e4c3dacec",
+      "kind": "fee_energy_rental",
+      "reached": true,
+      "how": "edge 3 (side)",
+      "differences": []
+    },
+    {
+      "step": 8,
+      "txid": "36edd3fb822ecb39954bd46b41b1181b7694dd9cc9da30a020b75e70ef8fe3f6",
+      "kind": "hop",
+      "reached": true,
+      "how": "edge 4 (hop)",
+      "differences": []
+    },
+    {
+      "step": 9,
+      "txid": "f2c69962f47bdaeaa64bd848adf01158341f09edefd70719a478a3c062e98cbe",
+      "kind": "hop_99pct",
+      "reached": true,
+      "how": "edge 5 (hop)",
+      "differences": []
+    },
+    {
+      "step": 10,
+      "txid": "1c5e7b5d4b50b14ab58965be47b624bc6a11b2719ee33718685a27bf0c1e3f76",
+      "kind": "fee_1pct",
+      "reached": true,
+      "how": "edge 6 (exact_cut)",
+      "differences": []
+    },
+    {
+      "step": 11,
+      "txid": "12039abce0c3c27bf587e327d86d00b7753ab4aba422f6b2c898cee563ca9ae9",
+      "kind": "approve",
+      "reached": false,
+      "how": "not reached (not needed by the rules)",
+      "differences": []
+    },
+    {
+      "step": 12,
+      "txid": "b49b0157d5327ca4b25683d2100d77c9b0c2c13584fdc96deea17a8c93057f6f",
+      "kind": "bridge_out_USDT0_LayerZero",
+      "reached": true,
+      "how": "edge 7 (bridge_out)",
+      "differences": []
+    },
+    {
+      "step": 13,
+      "txid": "1cad8478b278e63da6ea9c1f8d9824bba060fadf77aac353bfad2003cb2a4452",
+      "kind": "dust",
+      "reached": true,
+      "how": "edge 9 (remainder_dust)",
+      "differences": []
+    },
+    {
+      "step": 14,
+      "txid": "0x8ea2bdef31c5eefb89569a239d5208cdff99a7bb9a7fe2f48c168b16b9d73c15",
+      "kind": "bridge_in_USDT0",
+      "reached": true,
+      "how": "edge 8 (bridge_in)",
+      "differences": []
+    },
+    {
+      "step": 15,
+      "txid": "0x41bac088520409376e60709fd7114b7b3d670abeedfb01a68b7ee42a84ec515a",
+      "kind": "bridge_out_Rango",
+      "reached": true,
+      "how": "edge 11 (aggregator_forward)",
+      "differences": [
+        "from: fixture 0x4079047990917F3150353FBd8A13b05b6286926d vs reference 0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d",
+        "to: fixture 0x69460570c93f9DE5E2edbC3052bf10125f0Ca22d vs reference 0xdA392553ec3602D3e650a725f847C10d04E122C0",
+        "amount: fixture 12901.411000 vs reference 12882.058884"
+      ]
+    },
+    {
+      "step": 16,
+      "txid": "0x224f3859d03f8a26fc697b7b2978d4a701cf3db1d280dbd911e18b508b54e762",
+      "kind": "near_intents_deposit",
+      "reached": true,
+      "how": "edge 12 (bridge_deposit_sweep)",
+      "differences": []
+    },
+    {
+      "step": 17,
+      "txid": "d3cd82b7c1ea0a828066f5bb732dd480262e5df6f4ce02f7dfe0791ff65f74c1",
+      "kind": "bridge_in_NEAR_Intents",
+      "reached": true,
+      "how": "edge 13 (bridge_in)",
+      "differences": []
+    },
+    {
+      "step": 18,
+      "txid": "09bb9e02b1f37428d1b49a9a0a9670aba307b910b4b42298f50cd17dc07473a8",
+      "kind": "hub_outflow_commingled",
+      "reached": true,
+      "how": "hub outflow check: exchange_exit",
+      "differences": []
+    },
+    {
+      "step": 19,
+      "txid": "1258e508eff11fa89800e33c824e4476830674fc4ce363689c82888ee16a8b8e",
+      "kind": "exchange_sweep",
+      "reached": true,
+      "how": "hub outflow check: exchange_exit",
+      "differences": []
+    },
+    {
+      "step": 20,
+      "txid": "9cfd1cad95e60b5651d9ed59805772c6d67e1cd639d96b8c5f305baea5a22a96",
+      "kind": "hub_outflow_commingled",
+      "reached": true,
+      "how": "hub outflow check: deposit_pattern_unlabelled_destination",
+      "differences": [
+        "timestamp_utc: fixture 2026-09-21 13:54:45 vs reference 2026-09-21 15:14:45"
+      ]
+    },
+    {
+      "step": 21,
+      "txid": "284c7baae14411a7dac814ca4c12588244158c415e90aed3ca3707a6e78f2ca7",
+      "kind": "hub_outflow_commingled",
+      "reached": true,
+      "how": "hub outflow check: no_deposit_pattern",
+      "differences": [
+        "timestamp_utc: fixture 2026-09-21 13:58:42 vs reference 2026-09-21 15:18:42"
+      ]
+    },
+    {
+      "step": 22,
+      "txid": "9be4de8659dc02cfbd96b3812ab075594ae4d22e8493ba1b68606b01e8f959aa",
+      "kind": "hub_outflow_commingled",
+      "reached": true,
+      "how": "hub outflow check: exchange_exit",
+      "differences": []
+    },
+    {
+      "step": 23,
+      "txid": "3cceeee9edb9773581564426b101b5add803aad6fb419fcb306f5d4e109cc0bf",
+      "kind": "exchange_sweep",
+      "reached": true,
+      "how": "hub outflow check: exchange_exit",
+      "differences": []
+    }
+  ],
+  "expected_check": {
+    "status": "updated",
+    "path": "tests/fixtures/case-001/raw/expected/reference-run.json"
+  }
+}

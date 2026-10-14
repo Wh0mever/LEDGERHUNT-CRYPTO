@@ -1,0 +1,65 @@
+{
+ "schema": "ledgerhunt.scenario-result/1",
+ "scenario_id": "dev-009",
+ "result_type": "expected",
+ "transfers": [
+  {
+   "chain": "tron",
+   "txid": "ce2bdfaa7256fd3c6cc0e8f0c4d58c9a438a0fb7810225103cac3403d63a24b8",
+   "event_index": 0,
+   "from": "TSqAnMArGDFYoLbgR2nLY1je7TzrzFoBtL",
+   "to": "TYbw27fypmuk3V8vVVuXdhnkBPopwDCFFi",
+   "amount": "129057.591408",
+   "asset": "USDT-TRC20",
+   "taint": "traced",
+   "verification": "second_source_confirmed",
+   "role": "main",
+   "excluded": null
+  }
+ ],
+ "routes": [
+  {
+   "route_id": "r01",
+   "kind": "main",
+   "txids": [
+    "ce2bdfaa7256fd3c6cc0e8f0c4d58c9a438a0fb7810225103cac3403d63a24b8"
+   ],
+   "terminal": {
+    "chain": "tron",
+    "address": "TYbw27fypmuk3V8vVVuXdhnkBPopwDCFFi",
+    "reason": "funds_at_rest"
+   },
+   "excluded": null
+  }
+ ],
+ "exchange_deposits": [],
+ "bridge_exits": [],
+ "merges": [],
+ "limitations": [],
+ "allowed": {
+  "transfers": [],
+  "exchange_deposits": [],
+  "bridge_exits": [],
+  "merges": []
+ },
+ "traps": [
+  {
+   "txid": "5e6a6b65b0a68e4f030049e98fb07df715f9f47569c64575fb23b51bc26673ec",
+   "event_index": 0,
+   "reason": "pre_theft_inflow"
+  }
+ ],
+ "outages": [],
+ "evidence_boundaries": [],
+ "notes": [],
+ "meta": {
+  "category": "direct",
+  "variant": "single",
+  "title_ru": "Прямой перевод: кража на один адрес",
+  "description": "theft to a single address that keeps the funds",
+  "split": "dev",
+  "generator": "scenario-generator/1",
+  "max_depth": 20,
+  "affected_by_source_failure": false
+ }
+}
